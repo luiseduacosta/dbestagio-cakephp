@@ -1,0 +1,59 @@
+Acrescentar JQuery (feito)
+
+Permissões
+Alunos:
+Atualizar dados pessoais
+Inscrição para seleção de estágio
+Solicitar termo de compromisso
+* Atualizar dados da instituição
+
+Professores:
+Atualizar dados pessoais
+Lanzar nota de estágio
+Atualizar dados das instituições
+Cadastrar instituições novas
+Atualizar turma de OTP
+Atualizar turma de estágio
+
+Supervisores:
+Atualizar dados pessoais
+Atualizar dados das instituições
+Atualizar turma de estágio
+Cadastrar oferta de estágio
+Cadastrar instituições novas
+
+Mudar o menu de busca dos estudantes assim: Nome:, DRE, Email e CPF
+
+Corrigir a sequencia da solicitação de Termo de Compromisso: (feito)
+a) Aluno novo depois do cadastro redirecionar para termodecompromisso; (feito)
+b) A sequencia da solicitação ficaria em quatro métodos: (feito)
+    1) termosolicita,
+    2) termocompromisso (preenche o formulário e são inseridos os dados da tabela Inscricao (mural_inscricao)
+    3) termocadastra (insere e atualiza os dados nas tabelas alunonovos e/ou estagariarios)
+    4) termoimprime (resgata a informação de estagiarios e imprime o pdf)
+
+Padronizar os menus assim:
+a) Index: Inserir e Busca
+b) View: Editar, Excluir e Listar (volta para Index)
+
+No modelo Alunonovo poderia verificar o DRE tanto entre os alunosNovos como entre os alunos (feito)
+
+Sessoes:
+Escrebo um cookie? em Inscricaos/termocompromisso se o aluno não é estagiario e não está em alunonovo e encaminho para Alunonovos/add.
+    uma vez cadastrado como alunonovo é redirecionado para Inscricaos/termocompromisso. Posso apagar o cookie em Alunonovo/add
+
+Escrebe um cookie: em Inscricaos/add
+    se o aluno é estagiario para redirecionar para /Alunos/edit
+        uma vez atualizado vai para /Inscricaos/inscricao e apaga o cookie
+    se o aluno esta cadastrado como alunonovo para /Alunosnovos/edit
+        uma vez atualizado vai para /Inscricaos/inscricao e apaga
+    se o aluno não está cadastrado para /Alunosnovos/add
+        uma vez cadastrado como alunonovo vai para /Inscricaos/inscricao e apaga
+
+Há outros dois cookies que são gravados a partir de /Instituicao/seleciona_supervisor e que são aproveitados em /Inscricoes/termoimprime
+
+Colocar barra de navegação nos View
+
+Possibilitar inserir/atualizar/deletar Supervisor nas Instituições (feito)
+
+Verificar que não existam dois cress iguais no inserção de um novo registro (feito)
