@@ -1,0 +1,48 @@
+/* 
+    Document   : abas
+    Created on : 10/01/2011, 23:54:29
+    Author     : luis
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+/*
+root { 
+    display: block;
+}
+*/
+#abas{
+  margin: -10px;
+  padding: 0;
+  width: 100%;
+}
+
+#abas li{
+  display: inline;
+}
+#abas li a{
+  display: block;
+  width: auto;
+  padding: 3px 8px;
+  margin: 0 1px 0 0;
+  width: 200px;
+  float: left;
+  background: url(images/bullet.gif) no-repeat left center;
+  color: #797979;
+  text-decoration: none;
+  text-indent: 5px;
+}
+#abas li a.selected{
+  background: url(images/bullet.gif) no-repeat left center;
+  cursor: default;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.contaba{
+  clear: both;
+}
