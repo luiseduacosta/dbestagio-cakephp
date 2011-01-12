@@ -7,7 +7,7 @@
 <td style='text-align:left'>Orgão: <?php echo $alunos['Alunonovo']['orgao']; ?></td>
 </tr>
 <tr style='text-align:left'>
-<td style='text-align:left'>Nascimento: <?php echo date('d-m-Y', strtotime($alunos['Alunonovo']['nascimento']); ?></td>
+<td style='text-align:left'>Nascimento: <?php echo date('d-m-Y', strtotime($alunos['Alunonovo']['nascimento'])); ?></td>
 <td style='text-align:left'>Email: <?php echo $alunos['Alunonovo']['email']; ?></td>
 <td style='text-align:left'>Telefone: <?php echo "(".$alunos['Alunonovo']['codigo_telefone'].")".$alunos['Alunonovo']['telefone']; ?></td>
 <td style='text-align:left'>Celular: <?php echo "(".$alunos['Alunonovo']['codigo_celular'].")".$alunos['Alunonovo']['celular']; ?></td>

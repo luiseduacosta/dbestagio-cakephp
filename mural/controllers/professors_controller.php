@@ -17,6 +17,7 @@ class ProfessorsController extends AppController {
 	
 	function view($id = NULL) {
 
+		// Configure::write('debug', 0);
 		$professor = $this->Professor->find('first', array(
 		'conditions'=>array('Professor.id'=>$id),
 		'order'=>'Professor.nome'));
