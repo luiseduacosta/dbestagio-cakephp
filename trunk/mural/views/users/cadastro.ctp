@@ -1,7 +1,63 @@
-<form action='/users/cadastro' method='post'>
-<label>Login:</label><input type='text' name='user' size='40' />
-<label>Senha:</label><input type='password' name='senha' size='40' />
-<label>Nome:</label><input type='text' name='nome' size='40' />
-<label>Email:</label><input type='text' name='email' size='60' />
-<input type='submit' value='Confirma' />
-</form>
+<?php
+
+echo $html->script("jquery", array('inline'=>false));
+echo $html->scriptBlock('
+
+$(document).ready(function() {
+$("#UserCategoria").change(function() {
+
+	var categoria = $(this).val();
+
+	if (categoria == 1) {
+		$("label:eq(1)").text("DRE");
+	} else if (categoria == 2) {
+		$("label:eq(1)").text("SIAPE");
+	} else if (categoria == 3) {
+		$("label:eq(1)").text("CRESS 7ª Região");
+	}
+
+	})
+})
+
+', array("inline"=>false));
+ ?>
+
+<h1>Cadastro de usuário</h1>
+
+<?php echo $form->create("User"); ?>
+
+<table>
+
+<tr>
+	<td>
+		<?php echo $form->input('categoria', array('options'=>array('9'=>'- Selecione -', '1'=>'Estudante', '2'=>'Professor', '3'=>'Supervisor'), 'default'=>'9')); ?>
+	</td>
+	<td>
+		<?php echo $form->input('numero', array('label'=>'Selecione a categoria de usuário no box anterior')); ?>
+	</td>
+</tr>
+
+<tr>
+	<td colspan='2'>
+	<?php echo $form->input('nome', array('after' => $form->error
+       ('username_unique', 'O nome já está cadastrado.'),
+		'type'=>'text', 'size'=>'20',
+		'label'=>'Nome')); ?>
+	</td>
+</tr>
+
+<tr>
+	<td colspan='2'>
+		<?php echo $form->input('email'); ?>
+	</td>
+</tr>
+
+<tr>
+	<td colspan='2'>
+	<?php echo $form->input('password'); ?>
+	</td>
+</tr>
+
+</table>
+
+<?php echo $form->end('Confirma'); ?>

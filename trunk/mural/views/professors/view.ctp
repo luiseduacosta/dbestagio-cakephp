@@ -88,8 +88,8 @@ $(document).ready(function() {
 <td>
 <?php 
 switch ($professor['Professor']['sexo']) {
-case 1: echo "Masculino"; break;
-case 2: echo "Feminino"; break;
+	case 1: echo "Masculino"; break;
+	case 2: echo "Feminino"; break;
 }
 ?>
 </td>
@@ -172,6 +172,7 @@ case 2: echo "Feminino"; break;
 </td>
 </tr>
 
+
 <tr>
 <td>Formação Profissional</td>
 <td><?php echo $professor['Professor']['formacaoprofissional']; ?></td>
@@ -216,6 +217,7 @@ case 2: echo "Feminino"; break;
 <td>Ano de conclusão do doutorado</td>
 <td><?php echo $professor['Professor']['doutoradoanoconclusao']; ?></td>
 </tr>
+
 
 <tr>
 <td>Data de ingresso na ESS/UFRJ</td>
@@ -280,9 +282,6 @@ if ($professor['Professor']['dataegresso']) {
 
 </table>
 
-</div>
-
-
 <?php
 
 echo $html->link('Excluir', '/Professors/delete/' . $professor['Professor']['id'], NULL, 'Confirma?');
@@ -295,10 +294,14 @@ echo $html->link('Listar', '/Professors/index/');
 
 ?>
 
+</div>
+
+
 <div id="aba2" class="conteudoaba">
+
 <table width="80%">
 <tr>
-<td>Currículo lattes</td>
+
 <td>
 <?php
 $ch = curl_init();
@@ -321,83 +324,86 @@ $doc = new DOMDocument();
 $doc->loadHTML($output);
 $doc->preserveWhiteSpace = false;
 $xpath = new DOMXPath($doc);
-$conteudo = $xpath->query("//*[@class='textoProducao']");
+
+echo "<h1>" . $professor['Professor']['nome'] . "</h1>";
 
 echo "<strong>Apresentação</strong>" . "<br>";
-$apresentacao = $xpath->query("/html/body/div[@id='pagina']/div[3]/div[1/div/table[@class='IndicProdTabela']]");
+$apresentacao = $xpath->query("/html/body/div[@id='pagina']/div[1]/div[2]/table");
+
 foreach ($apresentacao as $c_apresentacao) {
 	echo $c_apresentacao->nodeValue;
-	echo "<br />";
+	echo "<br /><br />";
 }
 
 echo "<strong>Formação</strong>" . "<br>";
 $formacao = $xpath->query("/html/body/div[@id='pagina']/div[3]/div[2]/div/table[@class='IndicProdTabela']");
+
 foreach ($formacao as $c_formacao) {
 	echo $c_formacao->nodeValue;
-	echo "<br />";
+	echo "<br /><br />";
 }
 
 echo "<strong>Atuação profissional</strong>" . "<br>";
-$atuacao = $xpath->query("/html/body/div[@id='pagina']/div[3]/div[3]/div/table[@class='IndicProdTabela']");
+$atuacao = $xpath->query("/html/body/div[@id='pagina']/div[3]/div[3]/div/table[@class='IndicProdTabela']/tbody/tr");
 foreach ($atuacao as $c_atuacao) {
 	echo $c_atuacao->nodeValue;
-	echo "<br />";
+	echo "<br /><br />";
 }
 
 echo "<strong>Linhas de pesquisa</strong>" . "<br>";
 $linhas = $xpath->query("/html/body/div[@id='pagina']/div[3]/div[4]/div/table[@class='IndicProdTabela']");
 foreach ($linhas as $c_linhas) {
 	echo $c_linhas->nodeValue;
-	echo "<br />";
+	echo "<br /><br />";
 }
 
 echo "<strong>Projetos de pesquisa</strong>" . "<br>";
 $projetos = $xpath->query("/html/body/div[@id='pagina']/div[3]/div[5]/div/table[@class='IndicProdTabela']");
 foreach ($projetos as $c_projetos) {
 	echo $c_projetos->nodeValue;
-	echo "<br />";
+	echo "<br /><br />";
 }
 
 echo "<strong>Área de atuação</strong>" . "<br>";
 $area = $xpath->query("/html/body/div[@id='pagina']/div[3]/div[6]/div/table[@class='IndicProdTabela']");
 foreach ($area as $c_area) {
 	echo $c_area->nodeValue;
-	echo "<br />";
+	echo "<br /><br />";
 }
 
 echo "<strong>Idiomas</strong>" . "<br>";
 $idiomas = $xpath->query("/html/body/div[@id='pagina']/div[3]/div[7]/div/table[@class='IndicProdTabela']");
 foreach ($idiomas as $c_idiomas) {
 	echo $c_idiomas->nodeValue;
-	echo "<br />";
+	echo "<br /><br />";
 }
 
 echo "<strong>Produção bibliográfica</strong>" . "<br>";
 $bibliografica = $xpath->query("/html/body/div[@id='pagina']/div[3]/div[9]/div/table[@class='IndicProdTabela']");
 foreach ($bibliografica as $c_bibliografica) {
 	echo $c_bibliografica->nodeValue;
-	echo "<br />";
+	echo "<br /><br />";
 }
 
 echo "<strong>Participação em bancas</strong>" . "<br>";
 $bancas = $xpath->query("/html/body/div[@id='pagina']/div[3]/div[10]/div/table[@class='IndicProdTabela']");
 foreach ($bancas as $c_bancas) {
 	echo $c_bancas->nodeValue;
-	echo "<br />";
+	echo "<br /><br />";
 }
 
 echo "<strong>Eventos</strong>" . "<br>";
 $eventos = $xpath->query("/html/body/div[@id='pagina']/div[3]/div[11]/div/table[@class='IndicProdTabela']");
 foreach ($eventos as $c_eventos) {
 	echo $c_eventos->nodeValue;
-	echo "<br />";
+	echo "<br /><br />";
 }
 
 echo "<strong>Orientações</strong>" . "<br>";
 $orientacoes = $xpath->query("/html/body/div[@id='pagina']/div[3]/div[12]/div/table[@class='IndicProdTabela']");
 foreach ($orientacoes as $c_orientacoes) {
 	echo $c_orientacoes->nodeValue;
-	echo "<br />";
+	echo "<br /><br />";
 }
 
 ?>
