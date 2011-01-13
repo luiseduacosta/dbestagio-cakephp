@@ -4,7 +4,6 @@ class InscricaosController extends AppController {
 
     var $name = "Inscricaos";
     var $components = array('Email');
-
  
     function index($id = NULL) {
 
@@ -25,7 +24,7 @@ class InscricaosController extends AppController {
             $inscritos = $this->Inscricao->find('all',
                             array(
                                 'conditions' => array('Inscricao.periodo' => $periodo),
-                                'fields' => array('Inscricao.id', 'Inscricao.id_aluno', 'Aluno.id', 'Aluno.nome', 'Aluno.nascimento', 'Aluno.telefone', 'Aluno.celular', 'Aluno.email', 'Alunonovo.id', 'Alunonovo.nome', 'Alunonovo.nascimento', 'Alunonovo.telefone', 'Alunonovo.celular', 'Alunonovo.email', 'Mural.instituicao', 'Inscricao.id_instituicao'),
+                                'fields' => array('Inscricao.id', 'Inscricao.id_aluno', 'Aluno.id', 'Aluno.nome', 'Aluno.nascimento', 'Aluno.telefone', 'Aluno.celular', 'Aluno.email', 'Alunonovo.id', 'Alunonovo.nome', 'Alunonovo.nascimento', 'Alunonovo.telefone', 'Alunonovo.celular', 'Alunonovo.email'),
                                 'group' => array('Inscricao.id_aluno'),
                                 'order' => array('Aluno.nome' => 'asc')
                             )
@@ -42,7 +41,7 @@ class InscricaosController extends AppController {
                 $inscritos_ordem[$i]['id'] = $c_inscritos['Aluno']['id'];
                 $inscritos_ordem[$i]['id_inscricao'] = $c_inscritos['Inscricao']['id'];
                 $inscritos_ordem[$i]['id_aluno'] = $c_inscritos['Inscricao']['id_aluno'];
-		$inscritos_ordem[$i]['nascimento'] = $c_inscritos['Aluno']['nascimento'];
+				$inscritos_ordem[$i]['nascimento'] = $c_inscritos['Aluno']['nascimento'];
                 $inscritos_ordem[$i]['telefone'] = $c_inscritos['Aluno']['telefone'];
                 $inscritos_ordem[$i]['celular'] = $c_inscritos['Aluno']['celular'];
                 $inscritos_ordem[$i]['email'] = $c_inscritos['Aluno']['email'];
@@ -77,9 +76,12 @@ class InscricaosController extends AppController {
         /* Fim da conta da quantidade de alunos novos e estagiarios */
 
         // pr($inscritos[0]['Mural']['instituicao']);
-
-        $this->set('instituicao', $inscritos[0]['Mural']['instituicao']);
-        $this->set('mural_id', $inscritos[0]['Inscricao']['id_instituicao']);
+		if (isset($inscritos[0]['Mural']['instituicao'])) {
+        	$this->set('instituicao', $inscritos[0]['Mural']['instituicao']);
+		}
+		if (isset($inscritos[0]['Inscricao']['id_instituicao'])) {		
+        	$this->set('mural_id', $inscritos[0]['Inscricao']['id_instituicao']);
+		}
         $this->set('inscritos', $inscritos_ordem);
     }
 
