@@ -10,6 +10,7 @@
             <th>DRE</th>
             <th></th>
             <th>Estudante</th>
+            <th>Nascimento</th>
             <th>Telefone</th>
             <th>Celular</th>
             <th>Email</th>
@@ -30,6 +31,7 @@
 			}
 			?>
             </td>
+            <td><?php echo $c_inscrito['nascimento']; ?></td>
             <td><?php echo $c_inscrito['telefone']; ?></td>
             <td><?php echo $c_inscrito['celular']; ?></td>
             <td><?php echo $c_inscrito['email']; ?></td>                        

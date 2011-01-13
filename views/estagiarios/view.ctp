@@ -90,7 +90,7 @@
 <p>
 
 <?php echo $html->link('Editar', '/Estagiarios/edit/' . $estagio['Estagiario']['id']); ?> |
-<?php echo $html->link('Inserir estágio', '/Estagiarios/add/' . $estagio['Estagiario']['id_aluno']); ?>
+<?php echo $html->link('Inserir estágio', '/Estagiarios/add/' . $estagio['Estagiario']['id_aluno']); ?> | 
 <?php echo $html->link('Listar', '/Estagiarios/index/' . $estagio['Estagiario']['periodo']); ?>
 
 </p>
