@@ -66,7 +66,7 @@
             <td>Local da seleção</td>
             <td><?php echo $mural[0]['Mural']['localSelecao']; ?></td>
         </tr>
-        <tr>
+
         <tr>
             <td>Forma de seleção</td>
             <td>
