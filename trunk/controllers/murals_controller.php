@@ -101,16 +101,18 @@ class MuralsController extends AppController {
             $configuracao = $this->Configuracao->findById('1');
             $periodo = $configuracao['Configuracao']['mural_periodo_atual'];
 
-            // Instituicoes
+            // Select Instituicoes
             $this->loadModel('Instituicao');
             $instituicoes = $this->Instituicao->find('list', array(
                         'fields' => array('id', 'instituicao'),
                         'order' => array('instituicao')
                     ));
             // Inserir no topo do array
-            $instituicoes[0] = 'Seleciona instituicao';
+            $instituicoes[0] = '- Seleciona instituicao -';
+            asort($instituicoes);
             // pr($instituicoes);
-            // Areas
+            
+            // Select Areas
             $this->loadModel('Area');
             $areas = $this->Area->find('list', array(
                         'fields' => array('id', 'area'),
@@ -118,13 +120,16 @@ class MuralsController extends AppController {
                     ));
             $areas[0] = 'Selecionar área';
             // pr($areas);
-            // Professores (selecionar apenas professores de OTP)
+            
+            // Select Professores 
+            // TODO: selecionar apenas professores de OTP
             $this->loadModel('Professor');
             $professores = $this->Professor->find('list', array(
                         'fields' => array('id', 'nome'),
                         'order' => array('nome')
                     ));
-            $professores[0] = 'Selecionar professor';
+            $professores[0] = '- Selecionar professor -';
+			asort($professores);
             // pr($professores);
 
             $this->set('instituicoes', $instituicoes);

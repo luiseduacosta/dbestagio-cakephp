@@ -22,7 +22,7 @@ $(document).ready(function(){
 
 <?php echo $form->input('periodo', array('type'=>'hidden', 'value'=>$periodo)); ?>
 
-<?php echo $form->input('id_estagio', array('label'=>'Instituição', 'type'=>'select', 'options'=>$instituicoes)); ?>
+<?php echo $form->input('id_estagio', array('label'=>'Instituição', 'type'=>'select', 'options'=>$instituicoes, 'default'=>0)); ?>
 
 <?php echo $form->input('convenio', array('label'=>'Convênio com a UFRJ', 'type'=>'select', 'options'=>array('0'=>'Não', '1'=>'Sim'), 'selected'=>0)); ?>
 
@@ -40,7 +40,7 @@ $(document).ready(function(){
 
 <?php echo $form->input('horario', array('label'=>'Horário da OTP', 'type'=>'select', 'options'=>array('D'=>'Diurno', 'N'=>'Noturno', 'A'=>'Ambos'))); ?>
 
-<?php echo $form->input('id_professor', array('label'=>'Professor', 'type'=>'select', 'options'=>$professores)); ?>
+<?php echo $form->input('id_professor', array('label'=>'Professor', 'type'=>'select', 'options'=>$professores, 'default'=>0)); ?>
 
 <?php echo $form->input('dataSelecao', array('label'=>'Data da seleção', 'dateFormat'=>'DMY', 'minYear'=>'2000', 'empty'=>TRUE)); ?>
 
@@ -56,7 +56,7 @@ $(document).ready(function(){
 
 <?php echo $form->input('email', array('label'=>'Email para envio da lista de inscrições')); ?>
 
-<?php echo $form->input('datafax', array('label'=>'Data de envio do email', 'empty'=>TRUE)); ?>
+<?php echo $form->input('datafax', array('label'=>'Data de envio do email (Preenchimento automático)', 'dateFormat'=>'DMY', 'empty'=>TRUE)); ?>
 
 <?php echo $form->input('outras', array('label'=>'Outras informações')); ?>
 
