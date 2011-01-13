@@ -112,6 +112,7 @@ $("#EstagiarioIdSupervisor").change(function() {
 <th><?php echo $this->Paginator->sort('Periodo','Estagiario.periodo'); ?></th>
 <th><?php echo $this->Paginator->sort('Nível','Estagiario.nivel'); ?></th>
 <th><?php echo $this->Paginator->sort('Turno','Estagiario.turno'); ?></th>
+<th><?php echo $this->Paginator->sort('TC','Estagiario.tc'); ?></th>
 <th><?php echo $this->Paginator->sort('Instituição','Instituicao.instituicao'); ?></th>
 <th><?php echo $this->Paginator->sort('Supervisor','Supervisor.nome'); ?></th>
 <th><?php echo $this->Paginator->sort('Professor','Professor.nome'); ?></th>
@@ -126,6 +127,7 @@ $("#EstagiarioIdSupervisor").change(function() {
 <td style='text-align:center'><?php echo $aluno['Estagiario']['periodo']; ?></td>
 <td style='text-align:center'><?php echo $aluno['Estagiario']['nivel']; ?></td>
 <td style='text-align:center'><?php echo $aluno['Estagiario']['turno']; ?></td>
+<td style='text-align:center'><?php echo $aluno['Estagiario']['tc']; ?></td>
 <td style='text-align:left'><?php echo $html->link($aluno['Instituicao']['instituicao'],"/instituicaos/view/". $aluno['Estagiario']['id_instituicao']); ?></td>
 <td style='text-align:left'><?php echo $html->link($aluno['Supervisor']['nome'],"/supervisors/view/". $aluno['Estagiario']['id_supervisor']); ?></td>
 <td style='text-align:left'><?php echo $html->link($aluno['Professor']['nome'],"/professors/view/". $aluno['Estagiario']['id_professor']); ?></td>
