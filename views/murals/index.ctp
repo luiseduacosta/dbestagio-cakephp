@@ -1,10 +1,14 @@
+<?php echo $html->link('Inserir mural','/Murals/add/'); ?>
+<?php echo " | "; ?>
+<?php echo $html->link('Listar alunos','/Inscricaos/index/'); ?>
+
+<hr />
+
 <h1>Mural de estágios da ESS/UFRJ</h1>
 <h2>Período: <?php echo $periodo; ?></h2>
 <p>Há <?php echo $total_vagas; ?> vagas de estágio e <?php echo $total_alunos; ?> estudantes buscando estágio (<?php echo $alunos_novos; ?> pela primeira vez e <?php echo $alunos_estagiarios; ?> que mudam de estágio)</p>
 
 <hr />
-
-<?php echo $html->link('Inserir nova solicitação de vagas de estágio','add'); ?>
 
 <?php $totalvagas = NULL; ?>
 <?php $totalinscricoes = NULL; ?>
