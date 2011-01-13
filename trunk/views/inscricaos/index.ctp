@@ -1,10 +1,12 @@
+<?php echo $html->link('Listar mural', '/Murals/index'); ?>
+
+<hr />
+
 <h1>Estudantes inscritos para estágio</h1>
 
 <?php if (isset($instituicao)): ?>
 <h1><?php echo $html->link($instituicao, '/Murals/view/' . $mural_id); ?></h1>
 <?php endif; ?>
-
-<?php echo $html->link('Listar mural', '/Murals/index'); ?>
 
 <table>
     <thead>

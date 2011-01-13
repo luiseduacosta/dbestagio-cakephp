@@ -183,6 +183,7 @@ class InscricaosController extends AppController {
         $this->Inscricao->delete($id);
         $this->Session->setFlash("Inscrição excluída");
         $this->redirect('/Inscricaos/index/' . $instituicao['Inscricao']['id_instituicao']);
+
     }
 
     function emailparainstituicao($id = NULL) {
