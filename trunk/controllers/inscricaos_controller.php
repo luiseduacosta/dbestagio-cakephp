@@ -19,7 +19,7 @@ class InscricaosController extends AppController {
             $inscritos = $this->Inscricao->find('all',
                             array(
                                 'conditions' => array('Inscricao.id_instituicao' => $id),
-                                'fields' => array('Inscricao.id', 'Inscricao.id_aluno', 'Aluno.id', 'Aluno.nome', 'Aluno.telefone', 'Aluno.celular', 'Aluno.email', 'Alunonovo.id', 'Alunonovo.nome', 'Alunonovo.telefone', 'Alunonovo.celular', 'Alunonovo.email', 'Mural.instituicao', 'Inscricao.id_instituicao'),
+                                'fields' => array('Inscricao.id', 'Inscricao.id_aluno', 'Aluno.id', 'Aluno.nome', 'Aluno.nascimento', 'Aluno.telefone', 'Aluno.celular', 'Aluno.email', 'Alunonovo.id', 'Alunonovo.nome', 'Alunonovo.nascimento', 'Alunonovo.telefone', 'Alunonovo.celular', 'Alunonovo.email', 'Mural.instituicao', 'Inscricao.id_instituicao'),
                                 'order' => array('Aluno.nome' => 'asc')
                             )
             );
@@ -27,7 +27,7 @@ class InscricaosController extends AppController {
             $inscritos = $this->Inscricao->find('all',
                             array(
                                 'conditions' => array('Inscricao.periodo' => $periodo),
-                                'fields' => array('Inscricao.id', 'Inscricao.id_aluno', 'Aluno.id', 'Aluno.nome', 'Aluno.telefone', 'Aluno.celular', 'Aluno.email', 'Alunonovo.id', 'Alunonovo.nome', 'Alunonovo.telefone', 'Alunonovo.celular', 'Alunonovo.email', 'Mural.instituicao', 'Inscricao.id_instituicao'),
+                                'fields' => array('Inscricao.id', 'Inscricao.id_aluno', 'Aluno.id', 'Aluno.nome', 'Aluno.nascimento,  'Aluno.telefone', 'Aluno.celular', 'Aluno.email', 'Alunonovo.id', 'Alunonovo.nome', 'Alunonovo.nascimento, 'Alunonovo.telefone', 'Alunonovo.celular', 'Alunonovo.email', 'Mural.instituicao', 'Inscricao.id_instituicao'),
                                 'order' => array('Aluno.nome' => 'asc')
                             )
             );
@@ -43,21 +43,21 @@ class InscricaosController extends AppController {
                 $inscritos_ordem[$i]['id'] = $c_inscritos['Aluno']['id'];
                 $inscritos_ordem[$i]['id_inscricao'] = $c_inscritos['Inscricao']['id'];
                 $inscritos_ordem[$i]['id_aluno'] = $c_inscritos['Inscricao']['id_aluno'];
+		$inscritos_ordem[$i]['nascimento'] = $c_inscritos['Aluno']['nascimento'];
                 $inscritos_ordem[$i]['telefone'] = $c_inscritos['Aluno']['telefone'];
                 $inscritos_ordem[$i]['celular'] = $c_inscritos['Aluno']['celular'];
                 $inscritos_ordem[$i]['email'] = $c_inscritos['Aluno']['email'];
                 $inscritos_ordem[$i]['tipo'] = 1; // Estagiario
-                $criterio[$i]['nome'] = $c_inscritos['Aluno']['nome'];
             } else {
                 $inscritos_ordem[$i]['nome'] = $c_inscritos['Alunonovo']['nome'];
                 $inscritos_ordem[$i]['id'] = $c_inscritos['Alunonovo']['id'];
                 $inscritos_ordem[$i]['id_inscricao'] = $c_inscritos['Inscricao']['id'];
                 $inscritos_ordem[$i]['id_aluno'] = $c_inscritos['Inscricao']['id_aluno'];
+		$inscritos_ordem[$i]['nascimento'] = $c_inscritos['Aluno']['nascimento'];
                 $inscritos_ordem[$i]['telefone'] = $c_inscritos['Alunonovo']['telefone'];
                 $inscritos_ordem[$i]['celular'] = $c_inscritos['Alunonovo']['celular'];
                 $inscritos_ordem[$i]['email'] = $c_inscritos['Alunonovo']['email'];
                 $inscritos_ordem[$i]['tipo'] = 0; // Novo
-                $criterio[$i]['nome'] = $c_inscritos['Alunonovo']['nome'];
             }
             $i++;
         }
