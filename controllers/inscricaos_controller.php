@@ -3,11 +3,9 @@
 class InscricaosController extends AppController {
 
     var $name = "Inscricaos";
-    // var $helpers = array('Form');
     var $components = array('Email');
 
-    // var $helpers = array('Js' => array('Jquery'));
-
+ 
     function index($id = NULL) {
 
         // Capturo o periodo atual de estagio para o mural
@@ -28,6 +26,7 @@ class InscricaosController extends AppController {
                             array(
                                 'conditions' => array('Inscricao.periodo' => $periodo),
                                 'fields' => array('Inscricao.id', 'Inscricao.id_aluno', 'Aluno.id', 'Aluno.nome', 'Aluno.nascimento', 'Aluno.telefone', 'Aluno.celular', 'Aluno.email', 'Alunonovo.id', 'Alunonovo.nome', 'Alunonovo.nascimento', 'Alunonovo.telefone', 'Alunonovo.celular', 'Alunonovo.email', 'Mural.instituicao', 'Inscricao.id_instituicao'),
+                                'group' => array('Inscricao.id_aluno'),
                                 'order' => array('Aluno.nome' => 'asc')
                             )
             );
