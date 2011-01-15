@@ -60,4 +60,4 @@ $("#UserCategoria").change(function() {
 
 </table>
 
-<?php echo $form->end('Confirma'); ?>
+<?php echo $form->end('Confirma?'); ?>

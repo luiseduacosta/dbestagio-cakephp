@@ -7,31 +7,31 @@ $(document).ready(function() {
 $("#EstagiarioPeriodo").change(function() {
 		var periodo = $(this).val();
         /* alert(periodo); */
-        window.location="/Estagiarios/index/periodo:"+periodo;
+        window.location="/mural/Estagiarios/index/periodo:"+periodo;
 		})
 
 $("#EstagiarioIdArea").change(function() {
 		var id_area = $(this).val();
-    	window.location="/Estagiarios/index/id_area:"+id_area;
+    	window.location="/mural/Estagiarios/index/id_area:"+id_area;
     	/* alert(id_area); */
 		})
 
 $("#EstagiarioIdProfessor").change(function() {
 		var id_professor = $(this).val();
     	/* alert(id_professor); */
-    	window.location="/Estagiarios/index/id_professor:"+id_professor;
+    	window.location="/mural/Estagiarios/index/id_professor:"+id_professor;
 		})
 
 $("#EstagiarioIdInstituicao").change(function() {
 		var id_instituicao = $(this).val();
     	/* alert(id_instituicao); */
-    	window.location="/Estagiarios/index/id_instituicao:"+id_instituicao;
+    	window.location="/mural/Estagiarios/index/id_instituicao:"+id_instituicao;
 		})
 
 $("#EstagiarioIdSupervisor").change(function() {
 		var id_supervisor = $(this).val();
     	/* alert(id_supervisor); */
-    	window.location="/Estagiarios/index/id_supervisor:"+id_supervisor;
+    	window.location="/mural/Estagiarios/index/id_supervisor:"+id_supervisor;
 		})
 
     });

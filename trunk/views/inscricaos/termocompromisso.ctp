@@ -6,7 +6,7 @@ echo $html->scriptBlock('
 $(document).ready(function(){
 $("#InscricaoIdInstituicao").change(function() {
 	var id_instituicao = $(this).val();
-	 $("#InscricaoIdSupervisor").load("/Instituicaos/seleciona_supervisor/"+id_instituicao, {id: $(this).val(), ajax: "true"});
+	 $("#InscricaoIdSupervisor").load("/mural/Instituicaos/seleciona_supervisor/"+id_instituicao, {id: $(this).val(), ajax: "true"});
          /* alert(id_instituicao); */
 	})
  });
