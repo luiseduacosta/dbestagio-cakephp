@@ -53,7 +53,7 @@
  */
 	if (!defined('CAKE_CORE_INCLUDE_PATH')) {
 		// define('CAKE_CORE_INCLUDE_PATH', ROOT);
-		define('CAKE_CORE_INCLUDE_PATH', DS . usr . DS . local . DS . htdocs . DS . cakephp);
+		define('CAKE_CORE_INCLUDE_PATH', DS . 'usr' . DS . 'local' . DS . 'htdocs' . DS . 'cakephp');
 		// echo CAKE_CORE_INCLUDE_PATH . "<br>";
 	}
 
