@@ -21,6 +21,7 @@ $(document).ready(function(){
 <?php
 
 echo $form->create('Supervisor');
+echo $form->input('regiao', array('default'=>7));
 echo $form->input('cress');
 echo $form->input('nome');
 echo $form->input('cpf');
@@ -33,7 +34,13 @@ echo $form->input('endereco');
 echo $form->input('cep');
 echo $form->input('bairro');
 echo $form->input('municipio');
-echo $form->input('Instituicao.id', array('options'=>$instituicoes, 'default'=>0));
+echo $form->input('escola');
+echo $form->input('ano_formatura');
+echo $form->input('outros_estudos');
+echo $form->input('area_curso');
+echo $form->input('ano_curso');
+echo $form->input('observacoes', array('textarea', array('rows'=>5, 'cols'=>60)));
+echo $form->input('Instituicao.id', array('label'=>'Instituição', 'options'=>$instituicoes, 'default'=>0));
 echo $form->end('Confirma');
 
 ?>

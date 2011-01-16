@@ -36,6 +36,23 @@ class Instituicao extends AppModel {
 	        'order'=> 'Supervisor.nome'
 	));
 
+        var $validate = array(
+
+            'instituicao' => array(
+                'rule' => 'notEmpty',
+                'allowEmpty' => FALSE,
+                'message' => 'Digite o nome da instituição'
+            ),
+
+            'url' => array(
+                'rule' => array('url', TRUE),
+                'required' => TRUE,
+                'allowEmpty' => TRUE,
+                'message' => 'Digite o endereço da paǵina web'
+            )
+
+        );
+
 }
 
 ?>

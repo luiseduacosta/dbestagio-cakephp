@@ -119,6 +119,7 @@ class Mural extends AppModel {
         'datafax' => array(
             'rule' => 'date',
             'required' => FALSE,
+            'allowEmpty' => TRUE,
             'message' => 'Data de envio do email com os inscritos'
         ),
 

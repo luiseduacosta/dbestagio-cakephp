@@ -21,7 +21,7 @@
     <tbody>
         <tr>
             <td>
-            CRESS
+            CRESS <?php echo $supervisor['Supervisor']['regiao']; ?> Região
             </td>
 
             <td>
@@ -44,30 +44,16 @@
         </tr>
         
         <tr>
-            <td>Código</td>
-            <td>
-            <?php echo $supervisor['Supervisor']['codigo_tel']; ?>
-            </td>
-        </tr>
-        
-        <tr>
             <td>Telefone</td>
             <td>
-            <?php echo $supervisor['Supervisor']['telefone']; ?>
-            </td>
-        </tr>
-
-        <tr>
-            <td>Código</td>
-            <td>
-            <?php echo $supervisor['Supervisor']['codigo_cel']; ?>
+            <?php echo "( " . $supervisor['Supervisor']['codigo_tel'] . ") " . $supervisor['Supervisor']['telefone']; ?>
             </td>
         </tr>
 
         <tr>
             <td>Celular</td>
             <td>
-            <?php echo $supervisor['Supervisor']['celular']; ?>
+            <?php echo "( " . $supervisor['Supervisor']['codigo_cel'] . ") " . $supervisor['Supervisor']['celular']; ?>
             </td>
         </tr>
 
@@ -103,6 +89,58 @@
             <td>Município</td>
             <td>
             <?php echo $supervisor['Supervisor']['municipio']; ?>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Escola de formação</td>
+            <td>
+            <?php echo $supervisor['Supervisor']['escola']; ?>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Ano da formatura</td>
+            <td>
+            <?php echo $supervisor['Supervisor']['ano_formatura']; ?>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Outros estudos</td>
+            <td>
+            <?php echo $supervisor['Supervisor']['outros_estudos']; ?>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Área dos outros estudos</td>
+            <td>
+            <?php echo $supervisor['Supervisor']['area_curso']; ?>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Ano de finalização dos outros estudos</td>
+            <td>
+            <?php echo $supervisor['Supervisor']['ano_curso']; ?>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Turma do Curso supervisores</td>
+            <td>
+            <?php echo $supervisor['Supervisor']['curso_turma']; ?>
+            <?php echo " Número de inscrição: "; ?>
+            <?php echo $supervisor['Supervisor']['num_inscricao']; ?>
+            </td>
+
+        </tr>
+
+        <tr>
+            <td>Observações</td>
+            <td>
+            <?php echo $supervisor['Supervisor']['observacoes']; ?>
             </td>
         </tr>
 
@@ -184,7 +222,7 @@ if ($supervisor['Instituicao']) {
 <?php
 
 echo $form->create('Supervisor', array('controller'=>'Supervisors', 'action'=>'addinstituicao'));
-echo $form->input('InstSuper.id_instituicao', array('options'=>$instituicoes, 'default'=>0));
+echo $form->input('InstSuper.id_instituicao', array('label'=>'Instituição', 'options'=>$instituicoes, 'default'=>0));
 echo $form->input('InstSuper.id_supervisor', array('type'=>'hidden', 'value'=>$supervisor['Supervisor']['id']));
 echo $form->end('Confirma');
 

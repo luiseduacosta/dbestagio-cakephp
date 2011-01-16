@@ -102,7 +102,7 @@ if (empty($professores)) $professores = "Sem dados";
         </tr>
 
         <tr>
-            <td><?php echo $form->input('datafax', array('label'=>'Data de envio do email', 'empty'=>TRUE)); ?></td>
+            <td><?php echo $form->input('datafax', array('label'=>'Data de envio do email (preenchimento automático)', 'empty'=>TRUE)); ?></td>
         </tr>
 
         <tr>

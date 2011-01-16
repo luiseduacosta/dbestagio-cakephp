@@ -61,7 +61,7 @@ class InstituicaosController extends AppController {
             $this->data = $this->Instituicao->read();
         } else {
             if ($this->Instituicao->save($this->data)) {
-                // print_r($this->data);
+                // print_r($id);
                 $this->Session->setFlash("Atualizado");
                 $this->redirect('/Instituicaos/view/' . $id);
             }
