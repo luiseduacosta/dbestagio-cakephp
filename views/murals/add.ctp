@@ -56,7 +56,7 @@ $(document).ready(function(){
 
 <?php echo $form->input('email', array('label'=>'Email para envio da lista de inscrições')); ?>
 
-<?php echo $form->input('datafax', array('label'=>'Data de envio do email', 'empty'=>TRUE)); ?>
+<?php echo $form->input('datafax', array('label'=>'Data de envio do email (preenchimento automático)', 'empty'=>TRUE)); ?>
 
 <?php echo $form->input('outras', array('label'=>'Outras informações')); ?>
 

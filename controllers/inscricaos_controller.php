@@ -41,7 +41,7 @@ class InscricaosController extends AppController {
                 $inscritos_ordem[$i]['id'] = $c_inscritos['Aluno']['id'];
                 $inscritos_ordem[$i]['id_inscricao'] = $c_inscritos['Inscricao']['id'];
                 $inscritos_ordem[$i]['id_aluno'] = $c_inscritos['Inscricao']['id_aluno'];
-				$inscritos_ordem[$i]['nascimento'] = $c_inscritos['Aluno']['nascimento'];
+		$inscritos_ordem[$i]['nascimento'] = $c_inscritos['Aluno']['nascimento'];
                 $inscritos_ordem[$i]['telefone'] = $c_inscritos['Aluno']['telefone'];
                 $inscritos_ordem[$i]['celular'] = $c_inscritos['Aluno']['celular'];
                 $inscritos_ordem[$i]['email'] = $c_inscritos['Aluno']['email'];
@@ -51,7 +51,7 @@ class InscricaosController extends AppController {
                 $inscritos_ordem[$i]['id'] = $c_inscritos['Alunonovo']['id'];
                 $inscritos_ordem[$i]['id_inscricao'] = $c_inscritos['Inscricao']['id'];
                 $inscritos_ordem[$i]['id_aluno'] = $c_inscritos['Inscricao']['id_aluno'];
-		$inscritos_ordem[$i]['nascimento'] = $c_inscritos['Aluno']['nascimento'];
+		$inscritos_ordem[$i]['nascimento'] = $c_inscritos['Alunonovo']['nascimento'];
                 $inscritos_ordem[$i]['telefone'] = $c_inscritos['Alunonovo']['telefone'];
                 $inscritos_ordem[$i]['celular'] = $c_inscritos['Alunonovo']['celular'];
                 $inscritos_ordem[$i]['email'] = $c_inscritos['Alunonovo']['email'];
