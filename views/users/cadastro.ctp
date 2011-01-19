@@ -56,6 +56,11 @@ $("#UserCategoria").change(function() {
 	<td colspan='2'>
 	<?php echo $form->input('password'); ?>
 	</td>
+
+<tr>
+        <td colspan='2'>
+        <?php echo $form->input('password_confirm', array('type' => 'password')); ?>
+        </td>
 </tr>
 
 </table>

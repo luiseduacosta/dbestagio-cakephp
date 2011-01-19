@@ -22,7 +22,7 @@ Turma atual do curso de supervisores
 
 <tr>
 <td>
-Data de encerramento das inscriçõs do curso de supervisores
+Data de encerramento das inscrições para o curso de supervisores
 </td>
 <td>
 <?php echo date('d-m-Y', strtotime($configuracao['Configuracao']['curso_encerramento_inscricoes'])); ?>
