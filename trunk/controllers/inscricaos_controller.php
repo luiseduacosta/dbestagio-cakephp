@@ -4,7 +4,19 @@ class InscricaosController extends AppController {
 
     var $name = "Inscricaos";
     var $components = array('Email');
- 
+
+    function beforeFilter() {
+
+        parent::beforeFilter();
+        if ($this->Acl->check($this->Session->read('user'), 'inscricaos', '*')) {
+            $this->Auth->allowedActions = array('index', 'view', 'add', 'inscricao', 'termosolicita', 'termocompromisso', 'termocadastra', 'termoimprime');
+            echo "Autorizado";
+        } else {
+            echo "Não autorizaado";
+        }
+        // die(pr($this->Session->read('user')));
+    }
+
     function index($id = NULL) {
 
         // Capturo o periodo atual de estagio para o mural
@@ -41,7 +53,7 @@ class InscricaosController extends AppController {
                 $inscritos_ordem[$i]['id'] = $c_inscritos['Aluno']['id'];
                 $inscritos_ordem[$i]['id_inscricao'] = $c_inscritos['Inscricao']['id'];
                 $inscritos_ordem[$i]['id_aluno'] = $c_inscritos['Inscricao']['id_aluno'];
-		$inscritos_ordem[$i]['nascimento'] = $c_inscritos['Aluno']['nascimento'];
+				$inscritos_ordem[$i]['nascimento'] = $c_inscritos['Aluno']['nascimento'];
                 $inscritos_ordem[$i]['telefone'] = $c_inscritos['Aluno']['telefone'];
                 $inscritos_ordem[$i]['celular'] = $c_inscritos['Aluno']['celular'];
                 $inscritos_ordem[$i]['email'] = $c_inscritos['Aluno']['email'];
@@ -51,7 +63,7 @@ class InscricaosController extends AppController {
                 $inscritos_ordem[$i]['id'] = $c_inscritos['Alunonovo']['id'];
                 $inscritos_ordem[$i]['id_inscricao'] = $c_inscritos['Inscricao']['id'];
                 $inscritos_ordem[$i]['id_aluno'] = $c_inscritos['Inscricao']['id_aluno'];
-		$inscritos_ordem[$i]['nascimento'] = $c_inscritos['Alunonovo']['nascimento'];
+				$inscritos_ordem[$i]['nascimento'] = $c_inscritos['Alunonovo']['nascimento'];
                 $inscritos_ordem[$i]['telefone'] = $c_inscritos['Alunonovo']['telefone'];
                 $inscritos_ordem[$i]['celular'] = $c_inscritos['Alunonovo']['celular'];
                 $inscritos_ordem[$i]['email'] = $c_inscritos['Alunonovo']['email'];
@@ -79,7 +91,7 @@ class InscricaosController extends AppController {
 		if (isset($inscritos[0]['Mural']['instituicao'])) {
         	$this->set('instituicao', $inscritos[0]['Mural']['instituicao']);
 		}
-		if (isset($inscritos[0]['Inscricao']['id_instituicao'])) {		
+		if (isset($inscritos[0]['Inscricao']['id_instituicao'])) {
         	$this->set('mural_id', $inscritos[0]['Inscricao']['id_instituicao']);
 		}
         $this->set('inscritos', $inscritos_ordem);
@@ -108,6 +120,7 @@ class InscricaosController extends AppController {
                 // Verfico se eh aluno novo
                 $this->loadModel('Alunonovo');
                 $alunonovo = $this->Alunonovo->findByRegistro($registro);
+                // die(pr($alunonovo));
                 // Se nao esta cadastrado em alunonovo redireciono para cadastro
                 if (empty($alunonovo)) {
                     echo "Aluno novo nao cadastrado";
@@ -122,7 +135,7 @@ class InscricaosController extends AppController {
                     // Redireciono com um cookie para lembrar a origem do redirecionamento
                     $this->Session->delete('id_instituicao', $id);
                     $this->Session->write('id_instituicao', $id);
-                    $this->redirect('/Alunonovos/edit/' . $registro);
+                    $this->redirect('/Alunonovos/edit/' . $alunonovo['Alunonovo']['id']);
                 }
             }
             /* Fim das verificacoes */

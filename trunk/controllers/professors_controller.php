@@ -6,15 +6,15 @@ class ProfessorsController extends AppController {
 	// var $scaffold;
 
 	function index($id = NULL) {
-		
+
 		$this->Paginate = array(
 			'limit'=>10,
 			'order'=>array('Professor.nome'=>'asc'));
 
 		$this->set('professores', $this->Paginate('Professor'));
-		
+
 	}
-	
+
 	function view($id = NULL) {
 
 		// Configure::write('debug', 0);
@@ -23,19 +23,19 @@ class ProfessorsController extends AppController {
 		'order'=>'Professor.nome'));
 
 		// pr($professor);
-        
+
         $proximo = $this->Professor->find('neighbors', array(
                     'field' => 'nome', 'value' => $professor['Professor']['nome']));
 
         $this->set('registro_next', $proximo['next']['Professor']['id']);
         $this->set('registro_prev', $proximo['prev']['Professor']['id']);
-               
+
         $this->set('professor', $professor);
-		
+
 	}
-	
+
 	function edit($id = NULL) {
-		
+
 		$this->Professor->id = $id;
 
 		if (empty($this->data)) {
@@ -47,11 +47,11 @@ class ProfessorsController extends AppController {
 				$this->redirect('/Professors/view/' . $id);
 			}
 		}
-		
+
 	}
-	
+
 	function add($id = NULL) {
-		
+
 		if ($this->data) {
 			if ($this->Professor->save($this->data)) {
 				$this->Session->setFlash('Dados inseridos');
@@ -59,9 +59,9 @@ class ProfessorsController extends AppController {
 				$this->redirect('/Professors/view/' . $this->Professor->getLastInsertId());
 			}
 		}
-		
+
 	}
-	
+
 }
 
 ?>

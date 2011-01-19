@@ -12,7 +12,7 @@ class Aluno extends AppModel {
             'foreignKey' => 'id_aluno', // nao eh o registro
         ),
     );
-    
+
     var $validate = array(
         'nome' => array(
             'rule' => 'notEmpty',

@@ -4,8 +4,19 @@ class MuralsController extends AppController {
 
     var $name = "Murals";
     var $components = array('Email');
-
     // var $scaffold;
+
+    function beforeFilter() {
+
+        if ($this->Acl->check($this->Session->read('user'), 'murals', 'read')) {
+            $this->Auth->allowedActions = array('index', 'view');
+            echo "Autorizado";
+        } else {
+            echo "Não autorizaado";
+        }
+    	parent::beforeFilter();
+        // die(pr($this->Session->read('user')));
+    }
 
     function index($periodo = NULL) {
 
@@ -111,7 +122,7 @@ class MuralsController extends AppController {
             $instituicoes[0] = '- Seleciona instituicao -';
             asort($instituicoes);
             // pr($instituicoes);
-            
+
             // Select Areas
             $this->loadModel('Area');
             $areas = $this->Area->find('list', array(
@@ -120,8 +131,8 @@ class MuralsController extends AppController {
                     ));
             $areas[0] = 'Selecionar área';
             // pr($areas);
-            
-            // Select Professores 
+
+            // Select Professores
             // TODO: selecionar apenas professores de OTP
             $this->loadModel('Professor');
             $professores = $this->Professor->find('list', array(
@@ -144,7 +155,7 @@ class MuralsController extends AppController {
         $this->set('mural', $this->Mural->read());
     }
 
-    function editar($id = NULL) {
+    function edit($id = NULL) {
 
         $this->Mural->id = $id;
 

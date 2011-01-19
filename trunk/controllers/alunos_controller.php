@@ -4,6 +4,18 @@ class AlunosController extends AppController {
 
     var $name = 'Alunos';
 
+    function beforeFilter() {
+
+        parent::beforeFilter();
+        if ($this->Acl->check($this->Session->read('user'), 'inscricaos', '*')) {
+            $this->Auth->allowedActions = array('edit');
+            echo "Autorizado";
+        } else {
+            echo "Não autorizaado";
+        }
+        // die(pr($this->Session->read('user')));
+    }
+
     function index() {
 
         $this->paginate = array(

@@ -1,15 +1,17 @@
 <?php
 
-echo $form->create('User', array('action'=>'login'));
+$this->Session->flash('auth');
 
-echo $form->input('categoria', array('options'=>array('1'=>'Estudante', '2'=>'Professor', '3'=>'Supervisor')));
+echo $this->Form->create('User', array('action'=>'login'));
 
-echo $form->input('email', array('label'=>'Email', 'type'=>'text', 'size'=>'20'));
+echo $this->Form->input('categoria', array('options'=>array('1'=>'Estudante', '2'=>'Professor', '3'=>'Supervisor')));
 
-echo $form->input('password', array('type'=>'password', 'size'=>'20', 'label'=>'Senha'));
+echo $this->Form->input('email', array('label'=>'Email', 'type'=>'text', 'size'=>'20'));
 
-echo $form->end('Login');
+echo $this->Form->input('password');
 
-echo $html->link('Cadastro', '/Users/cadastro/');
+echo $this->Form->end('Login');
+
+echo $this->Html->link('Cadastro', '/Users/cadastro/');
 
 ?>

@@ -2,138 +2,150 @@
 
 class AlunonovosController extends AppController {
 
-	var $name = "Alunonovos";
+    var $name = "Alunonovos";
 
-	// var $scaffold;
+    // var $scaffold;
 
-	function index($id = NULL) {
+    function beforeFilter() {
 
-		$alunonovo = $this->Alunonovo->find('all', array('order' => 'Alunonovo.nome'));
-		/*
-		 pr($alunonovo['Alunonovo']);
-		 pr($alunonovo['Mural']);
-		 */
-		$this->set('alunonovo', $alunonovo);
-	}
+        parent::beforeFilter();
+        if ($this->Acl->check($this->Session->read('user'), 'inscricaos', '*')) {
+            $this->Auth->allowedActions = array('add', 'edit');
+            echo "Autorizado";
+        } else {
+            echo "Não autorizaado";
+        }
+        // die(pr($this->Session->read('user')));
+    }
 
-	/*
-	 * Além de ser chamada por ela propria
-	 * esta funcao eh chamada desde inscricao para selecao de estagio
-	 * e tambem desde termo de compromisso
-	 */
+    function index($id = NULL) {
 
-	function add($id = NULL) {
+        $alunonovo = $this->Alunonovo->find('all', array('order' => 'Alunonovo.nome'));
+        /*
+          pr($alunonovo['Alunonovo']);
+          pr($alunonovo['Mural']);
+         */
+        $this->set('alunonovo', $alunonovo);
+    }
 
-		$this->set('registro', $id);
+    /*
+     * Além de ser chamada por ela propria
+     * esta funcao eh chamada desde inscricao para selecao de estagio
+     * e tambem desde termo de compromisso
+     */
 
-		if ($this->Alunonovo->save($this->data)) {
+    function add($id = NULL) {
 
-			// Capturo o id da instituicao (se foi chamada desde inscriacao add)
-			$inscricao_selecao_estagio = $this->Session->read('id_instituicao');
-			// Ainda nao posso apagar
-			// $this->Session->delete('id_instituicao');
-			// Capturo se foi chamado desde a solicitacao do termo
-			$registro_termo = $this->Session->read('termo');
-			// Acho que posso apagar aqui porque nao vai ser chamado novamente
-			$this->Session->delete('termo');
+        $this->set('registro', $id);
 
-			$registro = $this->data['Alunonovo']['registro'];
-			$this->Session->setFlash("Cadastro realizado");
+        if ($this->Alunonovo->save($this->data)) {
 
-			if ($inscricao_selecao_estagio) {
-				// Volta para a pagina de inscricao
-				$this->redirect('/Inscricaos/inscricao/' . $registro);
-			} elseif ($registro_termo) {
-				// Volta para a pagina de termo de compromisso
-				$this->redirect('/Inscricaos/termocompromisso/' . $registro_termo);
-			} else {
-				// Mostra resultado da insercao
-				$this->Session->setFlash('Dados inseridos');
-				$id_alunonovo = $this->Alunonovo->getLastInsertId();
-				$this->redirect('/Alunonovos/view/' . $id_alunonovo);
-			}
-		}
-	}
+            // Capturo o id da instituicao (se foi chamada desde inscriacao add)
+            $inscricao_selecao_estagio = $this->Session->read('id_instituicao');
+            // Ainda nao posso apagar
+            // $this->Session->delete('id_instituicao');
+            // Capturo se foi chamado desde a solicitacao do termo
+            $registro_termo = $this->Session->read('termo');
+            // Acho que posso apagar aqui porque nao vai ser chamado novamente
+            $this->Session->delete('termo');
 
-	/*
-	 * Além de ser chamada por ela propria
-	 * esta funcao eh chamada desde inscricao para selecao de estagio
-	 * e tambem desde termo de compromisso
-	 */
+            $registro = $this->data['Alunonovo']['registro'];
+            $this->Session->setFlash("Cadastro realizado");
 
-	/*
-	 * id eh o id do alunonovo
-	 */
+            if ($inscricao_selecao_estagio) {
+                // Volta para a pagina de inscricao
+                $this->redirect('/Inscricaos/inscricao/' . $registro);
+            } elseif ($registro_termo) {
+                // Volta para a pagina de termo de compromisso
+                $this->redirect('/Inscricaos/termocompromisso/' . $registro_termo);
+            } else {
+                // Mostra resultado da insercao
+                $this->Session->setFlash('Dados inseridos');
+                $id_alunonovo = $this->Alunonovo->getLastInsertId();
+                $this->redirect('/Alunonovos/view/' . $id_alunonovo);
+            }
+        }
+    }
 
-	function edit($id = NULL) {
+    /*
+     * Além de ser chamada por ela propria
+     * esta funcao eh chamada desde inscricao para selecao de estagio
+     * e tambem desde termo de compromisso
+     */
 
-		$this->Alunonovo->id = $id;
+    /*
+     * id eh o id do alunonovo
+     */
 
-		if (empty($this->data)) {
-			$this->data = $this->Alunonovo->read();
-		} else {
+    function edit($id = NULL) {
 
-			if ($this->Alunonovo->save($this->data)) {
-				// print_r($this->data);
-				$this->Session->setFlash("Atualizado");
+        $this->Alunonovo->id = $id;
 
-				// Capturo o id da instituicao (se foi chamada desde inscriacao add)
-				$inscricao_selecao_estagio = $this->Session->read('id_instituicao');
-				// Ainda nao posso apagar
-				// $this->Session->delete('id_instituicao');
-				// Capturo se foi chamado desde a solicitacao do termo
-				$registro_termo = $this->Session->read('termo');
-				$this->Session->delete('termo');
-				if ($inscricao_selecao_estagio) {
-					// Faz inscricao para selecao de estagio
-					$this->Session->setFlash("Inscricao para selecao de estagio");
-					$this->redirect('/Inscricaos/inscricao/' . $this->data['Alunonovo']['registro']);
-				} elseif (!empty($registro_termo)) {
-					// Solicita termo de compromisso
-					$this->Session->setFlash("Solicitacao de termo de compromisso");
-					// $this->redirect('/Inscricaos/termocompromisso/' . $registro_termo);
-				} else {
-					// Simplesmente atualiza e mostra o resultado
-					$this->redirect('/Alunonovos/view/' . $id);
-				}
-			}
-		}
-	}
+        if (empty($this->data)) {
+            $this->data = $this->Alunonovo->read();
+        } else {
 
-	function view($id = NULL) {
+            if ($this->Alunonovo->save($this->data)) {
+                // print_r($this->data);
+                $this->Session->setFlash("Atualizado");
 
-		$aluno = $this->Alunonovo->findById($id);
-		// pr($aluno);
+                // Capturo o id da instituicao (se foi chamada desde inscriacao add)
+                $inscricao_selecao_estagio = $this->Session->read('id_instituicao');
+                // Ainda nao posso apagar
+                // $this->Session->delete('id_instituicao');
+                // Capturo se foi chamado desde a solicitacao do termo
+                $registro_termo = $this->Session->read('termo');
+                $this->Session->delete('termo');
+                if ($inscricao_selecao_estagio) {
+                    // Faz inscricao para selecao de estagio
+                    $this->Session->setFlash("Inscricao para selecao de estagio");
+                    $this->redirect('/Inscricaos/inscricao/' . $this->data['Alunonovo']['registro']);
+                } elseif (!empty($registro_termo)) {
+                    // Solicita termo de compromisso
+                    $this->Session->setFlash("Solicitacao de termo de compromisso");
+                    // $this->redirect('/Inscricaos/termocompromisso/' . $registro_termo);
+                } else {
+                    // Simplesmente atualiza e mostra o resultado
+                    $this->redirect('/Alunonovos/view/' . $id);
+                }
+            }
+        }
+    }
 
-		$this->set('alunos', $aluno);
-	}
+    function view($id = NULL) {
 
-	function delete($id = NULL) {
+        $aluno = $this->Alunonovo->findById($id);
+        // pr($aluno);
 
-		// Pego o numero de registro
-		$registro = $this->Alunonovo->findById($id, array('fields' => 'registro'));
-		// Pego as inscricoes realizadas
+        $this->set('alunos', $aluno);
+    }
 
-		$this->loadModel('Inscricao');
-		$inscricao = $this->Inscricao->find('all', array(
+    function delete($id = NULL) {
+
+        // Pego o numero de registro
+        $registro = $this->Alunonovo->findById($id, array('fields' => 'registro'));
+        // Pego as inscricoes realizadas
+
+        $this->loadModel('Inscricao');
+        $inscricao = $this->Inscricao->find('all', array(
                     'conditions' => array('Inscricao.id_aluno' => $registro['Alunonovo']['registro']),
                     'fields' => 'id'));
-		// pr($inscricao);
-		// die();
-		
-		if ($inscricao) {
-			foreach ($inscricao as $c_inscricao) {
-				// pr($c_inscricao['Inscricao']['id']);
-				// die();
-				$this->Inscricao->delete($c_inscricao['Inscricao']['id']);
-			}
-		}
+        // pr($inscricao);
+        // die();
 
-		$this->Alunonovo->delete($id);
+        if ($inscricao) {
+            foreach ($inscricao as $c_inscricao) {
+                // pr($c_inscricao['Inscricao']['id']);
+                // die();
+                $this->Inscricao->delete($c_inscricao['Inscricao']['id']);
+            }
+        }
 
-		$this->Session->setFlash("Registro excluído (junto com as inscrições)");
-		$this->redirect("/Inscricaos/index/");
-	}
+        $this->Alunonovo->delete($id);
+
+        $this->Session->setFlash("Registro excluído (junto com as inscrições)");
+        $this->redirect("/Inscricaos/index/");
+    }
 
 }
 

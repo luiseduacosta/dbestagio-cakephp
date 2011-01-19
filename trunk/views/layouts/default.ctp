@@ -64,8 +64,14 @@
                 <?php echo " | "; ?>
                 <?php echo $html->link("Áreas","/Areas/index"); ?>
                 <?php echo " | "; ?>
-                
                 <?php echo $html->link("Configuração","/Configuracaos/view/1"); ?>
+                <?php echo " | "; ?>
+                <?php
+                if ($this->Session->read('user')) {
+                    echo "<p style='color:black'>" . $this->Session->read('user') . " | ";
+                    echo $html->link('Sair', '/Users/logout/') . "</p>";
+                    }
+                ?>
             </div>
 
             <div id="content">

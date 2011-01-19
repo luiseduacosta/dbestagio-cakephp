@@ -2,7 +2,7 @@
 
 echo $html->link('Excluir instituição','/Murals/delete/' . $mural['Mural']['id'], NULL, 'Tem certeza?');
 echo " | ";
-echo $html->link('Editar instituição','/Murals/editar/' . $mural['Mural']['id']);
+echo $html->link('Editar instituição','/Murals/edit/' . $mural['Mural']['id']);
 echo " | ";
 echo $html->link('Listar mural','/Murals/index/');
 echo " | ";
