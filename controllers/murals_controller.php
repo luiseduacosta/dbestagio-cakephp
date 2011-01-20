@@ -8,13 +8,19 @@ class MuralsController extends AppController {
 
     function beforeFilter() {
 
-        if ($this->Acl->check($this->Session->read('user'), 'murals', 'read')) {
-            $this->Auth->allowedActions = array('index', 'view');
-            echo "Autorizado";
+        parent::beforeFilter();
+        // Admin
+        if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
+            $this->Auth->allowedActions = array('*');
+            $this->Session->setFlash('Administrador');
+        // No futuro os supervisores poderao lançar murals
+        } elseif ($this->Acl->check($this->Session->read('user'), 'murals', 'create')) {
+            $this->Auth->allowedActions = array('add', 'edit', 'index', 'view');
+            $this->Session->setFlash('Supervisor');
+        // Todos
         } else {
-            echo "Não autorizaado";
+            $this->Auth->allowedActions = array('index', 'view');
         }
-    	parent::beforeFilter();
         // die(pr($this->Session->read('user')));
     }
 
@@ -111,7 +117,8 @@ class MuralsController extends AppController {
             $this->loadModel("Configuracao");
             $configuracao = $this->Configuracao->findById('1');
             $periodo = $configuracao['Configuracao']['mural_periodo_atual'];
-
+            // die(pr($periodo));
+            
             // Select Instituicoes
             $this->loadModel('Instituicao');
             $instituicoes = $this->Instituicao->find('list', array(

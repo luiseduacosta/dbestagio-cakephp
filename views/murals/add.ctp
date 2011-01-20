@@ -22,7 +22,7 @@ $(document).ready(function(){
 
 <?php echo $form->input('periodo', array('type'=>'hidden', 'value'=>$periodo)); ?>
 
-<?php echo $form->input('id_estagio', array('label'=>'Instituição', 'type'=>'select', 'options'=>$instituicoes)); ?>
+<?php echo $form->input('id_estagio', array('label'=>'Instituição (se a instituição não está cadastrada, tem que cadastrar no menu Instituições)', 'type'=>'select', 'options'=>$instituicoes)); ?>
 
 <?php echo $form->input('convenio', array('label'=>'Convênio com a UFRJ', 'type'=>'select', 'options'=>array('0'=>'Não', '1'=>'Sim'), 'selected'=>0)); ?>
 

@@ -69,7 +69,7 @@
                 <?php
                 if ($this->Session->read('user')) {
                     echo "<p style='color:black'>" . $this->Session->read('user') . " | ";
-                    echo $html->link('Sair', '/Users/logout/') . "</p>";
+                    echo $html->link('Sair', '/users/logout/') . "</p>";
                     }
                 ?>
             </div>

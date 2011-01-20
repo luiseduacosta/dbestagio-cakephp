@@ -108,7 +108,7 @@ class Mural extends AppModel {
             'allowEmpty' => FALSE,
             'message' => 'Formato inválido'
         ),
-
+        
         'email' => array(
             'rule' => 'email',
             'required' => TRUE,

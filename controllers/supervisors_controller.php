@@ -6,6 +6,28 @@ class SupervisorsController extends AppController {
 
     // var $scaffold;
 
+    function beforeFilter() {
+
+        parent::beforeFilter();
+        if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
+            $this->Auth->allowedActions = array('*');
+            $this->Session->setFlash("Administrador");
+            // echo "Administrador";
+        // Supervisores podem inserir e atualizar a informação
+        } elseif ($this->Acl->check($this->Session->read('user'), 'supervisors', 'create')) {
+            $this->Auth->allowedActions = array('index', 'view', 'busca', 'add', 'addinstituicao', 'deleteassociacao', 'edit');
+            $this->Session->setFlash("Supervisor");
+            // echo "Inserir";
+        } elseif ($this->Acl->check($this->Session->read('user'), 'supervisors', 'read')) {
+            $this->Auth->allowedActions = array('index', 'view', 'busca');
+            $this->Session->setFlash("Supervisor/Professor");
+            // echo "Ver";
+        } else {
+            $this->Session->setFlash("Não autorizado");
+        }
+        // die(pr($this->Session->read('user')));
+    }
+
     function index($id = NULL) {
 
         $this->paginate = array(

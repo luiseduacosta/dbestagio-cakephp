@@ -6,6 +6,19 @@ class ConfiguracaosController extends AppController {
 
     // var $scaffold;
 
+    function beforeFilter() {
+
+        parent::beforeFilter();
+        // Admin
+        if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
+            $this->Auth->allowedActions = array('*');
+            $this->Session->setFlash("Administrador");
+        } else {
+            $this->Session->setFlash("Não autorizado");
+        }
+        // die(pr($this->Session->read('user')));
+    }
+
     function view($id = NULL) {
 
         $configuracao = $this->Configuracao->find('first');

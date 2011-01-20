@@ -1,6 +1,5 @@
 <?php echo $html->link('Inserir', '/Areas/add/'); ?>
-<?php echo " | "; ?>
-<?php echo $html->link('Buscar', '/Areas/busca/'); ?>
+
 
 <br />
 

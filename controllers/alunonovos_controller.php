@@ -9,11 +9,20 @@ class AlunonovosController extends AppController {
     function beforeFilter() {
 
         parent::beforeFilter();
-        if ($this->Acl->check($this->Session->read('user'), 'inscricaos', '*')) {
-            $this->Auth->allowedActions = array('add', 'edit');
-            echo "Autorizado";
+        // Admin
+        if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
+            $this->Auth->allowedActions = array('*');
+            $this->Session->setFlash("Administrador");
+        // Professores, Supervisores e Estudantes
+        } elseif ($this->Acl->check($this->Session->read('user'), 'alunonovos', 'create')) {
+            $this->Auth->allowedActions = array('add', 'index', 'view', 'busca', 'busca_cpf', 'busca_dre', 'busca_email', 'edit');
+            $this->Session->setFlash("Estudante");
+        // Professores, Supervisores e Estudantes
+        } elseif ($this->Acl->check($this->Session->read('user'), 'alunonovos', 'read')) {
+            $this->Auth->allowedActions = array('index', 'view', 'busca', 'busca_cpf', 'busca_dre', 'busca_email');
+            $this->Session->setFlash("Professor/Supervisor");
         } else {
-            echo "Não autorizaado";
+            $this->Session->setFlash("Não autorizado");
         }
         // die(pr($this->Session->read('user')));
     }
