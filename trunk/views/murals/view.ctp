@@ -21,8 +21,8 @@ echo $html->link('Enviar inscrições por email','/Inscricaos/emailparainstituic
 <table>
     <thead>
         <tr>
-            <td></td>
-            <td></td>
+            <td width="20%"></td>
+            <td width="80%"></td>
         </tr>
     </thead>
     <tbody>
@@ -149,7 +149,7 @@ echo $html->link('Enviar inscrições por email','/Inscricaos/emailparainstituic
         </tr>
 
         <tr>
-            <td>Email enviado</td>
+            <td>Email enviado (preenchimento automático)</td>
             <td><?php
                 if ($mural['Mural']['datafax']) {
                     echo date('d-m-Y', strtotime($mural['Mural']['datafax']));
@@ -158,11 +158,6 @@ echo $html->link('Enviar inscrições por email','/Inscricaos/emailparainstituic
                 }
                 ?>
             </td>
-        </tr>
-
-        <tr>
-            <td>Data de envio do email</td>
-            <td><?php echo $mural['Mural']['datafax']; ?></td>
         </tr>
 
         <tr>

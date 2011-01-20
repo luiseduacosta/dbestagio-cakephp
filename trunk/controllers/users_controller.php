@@ -4,15 +4,12 @@ class UsersController extends AppController {
 
     var $name = 'Users';
 
-    function beforeFilter() {
-
+    function  beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allowedActions = array('*');
     }
 
     function login() {
-
-        // $this->Session->delete('user');
 
         if (!empty($this->data)) {
 
@@ -21,7 +18,6 @@ class UsersController extends AppController {
             // pr($usuario);
             // die(pr(sha1($this->Auth->data['User']['password'])));
             if ($usuario && $usuario['User']['password'] == sha1($this->Auth->data['User']['password'])) {
-
                 $this->Session->write('user', $usuario['User']['email']);
                 $this->Session->setFlash('Bem-vindo: ' . $this->Session->read('user'));
                 $this->redirect('/murals/index/');
@@ -35,6 +31,7 @@ class UsersController extends AppController {
 
     function logout() {
         $this->Session->delete('user');
+        $this->Session->setFlash('Saida!');
         $this->redirect($this->Auth->logout());
     }
 

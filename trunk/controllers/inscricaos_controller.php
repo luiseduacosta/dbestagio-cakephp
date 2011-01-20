@@ -8,14 +8,40 @@ class InscricaosController extends AppController {
     function beforeFilter() {
 
         parent::beforeFilter();
-        if ($this->Acl->check($this->Session->read('user'), 'inscricaos', '*')) {
-            $this->Auth->allowedActions = array('index', 'view', 'add', 'inscricao', 'termosolicita', 'termocompromisso', 'termocadastra', 'termoimprime');
+        // Admin
+        if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
+            $this->Auth->allowedActions = array('*');
+            $this->Session->setFlash('Administrador');
+            // echo "Tudo";
+        // Estudantes podem fazer inscricao e solicitar termo de compromisso
+        } elseif ($this->Acl->check($this->Session->read('user'), 'inscricaos', 'create')) {
+            $this->Auth->allowedActions = array('add', 'inscricao', 'index', 'view', 'termosolicita', 'termocompromisso', 'termocadastra', 'termoimprime');
+            $this->Session->setFlash('Estudante');
+            // echo "Criar";
+        // Professores e supervisores podem ver (index e view)
+        } elseif ($this->Acl->check($this->Session->read('user'), 'inscricaos', 'read')) {
+            $this->Auth->allowedActions = array('index', 'view');
+            $this->Session->setFlash('Professor/Supervisor');
+            // echo "Atualizar";
+        } else {
+            $this->Session->setFlash("Não autorizado");
+        }
+        // die(pr($this->Session->read('user')));
+    }
+
+/*
+    function beforeFilter() {
+
+        parent::beforeFilter();
+        if ($this->Acl->check($this->Session->read('user'), 'inscricaos', 'add')) {
+            $this->Auth->allowedActions = array('add', 'inscricao', 'index', 'view', 'termosolicita', 'termocompromisso', 'termocadastra', 'termoimprime');
             echo "Autorizado";
         } else {
             echo "Não autorizaado";
         }
         // die(pr($this->Session->read('user')));
     }
+*/
 
     function index($id = NULL) {
 

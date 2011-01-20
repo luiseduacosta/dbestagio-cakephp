@@ -6,6 +6,26 @@ class AreasController extends AppController {
 
     // var $scaffold;
 
+    function beforeFilter() {
+
+        parent::beforeFilter();
+        // Admin
+        if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
+            $this->Auth->allowedActions = array('*');
+            $this->Session->setFlash("Administrador");
+        // Professores somente (podem fazer tudo)
+        } elseif ($this->Acl->check($this->Session->read('user'), 'areas', 'create')) {
+            $this->Auth->allowedActions = array('*');
+            $this->Session->setFlash("Professor");
+        } elseif ($this->Acl->check($this->Session->read('user'), 'areas', 'read')) {
+            $this->Auth->allowedActions = array('index', 'view');
+            $this->Session->setFlash("Estudante/Supervisor");
+        } else {
+            $this->Session->setFlash("Não autorizado");
+        }
+        // die(pr($this->Session->read('user')));
+    }
+
     function index($id = NULL) {
 
         $areas = $this->Area->find('all', array(

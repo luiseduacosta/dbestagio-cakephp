@@ -2,27 +2,48 @@
 
 class ProfessorsController extends AppController {
 
-	var $name = "Professors";
-	// var $scaffold;
+    var $name = "Professors";
 
-	function index($id = NULL) {
+    // var $scaffold;
 
-		$this->Paginate = array(
-			'limit'=>10,
-			'order'=>array('Professor.nome'=>'asc'));
+    function beforeFilter() {
 
-		$this->set('professores', $this->Paginate('Professor'));
+        parent::beforeFilter();
+        // Admin
+        if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
+            $this->Auth->allowedActions = array('*');
+            $this->Session->setFlash("Administrador");
+        // Professores
+        } elseif ($this->Acl->check($this->Session->read('user'), 'professors', 'update')) {
+            $this->Auth->allowedActions = array('index', 'view', 'edit');
+            $this->Session->setFlash("Professor");
+        // Outros (p. ex. professores)
+        } elseif ($this->Acl->check($this->Session->read('user'), 'professors', 'read')) {
+            $this->Auth->allowedActions = array('index', 'view', 'busca');
+            $this->Session->setFlash("Estudante/Professor/Supervisor");
+        } else {
+            $this->Session->setFlash("Não autorizado");
+        }
+        // die(pr($this->Session->read('user')));
+    }
 
-	}
+    function index($id = NULL) {
 
-	function view($id = NULL) {
+        $this->Paginate = array(
+            'limit' => 10,
+            'order' => array('Professor.nome' => 'asc'));
 
-		// Configure::write('debug', 0);
-		$professor = $this->Professor->find('first', array(
-		'conditions'=>array('Professor.id'=>$id),
-		'order'=>'Professor.nome'));
+        $this->set('professores', $this->Paginate('Professor'));
+    }
 
-		// pr($professor);
+    function view($id = NULL) {
+
+        // Configure::write('debug', 0);
+        $professor = $this->Professor->find('first', array(
+                    'conditions' => array('Professor.id' => $id),
+                    'order' => 'Professor.nome'));
+
+        // pr($professor);
 
         $proximo = $this->Professor->find('neighbors', array(
                     'field' => 'nome', 'value' => $professor['Professor']['nome']));
@@ -31,36 +52,33 @@ class ProfessorsController extends AppController {
         $this->set('registro_prev', $proximo['prev']['Professor']['id']);
 
         $this->set('professor', $professor);
+    }
 
-	}
+    function edit($id = NULL) {
 
-	function edit($id = NULL) {
+        $this->Professor->id = $id;
 
-		$this->Professor->id = $id;
+        if (empty($this->data)) {
+            $this->data = $this->Professor->read();
+        } else {
+            if ($this->Professor->save($this->data)) {
+                // print_r($this->data);
+                $this->Session->setFlash("Atualizado");
+                $this->redirect('/Professors/view/' . $id);
+            }
+        }
+    }
 
-		if (empty($this->data)) {
-			$this->data = $this->Professor->read();
-		} else {
-			if ($this->Professor->save($this->data)) {
-				// print_r($this->data);
-				$this->Session->setFlash("Atualizado");
-				$this->redirect('/Professors/view/' . $id);
-			}
-		}
+    function add($id = NULL) {
 
-	}
-
-	function add($id = NULL) {
-
-		if ($this->data) {
-			if ($this->Professor->save($this->data)) {
-				$this->Session->setFlash('Dados inseridos');
-				$this->Professor->getLastInsertId();
-				$this->redirect('/Professors/view/' . $this->Professor->getLastInsertId());
-			}
-		}
-
-	}
+        if ($this->data) {
+            if ($this->Professor->save($this->data)) {
+                $this->Session->setFlash('Dados inseridos');
+                $this->Professor->getLastInsertId();
+                $this->redirect('/Professors/view/' . $this->Professor->getLastInsertId());
+            }
+        }
+    }
 
 }
 

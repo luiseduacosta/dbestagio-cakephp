@@ -7,6 +7,27 @@ class InstituicaosController extends AppController {
     // var $scaffold;
     // var $helpers = array('Js', array('Jquery'));
 
+    function beforeFilter() {
+
+        parent::beforeFilter();
+        // Admin
+        if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
+            $this->Auth->allowedActions = array('*');
+            $this->Session->setFlash("Administrador");
+        // Supervisores (inserir instituição para estágio)
+        } elseif ($this->Acl->check($this->Session->read('user'), 'instituicaos', 'create')) {
+            $this->Auth->allowedActions = array('add', 'index', 'view', 'busca', 'edit', 'addassociacao', 'deleteassociacao', 'seleciona_supervisor');
+            $this->Session->setFlash("Supervisor");
+        // Professores e Estudantes
+        } elseif ($this->Acl->check($this->Session->read('user'), 'instituicaos', 'update')) {
+            $this->Auth->allowedActions = array('index', 'view', 'busca', 'edit');
+            $this->Session->setFlash("Professor/Estudante");
+        } else {
+            $this->Session->setFlash("Não autorizado");
+        }
+        // die(pr($this->Session->read('user')));
+    }
+
     function index($id = NULL) {
 
         $this->paginate = array(
