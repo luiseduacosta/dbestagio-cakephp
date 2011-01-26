@@ -21,7 +21,7 @@ $(document).ready(function(){
 <?php
 
 echo $form->create('Inscricao', array('action'=>'add/' . $id_instituicao));
-echo $form->input('id_aluno', array('label'=>'Registro (DRE)', 'size'=>9, 'maxlenght'=>9));
+echo $form->input('id_aluno', array('label'=>'Registro (DRE)', 'size'=>9, 'maxlenght'=>9, 'default'=>$this->Session->read('numero')));
 echo $form->input('id_instituicao', array('type'=>'hidden', 'value'=>$id_instituicao));
 echo $form->end('Confirma');
 

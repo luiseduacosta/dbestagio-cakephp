@@ -9,15 +9,17 @@ class AlunonovosController extends AppController {
     function beforeFilter() {
 
         parent::beforeFilter();
+        // Para cadastrar usuarios do sistema precisso abrir este metodo
+        $this->Auth->allowedActions = array('add');
         // Admin
         if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
             $this->Auth->allowedActions = array('*');
             $this->Session->setFlash("Administrador");
-        // Professores, Supervisores e Estudantes
+            // Estudantes
         } elseif ($this->Acl->check($this->Session->read('user'), 'alunonovos', 'create')) {
             $this->Auth->allowedActions = array('add', 'index', 'view', 'busca', 'busca_cpf', 'busca_dre', 'busca_email', 'edit');
             $this->Session->setFlash("Estudante");
-        // Professores, Supervisores e Estudantes
+            // Professores e Supervisores
         } elseif ($this->Acl->check($this->Session->read('user'), 'alunonovos', 'read')) {
             $this->Auth->allowedActions = array('index', 'view', 'busca', 'busca_cpf', 'busca_dre', 'busca_email');
             $this->Session->setFlash("Professor/Supervisor");
@@ -58,6 +60,9 @@ class AlunonovosController extends AppController {
             // Acho que posso apagar aqui porque nao vai ser chamado novamente
             $this->Session->delete('termo');
 
+            // Vejo se foi chamado desde cadastro
+            $cadastro = $this->Session->read('cadastro');
+
             $registro = $this->data['Alunonovo']['registro'];
             $this->Session->setFlash("Cadastro realizado");
 
@@ -67,6 +72,8 @@ class AlunonovosController extends AppController {
             } elseif ($registro_termo) {
                 // Volta para a pagina de termo de compromisso
                 $this->redirect('/Inscricaos/termocompromisso/' . $registro_termo);
+            } elseif ($cadastro) {
+                $this->redirec('/Users/cadastro/' . $cadastro);
             } else {
                 // Mostra resultado da insercao
                 $this->Session->setFlash('Dados inseridos');
@@ -87,6 +94,16 @@ class AlunonovosController extends AppController {
      */
 
     function edit($id = NULL) {
+
+        // Somente o próprio pode editar
+        if ($this->Session->read('numero')) {
+            $verifica = $this->Alunonovo->findByRegistro($this->Session->read('numero'));
+            if ($id != $verifica['Alunonovo']['id']) {
+                $this->Session->setFlash("Acesso não autorizado");
+                $this->redirect("/Murals/index");
+                die("Não autorizado");
+            }
+        }
 
         $this->Alunonovo->id = $id;
 
@@ -122,6 +139,20 @@ class AlunonovosController extends AppController {
     }
 
     function view($id = NULL) {
+
+        // echo "Aluno novo";
+        // die(pr($this->Session->read('numero')));
+        // Somente o próprio pode ver
+        if ($this->Session->read('numero')) {
+            $verifica = $this->Alunonovo->findByRegistro($this->Session->read('numero'));
+            // pr($this->Session->read('numero'));
+
+            if ($id != $verifica['Alunonovo']['id']) {
+                $this->Session->setFlash("Acesso não autorizado");
+                $this->redirect("/Murals/index");
+                die("Não autorizado");
+            }
+        }
 
         $aluno = $this->Alunonovo->findById($id);
         // pr($aluno);

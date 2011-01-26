@@ -39,15 +39,6 @@ $("#UserCategoria").change(function() {
 
 <tr>
 	<td colspan='2'>
-	<?php echo $form->input('nome', array('after' => $form->error
-       ('username_unique', 'O nome já está cadastrado.'),
-		'type'=>'text', 'size'=>'20',
-		'label'=>'Nome')); ?>
-	</td>
-</tr>
-
-<tr>
-	<td colspan='2'>
 		<?php echo $form->input('email'); ?>
 	</td>
 </tr>
@@ -56,11 +47,11 @@ $("#UserCategoria").change(function() {
 	<td colspan='2'>
 	<?php echo $form->input('password'); ?>
 	</td>
+</tr>
 
-<tr>
-        <td colspan='2'>
-        <?php echo $form->input('password_confirm', array('type' => 'password')); ?>
-        </td>
+    <td colspan='2'>
+    	<?php echo $form->input('password_confirm', array('type' => 'password')); ?>
+     </td>
 </tr>
 
 </table>

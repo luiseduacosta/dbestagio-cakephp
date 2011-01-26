@@ -68,7 +68,7 @@
                 <?php echo " | "; ?>
                 <?php
                 if ($this->Session->read('user')) {
-                    echo "<p style='color:black'>" . $this->Session->read('user') . " | ";
+                    echo "<p style='color:black'>" . $html->link($this->Session->read('user'), '/Alunos/perfil/' . $this->Session->read('numero')) . " | ";
                     echo $html->link('Sair', '/users/logout/') . "</p>";
                     }
                 ?>

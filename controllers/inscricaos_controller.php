@@ -197,7 +197,7 @@ class InscricaosController extends AppController {
     }
 
     function view($id = NULL) {
-
+    	
         $inscricao = $this->Inscricao->findById($id);
         $this->set('inscricao', $inscricao);
     }

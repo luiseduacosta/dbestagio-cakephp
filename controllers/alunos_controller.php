@@ -4,7 +4,6 @@ class AlunosController extends AppController {
 
     var $name = 'Alunos';
 
-  
     function beforeFilter() {
 
         parent::beforeFilter();
@@ -12,11 +11,11 @@ class AlunosController extends AppController {
         if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
             $this->Auth->allowedActions = array('*');
             $this->Session->setFlash("Administrador");
-        // Estudantes
+            // Estudantes
         } elseif ($this->Acl->check($this->Session->read('user'), 'alunos', 'update')) {
             $this->Auth->allowedActions = array('index', 'view', 'busca', 'busca_cpf', 'busca_dre', 'busca_email', 'edit');
             $this->Session->setFlash("Estudante");
-        // Professores, Supervisores
+            // Professores, Supervisores
         } elseif ($this->Acl->check($this->Session->read('user'), 'alunos', 'read')) {
             $this->Auth->allowedActions = array('index', 'view', 'busca', 'busca_cpf', 'busca_dre', 'busca_email');
             $this->Session->setFlash("Professor/Supervisor");
@@ -38,6 +37,20 @@ class AlunosController extends AppController {
     }
 
     function view($id = NULL) {
+
+        // echo "Aluno";
+        // die(pr($this->Session->read('numero')));
+
+        // Somente o próprio pode ver
+        if ($this->Session->read('numero')) {
+            // die(pr($this->Session->read('numero')));
+            $verifica = $this->Aluno->findByRegistro($this->Session->read('numero'));
+            if ($id != $verifica['Aluno']['id']) {
+                $this->Session->setFlash("Acesso não autorizado");
+                $this->redirect("/Murals/index");
+                die("Não autorizado");
+            }
+        }
 
         $instituicao = $this->Aluno->findById($id);
         // print_r($instituicao['Estagiario']);
@@ -61,6 +74,15 @@ class AlunosController extends AppController {
     }
 
     function edit($id = NULL) {
+
+        if ($this->Session->read('numero')) {
+            $verifica = $this->Aluno->findByRegistro($this->Session->read('numero'));
+            if ($id != $verifica['Aluno']['id']) {
+                $this->Session->setFlash("Acesso não autorizado");
+                $this->redirect("/Murals/index");
+                die("Não autorizado");
+            }
+        }
 
         $this->Aluno->id = $id;
 
@@ -90,7 +112,7 @@ class AlunosController extends AppController {
         }
     }
 
-    function delete($id) {
+    function delete($id = NULL) {
 
         // Se tem pelo menos um estagio nao excluir
         $estagiario = $this->Aluno->Estagiario->findById_aluno($id);
