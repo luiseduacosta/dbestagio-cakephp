@@ -14,7 +14,7 @@ class InstituicaosController extends AppController {
         if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
             $this->Auth->allowedActions = array('*');
             $this->Session->setFlash("Administrador");
-        // Supervisores (inserir instituição para estágio)
+        // Supervisores (inserir instituição para mural de estágio)
         } elseif ($this->Acl->check($this->Session->read('user'), 'instituicaos', 'create')) {
             $this->Auth->allowedActions = array('add', 'index', 'view', 'busca', 'edit', 'addassociacao', 'deleteassociacao', 'seleciona_supervisor');
             $this->Session->setFlash("Supervisor");

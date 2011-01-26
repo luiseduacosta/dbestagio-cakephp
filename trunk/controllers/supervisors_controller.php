@@ -20,7 +20,7 @@ class SupervisorsController extends AppController {
             // echo "Inserir";
         } elseif ($this->Acl->check($this->Session->read('user'), 'supervisors', 'read')) {
             $this->Auth->allowedActions = array('index', 'view', 'busca');
-            $this->Session->setFlash("Supervisor/Professor");
+            $this->Session->setFlash("Estudante/Professor");
             // echo "Ver";
         } else {
             $this->Session->setFlash("Não autorizado");

@@ -17,10 +17,10 @@ class ProfessorsController extends AppController {
         } elseif ($this->Acl->check($this->Session->read('user'), 'professors', 'update')) {
             $this->Auth->allowedActions = array('index', 'view', 'edit');
             $this->Session->setFlash("Professor");
-        // Outros (p. ex. professores)
+        // Estudantes e supervisores
         } elseif ($this->Acl->check($this->Session->read('user'), 'professors', 'read')) {
             $this->Auth->allowedActions = array('index', 'view', 'busca');
-            $this->Session->setFlash("Estudante/Professor/Supervisor");
+            $this->Session->setFlash("Estudante/Supervisor");
         } else {
             $this->Session->setFlash("Não autorizado");
         }
@@ -39,6 +39,19 @@ class ProfessorsController extends AppController {
     function view($id = NULL) {
 
         // Configure::write('debug', 0);
+
+        // Somente o próprio pode ver
+        if ($this->Session->read('numero')) {
+            // die(pr($this->Session->read('numero')));
+            $verifica = $this->Professor->findBySiape($this->Session->read('numero'));
+            if ($id != $verifica['Professor']['id']) {
+                $this->Session->setFlash("Acesso não autorizado");
+                $this->redirect("/Professors/index");
+                die("Não autorizado");
+            }
+        }
+
+
         $professor = $this->Professor->find('first', array(
                     'conditions' => array('Professor.id' => $id),
                     'order' => 'Professor.nome'));

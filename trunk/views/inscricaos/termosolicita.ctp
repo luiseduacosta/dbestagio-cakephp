@@ -3,7 +3,7 @@
 <?php
 
 echo $form->create('Inscricao');
-echo $form->input('id_aluno', array('label'=>'Registro (DRE)', 'size'=>'9', 'maxlength'=>'9'));
+echo $form->input('id_aluno', array('label'=>'Registro (DRE)', 'size'=>'9', 'maxlength'=>'9', 'default'=>$this->Session->read('numero')));
 echo $form->end('Confirma');
 
 ?>

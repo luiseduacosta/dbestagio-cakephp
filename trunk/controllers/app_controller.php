@@ -35,45 +35,42 @@
  */
 class AppController extends Controller {
 
-    var $components = array('Auth', 'Acl', 'Session');
+	var $components = array('Auth', 'Acl', 'Session');
 
-    function beforeFilter() {
-        //Configure AuthComponent
+	function beforeFilter() {
+		//Configure AuthComponent
 
-        $this->Auth->userModel = 'User';
-        $this->Auth->fields = array('username' => 'email', 'password' => 'password');
+		$this->Auth->userModel = 'User';
+		$this->Auth->fields = array('username' => 'email', 'password' => 'password');
 
-        $this->Auth->loginAction = array('controller' => 'users', 'action' => 'login');
-        $this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
-        $this->Auth->loginRedirect = array('controller' => 'murals', 'action' => 'index');
+		$this->Auth->loginAction = array('controller' => 'users', 'action' => 'login');
+		$this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
+		$this->Auth->loginRedirect = array('controller' => 'murals', 'action' => 'index');
 
-        $this->Auth->actionPath = "controllers/";
-        /*
-          $this->Auth->mapActions(array(
-          'create' => array('add'),
-          'read' => array('index', 'view'),
-          'update' => array('edit'),
-          'delete' => array('delete')
-          )
-          );
-         */
-        /*
-          $this->Auth->mapActions(array(
-          'add' => array('create'),
-          'index' => array('read'),
-          'view' => array('read'),
-          'edit' => array('update'),
-          'delete' => array('delete')
-          )
-          );
-         */
+		$this->Auth->actionPath = "controllers/";
 
-        $this->Auth->authError = "Acesso não autorizado";
+		// $this->Auth->authorize = "actions";
+		$this->Auth->authorize = "crud";
 
-        $this->Auth->allow('display');
+		$this->Auth->mapActions(array(
+          	'create' => array('add'),
+          	'read' => array('index', 'view'),
+          	'update' => array('edit'),
+          	'delete' => array('delete')
+			)
+		);
 
-        $this->Auth->authorize = 'actions';
+		$this->Auth->authError = "Acesso não autorizado";
 
-    }
+		$this->Auth->allow("display");
+
+		/*
+		 * Por enquanto nao sei o que fazer com esta informação
+		$user = $this->Session->read('user');
+		$aco = $this->params['controller'];
+		$metodo = $this->params['action'];
+		*/
+		
+	}
 
 }
