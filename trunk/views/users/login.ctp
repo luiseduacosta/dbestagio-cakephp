@@ -20,7 +20,7 @@ echo $this->Form->create('User', array('action'=>'login'));
             Prezados usuários,
             <br />
             <br />
-            Agora, para fazer inscrição para seleção de estágio, assim como também, para solicitar o termo de compromisso, é necessário estar cadastrado como usuário do sistema.
+            Agora, para fazer inscrição para seleção de estágio, assim como também, para solicitar o termo de compromisso, é necessário estar <?php echo $html->link('cadastrado', '/Users/cadastro/'); ?> como usuário do sistema.
             <br />
             <br />
             Os estudantes cadastrados poderão, além de fazer inscrição para seleção de estágio e solcitar o termo de compromisso, atualizar a informação sobre seus dados pessoais, assim como também poderão, atualizar a informação sobre as instituições campos de estágio da ESS/UFRJ.
@@ -33,6 +33,6 @@ echo $this->Form->create('User', array('action'=>'login'));
 
 <?php
 
-echo $this->Html->link('Cadastro', '/Users/cadastro/');
+echo $this->Html->link('Fazer cadastro', '/Users/cadastro/');
 
 ?>

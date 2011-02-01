@@ -10,9 +10,10 @@
 <?php echo $html->link('Busca por CPF','/alunos/busca_cpf'); ?>
 </p>
 
-<h1>Busca por nome</h1>
 
 <?php if (isset($alunos)): ?>
+
+<h1>Resultada da busca por nome de estudante</h1>
 
     <?php $paginator->options(array('url'=>array($nome))); ?>
 
@@ -29,6 +30,8 @@
     </table>
 
 <?php else: ?>
+
+<h1>Busca por nome</h1>
 
     <?php echo $form->create('Aluno', array('controller'=>'Alunos','action'=>'busca')); ?>
     <?php echo $form->input('nome',array('label'=>'Digite o nome do aluno')); ?>

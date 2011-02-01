@@ -6,6 +6,8 @@ class Alunonovo extends AppModel {
     var $useTable = 'alunosNovos';
     var $primaryKey = 'id';
     var $displayField = 'nome';
+
+    // Acho que está errado
     var $hasAndBelongsToMany = array(
         'Mural' => array(
             'className' => 'Mural',

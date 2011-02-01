@@ -21,8 +21,15 @@
  * @lastmodified  $Date$
  * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
  */
+?>
 
-echo "Bem-vindos à nova página da Coordenação de Estágio e Extensão";
+<div align="center">
+
+    <h1>Bem-vindos à nova página da Coordenação de Estágio e Extensão</h1>
+    <h2>(em construção)</h2>
+</div>
+
+<?php
 
 /*
 if (Configure::read() == 0):
@@ -31,5 +38,4 @@ endif;
 */
 
 ?>
-
 

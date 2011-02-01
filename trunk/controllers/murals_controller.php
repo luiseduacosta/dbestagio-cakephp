@@ -239,16 +239,16 @@ class MuralsController extends AppController {
             'port' => '465',
             'timeout' => '30',
             'host' => 'ssl://smtp.gmail.com',
-            'username' => 'luiseduacosta',
-            'password' => 'aua15912',
+            'username' => 'estagio.ess@gmai.com',
+            'password' => 'essufrjestagio',
         );
         /* Set delivery method */
         $this->Email->delivery = 'smtp';
         //$this->Email->to = $user['email'];
-        $this->Email->to = 'uy_luis@hotmail.com';
+        $this->Email->to = 'estagio_ess@googlegroups.com';
         $this->Email->subject = $mural[0]['Mural']['instituicao'];
-        $this->Email->replyTo = 'Luis <luiseduacosta@gmail.com';
-        $this->Email->from = 'Luis <luiseduacosta@gmail.com>';
+        $this->Email->replyTo = '"ESS/UFRJ - Estágio" <estagio@ess.ufrj.br>';
+        $this->Email->from = '"ESS/UFRJ - Estágio" <estagio@ess.ufrj.br>';
         $this->Email->template = 'google'; // note no '.ctp'
         //Send as 'html', 'text' or 'both' (default is 'text')
         $this->Email->sendAs = 'html'; // because we like to send pretty mail

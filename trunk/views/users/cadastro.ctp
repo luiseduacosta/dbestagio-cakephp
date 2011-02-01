@@ -4,7 +4,10 @@ echo $html->script("jquery", array('inline'=>false));
 echo $html->scriptBlock('
 
 $(document).ready(function() {
+$("#UserNumero").hide();
 $("#UserCategoria").change(function() {
+
+        $("#UserNumero").show();
 
 	var categoria = $(this).val();
 
@@ -14,7 +17,10 @@ $("#UserCategoria").change(function() {
 		$("label:eq(1)").text("SIAPE");
 	} else if (categoria == 3) {
 		$("label:eq(1)").text("CRESS 7ª Região");
-	}
+	} else {
+            $("#UserNumero").hide();
+            $("label:eq(1)").text("Selecione uma categoria de usuário");
+        }
 
 	})
 })
@@ -33,7 +39,7 @@ $("#UserCategoria").change(function() {
 		<?php echo $form->input('categoria', array('options'=>array('9'=>'- Selecione -', '1'=>'Estudante', '2'=>'Professor', '3'=>'Supervisor'), 'default'=>'9')); ?>
 	</td>
 	<td>
-		<?php echo $form->input('numero', array('label'=>'Selecione a categoria de usuário no box anterior')); ?>
+		<?php echo $form->input('numero', array('label'=>'Selecione a categoria de usuário')); ?>
 	</td>
 </tr>
 
@@ -49,6 +55,7 @@ $("#UserCategoria").change(function() {
 	</td>
 </tr>
 
+<tr>
     <td colspan='2'>
     	<?php echo $form->input('password_confirm', array('type' => 'password')); ?>
      </td>

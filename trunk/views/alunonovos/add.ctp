@@ -34,7 +34,7 @@ $(document).ready(function(){
 
         <tr>
         <td colspan="2">
-            <?php echo $form->input('registro', array('type'=>'hidden', 'value'=>$registro, 'default'=>$this->Session->read('numero')); ?>
+            <?php echo $form->input('registro', array('type'=>'hidden', 'value'=>$registro, 'default'=>$this->Session->read('numero'))); ?>
         </td>
         </tr>
 
@@ -61,7 +61,7 @@ $(document).ready(function(){
 
         <tr>
             <td colspan="2">
-            <?php echo $form->input('email', array('default'=>$this->Session->read('user'); ?>
+            <?php echo $form->input('email', array('default'=>$this->Session->read('user'))); ?>
             </td>
         </tr>
 

@@ -1,7 +1,6 @@
-
-<h1>Busca supervisores</h1>
-
 <?php if (isset($supervisores)): ?>
+
+<h1>Resultado da busca por supervisores</h1>
 
     <?php $this->Paginator->options(array('url'=>array($busca))); ?>
 
@@ -20,6 +19,8 @@
     </table>
 
 <?php else: ?>
+
+<h1>Busca supervisores</h1>
 
     <?php echo $form->create('Supervisor', array('controller'=>'Supervisor','action'=>'busca')); ?>
     <?php echo $form->input('nome',array('label'=>'Digite o nome do supervisor')); ?>
