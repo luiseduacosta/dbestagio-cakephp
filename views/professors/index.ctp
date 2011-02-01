@@ -1,8 +1,10 @@
 <?php
 
-echo $html->link('Inserir','/Professors/add/');
+echo $html->link('Inserir', '/Professors/add/');
 echo " | ";
-echo $html->link('Buscar','/Professors/busca/');
+echo $html->link('Buscar', '/Professors/busca/');
+echo " | ";
+echo $html->link('Áreas', '/Areas/index/');
 
 ?>
 

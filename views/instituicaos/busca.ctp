@@ -1,6 +1,7 @@
-<h1>Busca instituições</h1>
 
 <?php if (isset($instituicoes)): ?>
+
+<h1>Resultado da busca de instituições</h1>
 
     <?php $this->Paginator->options(array('url'=>array($busca))); ?>
 
@@ -19,6 +20,8 @@
     </table>
 
 <?php else: ?>
+
+<h1>Busca instituições</h1>
 
     <?php echo $form->create('Instituicao', array('controller'=>'Instituicao','action'=>'busca')); ?>
     <?php echo $form->input('instituicao',array('label'=>'Digite o nome da instituição')); ?>

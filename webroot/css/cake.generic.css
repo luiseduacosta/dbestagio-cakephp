@@ -30,13 +30,12 @@ body {
 	margin: 0;
 }
 a {
-	color: #003d4c;
-	text-decoration: underline;
-	font-weight: bold;
+	color: #333333;
+	text-decoration: none;
 }
 a:hover {
-	color: #367889;
-	text-decoration:none;
+	color: #333333;
+	text-decoration: underline;
 }
 a img {
 	border:none;
@@ -48,7 +47,8 @@ h1, h2, h3, h4 {
 h1 {
 	background:#fff;
 	color: #003d4c;
-	font-size: 130%
+	font-size: 130%;
+        padding-top: 10px;
 }
 h2 {
 	background:#fff;
@@ -75,31 +75,45 @@ ul, li {
 }
 
 #header{
-	padding: 10px 20px;
+	padding: 15px 10px 5px;
+        background: #1a2d65;
 }
 #menu {
-	background: yellow;
+	background: #2b6c9c;
 	padding: 1px 20px;
 }
-#header h1 {
-	line-height:40px;
-	background: #fff url('../img/minerva.icon.png') no-repeat left;
+
+#menu a {
 	color: #fff;
-	padding: 0px 50px;
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+#menu a:hover {
+	color: #000;
+	text-decoration:none;
+}
+
+
+#header h1 {
+	line-height:10px;
+	background: #1a2d65 url('../img/minerva_transparente.png') no-repeat left;
+	color: #fff;
+	padding: 0px 90px;
 }
 #header h1 a {
-	color: red;
-	background: #fff;
+	color: #fff;
+	background: #1a2d65;
 	font-weight: normal;
 	text-decoration: none;
 }
 #header h1 a:hover {
 	color: #fff;
-	background: #003d4c;
+	background: #1a2d65;
 	text-decoration: underline;
 }
 #content{
-	background: #fff;
+	background: #eff8ff;
 	clear: both;
 	color: #333;
 	padding: 10px 20px 40px 20px;
@@ -162,7 +176,7 @@ table tr td {
 	padding: 6px;
 	text-align: left;
 	vertical-align: top;
-	border-bottom:1px solid #ddd;
+	border-bottom: 1px solid #ddd;
 }
 table tr:nth-child(2n) td {
 	background: #f5f5f5;
@@ -327,26 +341,26 @@ input[type=submit] {
 	width: auto;
 }
 form .submit input[type=submit] {
-	background:#62af56;
-	background: -webkit-gradient(linear, left top, left bottom, from(#a8ea9c), to(#62af56));
-	background-image: -moz-linear-gradient(top, #a8ea9c, #62af56);
-	border-color: #2d6324;
-	color: #000;
-	text-shadow: #8cee7c 0px 1px 0px;
+	background:#2b6c9c;
+	background: -webkit-gradient(linear, left top, left bottom, from(#1a2d65), to(#2b6c9c));
+	background-image: -moz-linear-gradient(top, #1a2d65, #2b6c9c);
+	border-color: #2b6c9c;
+	color: #fff;
+	text-shadow: #1a2d65 0px 1px 0px;
 }
 form .submit input[type=submit]:hover {
-	background:#4ca83d;
-	background: -webkit-gradient(linear, left top, left bottom, from(#85e573), to(#4ca83d));
-	background-image: -moz-linear-gradient(top, #85e573, #4ca83d);
+	background:#1a2d65;
+	background: -webkit-gradient(linear, left top, left bottom, from(#2b6c9c), to(#1a2d65));
+	background-image: -moz-linear-gradient(top, #2b6c9c, #1a2d65);
 }
 
 /** Notices and Errors **/
 div.message {
 	clear: both;
 	color: #fff;
-	font-size: 140%;
+	font-size: 100%;
 	font-weight: bold;
-	margin: 0 0 1em 0;
+	margin: 0 0 .5em 0;
 	background: #c73e14;
 	padding: 5px;
 }
@@ -360,7 +374,7 @@ p.error {
 	background-color: #e32;
 	color: #fff;
 	font-family: Courier, monospace;
-	font-size: 120%;
+	font-size: 100%;
 	line-height: 140%;
 	padding: 0.8em;
 	margin: 1em 0;
@@ -536,4 +550,29 @@ div.code-coverage-results span.result-ok {
 }
 div.code-coverage-results span.result-good {
 	color: #0a0;
+}
+
+/* */
+div#estagiario_seleciona select {
+    font-size: 90%;
+}
+div#estagiario_seleciona table {
+    width: 99%;
+}
+div#estagiario_seleciona tr {
+    line-height: 10px;
+}
+div#estagiario_seleciona td {
+    padding-left: 5px;
+}
+div#estagiario_seleciona label {
+	display: block;
+	font-size: 80%;
+	margin-bottom: 5px;
+}
+div#estagiario_seleciona form div {
+	clear: both;
+	margin-bottom: 0px;
+	padding: 0px;
+	vertical-align: text-top;
 }

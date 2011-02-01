@@ -47,6 +47,9 @@ class AppController extends Controller {
 		$this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
 		$this->Auth->loginRedirect = array('controller' => 'murals', 'action' => 'index');
 
+                $this->Auth->loginError = 'Nome de usuario ou senha não conferem!';
+                $this->Auth->authError = 'Area Restrita! Efetue login!';
+
 		$this->Auth->actionPath = "controllers/";
 
 		// $this->Auth->authorize = "actions";

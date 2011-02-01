@@ -18,7 +18,7 @@ class EstagiariosController extends AppController {
         if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
             $this->Auth->allowedActions = array('*');
             $this->Session->setFlash("Administrador");
-        // Professores podem tudo (menos delete) até lançar notas. Supervisores podem tambem mudar os estagiarios?
+        // Professores podem tudo (menos deletar) até lançar notas. Supervisores podem tambem mudar os estagiarios?
         } elseif ($this->Acl->check($this->Session->read('user'), 'estagiarios', 'update')) {
             $this->Auth->allowedActions = array('index', 'view', 'edit');
             $this->Session->setFlash("Professor/Supervisor");

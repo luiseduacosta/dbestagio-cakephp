@@ -48,23 +48,21 @@
             </div>
 
             <div id='menu'>
-                <?php echo $html->link("Login","/Users/login/"); ?>
+                <?php echo $html->link("Login", "/Users/login/"); ?>
                 <?php echo " | "; ?>
-                <?php echo $html->link("Mural","/Murals/"); ?>
+                <?php echo $html->link("Mural", "/Murals/"); ?>
                 <?php echo " | "; ?> 
-                <?php echo $html->link("Termo de compromisso","/Inscricaos/termosolicita"); ?>
+                <?php echo $html->link("Termo de compromisso", "/Inscricaos/termosolicita"); ?>
                 <?php echo " | "; ?> 
-                <?php echo $html->link("Estagiários","/Estagiarios/index"); ?>
+                <?php echo $html->link("Estagiários", "/Estagiarios/index"); ?>
                 <?php echo " | "; ?>
-                <?php echo $html->link("Instituições","/Instituicaos/index"); ?>
+                <?php echo $html->link("Instituições", "/Instituicaos/index", array('escape'=>FALSE)); ?>
                 <?php echo " | "; ?>
-                <?php echo $html->link("Supervisores","/Supervisors/index"); ?>
+                <?php echo $html->link("Supervisores", "/Supervisors/index"); ?>
                 <?php echo " | "; ?>
-                <?php echo $html->link("Professores","/Professors/index"); ?>
+                <?php echo $html->link("Professores", "/Professors/index"); ?>
                 <?php echo " | "; ?>
-                <?php echo $html->link("Áreas","/Areas/index"); ?>
-                <?php echo " | "; ?>
-                <?php echo $html->link("Configuração","/Configuracaos/view/1"); ?>
+                <?php echo $html->link("Configurações", "/Configuracaos/view/1"); ?>
                 <?php echo " | "; ?>
                 <?php
                 if ($this->Session->read('user')) {

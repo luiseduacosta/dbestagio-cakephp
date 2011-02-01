@@ -13,12 +13,12 @@ class InscricaosController extends AppController {
             $this->Auth->allowedActions = array('*');
             $this->Session->setFlash('Administrador');
             // echo "Tudo";
-        // Estudantes podem fazer inscricao e solicitar termo de compromisso
+            // Estudantes podem fazer inscricao e solicitar termo de compromisso
         } elseif ($this->Acl->check($this->Session->read('user'), 'inscricaos', 'create')) {
             $this->Auth->allowedActions = array('add', 'inscricao', 'index', 'view', 'termosolicita', 'termocompromisso', 'termocadastra', 'termoimprime');
             $this->Session->setFlash('Estudante');
             // echo "Criar";
-        // Professores e supervisores podem ver (index e view)
+            // Professores e supervisores podem ver (index e view)
         } elseif ($this->Acl->check($this->Session->read('user'), 'inscricaos', 'read')) {
             $this->Auth->allowedActions = array('index', 'view');
             $this->Session->setFlash('Professor/Supervisor');
@@ -29,19 +29,19 @@ class InscricaosController extends AppController {
         // die(pr($this->Session->read('user')));
     }
 
-/*
-    function beforeFilter() {
+    /*
+      function beforeFilter() {
 
-        parent::beforeFilter();
-        if ($this->Acl->check($this->Session->read('user'), 'inscricaos', 'add')) {
-            $this->Auth->allowedActions = array('add', 'inscricao', 'index', 'view', 'termosolicita', 'termocompromisso', 'termocadastra', 'termoimprime');
-            echo "Autorizado";
-        } else {
-            echo "Não autorizaado";
-        }
-        // die(pr($this->Session->read('user')));
-    }
-*/
+      parent::beforeFilter();
+      if ($this->Acl->check($this->Session->read('user'), 'inscricaos', 'add')) {
+      $this->Auth->allowedActions = array('add', 'inscricao', 'index', 'view', 'termosolicita', 'termocompromisso', 'termocadastra', 'termoimprime');
+      echo "Autorizado";
+      } else {
+      echo "Não autorizaado";
+      }
+      // die(pr($this->Session->read('user')));
+      }
+     */
 
     function index($id = NULL) {
 
@@ -79,7 +79,7 @@ class InscricaosController extends AppController {
                 $inscritos_ordem[$i]['id'] = $c_inscritos['Aluno']['id'];
                 $inscritos_ordem[$i]['id_inscricao'] = $c_inscritos['Inscricao']['id'];
                 $inscritos_ordem[$i]['id_aluno'] = $c_inscritos['Inscricao']['id_aluno'];
-				$inscritos_ordem[$i]['nascimento'] = $c_inscritos['Aluno']['nascimento'];
+                $inscritos_ordem[$i]['nascimento'] = $c_inscritos['Aluno']['nascimento'];
                 $inscritos_ordem[$i]['telefone'] = $c_inscritos['Aluno']['telefone'];
                 $inscritos_ordem[$i]['celular'] = $c_inscritos['Aluno']['celular'];
                 $inscritos_ordem[$i]['email'] = $c_inscritos['Aluno']['email'];
@@ -89,7 +89,7 @@ class InscricaosController extends AppController {
                 $inscritos_ordem[$i]['id'] = $c_inscritos['Alunonovo']['id'];
                 $inscritos_ordem[$i]['id_inscricao'] = $c_inscritos['Inscricao']['id'];
                 $inscritos_ordem[$i]['id_aluno'] = $c_inscritos['Inscricao']['id_aluno'];
-				$inscritos_ordem[$i]['nascimento'] = $c_inscritos['Alunonovo']['nascimento'];
+                $inscritos_ordem[$i]['nascimento'] = $c_inscritos['Alunonovo']['nascimento'];
                 $inscritos_ordem[$i]['telefone'] = $c_inscritos['Alunonovo']['telefone'];
                 $inscritos_ordem[$i]['celular'] = $c_inscritos['Alunonovo']['celular'];
                 $inscritos_ordem[$i]['email'] = $c_inscritos['Alunonovo']['email'];
@@ -114,12 +114,12 @@ class InscricaosController extends AppController {
         /* Fim da conta da quantidade de alunos novos e estagiarios */
 
         // pr($inscritos[0]['Mural']['instituicao']);
-		if (isset($inscritos[0]['Mural']['instituicao'])) {
-        	$this->set('instituicao', $inscritos[0]['Mural']['instituicao']);
-		}
-		if (isset($inscritos[0]['Inscricao']['id_instituicao'])) {
-        	$this->set('mural_id', $inscritos[0]['Inscricao']['id_instituicao']);
-		}
+        if (isset($inscritos[0]['Mural']['instituicao'])) {
+            $this->set('instituicao', $inscritos[0]['Mural']['instituicao']);
+        }
+        if (isset($inscritos[0]['Inscricao']['id_instituicao'])) {
+            $this->set('mural_id', $inscritos[0]['Inscricao']['id_instituicao']);
+        }
         $this->set('inscritos', $inscritos_ordem);
     }
 
@@ -197,7 +197,7 @@ class InscricaosController extends AppController {
     }
 
     function view($id = NULL) {
-    	
+
         $inscricao = $this->Inscricao->findById($id);
         $this->set('inscricao', $inscricao);
     }
@@ -222,7 +222,6 @@ class InscricaosController extends AppController {
         $this->Inscricao->delete($id);
         $this->Session->setFlash("Inscrição excluída");
         $this->redirect('/Inscricaos/index/' . $instituicao['Inscricao']['id_instituicao']);
-
     }
 
     function emailparainstituicao($id = NULL) {
@@ -274,8 +273,8 @@ class InscricaosController extends AppController {
                 // $this->Email->to = $user['email'];
                 $this->Email->to = 'uy_luis@hotmail.com'; // $incritos[0]['Mural']['email']
                 $this->Email->subject = 'ESS/UFRJ: Estudantes inscritos para seleção de estágio';
-                $this->Email->replyTo = '"Coordenação de Estágio e Extensão" <estagio@ess.ufrj.br>';
-                $this->Email->from = '"Coordenação de Estágio e Extensão" <estagio.ess@gmail.com>';
+                $this->Email->replyTo = '"ESS/UFRJ - Coordenação de Estágio e Extensão" <estagio@ess.ufrj.br>';
+                $this->Email->from = '"ESS/UFRJ - Coordenação de Estágio e Extensão" <estagio@ess.ufrj.br>';
                 $this->Email->template = 'emailinstituicao'; // note no '.ctp'
                 // Send as 'html', 'text' or 'both' (default is 'text')
                 $this->Email->sendAs = 'html'; // because we like to send pretty mail
@@ -478,7 +477,7 @@ class InscricaosController extends AppController {
                 $this->redirect('/Inscricaos/termoimprime/' . $id_estagio);
             } else {
                 $errors = $this->Estagiario->invalidFields();
-                $this->Session->setFlash(implode(',', $errors));
+                $this->Session->setFlash(implode(', ', $errors));
                 die("Error: não foi possível atualizar inscrição de estágio");
             }
         } else {
@@ -533,7 +532,7 @@ class InscricaosController extends AppController {
                     $aluno_id = $this->Aluno->getLastInsertId();
                 } else {
                     $errors = $this->Aluno->invalidFields();
-                    $this->Session->setFlash(implode(',', $errors));
+                    $this->Session->setFlash(implode(', ', $errors));
                     die('Error: Não foi possível inserir dados do aluno novo');
                 }
             } else {

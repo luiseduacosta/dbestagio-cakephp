@@ -52,7 +52,7 @@ $("#EstagiarioIdSupervisor").change(function() {
 
 <hr />
 
-<p>Seleciona período</p>
+<div id="estagiario_seleciona">
 
 <table>
 <tr>
@@ -91,6 +91,8 @@ $("#EstagiarioIdSupervisor").change(function() {
 	</td>
 </tr>
 </table>
+
+</div>
 
 <div align='center'>
 <h1>Estagiarios período: <?php echo $periodo; ?></h1>

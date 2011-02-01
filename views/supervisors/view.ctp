@@ -8,23 +8,13 @@
 </div>
 
 <table>
-    <thead>
-        <tr>
-            <th width='20%'>
-            Item
-            </th>
-            <th width='80%'>
-            Valor
-            </th>
-        </tr>
-    </thead>
     <tbody>
         <tr>
-            <td>
+            <td width="15%">
             CRESS <?php echo $supervisor['Supervisor']['regiao']; ?> Região
             </td>
 
-            <td>
+            <td width="85%">
             <?php echo $supervisor['Supervisor']['cress']; ?>
             </td>
         </tr>
