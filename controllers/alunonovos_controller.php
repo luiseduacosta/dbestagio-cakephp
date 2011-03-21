@@ -106,9 +106,11 @@ class AlunonovosController extends AppController {
         }
 
         $this->Alunonovo->id = $id;
-
+        // pr($id);
         if (empty($this->data)) {
+
             $this->data = $this->Alunonovo->read();
+
         } else {
 
             if ($this->Alunonovo->save($this->data)) {
@@ -157,7 +159,14 @@ class AlunonovosController extends AppController {
         $aluno = $this->Alunonovo->findById($id);
         // pr($aluno);
 
+        // Onde fizeram inscricoes
+        $this->loadModel('Inscricao');
+        $inscricoes = $this->Inscricao->findAllByIdAluno($aluno['Alunonovo']['registro']);
+        // pr($inscricoes);
+
         $this->set('alunos', $aluno);
+        $this->set('inscricoes', $inscricoes);
+
     }
 
     function delete($id = NULL) {

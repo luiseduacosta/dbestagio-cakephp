@@ -20,15 +20,7 @@
 </tr>
 </table>
 
-<table>
-<caption>Inscrições realizadas</caption>
-<?php foreach ($alunos['Mural'] as $c_inscricao): ?>
-<tr>
-<td><?php echo trim($c_inscricao['instituicao']); ?></td>
-<td><?php echo trim($c_inscricao['periodo']); ?></td>
-</tr>
-<?php endforeach; ?>
-</table>
+<hr/>
 
 <p>
 <?php echo $html->link('Excluir', '/Alunonovos/delete/' . $alunos['Alunonovo']['id'], NULL, 'Tem certeza?'); ?> |
@@ -38,6 +30,22 @@
 <hr/>
 
 <p>
-<?php echo $html->link('Listar alunos novos', array('controller'=>'Alunonovos','action'=>'index')); ?> |
-<?php echo $html->link('Buscar', array('controller'=>'Alunonovos','action'=>'busca')); ?> |
+<?php echo $html->link('Alunos novos', array('controller'=>'Alunonovos','action'=>'index')); ?> |
+<?php echo $html->link('Buscar', array('controller'=>'Alunonovos','action'=>'busca')); ?>
+<br />
+<?php echo $html->link('Todos os alunos', array('controller'=>'Inscricaos','action'=>'index')); ?>
 </p>
+
+<hr/>
+
+<table>
+<caption>Inscrições realizadas</caption>
+<?php foreach ($inscricoes as $c_inscricao): ?>
+<tr>
+<td><?php echo $html->link('X','/Inscricaos/delete/' . $c_inscricao['Inscricao']['id'], NULL, 'Confirma?'); ?></td>
+<td><?php echo $html->link($c_inscricao['Mural']['instituicao'], '/Inscricaos/index/' . $c_inscricao['Mural']['id']); ?></td>
+<td><?php echo $c_inscricao['Mural']['periodo']; ?></td>
+</tr>
+<?php endforeach; ?>
+</table>
+

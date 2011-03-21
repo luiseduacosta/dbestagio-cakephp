@@ -47,11 +47,12 @@ echo $form->input('doutoradoanoconclusao');
 echo $form->input('dataingresso', array('dateFormat'=>'DMY', 'empty'=>TRUE));
 echo $form->input('formaingresso');
 echo $form->input('tipocargo');
-echo $form->input('categoria', array('label'=>'Categoria (Adjunto, etc.);
+echo $form->input('categoria', array('label'=>'Categoria (Adjunto, etc.)'));
 echo $form->input('regimetrabalho');
 echo $form->input('departamento', array('options'=>array('Fundamentos'=>'Fundamentos', 'Metodos e tecnicas'=>'Métodos e técnicas', 'Politica social'=>'Política Social')));
 echo $form->input('dataegresso', array('dateFormat'=>'DMY', 'empty'=>TRUE));
 echo $form->input('motivoegresso');
 echo $form->input('observacoes');
 echo $form->end('Confirma');
+
 ?>

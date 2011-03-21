@@ -40,6 +40,8 @@ $("#EstagiarioIdSupervisor").change(function() {
 
 ?>
 
+<?php echo $this->element('submenu'); ?>
+
 <p>
 <?php echo $html->link('Listar alunos', '/Alunos/index'); ?>
 <?php echo " | "; ?>

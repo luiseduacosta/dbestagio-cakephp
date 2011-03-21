@@ -24,6 +24,7 @@ echo $html->link('Buscar','/Supervisors/busca/');
 
     <thead>
         <tr>
+            <th>X</th>
             <th width='10%'><?php echo $this->Paginator->sort('CRESS', 'Supervisor.cress'); ?></th>
             <th width='90%'><?php echo $this->Paginator->sort('Nome', 'Supervisor.nome'); ?></th>
         </tr>
@@ -32,6 +33,9 @@ echo $html->link('Buscar','/Supervisors/busca/');
     <tbody>
         <?php foreach ($supervisores as $c_supervisor): ?>
         <tr>
+            <td>
+            <?php echo $html->link('X', '/Supervisors/delete/'. $c_supervisor['Supervisor']['id'], NULL, 'Confirma?'); ?>
+            </td>
             <td>
             <?php echo $c_supervisor['Supervisor']['cress']; ?>
             </td>
