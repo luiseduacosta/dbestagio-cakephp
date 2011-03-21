@@ -74,14 +74,14 @@ if (is_null($alunos['nascimento'])) {
 <?php echo $html->link('Editar', '/Estagiarios/view/' . $c_estagio['Estagiario']['id']); ?>
 </td>
 <td><?php echo $c_estagio['Estagiario']['periodo'] ?></td>
-<td><?php echo $c_estagio['Estagiario']['nivel']; ?></td>
-<td><?php echo $c_estagio['Estagiario']['turno']; ?></td>
+<td style='text-align:center'><?php echo $c_estagio['Estagiario']['nivel']; ?></td>
+<td style='text-align:center'><?php echo $c_estagio['Estagiario']['turno']; ?></td>
 <td><?php echo $html->link($c_estagio['Instituicao']['instituicao'], '/Instituicaos/view/' . $c_estagio['Instituicao']['id']); ?></td>
 <td><?php echo $html->link($c_estagio['Supervisor']['nome'], '/Supervisors/view/' . $c_estagio['Supervisor']['id']); ?></td>
 <td><?php echo $html->link($c_estagio['Professor']['nome'], '/Professors/view/' . $c_estagio['Professor']['id']); ?></td>
 <td><?php echo $html->link($c_estagio['Area']['area'], '/Areas/view/' . $c_estagio['Area']['id']); ?></td>
-<td><?php echo $c_estagio['Estagiario']['nota']; ?></td>
-<td><?php echo $c_estagio['Estagiario']['ch']; ?></td>
+<td style='text-align:center'><?php echo $c_estagio['Estagiario']['nota']; ?></td>
+<td style='text-align:center'><?php echo $c_estagio['Estagiario']['ch']; ?></td>
 </tr>
 <?php endforeach; ?>
 </table>

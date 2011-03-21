@@ -137,7 +137,7 @@ class InscricaosController extends AppController {
             $registro = $this->data['Inscricao']['id_aluno'];
             $aluno = $this->Aluno->findByRegistro($registro, array('fields' => 'id', 'registro'));
             if ($aluno) {
-                echo "Aluno estagiario";
+                // echo "Aluno estagiario";
                 $this->Session->delete('id_instituicao', $id);
                 $this->Session->write('id_instituicao', $id);
                 $this->redirect('/Alunos/edit/' . $aluno['Aluno']['id']);
@@ -149,7 +149,7 @@ class InscricaosController extends AppController {
                 // die(pr($alunonovo));
                 // Se nao esta cadastrado em alunonovo redireciono para cadastro
                 if (empty($alunonovo)) {
-                    echo "Aluno novo nao cadastrado";
+                    // echo "Aluno novo nao cadastrado";
                     // Redireciono com um cookie para lembrar a origem do redirecionamento
                     $this->Session->delete('id_instituicao', $id);
                     $this->Session->write('id_instituicao', $id);
@@ -157,11 +157,12 @@ class InscricaosController extends AppController {
                     // die();
                     // Se esta cadastrado como alunonovo redireciona para /Alunonovos/edit
                 } else {
-                    echo "Aluno novo cadastrado";
+                    // echo "Aluno novo cadastrado!";
                     // Redireciono com um cookie para lembrar a origem do redirecionamento
                     $this->Session->delete('id_instituicao', $id);
                     $this->Session->write('id_instituicao', $id);
-                    $this->redirect('/Alunonovos/edit/' . $alunonovo['Alunonovo']['id']);
+                    $this->redirect("/Alunonovos/edit/" . $alunonovo['Alunonovo']['id']);
+                    die("Stop");
                 }
             }
             /* Fim das verificacoes */
@@ -218,7 +219,7 @@ class InscricaosController extends AppController {
 
     function delete($id = NULL) {
 
-        $instituicao = $this->Inscricao->findById($id, array('fiedls' => 'id_instituicao'));
+        $instituicao = $this->Inscricao->findById($id, array('fields' => 'id_instituicao'));
         $this->Inscricao->delete($id);
         $this->Session->setFlash("Inscrição excluída");
         $this->redirect('/Inscricaos/index/' . $instituicao['Inscricao']['id_instituicao']);
