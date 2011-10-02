@@ -1,6 +1,9 @@
+<?php echo $html->link('Listar alunos', '/Alunos/index'); ?>
 
+<div align="center">
 <?php echo $html->link('Retroceder', array('action'=>'view', $registro_prev)) . " "; ?> |
 <?php echo $html->link('Avançar'   , array('action'=>'view', $registro_next)); ?>
+</div>
 
 <div align="center">
 <h1><?php echo $alunos['nome']; ?></h1>

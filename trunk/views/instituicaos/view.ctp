@@ -159,7 +159,7 @@ if ($instituicao['Supervisor']) {
     	$cada_supervisor[$i]['nome'] = $c_supervisor['nome'];
     	$cada_supervisor[$i]['id'] = $c_supervisor['id'];
     	$cada_supervisor[$i]['cress'] = $c_supervisor['cress'];
-		$cada_supervisor[$i]['id_superinst'] = $c_supervisor['InstSuper']['id'];
+	$cada_supervisor[$i]['id_superinst'] = $c_supervisor['InstSuper']['id'];
     	$i++;
     
     }

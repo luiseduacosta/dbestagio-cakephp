@@ -99,8 +99,8 @@ class EstagiariosController extends AppController {
         $areas['Todas'] = 'Todas';
         // pr($areas);
 
-        if (!$id_area)
-            $id_area = 0;
+        if (!$id_area) $id_area = 0;
+        
         $this->set('id_area', $id_area);
         $this->set('areas', $areas);
 
@@ -204,6 +204,12 @@ class EstagiariosController extends AppController {
         $this->set('estagio', $estagio);
     }
 
+    function alunorfao () {
+        
+        $this->set('orfaos', $this->Estagiario->alunorfao());
+              
+    }
+    
     function edit($id = NULL) {
 
         // pr($this->data);

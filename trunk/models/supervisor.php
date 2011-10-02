@@ -28,6 +28,7 @@ class Supervisor extends AppModel {
                 'rule' => 'numeric',
                 'required' => TRUE,
                 'allowEmpty' => TRUE,
+                'on' => 'create',
                 'message' => 'Digite somente números',
             ),
             'cress2' => array(
@@ -61,11 +62,11 @@ class Supervisor extends AppModel {
     function verifica_cress($check) {
 
         $value = array_values($check);
-        $value = $value[0];
+        $valor = $value[0];
 
-        if (!empty($value)) {
-            echo "Consulta";
-            $cress = $this->find('first', array('conditions' => 'Supervisor.cress = ' . $value));
+        if (!empty($valor)) {
+            // echo "Consulta";
+            $cress = $this->find('first', array('conditions' => 'Supervisor.cress = ' . $valor));
         }
         // pr($cress);
         // die();

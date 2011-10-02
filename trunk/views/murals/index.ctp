@@ -1,6 +1,8 @@
 <?php echo $html->link('Inserir mural','/Murals/add/'); ?>
 <?php echo " | "; ?>
 <?php echo $html->link('Listar alunos','/Inscricaos/index/'); ?>
+<?php echo " | "; ?>
+<?php echo $html->link('Alunos orfãos','/Inscricaos/orfao/'); ?>
 
 <hr />
 
