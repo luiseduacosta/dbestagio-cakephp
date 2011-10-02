@@ -5,10 +5,12 @@ class Estagiario extends AppModel {
     var $name = "Estagiario";
     var $useTable = "estagiarios";
     var $order = array("Aluno.nome" => "asc", "Estagiario.periodo" => "asc");
+
     var $belongsTo = array(
         'Aluno' => array(
             'className' => 'Aluno',
-            'foreignKey' => 'id_aluno'
+            'foreignKey' => 'id_aluno',
+            'joinTable' => 'alunos'
         ),
         'Instituicao' => array(
             'className' => 'Instituicao',
@@ -92,6 +94,12 @@ class Estagiario extends AppModel {
 
      );
 
+    public function alunorfao() {
+        
+        return($this->query('select Aluno.id, Aluno.registro, Aluno.nome, Aluno.celular, Aluno.email, Estagiario.id, Estagiario.registro, Estagiario.nivel, Estagiario.periodo from alunos AS Aluno left join estagiarios AS Estagiario on Aluno.id = Estagiario.id_aluno where Estagiario.id IS NULL group by Aluno.nome order by Estagiario.registro + Estagiario.nivel'));
+        
+    }
+    
 }
 
 ?>

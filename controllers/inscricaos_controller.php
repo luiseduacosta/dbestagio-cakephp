@@ -12,16 +12,19 @@ class InscricaosController extends AppController {
         if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
             $this->Auth->allowedActions = array('*');
             $this->Session->setFlash('Administrador');
+            $this->Session->write('permissao', 'tudo');
             // echo "Tudo";
-            // Estudantes podem fazer inscricao e solicitar termo de compromisso
+        // Estudantes podem fazer inscricao e solicitar termo de compromisso
         } elseif ($this->Acl->check($this->Session->read('user'), 'inscricaos', 'create')) {
             $this->Auth->allowedActions = array('add', 'inscricao', 'index', 'view', 'termosolicita', 'termocompromisso', 'termocadastra', 'termoimprime');
             $this->Session->setFlash('Estudante');
+            $this->Session->write('permissao', 'crear');
             // echo "Criar";
-            // Professores e supervisores podem ver (index e view)
+        // Professores e supervisores podem ver (index e view)
         } elseif ($this->Acl->check($this->Session->read('user'), 'inscricaos', 'read')) {
             $this->Auth->allowedActions = array('index', 'view');
             $this->Session->setFlash('Professor/Supervisor');
+            $this->Session->write('permissao', 'ver');
             // echo "Atualizar";
         } else {
             $this->Session->setFlash("Não autorizado");
@@ -44,6 +47,10 @@ class InscricaosController extends AppController {
      */
 
     function index($id = NULL) {
+
+        $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : "nome";
+        // echo "Ordem: " . $ordem;
+        // die();
 
         // Capturo o periodo atual de estagio para o mural
         $this->loadModel("Configuracao");
@@ -68,8 +75,8 @@ class InscricaosController extends AppController {
                             )
             );
         }
-
         // pr($inscritos);
+
         // Junto todo num array para ordernar alfabeticamente
         $i = 0;
         foreach ($inscritos as $c_inscritos) {
@@ -79,25 +86,55 @@ class InscricaosController extends AppController {
                 $inscritos_ordem[$i]['id'] = $c_inscritos['Aluno']['id'];
                 $inscritos_ordem[$i]['id_inscricao'] = $c_inscritos['Inscricao']['id'];
                 $inscritos_ordem[$i]['id_aluno'] = $c_inscritos['Inscricao']['id_aluno'];
-                $inscritos_ordem[$i]['nascimento'] = $c_inscritos['Aluno']['nascimento'];
+
+                // print_r($c_inscritos['Aluno']['nascimento']);
+                if (!is_null($c_inscritos['Aluno']['nascimento'])) {
+                    $inscritos_ordem[$i]['nascimento'] = $c_inscritos['Aluno']['nascimento'];
+                } else {
+                    $inscritos_ordem[$i]['nascimento'] = 's/d';
+                }
+                // print_r($inscritos_ordem[$i]['nascimento']);
+                // echo "<br>";
+
                 $inscritos_ordem[$i]['telefone'] = $c_inscritos['Aluno']['telefone'];
                 $inscritos_ordem[$i]['celular'] = $c_inscritos['Aluno']['celular'];
                 $inscritos_ordem[$i]['email'] = $c_inscritos['Aluno']['email'];
                 $inscritos_ordem[$i]['tipo'] = 1; // Estagiario
+
+                // Para ordenar o array
+                $criterio[] = $inscritos_ordem[$i][$ordem];
+                
             } else {
                 $inscritos_ordem[$i]['nome'] = $c_inscritos['Alunonovo']['nome'];
                 $inscritos_ordem[$i]['id'] = $c_inscritos['Alunonovo']['id'];
                 $inscritos_ordem[$i]['id_inscricao'] = $c_inscritos['Inscricao']['id'];
                 $inscritos_ordem[$i]['id_aluno'] = $c_inscritos['Inscricao']['id_aluno'];
-                $inscritos_ordem[$i]['nascimento'] = $c_inscritos['Alunonovo']['nascimento'];
+
+                // print_r($c_inscritos['Inscricao']['id_aluno']);
+                // echo ": ";
+                // print_r($c_inscritos['Alunonovo']['nascimento']);
+                if (!is_null($c_inscritos['Alunonovo']['nascimento'])) {
+                    $inscritos_ordem[$i]['nascimento'] = $c_inscritos['Alunonovo']['nascimento'];
+                } else {
+                    $inscritos_ordem[$i]['nascimento'] = 's/d';
+                }
+                // print_r($inscritos_ordem[$i]['nascimento']);
+                // echo "<br>";
+                
                 $inscritos_ordem[$i]['telefone'] = $c_inscritos['Alunonovo']['telefone'];
                 $inscritos_ordem[$i]['celular'] = $c_inscritos['Alunonovo']['celular'];
                 $inscritos_ordem[$i]['email'] = $c_inscritos['Alunonovo']['email'];
                 $inscritos_ordem[$i]['tipo'] = 0; // Novo
-            }
+
+                // Para ordenar o array
+                $criterio[] = $inscritos_ordem[$i][$ordem];
+                
+                }
             $i++;
+            
         }
-        asort($inscritos_ordem);
+
+        if (isset($criterio)) array_multisort ($criterio, SORT_ASC, $inscritos_ordem);
 
         /* Conta a quantidade de alunos novos e estagiarios */
         $alunos_estagiarios = 0;
@@ -123,6 +160,13 @@ class InscricaosController extends AppController {
         $this->set('inscritos', $inscritos_ordem);
     }
 
+    function orfao() {
+
+        $this->loadModel("Alunonovo");
+        $this->set('orfaos', $this->Alunonovo->alunonovorfao());
+        
+    }
+    
     function add($id = NUL) {
 
         // pr($this->data);
@@ -235,7 +279,6 @@ class InscricaosController extends AppController {
                                 'order' => array('Aluno.nome' => 'asc', 'Alunonovo.nome' => 'asc')
                             )
             );
-
             // pr($inscritos);
 
             $i = 0;

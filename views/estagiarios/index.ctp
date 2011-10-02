@@ -43,15 +43,17 @@ $("#EstagiarioIdSupervisor").change(function() {
 <?php echo $this->element('submenu'); ?>
 
 <p>
-<?php echo $html->link('Listar alunos', '/Alunos/index'); ?>
+<?php echo $html->link('Listar alunos', '/alunos/index'); ?>
 <?php echo " | "; ?>
-<?php echo $html->link("Inserir aluno", "/Estagiarios/add_estagiario"); ?>
+<?php echo $html->link("Inserir aluno", "/estagiarios/add_estagiario"); ?>
 <?php echo " | "; ?>
 <?php echo $html->link("Busca aluno", "/alunos/busca"); ?>
 <?php echo " | "; ?>
-<?php echo $html->link("Inserir estágio", '/Estagiarios/add_estagiario'); ?>
-</p>
+<?php echo $html->link("Inserir estágio", '/estagiarios/add_estagiario'); ?>
 
+<?php echo " | "; ?>
+<?php echo $html->link('Alunos sem estágio', '/estagiarios/alunorfao'); ?>
+</p>
 <hr />
 
 <div id="estagiario_seleciona">

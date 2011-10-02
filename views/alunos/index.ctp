@@ -14,6 +14,8 @@
 <tr>
 <th><?php echo $paginator->sort('Registro','registro'); ?></th>
 <th><?php echo $paginator->sort('Nome','nome'); ?></th>
+<th><?php echo $paginator->sort('Nascimento','nascimento'); ?></th>
+<th><?php echo $paginator->sort('CPF','cpf'); ?></th>
 <th><?php echo $paginator->sort('Email','email'); ?></th>
 </tr>
 <?php foreach ($alunos as $aluno): ?>
@@ -21,6 +23,8 @@
 <td style='text-align:center'>
 <?php echo $html->link($aluno['Aluno']['registro'], '/Alunos/view/' . $aluno['Aluno']['id']); ?>
 <td style='text-align:left'><?php echo $aluno['Aluno']['nome']; ?></td>
+<td style='text-align:center'><?php echo $aluno['Aluno']['nascimento']; ?></td>
+<td style='text-align:center'><?php echo $aluno['Aluno']['cpf']; ?></td>
 <td style='text-align:left'><?php echo $aluno['Aluno']['email']; ?></td>
 </tr>
 <?php endforeach; ?>

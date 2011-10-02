@@ -78,6 +78,7 @@ class UsersController extends AppController {
                         echo "Estudante estagiário ";
                     } else {
                         echo "Estudante novo? ";
+                        
                         $this->loadModel('Alunonovo');
                         $alunonovo = $this->Alunonovo->findByRegistro($this->data['User']['numero']);
                         if ($alunonovo) {

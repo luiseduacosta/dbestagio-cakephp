@@ -26,6 +26,7 @@ class Mural extends AppModel {
             'foreignKey' => 'id_professor'
         )
     );
+    
     var $validate = array(
         'id_estagio' => array(
             'rule' => 'notEmpty',
@@ -74,13 +75,14 @@ class Mural extends AppModel {
             'required' => TRUE,
             'message' => 'Escolha o turno da disciplina de OTP'
         ),
-
+/*
          'dataSelecao' => array(
             'rule' => 'date',
             'required' => TRUE,
+            'allowEmpty' => TRUE,
             'message' => 'Data da prova de seleção'
         ),
-
+*/
         'horarioSelecao' => array(
             'rule' => '/^\d{2}:\d{2}$/i',
             'maxLenght' => 5,
@@ -94,13 +96,14 @@ class Mural extends AppModel {
             'required' => TRUE,
             'message' => 'Escolher uma das opções'
         ),
-
+/*
         'dataInscricao' => array(
             'rule' => 'date',
             'required' => TRUE,
+            'allowEmpty' => TRUE,
             'message' => 'Data de encerramento das inscrições'
         ),
-
+*/
         'periodo' => array(
             'rule' => '/^\d{4}-\d{1}$/i',
             'maxLenght' => 6,

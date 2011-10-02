@@ -6,18 +6,21 @@ class Alunonovo extends AppModel {
     var $useTable = 'alunosNovos';
     var $primaryKey = 'id';
     var $displayField = 'nome';
+    
+    public function alunonovorfao () {
+        
+        return($this->query("select Alunonovo.id, Alunonovo.registro, Alunonovo.nome, Alunonovo.celular, Alunonovo.email, Inscricao.id, Inscricao.id_aluno from alunosNovos AS Alunonovo left join mural_inscricao AS Inscricao on Alunonovo.registro = Inscricao.id_aluno where Inscricao.id_aluno IS NULL group by Alunonovo.registro order by Alunonovo.nome"));
+        
+    }
 
-    // Acho que está errado
-    var $hasAndBelongsToMany = array(
-        'Mural' => array(
-            'className' => 'Mural',
-            'joinTable' => 'mural_inscricao',
-            'foreignKey' => 'id_aluno',
-            'associationForeignKey' => 'id_instituicao',
-            'unique' => true,
-            'fields' => '',
-            'order' => ''
+    /*
+    var $hasMany = array(
+        'Inscricao' => array(
+            'className' => 'Inscricao',
+            'foreignKey' => FALSE,
+            'conditions' => 'Alunonovo.registro = Inscricao.id_aluno'
             ));
+*/
 
     var $validate = array(
         'nome' => array(
