@@ -25,7 +25,7 @@
 
 <div align="center">
 
-    <h1>Bem-vindos à nova página da Coordenação de Estágio e Extensão</h1>
+    <h1>Bem-vindos à nova página da Coordenação de Estágio & Extensão</h1>
     <h2>(em construção)</h2>
 </div>
 
