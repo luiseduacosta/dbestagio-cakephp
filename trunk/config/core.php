@@ -302,5 +302,4 @@
  */
 	Cache::config('default', array('engine' => 'File'));
 
-        Configure::write('Routing.prefixes', array('admin'));
-        
+

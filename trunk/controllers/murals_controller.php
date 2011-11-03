@@ -17,6 +17,10 @@ class MuralsController extends AppController {
         } elseif ($this->Acl->check($this->Session->read('user'), 'murals', 'create')) {
             $this->Auth->allowedActions = array('add', 'edit', 'index', 'view');
             $this->Session->setFlash('Supervisor');
+        // Professores podem atualizar murais
+        } elseif ($this->Acl->check($this->Session->read('user'), 'murals', 'update')) {
+            $this->Auth->allowedActions = array('edit', 'index', 'view');
+            $this->Session->setFlash('Professor');    
         // Todos
         } else {
             $this->Auth->allowedActions = array('index', 'view');

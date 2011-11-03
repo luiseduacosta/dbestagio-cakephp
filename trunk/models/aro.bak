@@ -1,0 +1,17 @@
+<?php
+
+class Aro extends AppModel {
+
+    var $name = 'Aro';
+    var $useTable = 'aros';
+    var $primaryKey = 'id';
+
+    var $hasMany = array(
+        'ArosAco' => array(
+            'className' => 'ArosAco',
+            'foreignKey' => 'aro_id'
+            )
+        );            
+}
+
+?>

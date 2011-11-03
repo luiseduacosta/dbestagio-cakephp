@@ -27,8 +27,8 @@ echo $form->input('Estagiario.tc', array('label'=>'TC (Aluno entrogou o TC assin
 echo $form->input('Estagiario.tc_solicitacao', array('type'=>'hidden', 'label'=>'Data de solicitação do TC', 'dateFormat'=>'DMY' ,'empty'=>TRUE));
 echo $form->input('Estagiario.id_instituicao', array('label'=>'Instituição','options'=>$instituicoes));
 echo $form->input('Estagiario.id_supervisor', array('label'=>'Supervisor','options'=>$supervisores));
-echo $form->input('Estagiario.id_professor', array('label'=>'Professor','options'=>$professores, 'defaul'=>0));
-echo $form->input('Estagiario.id_area', array('label'=>'Área temática','options'=>$areas, 'default'=>0));
+echo $form->input('Estagiario.id_professor', array('label'=>'Professor','options'=>$professores));
+echo $form->input('Estagiario.id_area', array('label'=>'Área temática','options'=>$areas));
 echo $form->input('Estagiario.id_aluno', array('type'=>'hidden'));
 echo $form->input('Estagiario.nota', array('label'=>'Nota: separar casas decimais com ponto'));
 echo $form->input('Estagiario.ch', array('label'=>'Carga horária (Digitar números inteiros)'));

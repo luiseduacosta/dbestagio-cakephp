@@ -26,7 +26,7 @@ echo $this->Form->create('User', array('action'=>'login'));
             Os estudantes cadastrados poderão, além de fazer inscrição para seleção de estágio e solcitar o termo de compromisso, atualizar a informação sobre seus dados pessoais, assim como também poderão, atualizar a informação sobre as instituições campos de estágio da ESS/UFRJ.
             <br />
             <br />
-            <p style="text-align: right">Coordenação de Estágio e Extensão</p>
+            <p style="text-align: right">Coordenação de Estágio & Extensão</p>
         </td>
     </tr>
 </table>

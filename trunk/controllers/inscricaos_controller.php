@@ -16,7 +16,7 @@ class InscricaosController extends AppController {
             // echo "Tudo";
         // Estudantes podem fazer inscricao e solicitar termo de compromisso
         } elseif ($this->Acl->check($this->Session->read('user'), 'inscricaos', 'create')) {
-            $this->Auth->allowedActions = array('add', 'inscricao', 'index', 'view', 'termosolicita', 'termocompromisso', 'termocadastra', 'termoimprime');
+            $this->Auth->allowedActions = array('add', 'edit', 'inscricao', 'index', 'view', 'termosolicita', 'termocompromisso', 'termocadastra', 'termoimprime');
             $this->Session->setFlash('Estudante');
             $this->Session->write('permissao', 'crear');
             // echo "Criar";
@@ -31,20 +31,6 @@ class InscricaosController extends AppController {
         }
         // die(pr($this->Session->read('user')));
     }
-
-    /*
-      function beforeFilter() {
-
-      parent::beforeFilter();
-      if ($this->Acl->check($this->Session->read('user'), 'inscricaos', 'add')) {
-      $this->Auth->allowedActions = array('add', 'inscricao', 'index', 'view', 'termosolicita', 'termocompromisso', 'termocadastra', 'termoimprime');
-      echo "Autorizado";
-      } else {
-      echo "Não autorizaado";
-      }
-      // die(pr($this->Session->read('user')));
-      }
-     */
 
     function index($id = NULL) {
 

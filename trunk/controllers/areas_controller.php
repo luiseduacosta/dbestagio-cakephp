@@ -20,7 +20,7 @@ class AreasController extends AppController {
         // Estudantes e supervisores podem ver
         } elseif ($this->Acl->check($this->Session->read('user'), 'areas', 'read')) {
             $this->Auth->allowedActions = array('index', 'view');
-            $this->Session->setFlash("Estudante/Supervisor");
+            $this->Session->setFlash("Supervisor/Estudante");
         } else {
             $this->Session->setFlash("Não autorizado");
         }
