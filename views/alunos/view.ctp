@@ -61,6 +61,7 @@ if (is_null($alunos['nascimento'])) {
 <th>Período</th>
 <th>Nível</th>
 <th>Turno</th>
+<th>TC</th>
 <th>Instituição</th>
 <th>Supervisor</th>
 <th>Professor</th>
@@ -79,6 +80,7 @@ if (is_null($alunos['nascimento'])) {
 <td><?php echo $c_estagio['Estagiario']['periodo'] ?></td>
 <td style='text-align:center'><?php echo $c_estagio['Estagiario']['nivel']; ?></td>
 <td style='text-align:center'><?php echo $c_estagio['Estagiario']['turno']; ?></td>
+<td style='text-align:center'><?php echo $c_estagio['Estagiario']['tc']; ?></td>
 <td><?php echo $html->link($c_estagio['Instituicao']['instituicao'], '/Instituicaos/view/' . $c_estagio['Instituicao']['id']); ?></td>
 <td><?php echo $html->link($c_estagio['Supervisor']['nome'], '/Supervisors/view/' . $c_estagio['Supervisor']['id']); ?></td>
 <td><?php echo $html->link($c_estagio['Professor']['nome'], '/Professors/view/' . $c_estagio['Professor']['id']); ?></td>

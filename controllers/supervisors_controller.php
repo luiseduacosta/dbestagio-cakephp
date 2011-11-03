@@ -18,9 +18,14 @@ class SupervisorsController extends AppController {
             $this->Auth->allowedActions = array('index', 'view', 'busca', 'add', 'addinstituicao', 'deleteassociacao', 'edit');
             $this->Session->setFlash("Supervisor");
             // echo "Inserir";
+        // Professores podem atualizar supervisores    
+        } elseif ($this->Acl->check($this->Session->read('user'), 'supervisors', 'update')) {
+            $this->Auth->allowedActions = array('index', 'view', 'busca', 'edit');
+            $this->Session->setFlash("Professor");
+        // Estudantes podem ver os supervisores    
         } elseif ($this->Acl->check($this->Session->read('user'), 'supervisors', 'read')) {
             $this->Auth->allowedActions = array('index', 'view', 'busca');
-            $this->Session->setFlash("Estudante/Professor");
+            $this->Session->setFlash("Estudante");
             // echo "Ver";
         } else {
             $this->Session->setFlash("Não autorizado");

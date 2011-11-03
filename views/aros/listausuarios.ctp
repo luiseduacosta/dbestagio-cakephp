@@ -4,7 +4,7 @@
 echo $html->tableHeaders(array_keys($listausuarios[0]['User']));
 
 foreach ($listausuarios as $esteusuario) {
-	echo $html->tableCells($esteusuario['User']);
+	echo $html->tableCells($esteusuario['Role']);
 }
 
 ?>

@@ -185,7 +185,7 @@ class EstagiariosController extends AppController {
         $this->set('id_supervisor', $id_supervisor);
         $this->set('supervisores', $supervisores);
 
-        pr($condicoes);
+        // pr($condicoes);
 
         if (isset($condicoes)) {
             $this->set('estagiarios', $this->Paginate($condicoes));
@@ -240,6 +240,9 @@ class EstagiariosController extends AppController {
             $this->loadModel('Instituicao');
             $instituicoes = $this->Instituicao->find('list', array(
                         'order' => 'Instituicao.instituicao'));
+
+            $instituicoes[0] = "- Selecione -";
+            asort($instituicoes);
             // pr($instituicoes);
             $this->set('instituicoes', $instituicoes);
             // die();
@@ -256,6 +259,7 @@ class EstagiariosController extends AppController {
                 }
             }
             $ordemsuper[0] = "- Seleciona -";
+            asort($ordemsuper);
             $this->set('supervisores', $ordemsuper);
 
             // Professores para o select
@@ -275,7 +279,7 @@ class EstagiariosController extends AppController {
             $this->set('areas', $areas);
 
             $this->set('id', $this->Estagiario->id = $id);
-
+            
             $this->Estagiario->id = $id;
 
             $this->data = $this->Estagiario->read();
