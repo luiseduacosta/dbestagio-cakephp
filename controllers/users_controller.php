@@ -23,6 +23,7 @@ class UsersController extends AppController {
                 // die(pr($usuario));
                 $this->Session->write('user', $usuario['User']['email']);
                 $this->Session->write('numero', $usuario['User']['numero']);
+                $this->Session->write('categoria', $usuario['Role']['categoria']);
                 // pr($usuario['Role']['categoria']);
                 // die();
                 switch ($usuario['User']['categoria']) {

@@ -43,31 +43,32 @@
     <body>
         <div id="container">
             <div id="header">
-                <h1><?php echo $html->link(__('Coordenação de Estágio e Extensão', true),
+                <h1><?php echo $html->link(__('Coordenação de Estágio & Extensão', true),
                     'http://www.ess.ufrj.br/estagio'); ?></h1>
             </div>
 
             <div id='menu'>
-                <?php echo $html->link("Login", "/Users/login/"); ?>
+                <?php echo $html->link("Login", "/users/login/"); ?>
                 <?php echo " | "; ?>
-                <?php echo $html->link("Mural", "/Murals/"); ?>
+                <?php echo $html->link("Mural", "/murals/"); ?>
                 <?php echo " | "; ?> 
-                <?php echo $html->link("Termo de compromisso", "/Inscricaos/termosolicita"); ?>
+                <?php echo $html->link("Termo de compromisso", "/inscricaos/termosolicita"); ?>
                 <?php echo " | "; ?> 
-                <?php echo $html->link("Estagiários", "/Estagiarios/index"); ?>
+                <?php echo $html->link("Estagiários", "/estagiarios/index"); ?>
                 <?php echo " | "; ?>
-                <?php echo $html->link("Instituições", "/Instituicaos/index", array('escape'=>FALSE)); ?>
+                <?php echo $html->link("Instituições", "/instituicaos/index", array('escape'=>FALSE)); ?>
                 <?php echo " | "; ?>
-                <?php echo $html->link("Supervisores", "/Supervisors/index"); ?>
+                <?php echo $html->link("Supervisores", "/supervisors/index"); ?>
                 <?php echo " | "; ?>
-                <?php echo $html->link("Professores", "/Professors/index"); ?>
+                <?php echo $html->link("Professores", "/professors/index"); ?>
                 <?php echo " | "; ?>
-                <?php echo $html->link("Configurações", "/Configuracaos/view/1"); ?>
+                <?php echo $html->link("Configurações", "/configuracaos/view/1"); ?>
                 <?php echo " | "; ?>
                 <?php
                 if ($this->Session->read('user')) {
-                    echo "<p style='color:black'>" . $html->link($this->Session->read('user'), '/Alunos/perfil/' . $this->Session->read('numero')) . " | ";
-                    echo $html->link('Sair', '/users/logout/') . "</p>";
+                echo "<p><span style='color: white; font-weight: bold; text-transform: capitalize'>" . $this->Session->read('categoria') . "</span>" . ": ";
+                echo "<span style='color: white; font-weight: bold'>" . $this->Session->read('user') . "</span>" . " ";
+                echo $html->link('Sair', '/users/logout/') . "</p>";
                     }
                 ?>
             </div>
