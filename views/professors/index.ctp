@@ -1,12 +1,18 @@
-<?php
-
-echo $html->link('Inserir', '/Professors/add/');
-echo " | ";
-echo $html->link('Buscar (não implementado)', '/Professors/busca/');
-echo " | ";
-echo $html->link('Áreas', '/Areas/index/');
-
-?>
+<?php if ($this->Session->read('categoria') === 'administrador'): ?>
+    <?php
+    echo $html->link('Inserir', '/Professors/add/');
+    echo " | ";
+    echo $html->link('Buscar (não implementado)', '/Professors/busca/');
+    echo " | ";
+    echo $html->link('Áreas', '/Areas/index/');
+    ?>
+<?php else: ?>
+    <?php
+    echo $html->link('Buscar (não implementado)', '/Professors/busca/');
+    echo " | ";
+    echo $html->link('Áreas', '/Areas/index/');
+    ?>
+<?php endif; ?>
 
 <div align="center">
 <?php echo $this->Paginator->first('<< Primeiro ', null, null, array('class'=>'disabled')); ?>
@@ -29,6 +35,9 @@ echo $html->link('Áreas', '/Areas/index/');
 <?php echo $this->Paginator->sort('Nome', 'Professor.nome'); ?>
 </th>
 <th>
+<?php echo $this->Paginator->sort('Email', 'Professor.email'); ?>
+</th>
+<th>
 <?php echo $this->Paginator->sort('Lattes', 'Professor.curriculolattes'); ?>
 </th>
 <th>
@@ -37,15 +46,19 @@ echo $html->link('Áreas', '/Areas/index/');
 <th>
 <?php echo $this->Paginator->sort('Tipo', 'Professor.tipocargo'); ?>
 </th>
-<th>
-<?php echo $this->Paginator->sort('Celular', 'Professor.celular'); ?>
-</th>
-<th>
-<?php echo $this->Paginator->sort('Egresso', 'Professor.dataegresso'); ?>
-</th>
-<th>
-<?php echo $this->Paginator->sort('Motivo', 'Professor.motivoegresso'); ?>
-</th>
+
+<?php if (($this->Session->read('categoria') === 'administrador') || ($this->Session->read('categoria')) === 'professor'): ?>
+    <th>
+    <?php echo $this->Paginator->sort('Celular', 'Professor.celular'); ?>
+    </th>
+    <th>
+    <?php echo $this->Paginator->sort('Egresso', 'Professor.dataegresso'); ?>
+    </th>
+    <th>
+    <?php echo $this->Paginator->sort('Motivo', 'Professor.motivoegresso'); ?>
+    </th>
+<?php endif; ?>
+
 </tr>
 </thead>
 <tbody>
@@ -55,7 +68,14 @@ echo $html->link('Áreas', '/Areas/index/');
 <?php echo $c_professor['Professor']['siape']; ?>
 </td>
 <td>
-<?php echo $html->link($c_professor['Professor']['nome'], '/Professors/view/'. $c_professor['Professor']['id']); ?>
+<?php if (($this->Session->read('categoria') === 'administrador') || ($this->Session->read('categoria') === 'professor')): ?>
+    <?php echo $html->link($c_professor['Professor']['nome'], '/Professors/view/'. $c_professor['Professor']['id']); ?>
+<?php else: ?>
+    <?php echo $c_professor['Professor']['nome']; ?>
+<?php endif; ?>
+</td>
+<td>
+<?php echo $c_professor['Professor']['email']; ?>
 </td>
 <td>
 	<?php 
@@ -72,15 +92,19 @@ echo $html->link('Áreas', '/Areas/index/');
 <td>
 <?php echo $c_professor['Professor']['tipocargo']; ?>
 </td>
-<td>
-<?php echo $c_professor['Professor']['celular']; ?>
-</td>
-<td>
-<?php echo $c_professor['Professor']['dataegresso']; ?>
-</td>
-<td>
-<?php echo $c_professor['Professor']['motivoegresso']; ?>
-</td>
+
+<?php if (($this->Session->read('categoria') === 'administrador') || ($this->Session->read('categoria')) === 'professor'): ?>
+    <td>
+    <?php echo $c_professor['Professor']['celular']; ?>
+    </td>
+    <td>
+    <?php echo $c_professor['Professor']['dataegresso']; ?>
+    </td>
+    <td>
+    <?php echo $c_professor['Professor']['motivoegresso']; ?>
+    </td>
+<?php endif; ?>
+
 </tr>
 <?php endforeach; ?>
 </tbody>

@@ -2,6 +2,18 @@
 
 class Estagiario extends AppModel {
 
+     /* @var Aluno */
+     /* @var Instituicao */
+     /* @var Professor */
+     /* @var Supervisor */
+     /* @var Area */
+    
+    var $Aluno;
+    var $Instituicao;
+    var $Professor;
+    var $Supervisor;
+    var $Area;
+    
     var $name = "Estagiario";
     var $useTable = "estagiarios";
     var $order = array("Aluno.nome" => "asc", "Estagiario.periodo" => "asc");

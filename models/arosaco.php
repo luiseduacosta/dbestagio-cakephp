@@ -2,6 +2,12 @@
 
 class ArosAco extends AppModel {
 
+    /* @var Aro */
+    /* @var Aco */
+    
+    var $Aro;
+    var $Aco;
+    
     var $name = 'ArosAco';
     var $useTable = 'aros_acos';
     var $primaryKey = 'id';

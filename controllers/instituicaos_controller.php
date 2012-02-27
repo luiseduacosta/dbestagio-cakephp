@@ -13,17 +13,17 @@ class InstituicaosController extends AppController {
         // Admin
         if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
             $this->Auth->allowedActions = array('*');
-            $this->Session->setFlash("Administrador");
+            // $this->Session->setFlash("Administrador");
         // Supervisores (inserir instituição para mural de estágio)
         } elseif ($this->Acl->check($this->Session->read('user'), 'instituicaos', 'create')) {
             $this->Auth->allowedActions = array('add', 'index', 'view', 'busca', 'edit', 'addassociacao', 'deleteassociacao', 'seleciona_supervisor');
-            $this->Session->setFlash("Supervisor");
+            // $this->Session->setFlash("Supervisor");
         // Professores e Estudantes
         } elseif ($this->Acl->check($this->Session->read('user'), 'instituicaos', 'update')) {
-            $this->Auth->allowedActions = array('index', 'view', 'busca', 'edit');
-            $this->Session->setFlash("Professor/Estudante");
+            $this->Auth->allowedActions = array('index', 'view', 'busca', 'edit', 'seleciona_supervisor');
+            // $this->Session->setFlash("Professor/Estudante");
         } else {
-            $this->Session->setFlash("Não autorizado");
+            $this->Session->setFlash("Instituição: Não autorizado");
         }
         // die(pr($this->Session->read('user')));
     }
@@ -56,7 +56,7 @@ class InstituicaosController extends AppController {
                     'conditions' => array('Instituicao.id' => $id),
                     'order' => 'Instituicao.instituicao'));
 
-        // Para acrescentar um supervisor
+        /* Para acrescentar um supervisor */
         $this->loadModel('Supervisor');
         $supervisores = $this->Supervisor->find('list', array(
                     'order' => array('Supervisor.nome')));
@@ -76,6 +76,7 @@ class InstituicaosController extends AppController {
     }
 
     function edit($id = NULL) {
+
         $this->Instituicao->id = $id;
 
         if (empty($this->data)) {
@@ -174,13 +175,13 @@ class InstituicaosController extends AppController {
 
     function seleciona_supervisor($id = NULL) {
 
-        // Configure::write('debug', 0);
+        Configure::write('debug', 2);
         if ($id != 0) {
             $supervisores = $this->Instituicao->find('all', array(
                         'conditions' => array('Instituicao.id = ' . $id)
                             )
             );
-
+            
             if ($supervisores) {
                 $i = 0;
                 foreach ($supervisores as $c_supervisor) {

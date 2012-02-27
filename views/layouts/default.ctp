@@ -43,7 +43,7 @@
     <body>
         <div id="container">
             <div id="header">
-                <h1><?php echo $html->link(__('Coordenação de Estágio & Extensão', true),
+                <h1><?php echo $html->link(__('Coordenação de Estágio & Extensão - ESS - UFRJ', true),
                     'http://www.ess.ufrj.br/estagio'); ?></h1>
             </div>
 
@@ -52,27 +52,51 @@
                 <?php echo " | "; ?>
                 <?php echo $html->link("Mural", "/murals/"); ?>
                 <?php echo " | "; ?> 
-                <?php echo $html->link("Termo de compromisso", "/inscricaos/termosolicita"); ?>
-                <?php echo " | "; ?> 
-                <?php echo $html->link("Estagiários", "/estagiarios/index"); ?>
-                <?php echo " | "; ?>
-                <?php echo $html->link("Instituições", "/instituicaos/index", array('escape'=>FALSE)); ?>
-                <?php echo " | "; ?>
-                <?php echo $html->link("Supervisores", "/supervisors/index"); ?>
-                <?php echo " | "; ?>
-                <?php echo $html->link("Professores", "/professors/index"); ?>
-                <?php echo " | "; ?>
-                <?php echo $html->link("Configurações", "/configuracaos/view/1"); ?>
-                <?php echo " | "; ?>
-                <?php
-                if ($this->Session->read('user')) {
-                echo "<p><span style='color: white; font-weight: bold; text-transform: capitalize'>" . $this->Session->read('categoria') . "</span>" . ": ";
-                echo "<span style='color: white; font-weight: bold'>" . $this->Session->read('user') . "</span>" . " ";
-                echo $html->link('Sair', '/users/logout/') . "</p>";
-                    }
-                ?>
-            </div>
+                
+                <?php if ($this->Session->read('categoria')): ?>
+                    <?php echo $html->link("Estagiários", "/estagiarios/index"); ?>
+                    <?php echo " | "; ?>
+                    <?php echo $html->link("Instituições", "/instituicaos/index", array('escape'=>FALSE)); ?>
+                    <?php echo " | "; ?>
+                    <?php echo $html->link("Supervisores", "/supervisors/index"); ?>
+                    <?php echo " | "; ?>
+                    <?php echo $html->link("Professores", "/professors/index"); ?>
+                    <?php echo " | "; ?>
+                    <?php if ($this->Session->read('categoria') === 'administrador'): ?>
+                        <?php echo $html->link("Administração", "/configuracaos/view/1"); ?>
+                        <?php echo " | "; ?>
+                    <?php endif; ?>
+                <?php endif; ?>
 
+                <?php echo $html->link('Manual', 'http://200.20.112.2/wiki/doku.php?id=estagio'); ?>
+                <?php echo " | "; ?>
+                <?php echo $html->link('Fale conosco', 'mailto: estagio@ess.ufrj.br'); ?>
+
+                <br/>
+                    
+                <?php if ($this->Session->read('user')): ?>
+                    <?php echo "<span style='color: white; font-weight: bold; text-transform: capitalize'>" . $this->Session->read('categoria') . "</span>" . ": "; ?>
+                        
+                    <?php
+                    switch ($this->Session->read('menu_aluno')) {
+                        case 'estagiario':
+                            echo "<span style='color: white; font-weight: bold'>" . $html->link($this->Session->read('user'), "/alunos/view/" . $this->Session->read('menu_id_aluno')) . "</span>" . " ";
+                            break;
+                        case 'alunonovo':
+                            echo "<span style='color: white; font-weight: bold'>" . $html->link($this->Session->read('user'), "/alunonovos/view/" . $this->Session->read('menu_id_aluno')) . "</span>" . " ";
+                            break;
+                        case 'semcadastro':
+                            echo "<span style='color: white; font-weight: bold'>" . $this->Session->read('user') . "</span>" . " ";
+                            break;
+                    }
+                    if ($this->Session->read('menu_id_supervisor')) echo "<span style='color: white; font-weight: bold'>" . $html->link($this->Session->read('user'), "/supervisors/view/" . $this->Session->read('menu_id_supervisor')) . "</span>" . " ";
+                    ?>
+
+                    <?php echo $html->link('Sair', '/users/logout/'); ?>
+                <?php endif; ?>
+                
+            </div>
+            
             <div id="content">
 
                 <?php echo $session->flash(); ?>

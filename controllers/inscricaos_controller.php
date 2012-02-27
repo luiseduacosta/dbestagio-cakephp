@@ -14,20 +14,20 @@ class InscricaosController extends AppController {
             $this->Session->setFlash('Administrador');
             $this->Session->write('permissao', 'tudo');
             // echo "Tudo";
-        // Estudantes podem fazer inscricao e solicitar termo de compromisso
+            // Estudantes podem fazer inscricao e solicitar termo de compromisso
         } elseif ($this->Acl->check($this->Session->read('user'), 'inscricaos', 'create')) {
             $this->Auth->allowedActions = array('add', 'edit', 'inscricao', 'index', 'view', 'termosolicita', 'termocompromisso', 'termocadastra', 'termoimprime');
             $this->Session->setFlash('Estudante');
             $this->Session->write('permissao', 'crear');
             // echo "Criar";
-        // Professores e supervisores podem ver (index e view)
+            // Professores e supervisores podem ver (index e view)
         } elseif ($this->Acl->check($this->Session->read('user'), 'inscricaos', 'read')) {
             $this->Auth->allowedActions = array('index', 'view');
             $this->Session->setFlash('Professor/Supervisor');
             $this->Session->write('permissao', 'ver');
             // echo "Atualizar";
         } else {
-            $this->Session->setFlash("Não autorizado");
+            $this->Session->setFlash("Inscrição: Não autorizado");
         }
         // die(pr($this->Session->read('user')));
     }
@@ -37,32 +37,28 @@ class InscricaosController extends AppController {
         $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : "nome";
         // echo "Ordem: " . $ordem;
         // die();
-
         // Capturo o periodo atual de estagio para o mural
         $this->loadModel("Configuracao");
         $configuracao = $this->Configuracao->findById('1');
         $periodo = $configuracao['Configuracao']['mural_periodo_atual'];
 
         if ($id) {
-            $inscritos = $this->Inscricao->find('all',
-                            array(
-                                'conditions' => array('Inscricao.id_instituicao' => $id),
-                                'fields' => array('Inscricao.id', 'Inscricao.id_aluno', 'Aluno.id', 'Aluno.nome', 'Aluno.nascimento', 'Aluno.telefone', 'Aluno.celular', 'Aluno.email', 'Alunonovo.id', 'Alunonovo.nome', 'Alunonovo.nascimento', 'Alunonovo.telefone', 'Alunonovo.celular', 'Alunonovo.email', 'Mural.instituicao', 'Inscricao.id_instituicao'),
-                                'order' => array('Aluno.nome' => 'asc')
-                            )
+            $inscritos = $this->Inscricao->find('all', array(
+                'conditions' => array('Inscricao.id_instituicao' => $id),
+                'fields' => array('Inscricao.id', 'Inscricao.id_aluno', 'Aluno.id', 'Aluno.nome', 'Aluno.nascimento', 'Aluno.telefone', 'Aluno.celular', 'Aluno.email', 'Alunonovo.id', 'Alunonovo.nome', 'Alunonovo.nascimento', 'Alunonovo.telefone', 'Alunonovo.celular', 'Alunonovo.email', 'Mural.instituicao', 'Inscricao.id_instituicao'),
+                'order' => array('Aluno.nome' => 'asc')
+                    )
             );
         } else {
-            $inscritos = $this->Inscricao->find('all',
-                            array(
-                                'conditions' => array('Inscricao.periodo' => $periodo),
-                                'fields' => array('Inscricao.id', 'Inscricao.id_aluno', 'Aluno.id', 'Aluno.nome', 'Aluno.nascimento', 'Aluno.telefone', 'Aluno.celular', 'Aluno.email', 'Alunonovo.id', 'Alunonovo.nome', 'Alunonovo.nascimento', 'Alunonovo.telefone', 'Alunonovo.celular', 'Alunonovo.email'),
-                                'group' => array('Inscricao.id_aluno'),
-                                'order' => array('Aluno.nome' => 'asc')
-                            )
+            $inscritos = $this->Inscricao->find('all', array(
+                'conditions' => array('Inscricao.periodo' => $periodo),
+                'fields' => array('Inscricao.id', 'Inscricao.id_aluno', 'Aluno.id', 'Aluno.nome', 'Aluno.nascimento', 'Aluno.telefone', 'Aluno.celular', 'Aluno.email', 'Alunonovo.id', 'Alunonovo.nome', 'Alunonovo.nascimento', 'Alunonovo.telefone', 'Alunonovo.celular', 'Alunonovo.email'),
+                'group' => array('Inscricao.id_aluno'),
+                'order' => array('Aluno.nome' => 'asc')
+                    )
             );
         }
         // pr($inscritos);
-
         // Junto todo num array para ordernar alfabeticamente
         $i = 0;
         foreach ($inscritos as $c_inscritos) {
@@ -86,10 +82,8 @@ class InscricaosController extends AppController {
                 $inscritos_ordem[$i]['celular'] = $c_inscritos['Aluno']['celular'];
                 $inscritos_ordem[$i]['email'] = $c_inscritos['Aluno']['email'];
                 $inscritos_ordem[$i]['tipo'] = 1; // Estagiario
-
                 // Para ordenar o array
                 $criterio[] = $inscritos_ordem[$i][$ordem];
-                
             } else {
                 $inscritos_ordem[$i]['nome'] = $c_inscritos['Alunonovo']['nome'];
                 $inscritos_ordem[$i]['id'] = $c_inscritos['Alunonovo']['id'];
@@ -106,21 +100,19 @@ class InscricaosController extends AppController {
                 }
                 // print_r($inscritos_ordem[$i]['nascimento']);
                 // echo "<br>";
-                
+
                 $inscritos_ordem[$i]['telefone'] = $c_inscritos['Alunonovo']['telefone'];
                 $inscritos_ordem[$i]['celular'] = $c_inscritos['Alunonovo']['celular'];
                 $inscritos_ordem[$i]['email'] = $c_inscritos['Alunonovo']['email'];
                 $inscritos_ordem[$i]['tipo'] = 0; // Novo
-
                 // Para ordenar o array
                 $criterio[] = $inscritos_ordem[$i][$ordem];
-                
-                }
+            }
             $i++;
-            
         }
 
-        if (isset($criterio)) array_multisort ($criterio, SORT_ASC, $inscritos_ordem);
+        if (isset($criterio))
+            array_multisort($criterio, SORT_ASC, $inscritos_ordem);
 
         /* Conta a quantidade de alunos novos e estagiarios */
         $alunos_estagiarios = 0;
@@ -150,9 +142,8 @@ class InscricaosController extends AppController {
 
         $this->loadModel("Alunonovo");
         $this->set('orfaos', $this->Alunonovo->alunonovorfao());
-        
     }
-    
+
     function add($id = NUL) {
 
         // pr($this->data);
@@ -199,7 +190,11 @@ class InscricaosController extends AppController {
         }
     }
 
-    // Id e o numero de registro
+    /*
+     * Inscreve o aluno para seleção de estágio
+     * O Id e o numero de registro
+     * 
+     */
     function inscricao($id = NULL) {
 
         // echo "Id: " . $id . "<br>";
@@ -210,10 +205,12 @@ class InscricaosController extends AppController {
             // Agora sim posso apagar
             $this->Session->delete('id_instituicao');
 
+            /* Capturo o periodo para o registro de inscricao */
             $this->loadModel('Mural');
             $instituicao = $this->Mural->findById($id_instituicao, array('fields' => 'periodo'));
             $periodo = $instituicao['Mural']['periodo'];
 
+            /* Carrego o array de inscrição com os valores */
             $this->data['Inscricao']['periodo'] = $periodo;
             $this->data['Inscricao']['id_instituicao'] = $id_instituicao;
             $this->data['Inscricao']['data'] = date('Y-m-d');
@@ -258,12 +255,11 @@ class InscricaosController extends AppController {
     function emailparainstituicao($id = NULL) {
 
         if ($id) {
-            $inscritos = $this->Inscricao->find('all',
-                            array(
-                                'conditions' => array('Inscricao.id_instituicao' => $id),
-                                'fields' => array('Aluno.nome', 'Inscricao.id', 'Inscricao.id_aluno', 'Aluno.celular', 'Aluno.telefone', 'Aluno.email', 'Alunonovo.nome', 'Alunonovo.celular', 'Alunonovo.telefone', 'Alunonovo.email', 'Mural.id', 'Mural.instituicao', 'Mural.email', 'Inscricao.id_instituicao'),
-                                'order' => array('Aluno.nome' => 'asc', 'Alunonovo.nome' => 'asc')
-                            )
+            $inscritos = $this->Inscricao->find('all', array(
+                'conditions' => array('Inscricao.id_instituicao' => $id),
+                'fields' => array('Aluno.nome', 'Inscricao.id', 'Inscricao.id_aluno', 'Aluno.celular', 'Aluno.telefone', 'Aluno.email', 'Alunonovo.nome', 'Alunonovo.celular', 'Alunonovo.telefone', 'Alunonovo.email', 'Mural.id', 'Mural.instituicao', 'Mural.email', 'Inscricao.id_instituicao'),
+                'order' => array('Aluno.nome' => 'asc', 'Alunonovo.nome' => 'asc')
+                    )
             );
             // pr($inscritos);
 
@@ -296,15 +292,17 @@ class InscricaosController extends AppController {
                     'timeout' => '30',
                     'host' => 'ssl://smtp.gmail.com',
                     'username' => 'estagio.ess',
-                    'password' => 'essufrjestagio',
+                    'password' => 'e$tagi0ess',
                 );
                 /* Set delivery method */
                 $this->Email->delivery = 'smtp';
                 // $this->Email->to = $user['email'];
-                $this->Email->to = 'uy_luis@hotmail.com'; // $incritos[0]['Mural']['email']
+                // $this->Email->to = 'uy_luis@hotmail.com'; // $incritos[0]['Mural']['email']
+                $this->Email->to = $inscritos[0]['Mural']['email'];
+                $this->Email->cc = array('estagio.ess@gmail.com');
                 $this->Email->subject = 'ESS/UFRJ: Estudantes inscritos para seleção de estágio';
-                $this->Email->replyTo = '"ESS/UFRJ - Coordenação de Estágio e Extensão" <estagio@ess.ufrj.br>';
-                $this->Email->from = '"ESS/UFRJ - Coordenação de Estágio e Extensão" <estagio@ess.ufrj.br>';
+                $this->Email->replyTo = '"ESS/UFRJ - Coordenação de Estágio & Extensão" <estagio@ess.ufrj.br>';
+                $this->Email->from = '"ESS/UFRJ - Coordenação de Estágio & Extensão" <estagio@ess.ufrj.br>';
                 $this->Email->template = 'emailinstituicao'; // note no '.ctp'
                 // Send as 'html', 'text' or 'both' (default is 'text')
                 $this->Email->sendAs = 'html'; // because we like to send pretty mail
@@ -355,10 +353,10 @@ class InscricaosController extends AppController {
         // Busca em estagiarios o ultimo estagio do aluno
         $this->loadModel('Estagiario');
         $estagiario = $this->Estagiario->find('first', array(
-                    'conditions' => array('Estagiario.registro' => $id),
-                    'fields' => array('Estagiario.id', 'Estagiario.periodo', 'Estagiario.turno', 'Estagiario.id_aluno', 'Estagiario.registro', 'Estagiario.nivel', 'Estagiario.id_instituicao', 'Estagiario.id_supervisor', 'Estagiario.id_professor', 'Aluno.id', 'Aluno.registro', 'Aluno.nome'),
-                    'order' => array('periodo' => 'DESC')
-                        )
+            'conditions' => array('Estagiario.registro' => $id),
+            'fields' => array('Estagiario.id', 'Estagiario.periodo', 'Estagiario.turno', 'Estagiario.id_aluno', 'Estagiario.registro', 'Estagiario.nivel', 'Estagiario.id_instituicao', 'Estagiario.id_supervisor', 'Estagiario.id_professor', 'Aluno.id', 'Aluno.registro', 'Aluno.nome'),
+            'order' => array('periodo' => 'DESC')
+                )
         );
         // pr($estagiario);
         // Aluno estagiario
@@ -414,9 +412,9 @@ class InscricaosController extends AppController {
         // Pego as instituicoes
         $this->loadModel('Instituicao');
         $instituicoes = $this->Instituicao->find('list', array(
-                    'order' => 'Instituicao.instituicao',
-                    'fields' => array('Instituicao.id', 'Instituicao.instituicao')
-                        )
+            'order' => 'Instituicao.instituicao',
+            'fields' => array('Instituicao.id', 'Instituicao.instituicao')
+                )
         );
         $instituicoes[0] = "- Selecione -";
         asort($instituicoes);
@@ -424,8 +422,8 @@ class InscricaosController extends AppController {
         // Pego os supervisores da instituicao atual
         if (isset($instituicao_atual)) {
             $supervisores = $this->Instituicao->find('first', array(
-                        'conditions' => array('Instituicao.id = ' . "'" . $instituicao_atual . "'")
-                            )
+                'conditions' => array('Instituicao.id = ' . "'" . $instituicao_atual . "'")
+                    )
             );
             // pr($supervisores);
             foreach ($supervisores['Supervisor'] as $c_supervisor) {
@@ -457,12 +455,12 @@ class InscricaosController extends AppController {
         // Configure::write('debug', '2');
         // echo "id " . $id . "<br>";
         // pr($this->data);
-        // die('386');
+        // die('456');
         // Se ja esta como estagiario pego o id para atualizar
         $this->loadModel("Estagiario");
         $periodo_estagio = $this->Estagiario->find('first', array(
-                    'conditions' => array('Estagiario.periodo' => $this->data['Inscricao']['periodo'], 'Estagiario.registro' => $this->data['Inscricao']['id_aluno']),
-                    'fields' => array('Estagiario.id', 'Estagiario.id_aluno')));
+            'conditions' => array('Estagiario.periodo' => $this->data['Inscricao']['periodo'], 'Estagiario.registro' => $this->data['Inscricao']['id_aluno']),
+            'fields' => array('Estagiario.id', 'Estagiario.id_aluno')));
         // pr($periodo_estagio);
         // die('394');
         /* Capturo os valores da area e professor da instituicao selecionada
@@ -474,7 +472,7 @@ class InscricaosController extends AppController {
         $this->Session->delete('id_area');
         $this->Session->delete('id_prof');
         // echo $id_area . " " . $id_prof . "<br>";
-        // die('407');
+        // die('473');
         // Tem que ter o id da instituicao diferente de zero
         if (empty($this->data['Inscricao']['id_instituicao'])) {
             $this->Session->setFlash('Selecione uma instituição de estágio');
@@ -519,7 +517,7 @@ class InscricaosController extends AppController {
             // Verifico se ja esta cadastrado
             $this->loadModel('Aluno');
             $alunocadastrado = $this->Aluno->find('first', array(
-                        'conditions' => array('Aluno.registro = ' . $id)
+                'conditions' => array('Aluno.registro = ' . $id)
                     ));
             // pr($alunocadastrado);
             // die();
@@ -527,7 +525,7 @@ class InscricaosController extends AppController {
                 echo "Aluno nao cadastrado";
                 $this->loadModel('Alunonovo');
                 $alunonovo = $this->Alunonovo->find('first', array(
-                            'conditions' => array('Alunonovo.registro =' . $id)
+                    'conditions' => array('Alunonovo.registro =' . $id)
                         ));
                 // pr($alunonovo);
                 // die();
@@ -569,7 +567,7 @@ class InscricaosController extends AppController {
                 echo "Aluno cadastrado: ";
                 $aluno_id = $alunocadastrado['Aluno']['id'];
                 // echo "aluno_id: " . $aluno_id;
-                // die('497');
+                // die('468');
             }
 
             /*
@@ -612,7 +610,7 @@ class InscricaosController extends AppController {
 
         $this->loadModel('Estagiario');
         $estagiario = $this->Estagiario->find('first', array(
-                    'conditions' => array('Estagiario.id' => $id)
+            'conditions' => array('Estagiario.id' => $id)
                 ));
         // pr($estagiario);
 
@@ -628,29 +626,6 @@ class InscricaosController extends AppController {
         // pr($nivel);
         // die();
 
-        /*
-          $id_instituicao = $this->data['Inscricao']['id_instituicao'];
-          if (empty($id_instituicao)) {
-          $this->Session->setFlash('Selecione a instituição');
-          // $this->redirect('/Inscricaos/termocompromisso/' . $id);
-          die('Instituicao nao foi selecionada');
-          } else {
-          $this->loadModel('Instituicao');
-          if (!empty($id_instituicao)) {
-          $instituicao_nome = $this->Instituicao->findById($id_instituicao, array('fields' => 'instituicao'));
-          // pr($instituicao_nome);
-          }
-          }
-
-          $id_supervisor = $this->data['Inscricao']['id_supervisor'];
-          $this->loadModel('Supervisor');
-          if (!empty($id_supervisor)) {
-          $supervisor_nome = $this->Supervisor->findById($id_supervisor, array('fields' => 'nome', 'cress'));
-          // pr($supervisor_nome);
-          } else {
-          $supervisor_nome = NULL;
-          }
-         */
         // Capturo o inicio e o fim do termo de compromisso
         $this->loadModel("Configuracao");
         $configuracao = $this->Configuracao->findById('1');

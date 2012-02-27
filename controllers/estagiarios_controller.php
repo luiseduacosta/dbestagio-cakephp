@@ -17,17 +17,17 @@ class EstagiariosController extends AppController {
         // Admin
         if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
             $this->Auth->allowedActions = array('*');
-            $this->Session->setFlash("Administrador");
+            // $this->Session->setFlash("Administrador");
         // Professores podem tudo (menos deletar) até lançar notas. Supervisores podem tambem mudar os estagiarios?
         } elseif ($this->Acl->check($this->Session->read('user'), 'estagiarios', 'update')) {
             $this->Auth->allowedActions = array('index', 'view', 'edit');
-            $this->Session->setFlash("Professor/Supervisor");
+            // $this->Session->setFlash("Professor/Supervisor");
         // Estudantes podem ver
         } elseif ($this->Acl->check($this->Session->read('user'), 'estagiarios', 'read')) {
             $this->Auth->allowedActions = array('index', 'view');
-            $this->Session->setFlash("Estudante");
+            // $this->Session->setFlash("Estudante");
         } else {
-            $this->Session->setFlash("Não autorizado");
+            $this->Session->setFlash("Estagiários: Não autorizado");
         }
         // die(pr($this->Session->read('user')));
     }
@@ -50,6 +50,7 @@ class EstagiariosController extends AppController {
                     'order' => ('Estagiario.periodo')
                 ));
         $periodos_total[0] = 'Todos';
+        // print_r($periodos_total);
 
         // if (empty($periodo)) pr("Vazio ou zero :  " . $periodo);
         // if (!isset($periodo)) pr("Excluido o zero: " . $periodo);
@@ -194,6 +195,7 @@ class EstagiariosController extends AppController {
         }
         $this->set('periodo', $periodo);
         $this->set('opcoes', $periodos_total);
+        
     }
 
     function view($id = NULL) {
@@ -236,7 +238,7 @@ class EstagiariosController extends AppController {
             // pr($periodos_total);
             $this->set('periodos', $periodos_total);
 
-            // Instituicoes para o select. Nao colocar a opcao 0
+            /* Instituicoes para o select. Nao colocar a opcao 0 */
             $this->loadModel('Instituicao');
             $instituicoes = $this->Instituicao->find('list', array(
                         'order' => 'Instituicao.instituicao'));
@@ -246,13 +248,15 @@ class EstagiariosController extends AppController {
             // pr($instituicoes);
             $this->set('instituicoes', $instituicoes);
             // die();
-            // Supervisores da instituicao para o select
+
+            /* Supervisores da instituicao para o select */
             $supervisores = $this->Instituicao->find('first', array(
                         'conditions' => array('Instituicao.id' => $estagiario['Estagiario']['id_instituicao'])
                     ));
             // pr($supervisores);
             // die();
-            // Crio a lista de supervisores da instituicao para o select
+            
+            /* Crio a lista de supervisores da instituicao para o select */
             if ($supervisores['Supervisor']) {
                 foreach ($supervisores['Supervisor'] as $cada_super) {
                     $ordemsuper[$cada_super['id']] = $cada_super['nome'];
@@ -262,7 +266,7 @@ class EstagiariosController extends AppController {
             asort($ordemsuper);
             $this->set('supervisores', $ordemsuper);
 
-            // Professores para o select
+            /* Professores para o select */
             $this->loadModel('Professor');
             $professores = $this->Professor->find('list', array(
                         'order' => 'Professor.nome'));
@@ -270,7 +274,7 @@ class EstagiariosController extends AppController {
             asort($professores);
             $this->set('professores', $professores);
 
-            // Areas para o select
+            /* Areas para o select */
             $this->loadModel('Area');
             $areas = $this->Area->find('list', array(
                         'order' => 'area'));
@@ -383,24 +387,24 @@ class EstagiariosController extends AppController {
             $this->set('proximo_nivel', $ultimo_nivel);
         }
 
-        // Para fazer o select dos alunos
+        /* Para fazer o select dos alunos */
         $this->loadModel('Aluno');
         $alunos = $this->Aluno->find('list', array('order' => 'Aluno.nome'));
         $this->set('alunos', $alunos);
 
-        // Select das instituicoes. Nao colocar a opcao zero
+        /* Select das instituicoes. Nao colocar a opcao zero */
         $this->loadModel('Instituicao');
         $instituicoes = $this->Instituicao->find('list', array('order' => 'Instituicao.instituicao'));
         $this->set('instituicoes', $instituicoes);
 
-        // Select dos supervisores
+        /* Select dos supervisores */
         $this->loadModel('Supervisor');
         $supervisores = $this->Supervisor->find('list', array('order' => 'Supervisor.nome'));
         $supervisores[0] = '- Seleciona -';
         asort($supervisores);
         $this->set('supervisores', $supervisores);
 
-        // Select dos professores
+        /* Select dos professores */
         $this->loadModel('Professor');
         $professores = $this->Professor->find('list', array(
                     'order' => array('Professor.nome'),
@@ -409,7 +413,7 @@ class EstagiariosController extends AppController {
         asort($professores);
         $this->set('professores', $professores);
 
-        // Select das areas tematicas
+        /* Select das areas tematicas */
         $this->loadModel('Area');
         $areas = $this->Area->find('list', array(
                     'order' => 'area'));

@@ -11,44 +11,54 @@
 <table>
     <thead>
         <tr>
-            <th><a href="?ordem=id">Id</a></th>
-            <th><a href="?ordem=id_aluno">DRE</a></th>
-            <th><a href="?ordem=tipo">T</a></th>
-            <th><a href="?ordem=nome">Estudante</a></th>
-            <th><a href="?ordem=nascimento">Nascimento</a></th>
-            <th><a href="?ordem=telefone">Telefone</a></th>
-            <th><a href="?ordem=celular">Celular</a></th>
-            <th><a href="?ordem=email">Email</a></th>
+            <?php if ($this->Session->read('categoria') === 'administrador'): ?>
+                <th><a href="?ordem=id">Id</a></th>
+                <th><a href="?ordem=id_aluno">DRE</a></th>
+                <th><a href="?ordem=tipo">T</a></th>
+                <th><a href="?ordem=nome">Estudante</a></th>
+                <th><a href="?ordem=nascimento">Nascimento</a></th>
+                <th><a href="?ordem=telefone">Telefone</a></th>
+                <th><a href="?ordem=celular">Celular</a></th>
+                <th><a href="?ordem=email">Email</a></th>
+            <?php else: ?>
+                <th><a href="?ordem=nome">Estudante</a></th>
+            <?php endif; ?>
         </tr>
     </thead>
     <tbody>
         <?php foreach($inscritos as $c_inscrito): ?>
         <tr>
-            <td><?php echo $html->link($c_inscrito['id_inscricao'], '/inscricaos/view/' . $c_inscrito['id_inscricao']); ?></td>
-            <td><?php echo $c_inscrito['id_aluno']; ?></td>
-            <td><?php echo $c_inscrito['tipo']; ?></td>
+            
+            <?php if ($this->Session->read('categoria') === 'administrador'): ?>
+                <td><?php echo $html->link($c_inscrito['id_inscricao'], '/inscricaos/view/' . $c_inscrito['id_inscricao']); ?></td>
+                <td><?php echo $c_inscrito['id_aluno']; ?></td>
+                <td><?php echo $c_inscrito['tipo']; ?></td>
+            <?php endif; ?>
+            
             <td>
             <?php 
 			if ($c_inscrito['tipo'] === 0) {
+                            if ($this->Session->read('categoria') === 'administrador') {
 				echo $html->link($c_inscrito['nome'], '/Alunonovos/view/' . $c_inscrito['id']); 
+                            } else {
+                                echo $c_inscrito['nome'];
+                            }
 			} else {
-				echo $html->link($c_inscrito['nome'], '/Alunos/view/' . $c_inscrito['id']); 
+                            if ($this->Session->read('categoria') === 'administrador') {
+				echo $html->link($c_inscrito['nome'], '/Alunos/view/' . $c_inscrito['id']);
+                            } else {
+                                echo $c_inscrito['nome'];
+                            }
 			}
 	    ?>
             </td>
-            
-            <?php
-            // print_r($this->Session->read());
-            if ($this->Session->read('permissao') == 'tudo') {
-            ?>
+
+            <?php if ($this->Session->read('categoria') === 'administrador'): ?>
                 <td><?php echo $c_inscrito['nascimento']; ?></td>
                 <td><?php echo $c_inscrito['telefone']; ?></td>
                 <td><?php echo $c_inscrito['celular']; ?></td>
                 <td><?php echo $c_inscrito['email']; ?></td>
-            <?php
-            }
-            ?>
-            
+            <?php endif; ?>    
         </tr>
         <?php endforeach; ?>
     </tbody>

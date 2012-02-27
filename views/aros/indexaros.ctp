@@ -1,5 +1,24 @@
-<table>
+<?php echo $html->link('Configurações','/configuracaos/view/1'); ?>
+<?php echo " | "; ?>
+<?php echo $html->link('Usuários','/aros/listausuarios/'); ?>
+<?php echo " | "; ?>
+<?php echo $html->link('Permissões','/aros/indexaros/'); ?>
 
+<table>
+    
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Categoria</th>
+            <th>Objeto</th>
+            <th>Crear</th>
+            <th>Ver</th>
+            <th>Editar</th>
+            <th>Excluir</th>
+        </tr>
+    </thead>     
+   
+    
 <?php
 foreach ($aros as $esteusuario) {
 ?>    

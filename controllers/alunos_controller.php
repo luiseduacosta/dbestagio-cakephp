@@ -10,17 +10,17 @@ class AlunosController extends AppController {
         // Admin
         if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
             $this->Auth->allowedActions = array('*');
-            $this->Session->setFlash("Administrador");
-            // Estudantes
+            // $this->Session->setFlash("Administrador");
+        // Estudantes
         } elseif ($this->Acl->check($this->Session->read('user'), 'alunos', 'update')) {
             $this->Auth->allowedActions = array('index', 'view', 'busca', 'busca_cpf', 'busca_dre', 'busca_email', 'edit');
-            $this->Session->setFlash("Estudante");
-            // Professores, Supervisores
+            // $this->Session->setFlash("Estudante");
+        // Professores, Supervisores
         } elseif ($this->Acl->check($this->Session->read('user'), 'alunos', 'read')) {
             $this->Auth->allowedActions = array('index', 'view', 'busca', 'busca_cpf', 'busca_dre', 'busca_email');
-            $this->Session->setFlash("Professor/Supervisor");
+            // $this->Session->setFlash("Professor/Supervisor");
         } else {
-            $this->Session->setFlash("Não autorizado");
+            $this->Session->setFlash("Estudantes estagiários: Não autorizado");
         }
         // die(pr($this->Session->read('user')));
     }
@@ -40,9 +40,8 @@ class AlunosController extends AppController {
 
         // echo "Aluno";
         // die(pr($this->Session->read('numero')));
-
-        // Somente o próprio pode ver
-        if ($this->Session->read('numero')) {
+        // Se eh estudante somente o próprio pode ver
+        if (($this->Session->read('categoria') === 'estudante') && ($this->Session->read('numero'))) {
             // die(pr($this->Session->read('numero')));
             $verifica = $this->Aluno->findByRegistro($this->Session->read('numero'));
             if ($id != $verifica['Aluno']['id']) {
@@ -58,13 +57,15 @@ class AlunosController extends AppController {
         $estagios = $instituicao['Estagiario'];
 
         // Pego a informacao sobre o conteudo dos estagios realizados
-        $this->loadModel('Estagiario');
-        $instituicoes = $this->Estagiario->findAllById_aluno($id);
+        $instituicoes = $this->Aluno->Estagiario->find('all', array(
+            'conditions' => array('Estagiario.id_aluno=' . $id)
+                )
+        );
         // print_r($instituicoes);
         $this->set('instituicoes', $instituicoes);
 
         $proximo = $this->Aluno->find('neighbors', array(
-                    'field' => 'nome', 'value' => $aluno['nome']));
+            'field' => 'nome', 'value' => $aluno['nome']));
 
         $this->set('registro_next', $proximo['next']['Aluno']['id']);
         $this->set('registro_prev', $proximo['prev']['Aluno']['id']);
@@ -89,6 +90,10 @@ class AlunosController extends AppController {
         if (empty($this->data)) {
             $this->data = $this->Aluno->read();
         } else {
+            
+            $duplicada = $this->Aluno->findByRegistro($this->data['Aluno']['registro']);
+            if ($duplicada) $this->Session->setFlash("Este número de aluno já está cadastrado");
+            
             if ($this->Aluno->save($this->data)) {
                 // print_r($this->data);
                 $this->Session->setFlash("Atualizado");
@@ -145,7 +150,15 @@ class AlunosController extends AppController {
 
             // Nenhum resultado
             if (empty($alunos)) {
-                $this->Session->setFlash("Não foram encontrados registros");
+                $this->loadModel('Alunonovo');
+                $condicao = array('Alunonovo.nome like' => '%' . $this->data['Aluno']['nome'] . '%');
+                $alunonovos = $this->Alunonovo->find('all', array('conditions' => $condicao));
+                if (empty($alunonovos)) {
+                    $this->Session->setFlash("Não foram encontrados registros");
+                } else {
+                    $this->set('alunos', $this->paginate($condicao));
+                    $this->set('nome', $this->data['Aluno']['nome']);
+                }
             } else {
                 $this->set('alunos', $this->paginate($condicao));
                 $this->set('nome', $this->data['Aluno']['nome']);
@@ -158,14 +171,18 @@ class AlunosController extends AppController {
         if (!empty($this->data['Aluno']['registro'])) {
             $alunos = $this->Aluno->findAllByRegistro($this->data['Aluno']['registro']);
             if (empty($alunos)) {
-                $this->Session->setFlash("Não foram encontrados registros do aluno");
                 // Teria que buscar na tabela alunos_novos
-                // $alunos_novos = $this->Aluno_novo->findAllByRegistro($this->data['Aluno']['registro']);
-                // if (empty($alunos_novos)
-                $this->redirect('/Alunos/busca');
+                $this->loadModel('Alunonovo');
+                $alunonovos = $this->Alunonovo->findAllByRegistro($this->data['Aluno']['registro']);
+                // pr($alunonovos);
+                if (empty($alunonovos)) {
+                    $this->Session->setFlash("Não foram encontrados registros do aluno");
+                    $this->redirect('/Alunos/busca');
+                } else {
+                    $this->set('alunos', $alunonovos);
+                }
             } else {
                 $this->set('alunos', $alunos);
-                // $this->set('alunos',$alunos_novos);
             }
         }
     }
@@ -236,7 +253,7 @@ class AlunosController extends AppController {
 
             // Primeiro verifico se ja nao esta cadastrado
             $alunocadastrado = $this->Aluno->find('first', array(
-                        'conditions' => array('Aluno.registro' => $id)
+                'conditions' => array('Aluno.registro' => $id)
                     ));
             if (!empty($alunocadastrado)) {
                 $this->Session->setFlash("Aluno já cadastrado");
@@ -246,7 +263,7 @@ class AlunosController extends AppController {
             // Logo busco entre os alunos novos
             $this->loadModel('Alunonovo');
             $alunonovo = $this->Alunonovo->find('first', array(
-                        'conditions' => array('Alunonovo.registro' => $id)
+                'conditions' => array('Alunonovo.registro' => $id)
                     ));
             // pr($alunonovo);
             $this->set('alunonovo', $alunonovo);

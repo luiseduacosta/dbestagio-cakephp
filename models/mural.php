@@ -2,6 +2,18 @@
 
 class Mural extends AppModel {
 
+    /*
+     * @var Inscricao
+     * @var Instituicao
+     * @var Area
+     * @var Professor
+     */
+    
+    var $Inscricao;
+    var $Instituicao;
+    var $Area;
+    var $Professor;
+    
     var $name = 'Mural';
     var $useTable = 'mural_estagio';
     var $primaryKey = 'id';

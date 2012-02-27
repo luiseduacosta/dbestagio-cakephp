@@ -7,6 +7,7 @@ echo $html->scriptBlock('
 
 $(document).ready(function(){
 
+    $("#AlunonovoRegistro").mask("999999999");
     $("#AlunonovoCpf").mask("999999999-99");
     $("#AlunonovoTelefone").mask("9999.9999");
     $("#AlunonovoCelular").mask("9999.9999");
@@ -26,15 +27,33 @@ $(document).ready(function(){
     <legend>Dados do aluno</legend>
     <table border="1">
 
+        <!--
+        Verifico que tenha um número e que seja de um estudante
+        //-->
+        <?php if ($this->Session->read('numero') || ($this->Session->read('categoria') === 'estudante')): ?>
+            <tr>
+            <td colspan="2">
+                <label for="AlunonovoRegistro">Registro na UFRJ (DRE): <?php echo $this->Session->read('numero'); ?></label>
+                <?php echo $form->input('registro', array('type'=>'hidden', 'value'=>$registro, 'default'=>$this->Session->read('numero'))); ?>
+            </td>
+            </tr>
+        <!--
+        Senão somente o administrador pode cadastrar um aluno novo
+        //-->    
+        <?php else: ?>
+            <?php echo "Estudante sem número de registro na UFRJ (DRE)? " . $this->Session->read('numero'); ?>
+            <?php if ($this->Session->read('categoria') === 'administrador'): ?>
+            <tr>
+            <td colspan="2">
+                <?php echo $form->input('registro', array('type'=>'text', 'value'=>$registro, 'default'=>$this->Session->read('numero'))); ?>
+            </td>
+            </tr>
+            <?php endif; ?>
+        <?php endif; ?>
+        
         <tr>
         <td colspan="2">
             <?php echo $form->input('nome'); ?>
-        </td>
-        </tr>
-
-        <tr>
-        <td colspan="2">
-            <?php echo $form->input('registro', array('type'=>'hidden', 'value'=>$registro, 'default'=>$this->Session->read('numero'))); ?>
         </td>
         </tr>
 
@@ -59,11 +78,22 @@ $(document).ready(function(){
             </td>
         </tr>
 
+        <?php if ($this->Session->read('numero') || ($this->Session->read('categoria') === 'estudante')): ?>
         <tr>
             <td colspan="2">
-            <?php echo $form->input('email', array('default'=>$this->Session->read('user'))); ?>
+            <label for="AlunonovoEmail">Email: <?php echo $this->Session->read('user'); ?></label>    
+            <?php echo $form->input('email', array('type'=>'hidden', 'default'=>$this->Session->read('user'))); ?>
             </td>
         </tr>
+        <?php else: ?>
+            <?php if ($this->Session->read('categoria') === 'administrador'): ?>
+            <tr>
+                <td colspan="2">
+                <?php echo $form->input('email'); ?>    
+                </td>
+            </tr>
+            <?php endif; ?>
+        <?php endif; ?>
 
         <tr>
             <td>
@@ -112,4 +142,6 @@ if (isset($id_instituicao)) {
 }
 ?>
 
+<span style="text-align: center">
 <?php echo $form->end('Confirma'); ?>
+</span>
