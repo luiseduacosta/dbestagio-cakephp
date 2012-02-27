@@ -2,6 +2,14 @@
 
 class Supervisor extends AppModel {
 
+    /*
+     * @var Estagiario
+     * @var Instituicao
+     */
+    
+    var $Estagiario;
+    var $Instituicao;
+    
     var $name = 'Supervisor';
     var $useTable = 'supervisores';
     var $primaryKey = 'id';

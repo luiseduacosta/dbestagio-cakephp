@@ -11,20 +11,23 @@ class AlunonovosController extends AppController {
         parent::beforeFilter();
         // Para cadastrar usuarios do sistema precisso abrir este metodo
         $this->Auth->allowedActions = array('add');
-        // Admin
-        if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
-            $this->Auth->allowedActions = array('*');
-            $this->Session->setFlash("Administrador");
-            // Estudantes
-        } elseif ($this->Acl->check($this->Session->read('user'), 'alunonovos', 'create')) {
-            $this->Auth->allowedActions = array('add', 'index', 'view', 'busca', 'busca_cpf', 'busca_dre', 'busca_email', 'edit');
-            $this->Session->setFlash("Estudante");
-            // Professores e Supervisores
-        } elseif ($this->Acl->check($this->Session->read('user'), 'alunonovos', 'read')) {
-            $this->Auth->allowedActions = array('index', 'view', 'busca', 'busca_cpf', 'busca_dre', 'busca_email');
-            $this->Session->setFlash("Professor/Supervisor");
-        } else {
-            $this->Session->setFlash("Não autorizado");
+        $cadastro = $this->Session->read('cadastro');
+        if (empty($cadastro)) {
+            // Admin
+            if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
+                $this->Auth->allowedActions = array('*');
+                // $this->Session->setFlash("Administrador");
+                // Estudantes
+            } elseif ($this->Acl->check($this->Session->read('user'), 'alunonovos', 'create')) {
+                $this->Auth->allowedActions = array('add', 'index', 'view', 'busca', 'busca_cpf', 'busca_dre', 'busca_email', 'edit');
+                // $this->Session->setFlash("Estudante");
+                // Professores e Supervisores
+            } elseif ($this->Acl->check($this->Session->read('user'), 'alunonovos', 'read')) {
+                $this->Auth->allowedActions = array('index', 'view', 'busca', 'busca_cpf', 'busca_dre', 'busca_email');
+                // $this->Session->setFlash("Professor/Supervisor");
+            } else {
+                $this->Session->setFlash("Estudantes novos: Não autorizado");
+            }
         }
         // die(pr($this->Session->read('user')));
     }
@@ -48,6 +51,12 @@ class AlunonovosController extends AppController {
     function add($id = NULL) {
 
         $this->set('registro', $id);
+
+        /* Vejo se foi chamado desde cadastro
+          $cadastro = $this->Session->read('cadastro');
+          pr($cadastro);
+          // die();
+         */
 
         if ($this->Alunonovo->save($this->data)) {
 
@@ -73,9 +82,17 @@ class AlunonovosController extends AppController {
                 // Volta para a pagina de termo de compromisso
                 $this->redirect('/Inscricaos/termocompromisso/' . $registro_termo);
             } elseif ($cadastro) {
-                $this->redirec('/Users/cadastro/' . $cadastro);
+                $this->Session->delete('cadastro');
+                $id_alunonovo = $this->Alunonovo->getLastInsertId();
+                // $this->Session->write('menu_aluno', 'alunonovo');
+                // $this->Session->write('menu_id_aluno', $id_alunonovo);
+                $this->redirect('/Alunonovos/view/' . $id_alunonovo);
             } else {
                 // Mostra resultado da insercao
+                /* Para poder colocar o link no menu superior */
+                $id_alunonovo = $this->Alunonovo->getLastInsertId();
+                $this->Session->write('menu_aluno', 'alunonovo');
+                $this->Session->write('menu_id_aluno', $id_alunonovo);
                 $this->Session->setFlash('Dados inseridos');
                 $id_alunonovo = $this->Alunonovo->getLastInsertId();
                 $this->redirect('/Alunonovos/view/' . $id_alunonovo);
@@ -104,17 +121,19 @@ class AlunonovosController extends AppController {
                 die("Não autorizado");
             }
         }
-
+        
         $this->Alunonovo->id = $id;
         // pr($id);
         if (empty($this->data)) {
 
             $this->data = $this->Alunonovo->read();
-
         } else {
 
+            $duplicada = $this->Alunonovo->findByRegistro($this->data['Alunonovo']['registro']);
+            if ($duplicada) $this->Session->setFlash("O número de aluno já está cadastrado");
+            
             if ($this->Alunonovo->save($this->data)) {
-                // print_r($this->data);
+
                 $this->Session->setFlash("Atualizado");
 
                 // Capturo o id da instituicao (se foi chamada desde inscriacao add)
@@ -145,7 +164,8 @@ class AlunonovosController extends AppController {
         // echo "Aluno novo";
         // die(pr($this->Session->read('numero')));
         // Somente o próprio pode ver
-        if ($this->Session->read('numero')) {
+        
+        if (($this->Session->read('categoria') === 'estudante')  && ($this->Session->read('numero'))) {
             $verifica = $this->Alunonovo->findByRegistro($this->Session->read('numero'));
             // pr($this->Session->read('numero'));
 
@@ -158,7 +178,6 @@ class AlunonovosController extends AppController {
 
         $aluno = $this->Alunonovo->findById($id);
         // pr($aluno);
-
         // Onde fizeram inscricoes
         $this->loadModel('Inscricao');
         $inscricoes = $this->Inscricao->findAllByIdAluno($aluno['Alunonovo']['registro']);
@@ -166,7 +185,6 @@ class AlunonovosController extends AppController {
 
         $this->set('alunos', $aluno);
         $this->set('inscricoes', $inscricoes);
-
     }
 
     function delete($id = NULL) {
@@ -177,8 +195,8 @@ class AlunonovosController extends AppController {
 
         $this->loadModel('Inscricao');
         $inscricao = $this->Inscricao->find('all', array(
-                    'conditions' => array('Inscricao.id_aluno' => $registro['Alunonovo']['registro']),
-                    'fields' => 'id'));
+            'conditions' => array('Inscricao.id_aluno' => $registro['Alunonovo']['registro']),
+            'fields' => 'id'));
         // pr($inscricao);
         // die();
 

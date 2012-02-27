@@ -2,6 +2,12 @@
 
 class Aluno extends AppModel {
 
+    /*
+     * @var Estagiario
+    */
+
+    var $Estagiario;
+            
     var $name = 'Aluno';
     var $useTable = 'alunos';
     var $primaryKey = 'id';  // ha outro campo registro

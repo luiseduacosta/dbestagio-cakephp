@@ -1,22 +1,25 @@
-<?php 
+<?php if ($this->Session->read('categoria') === 'administrador'): ?>
 
-echo $html->link('Excluir instituição','/Murals/delete/' . $mural['Mural']['id'], NULL, 'Tem certeza?');
-echo " | ";
-echo $html->link('Editar instituição','/Murals/edit/' . $mural['Mural']['id']);
-echo " | ";
-echo $html->link('Listar mural','/Murals/index/');
-echo " | ";
-echo $html->link('Listar inscritos','/Inscricaos/index/' . $mural['Mural']['id']);
+    <?php 
+    echo $html->link('Excluir mural', '/Murals/delete/' . $mural['Mural']['id'], NULL, 'Tem certeza?');
+    echo " | ";
+    echo $html->link('Editar mural','/Murals/edit/' . $mural['Mural']['id']);
+    echo " | ";
+    echo $html->link('Listar mural','/Murals/index/');
+    echo " | ";
+    echo $html->link('Listar inscritos','/Inscricaos/index/' . $mural['Mural']['id']);
+    echo "<br />";
+    ?>
 
-echo "<br />";
+    <?php 
+    echo $html->link('Imprimir cartaz','/Murals/publicacartaz/' . $mural['Mural']['id']);
+    echo " | ";
+    echo $html->link('Publicar no Google','/Murals/publicagoogle/' . $mural['Mural']['id']);
+    echo " | ";
+    echo $html->link('Enviar inscrições por email','/Inscricaos/emailparainstituicao/' . $mural['Mural']['id']);
+    ?>
 
-echo $html->link('Imprimir cartaz','/Murals/publicacartaz/' . $mural['Mural']['id']);
-echo " | ";
-echo $html->link('Publicar no Google','/Murals/publicagoogle/' . $mural['Mural']['id']);
-echo " | ";
-echo $html->link('Enviar inscrições por email','/Inscricaos/emailparainstituicao/' . $mural['Mural']['id']);
-
-?>
+<?php endif; ?>
 
 <table>
     <thead>
@@ -165,13 +168,37 @@ echo $html->link('Enviar inscrições por email','/Inscricaos/emailparainstituic
             <td><?php echo $mural['Mural']['outras']; ?></td>
         </tr>
 
+        <!--
+        Para o administrador as inscrições sempre estão abertas
+        //-->
+        <?php if ($this->Session->read('categoria') === 'administrador'): ?>        
         <tr>
-            <td colspan = 2>
+            <td colspan = 2 style="text-align: center">
             <?php echo $form->create('Inscricao', array('action'=>'add/' . $mural['Mural']['id'])); ?>
             <?php echo $form->input('id_instituicao', array('type'=>'hidden', 'value'=>$mural['Mural']['id'])); ?>
             <?php echo $form->end('Inscrição'); ?>
             </td>
         </tr>
-
+        <?php endif; ?>
+        
+        <!--
+        Para os outros usuários as inscrições dependem da data de encerramento
+        //-->
+        <?php if (date('Y-m-d') < $mural['Mural']['dataInscricao']): ?> 
+        <tr>
+            <td colspan = 2 style="text-align: center">
+            <?php echo $form->create('Inscricao', array('action'=>'add/' . $mural['Mural']['id'])); ?>
+            <?php echo $form->input('id_instituicao', array('type'=>'hidden', 'value'=>$mural['Mural']['id'])); ?>
+            <?php echo $form->end('Inscrição'); ?>
+            </td>
+        </tr>
+        <?php else: ?>
+        <tr>
+            <td colspan = 2>
+                <p style="text-align: center; color: red">Inscrições encerradas!</p>
+            </td>
+        </tr>
+        <?php endif; ?>
+        
     </tbody>
 </table>

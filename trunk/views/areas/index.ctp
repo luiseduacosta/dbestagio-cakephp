@@ -1,7 +1,7 @@
-<?php echo $html->link('Inserir', '/Areas/add/'); ?>
-
-
-<br />
+<?php if ($this->Session->read('categoria') === 'administrador'): ?>
+    <?php echo $html->link('Inserir', '/Areas/add/'); ?>
+    <br />
+<?php endif; ?>
 
 <h1>Áreas de orientação dos professores de OTP</h1>
 

@@ -1,7 +1,3 @@
-<?php
-
- ?>
-
 <div align="center">
 <?php echo $html->link('Retroceder', array('action'=>'view', $registro_prev)) . " "; ?> |
 <?php echo $html->link('Avançar'   , array('action'=>'view', $registro_next)); ?>
@@ -136,17 +132,27 @@
 
 </table>
 
-<?php
-echo $html->link('Excluir','/Instituicaos/delete/' . $instituicao['Instituicao']['id'], NULL, 'Tem certeza?');
-echo " | ";
-echo $html->link('Editar','/Instituicaos/edit/' . $instituicao['Instituicao']['id']);
-echo " | ";
-echo $html->link('Inserir','/Instituicaos/add/');
-echo " | ";
-echo $html->link('Buscar','/Instituicaos/busca/');
-echo " | ";
-echo $html->link('Listar','/Instituicaos/index/');
-?>
+<?php if ($this->Session->read('categoria') === 'administrador'): ?>
+    <?php
+    echo $html->link('Excluir','/Instituicaos/delete/' . $instituicao['Instituicao']['id'], NULL, 'Tem certeza?');
+    echo " | ";
+    echo $html->link('Editar','/Instituicaos/edit/' . $instituicao['Instituicao']['id']);
+    echo " | ";
+    echo $html->link('Inserir','/Instituicaos/add/');
+    echo " | ";
+    echo $html->link('Buscar','/Instituicaos/busca/');
+    echo " | ";
+    echo $html->link('Listar','/Instituicaos/index/');
+    ?>
+<?php else: ?>
+    <?php
+    echo $html->link('Editar','/Instituicaos/edit/' . $instituicao['Instituicao']['id']);
+    echo " | ";
+    echo $html->link('Buscar','/Instituicaos/busca/');
+    echo " | ";
+    echo $html->link('Listar','/Instituicaos/index/');
+    ?>
+<?php endif; ?>
 
 <?php
 
@@ -182,9 +188,11 @@ if ($instituicao['Supervisor']) {
             <th>
                 Nome
             </th>
+            <?php if ($this->Session->read('categoria') === 'administrador'): ?>
             <th>
             	Ação
             </th>
+            <?php endif; ?>
         </tr>
     </thead>
     <?php foreach ($cada_supervisor as $c_supervisor): ?>
@@ -193,16 +201,21 @@ if ($instituicao['Supervisor']) {
         <td>
             <?php echo $c_supervisor['cress']; ?>
         </td>
+        
+
         <td>
             <?php
             echo $html->link($c_supervisor['nome'],'/Supervisors/view/'. $c_supervisor['id']);
             ?>
         </td>
-        <td>
-        	<?php 
-        	echo $html->link('Excluir', '/Instituicaos/deleteassociacao/' . $c_supervisor['id_superinst'], NULL, 'Tem certeza?');
-			?>
-        </td>
+        
+        <?php if ($this->Session->read('categoria') === 'administrador'): ?>
+            <td>
+                <?php 
+                echo $html->link('Excluir', '/Instituicaos/deleteassociacao/' . $c_supervisor['id_superinst'], NULL, 'Tem certeza?');
+                ?>
+            </td>
+        <?php endif; ?>
         
     </tr>
     </tbody>
@@ -212,6 +225,8 @@ if ($instituicao['Supervisor']) {
 <?php endif; ?>
 
 <hr />
+
+<?php if ($this->Session->read('categoria') != 'estudante'): ?>
 
 <h1>Inserir supervisor</h1>
 
@@ -223,3 +238,5 @@ echo $form->input('InstSuper.id_supervisor', array('label'=>'Supervisor', 'optio
 echo $form->end('Confirma');
 
 ?>
+
+<?php endif; ?>

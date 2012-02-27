@@ -2,6 +2,14 @@
 
 class User extends AppModel {
 
+    /*
+     * @var Role
+     * @var Aro
+     */
+    
+    var $Role;
+    var $Aro;
+    
     var $name = 'User';
     var $useTable = 'users';
     var $displayField = 'email';

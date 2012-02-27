@@ -12,15 +12,15 @@ class MuralsController extends AppController {
         // Admin
         if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
             $this->Auth->allowedActions = array('*');
-            $this->Session->setFlash('Administrador');
+            // $this->Session->setFlash('Administrador');
         // No futuro os supervisores poderao lançar murals
         } elseif ($this->Acl->check($this->Session->read('user'), 'murals', 'create')) {
             $this->Auth->allowedActions = array('add', 'edit', 'index', 'view');
-            $this->Session->setFlash('Supervisor');
+            // $this->Session->setFlash('Supervisor');
         // Professores podem atualizar murais
         } elseif ($this->Acl->check($this->Session->read('user'), 'murals', 'update')) {
             $this->Auth->allowedActions = array('edit', 'index', 'view');
-            $this->Session->setFlash('Professor');    
+            // $this->Session->setFlash('Professor');    
         // Todos
         } else {
             $this->Auth->allowedActions = array('index', 'view');
@@ -28,13 +28,26 @@ class MuralsController extends AppController {
         // die(pr($this->Session->read('user')));
     }
 
-    function index($periodo = NULL) {
+    function index() {
 
-        // Capturo o periodo atual de estagio para o mural
-        $this->loadModel("Configuracao");
-        $configuracao = $this->Configuracao->findById('1');
-        $periodo = $configuracao['Configuracao']['mural_periodo_atual'];
-        // $periodo = '2010-1';
+        $parametros = $this->params['named'];
+        $periodo = isset($parametros['periodo']) ? $parametros['periodo'] : NULL;
+
+        if (!$periodo) {
+            // Capturo o periodo atual de estagio para o mural
+            $this->loadModel("Configuracao");
+            $configuracao = $this->Configuracao->findById('1');
+            $periodo = $configuracao['Configuracao']['mural_periodo_atual'];
+        }
+
+        $this->Session->write('mural_periodo', $periodo);
+        
+        // Capturo todos os periodos
+        $todos_periodos = $this->Mural->find('list', array(
+            'fields'=>array('Mural.periodo', 'Mural.periodo'),
+            'group'=>array('Mural.periodo'),
+            'order'=>array('Mural.periodo DESC')));
+        // $periodo = '2009-1';
 
         $i = 0;
         $mural = $this->Mural->find('all', array(
@@ -81,7 +94,6 @@ class MuralsController extends AppController {
         /* Fim da descriminacao entre estagiarios e novos */
 
         /* Conta a quantidade de vagas oferecidas */
-        $this->loadModel('Mural');
         $vagas = $this->Mural->find('all', array(
                     'fields' => 'Sum(vagas) as total_vagas',
                     'conditions' => 'Mural.periodo = ' . "'" . $periodo . "'")
@@ -89,12 +101,14 @@ class MuralsController extends AppController {
         $total_vagas = $vagas[0][0]['total_vagas'];
         /* Finaliza conta das vagas */
 
+        $this->set('todos_periodos', $todos_periodos);
         $this->set('periodo', $periodo);
         $this->set('total_alunos', $total_alunos);
         $this->set('total_vagas', $total_vagas);
         $this->set('alunos_novos', $alunos_novos);
         $this->set('alunos_estagiarios', $alunos_estagiarios);
         $this->set('mural', $mural);
+        
     }
 
     function add() {
@@ -140,7 +154,8 @@ class MuralsController extends AppController {
                         'fields' => array('id', 'area'),
                         'order' => array('area')
                     ));
-            $areas[0] = 'Selecionar área';
+            $areas[0] = '- Selecionar área';
+            asort($areas);
             // pr($areas);
 
             // Select Professores
@@ -151,7 +166,7 @@ class MuralsController extends AppController {
                         'order' => array('nome')
                     ));
             $professores[0] = '- Selecionar professor -';
-			asort($professores);
+	    asort($professores);
             // pr($professores);
 
             $this->set('instituicoes', $instituicoes);
@@ -243,8 +258,8 @@ class MuralsController extends AppController {
             'port' => '465',
             'timeout' => '30',
             'host' => 'ssl://smtp.gmail.com',
-            'username' => 'estagio.ess@gmai.com',
-            'password' => 'essufrjestagio',
+            'username' => 'estagio.ess@gmail.com',
+            'password' => 'e$tagi0ess',
         );
         /* Set delivery method */
         $this->Email->delivery = 'smtp';

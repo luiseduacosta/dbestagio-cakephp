@@ -28,11 +28,11 @@ class XTCPDF  extends TCPDF {
         $this->SetTextColor(0 , 0, 0); 
         $this->SetFont($this->xfooterfont, '', 14); 
         $this->setHeaderData($this->xheaderlogo, 30, "ESS", "Estágio");
-        // $this->Cell(0, 25, '', 0, 1, 'C', 1); 
-        // $this->Text(50,12, "UNIVERSIDADE FEDERAL DO RIO DE JANEIRO"); 
-        // $this->Text(50,17, "Centro de Filosofia e Ciências Sociais"); 
-        // $this->Text(50,22, "ESCOLA DE SERVIÇO SOCIAL");
-        // $this->Text(50,27, $this->xheadertext ); 
+        $this->Cell(0, 25, '', 0, 1, 'C', 1); 
+        $this->Text(50,12, "UNIVERSIDADE FEDERAL DO RIO DE JANEIRO"); 
+        $this->Text(50,17, "Centro de Filosofia e Ciências Sociais"); 
+        $this->Text(50,22, "ESCOLA DE SERVIÇO SOCIAL");
+        $this->Text(50,27, $this->xheadertext ); 
         
     } 
 

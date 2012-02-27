@@ -12,7 +12,7 @@ $pdf->SetSubject('Termo de compromisso');
 $pdf->SetKeywords('Estagio curricular, Serviço Social');
 
 // set default header data
-// $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
 
 // set header and footer fonts
 $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
@@ -41,14 +41,19 @@ $pdf->AddPage();
 if (empty($supervisor_nome)) $supervisor_nome = "______________________________________";
 
 $texto = "
+
+<h2 style='text-align:center'>Escola de Serviço Social</h2>
+<h2 style='text-align:center'>Coordenação de Estágio & Extensão</h2>
+<h1>TERMO DE COMPROMISSO</h1>
+
 <div style='text-align:justify'>
 <p align='justify' style='text-align:justify'>
-O presente TERMO DE COMPROMISSO DE ESTÁGIO que entre si assinam Coordenação de Estágio da Escola de Serviço Social/UFRJ/Estudante " . strtoupper($aluno_nome) . ", instituição " . strtoupper($instituicao_nome) . " e Supervisor(a) AS. " . strtoupper($supervisor_nome) . ", visa estabelecer condições gerais que regulam a realização de ESTAGIO CURRICULAR. Atividade obrigatória para a conclusão da Graduação em Serviço Social. Ficam estabelecidas entre as partes as seguintes condições básicas para a realização do estágio:</p>
+O presente TERMO DE COMPROMISSO DE ESTÁGIO que entre si assinam Coordenação de Estágio & Extensão da Escola de Serviço Social/UFRJ/Estudante " . strtoupper($aluno_nome) . ", instituição " . strtoupper($instituicao_nome) . " e Supervisor(a) AS. " . strtoupper($supervisor_nome) . ", visa estabelecer condições gerais que regulam a realização de ESTAGIO CURRICULAR. Atividade obrigatória para a conclusão da Graduação em Serviço Social. Ficam estabelecidas entre as partes as seguintes condições básicas para a realização do estágio:</p>
 ";
 
 $texto .= "
 <p>
-Art. 01. As atividades a serem desenvolvidas pelo estagiário, deverão ser compatíveis com o curso de Serviço Social, envolvem observação, estudos, elaboração de projetos e realização de leituras e atividades práticas. <br> 
+Art. 01. As atividades a serem desenvolvidas pelo estagiário, deverão ser compatíveis com o curso de Serviço Social, envolvem observação, estudos, elaboração de projetos e realização de leituras e atividades práticas.<br>
 Art. 02. A permanência em cada campo de estágio deverá ser de no mínimo dois semestres letivos consecutivos. A quebra deste contrato, deverá ser precedida de apresentação de solicitação formal à Coordenação de Estágio, com no mínimo 1 mês de antes do término do período letivo em curso. Contendo parecer da supervisora e do professor de OTP.<br>
 Art. 03. Em caso de demissão do supervisor, ou a ocorrência de férias deste profissional ao longo do período letivo, outro assistente social deverá ser imediatamente indicado para supervisão técnica do estagiário.
 </p>
@@ -89,15 +94,11 @@ Art. 14. O aluno deverá cumprir com responsabilidade e assiduidade os compromis
 Art. 15. O período de permanência do aluno no campo de estágio se dará de acordo com o contrato formal ou informal assumido com o supervisor.<br>
 Art. 16. O presente Termo de Compromisso terá validade de " . date('d-m-Y', strtotime($termoinicio)) . " a " .  date('d-m-Y', strtotime($termofinal)) .", correspondente ao Estagio " . $nivel .". Sua interrupção antes do período previsto, acarretará prejuízo para o aluno na sua avaliação acadêmica.<br>
 Art. 17. Os casos omissos serão encaminhados à Coordenação de Estágio para serem dirimidos.
-</p>
-</div>
-";
-
-$texto .= "
-<p>
+<br>
+<br>
 Rio de Janeiro, " . date('d') . " do mês " . date('m') . " de " . date('Y') . ".
 </p>
-<br />
+</div>
 ";
 
 $texto .= "

@@ -11,26 +11,27 @@ class SupervisorsController extends AppController {
         parent::beforeFilter();
         if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
             $this->Auth->allowedActions = array('*');
-            $this->Session->setFlash("Administrador");
+            // $this->Session->setFlash("Administrador");
             // echo "Administrador";
         // Supervisores podem inserir e atualizar a informação
         } elseif ($this->Acl->check($this->Session->read('user'), 'supervisors', 'create')) {
             $this->Auth->allowedActions = array('index', 'view', 'busca', 'add', 'addinstituicao', 'deleteassociacao', 'edit');
-            $this->Session->setFlash("Supervisor");
+            // $this->Session->setFlash("Supervisor");
             // echo "Inserir";
         // Professores podem atualizar supervisores    
         } elseif ($this->Acl->check($this->Session->read('user'), 'supervisors', 'update')) {
             $this->Auth->allowedActions = array('index', 'view', 'busca', 'edit');
-            $this->Session->setFlash("Professor");
+            // $this->Session->setFlash("Professor");
         // Estudantes podem ver os supervisores    
         } elseif ($this->Acl->check($this->Session->read('user'), 'supervisors', 'read')) {
             $this->Auth->allowedActions = array('index', 'view', 'busca');
-            $this->Session->setFlash("Estudante");
+            // $this->Session->setFlash("Estudante");
             // echo "Ver";
         } else {
-            $this->Session->setFlash("Não autorizado");
+            $this->Session->setFlash("Supervisores: Não autorizado");
         }
         // die(pr($this->Session->read('user')));
+
     }
 
     function index($id = NULL) {
@@ -50,7 +51,7 @@ class SupervisorsController extends AppController {
                     'conditions' => array('Supervisor.id' => $id)
                 ));
 
-        // Para o select de inserir uma nova instituicao
+        /* Para o select de inserir uma nova instituicao */
         $this->loadModel('Instituicao');
         $instituicoes = $this->Instituicao->find('list', array('order' => 'Instituicao.instituicao'));
         $instituicoes[0] = '- Selecione -';

@@ -124,12 +124,12 @@ if (!defined('K_TCPDF_EXTERNAL_CONFIG')) {
 	/**
 	 * header title
 	 */
-	define ('PDF_HEADER_TITLE', 'ESCOLA DE SERVIÇO SOCIAL');
+	define ('PDF_HEADER_TITLE', "UNIVERSIDADE FEDERAL DO RIO DE JANEIRO");
 
 	/**
 	 * header description string
 	 */
-	define ('PDF_HEADER_STRING', "Coordenacao de Estágio e Extensão");
+	define ('PDF_HEADER_STRING', "Centro de Filosofia e Ciências Humanas");
 
 	/**
 	 * image logo
@@ -159,12 +159,12 @@ if (!defined('K_TCPDF_EXTERNAL_CONFIG')) {
 	/**
 	 * top margin
 	 */
-	define ('PDF_MARGIN_TOP', 27);
+	define ('PDF_MARGIN_TOP', 20);
 
 	/**
 	 * bottom margin
 	 */
-	define ('PDF_MARGIN_BOTTOM', 25);
+	define ('PDF_MARGIN_BOTTOM', 20);
 
 	/**
 	 * left margin

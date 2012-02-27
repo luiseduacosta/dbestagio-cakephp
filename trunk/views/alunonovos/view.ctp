@@ -1,4 +1,5 @@
 <h1>Aluno: <?php echo $alunos['Alunonovo']['nome']; ?></h1>
+
 <table border='1'>
 <tr>
 <td style='text-align:left'>Registro: <?php echo $alunos['Alunonovo']['registro']; ?></td>
@@ -22,29 +23,47 @@
 
 <hr/>
 
-<p>
-<?php echo $html->link('Excluir', '/Alunonovos/delete/' . $alunos['Alunonovo']['id'], NULL, 'Tem certeza?'); ?> |
-<?php echo $html->link('Editar',  '/Alunonovos/edit/' . $alunos['Alunonovo']['id']); ?>
-</p>
+<?php if ($this->Session->read('categoria') === 'administrador'): ?>
 
-<hr/>
+    <p>
+    <?php echo $html->link('Excluir', '/Alunonovos/delete/' . $alunos['Alunonovo']['id'], NULL, 'Tem certeza?') . ' | '; ?>
+    <?php echo $html->link('Editar',  '/Alunonovos/edit/' . $alunos['Alunonovo']['id']); ?>
+    </p>
 
-<p>
-<?php echo $html->link('Alunos novos', array('controller'=>'Alunonovos','action'=>'index')); ?> |
-<?php echo $html->link('Buscar', array('controller'=>'Alunonovos','action'=>'busca')); ?>
-<br />
-<?php echo $html->link('Todos os alunos', array('controller'=>'Inscricaos','action'=>'index')); ?>
-</p>
+    <hr/>
+
+    <p>
+    <?php echo $html->link('Alunos novos', array('controller'=>'Alunonovos','action'=>'index')); ?> |
+    <?php echo $html->link('Buscar', array('controller'=>'Alunonovos','action'=>'busca')); ?>
+    <br />
+    <?php echo $html->link('Todos os alunos', array('controller'=>'Inscricaos','action'=>'index')); ?>
+    </p>
+       
+<?php elseif (($this->Session->read('categoria') === 'estudante') && ($this->Session->read('numero') === $alunos['Alunonovo']['id'])): ?>
+
+    <p>
+    <?php echo $html->link('Editar',  '/Alunonovos/edit/' . $alunos['Alunonovo']['id']); ?>
+    </p>
+
+<?php endif; ?>
 
 <hr/>
 
 <table>
 <caption>Inscrições realizadas</caption>
 <?php foreach ($inscricoes as $c_inscricao): ?>
-<tr>
-<td><?php echo $html->link('X','/Inscricaos/delete/' . $c_inscricao['Inscricao']['id'], NULL, 'Confirma?'); ?></td>
-<td><?php echo $html->link($c_inscricao['Mural']['instituicao'], '/Inscricaos/index/' . $c_inscricao['Mural']['id']); ?></td>
-<td><?php echo $c_inscricao['Mural']['periodo']; ?></td>
-</tr>
+    <tr>
+
+    <?php if ($this->Session->read('categoria') === 'administrador'): ?>
+        <td><?php echo $html->link('X','/Inscricaos/delete/' . $c_inscricao['Inscricao']['id'], NULL, 'Confirma?'); ?></td>
+        <td><?php echo $html->link($c_inscricao['Mural']['instituicao'], '/Inscricaos/index/' . $c_inscricao['Mural']['id']); ?></td>
+        <td><?php echo $c_inscricao['Mural']['periodo']; ?></td>
+    <?php else: ?>
+        <td><?php echo $html->link($c_inscricao['Mural']['instituicao'], '/Inscricaos/index/' . $c_inscricao['Mural']['id']); ?></td>
+        <td><?php echo $c_inscricao['Mural']['periodo']; ?></td>
+    <?php endif; ?>
+
+    </tr>
 <?php endforeach; ?>
+    
 </table>

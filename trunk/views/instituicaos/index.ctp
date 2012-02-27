@@ -6,13 +6,17 @@
 
 ?>
 
-<?php
-
-echo $html->link('Inserir','/Instituicaos/add/');
-echo " | ";
-echo $html->link('Buscar','/Instituicaos/busca/');
-
-?>
+<?php if ($this->Session->read('categoria') === 'administrador'): ?>
+    <?php
+    echo $html->link('Inserir','/Instituicaos/add/');
+    echo " | ";
+    echo $html->link('Buscar','/Instituicaos/busca/');
+    ?>
+<?php else: ?>
+    <?php
+    echo $html->link('Buscar','/Instituicaos/busca/');
+    ?>
+<?php endif; ?>
 
 <div align="center">
 <?php echo $this->Paginator->first('<< Primeiro ', null, null, array('class'=>'disabled')); ?>

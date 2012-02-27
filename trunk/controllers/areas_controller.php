@@ -12,17 +12,17 @@ class AreasController extends AppController {
         // Admin
         if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
             $this->Auth->allowedActions = array('*');
-            $this->Session->setFlash("Administrador");
+            // $this->Session->setFlash("Administrador");
         // Professores somente (podem fazer tudo)
         } elseif ($this->Acl->check($this->Session->read('user'), 'areas', 'create')) {
             $this->Auth->allowedActions = array('*');
-            $this->Session->setFlash("Professor");
+            // $this->Session->setFlash("Professor");
         // Estudantes e supervisores podem ver
         } elseif ($this->Acl->check($this->Session->read('user'), 'areas', 'read')) {
             $this->Auth->allowedActions = array('index', 'view');
-            $this->Session->setFlash("Supervisor/Estudante");
+            // $this->Session->setFlash("Supervisor/Estudante");
         } else {
-            $this->Session->setFlash("Não autorizado");
+            $this->Session->setFlash("Areas: Não autorizado");
         }
         // die(pr($this->Session->read('user')));
     }
@@ -76,16 +76,19 @@ class AreasController extends AppController {
                     'conditions' => array('Area.id' => $id)
                 ));
 
-        $this->loadModel('Estagiario');
-        $estagiarios = $this->Estagiario->find('first', array(
+        // $this->loadModel('Estagiario');
+        $estagiarios = $this->Area->Estagiario->find('first', array(
                     'conditions' => 'Estagiario.id_area = ' . $id));
+        // pr($estagiarios);
 
         if ($estagiarios) {
             $this->Session->setFlash("Error: Há estagiários vinculados com esta área");
+            // die("Estagiarios vinculados com essa área");
             $this->redirect('/Areas/view/' . $id);
         } else {
             $this->Area->delete($id);
-            $this->Session->setFlash("Área excluida");
+            $this->Session->setFlash("Área excluída");
+            // die("Área excluída");
             $this->redirect('/Areas/index/');
         }
     }

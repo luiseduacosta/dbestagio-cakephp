@@ -16,7 +16,11 @@
 <h1>Resultado da busca por DRE</h1>
 
     <?php foreach ($alunos as $c_alunos): ?>
-    <?php echo $html->link($c_alunos['Aluno']['nome'],'/alunos/view/'.$c_alunos['Aluno']['id']) . '<br>'; ?>
+    <?php if (isset($c_alunos['Aluno']['nome'])): ?>
+        <?php echo $html->link($c_alunos['Aluno']['nome'],'/alunos/view/'.$c_alunos['Aluno']['id']) . '<br>'; ?>
+    <?php else: ?>
+        <?php echo $html->link($c_alunos['Alunonovo']['nome'],'/alunonovos/view/'.$c_alunos['Alunonovo']['id']) . '<br>'; ?>
+    <?php endif; ?>    
     <?php endforeach; ?>
 
 <?php else: ?>

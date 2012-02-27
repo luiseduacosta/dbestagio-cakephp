@@ -1,4 +1,4 @@
-<h1>Digite o número de DRE para solicitar termo de compromisso</h1>
+<h1>Digite o seu número de DRE para solicitar termo de compromisso</h1>
 
 <?php
 

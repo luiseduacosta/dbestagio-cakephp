@@ -14,7 +14,7 @@ class ConfiguracaosController extends AppController {
             $this->Auth->allowedActions = array('*');
             $this->Session->setFlash("Administrador");
         } else {
-            $this->Session->setFlash("Não autorizado");
+            $this->Session->setFlash("Administração: Não autorizado");
         }
         // die(pr($this->Session->read('user')));
     }

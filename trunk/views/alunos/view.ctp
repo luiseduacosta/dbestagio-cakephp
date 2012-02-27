@@ -1,9 +1,18 @@
-<?php echo $html->link('Listar alunos', '/Alunos/index'); ?>
+<?php echo $html->link('Alunos', '/Alunos/index'); ?>
+<?php echo " | "; ?>
+<?php echo $html->link('Estagiários', '/Estagiarios/index'); ?>
 
-<div align="center">
-<?php echo $html->link('Retroceder', array('action'=>'view', $registro_prev)) . " "; ?> |
-<?php echo $html->link('Avançar'   , array('action'=>'view', $registro_next)); ?>
-</div>
+<?php if ($this->Session->read('categoria') === 'administrador'): ?>
+    <?php echo " | "; ?>
+    <?php echo $html->link('Usuários', '/Aros/listausarios'); ?>
+<?php endif; ?>
+
+<?php if ($this->Session->read('categoria') != 'estudante'): ?>
+    <div align="center">
+    <?php echo $html->link('Retroceder', array('action'=>'view', $registro_prev)) . " "; ?> |
+    <?php echo $html->link('Avançar'   , array('action'=>'view', $registro_next)); ?>
+    </div>
+<?php endif; ?>
 
 <div align="center">
 <h1><?php echo $alunos['nome']; ?></h1>
@@ -43,9 +52,16 @@ if (is_null($alunos['nascimento'])) {
 </table>
 
 <p>
-<?php echo $html->link('Excluir', '/Alunos/delete/' . $alunos['id'], NULL, 'Tem certeza?'); ?>
-<?php echo " | "; ?>
-<?php echo $html->link('Editar', '/Alunos/edit/' . $alunos['id']); ?>
+<?php if ($this->Session->read('categoria') === 'administrador'): ?>
+    <?php echo $html->link('Excluir', '/Alunos/delete/' . $alunos['id'], NULL, 'Tem certeza?'); ?>
+    <?php echo " | "; ?>
+<?php endif; ?>
+
+<?php if (($this->Session->read('categoria') === 'estudante') && ($this->Session->read('numero') === $alunos['id'])): ?>
+    <?php echo $html->link('Editar', '/Alunos/edit/' . $alunos['id']); ?>
+<?php elseif ($this->Session->read('categoria') === 'administrador'): ?>
+    <?php echo $html->link('Editar', '/Alunos/edit/' . $alunos['id']); ?>
+<?php endif; ?>
 </p>
 
 <hr/>
@@ -56,8 +72,11 @@ if (is_null($alunos['nascimento'])) {
 
 <table border='1'>
 <tr>
-<th>Excluir</th>
-<th>Editar</th>
+<?php if ($this->Session->read('categoria') === 'administrador'): ?>
+    <th>Excluir</th>
+    <th>Editar</th>
+<?php endif; ?>
+
 <th>Período</th>
 <th>Nível</th>
 <th>Turno</th>
@@ -66,17 +85,21 @@ if (is_null($alunos['nascimento'])) {
 <th>Supervisor</th>
 <th>Professor</th>
 <th>Área</th>
+
 <th>Nota</th>
 <th>CH</th>
 </tr>
+
 <?php foreach ($instituicoes as $c_estagio): ?> 
 <tr>
-<td>
-<?php echo $html->link('Excluir', '/Estagiarios/delete/' . $c_estagio['Estagiario']['id'], NULL, 'Tem certeza?'); ?>
-</td>
-<td>
-<?php echo $html->link('Editar', '/Estagiarios/view/' . $c_estagio['Estagiario']['id']); ?>
-</td>
+<?php if ($this->Session->read('categoria') === 'administrador'): ?>
+    <td>
+    <?php echo $html->link('Excluir', '/Estagiarios/delete/' . $c_estagio['Estagiario']['id'], NULL, 'Tem certeza?'); ?>
+    </td>
+    <td>
+    <?php echo $html->link('Editar', '/Estagiarios/view/' . $c_estagio['Estagiario']['id']); ?>
+    </td>
+<?php endif; ?>
 <td><?php echo $c_estagio['Estagiario']['periodo'] ?></td>
 <td style='text-align:center'><?php echo $c_estagio['Estagiario']['nivel']; ?></td>
 <td style='text-align:center'><?php echo $c_estagio['Estagiario']['turno']; ?></td>
@@ -93,6 +116,9 @@ if (is_null($alunos['nascimento'])) {
 
 <p>
 <?php echo $html->link('Listar', array('controller'=>'Estagiarios','action'=>'index')); ?> |
-<?php echo $html->link('Buscar', array('controller'=>'Alunos','action'=>'busca')); ?> |
-<?php echo $html->link("Inserir estágio",array('controller'=>'Estagiarios','action'=>'add',$alunos['id'])); ?>
+<?php echo $html->link('Buscar', array('controller'=>'Alunos','action'=>'busca')); ?>
+<?php if ($this->Session->read('categoria') === 'administrador'): ?>
+    <?php echo " | "; ?>
+    <?php echo $html->link("Inserir estágio",array('controller'=>'Estagiarios','action'=>'add',$alunos['id'])); ?>
+<?php endif; ?>
 </p>

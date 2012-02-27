@@ -1,3 +1,9 @@
+<?php echo $html->link('Configurações','/configuracaos/view/1'); ?>
+<?php echo " | "; ?>
+<?php echo $html->link('Usuários','/aros/listausuarios/'); ?>
+<?php echo " | "; ?>
+<?php echo $html->link('Permissões','/aros/indexaros/'); ?>
+
 <h1>Configuração</h1>
 
 <table>
