@@ -1,25 +1,21 @@
 <?php
 
 class Supervisor extends AppModel {
-
     /*
      * @var Estagiario
      * @var Instituicao
      */
-    
-    var $Estagiario;
-    var $Instituicao;
-    
-    var $name = 'Supervisor';
-    var $useTable = 'supervisores';
-    var $primaryKey = 'id';
-    var $displayField = 'nome';
-    var $hasMany = array(
+
+    public $name = 'Supervisor';
+    public $useTable = 'supervisores';
+    public $primaryKey = 'id';
+    public $displayField = 'nome';
+    public $hasMany = array(
         'Estagiario' => array(
             'className' => 'Estagiario',
             'foreignKey' => 'id_supervisor')
     );
-    var $hasAndBelongsToMany = array(
+    public $hasAndBelongsToMany = array(
         'Instituicao' => array(
             'className' => 'Instituicao',
             'joinTable' => 'inst_super',
@@ -30,7 +26,14 @@ class Supervisor extends AppModel {
             'order' => '',
         )
     );
-    var $validate = array(
+/*
+    public $virtualFields = array(
+      'virtualestagiarios' => 'count("Estagiario.registro")',
+      'virtualestudantes' => 'count("Distintc Estagiario.registro")',
+      'virtualperiodos' => 'count("Distintc Estagiario.periodo")'
+    );
+*/
+    public $validate = array(
         'cress' => array(
             'cress1' => array(
                 'rule' => 'numeric',
@@ -67,7 +70,7 @@ class Supervisor extends AppModel {
         )
     );
 
-    function verifica_cress($check) {
+    public function verifica_cress($check) {
 
         $value = array_values($check);
         $valor = $value[0];
@@ -85,7 +88,7 @@ class Supervisor extends AppModel {
         return TRUE;
     }
 
-    function cpf_verifica($check) {
+    public function cpf_verifica($check) {
 
         $value = NULL;
         $value = array_values($check);
