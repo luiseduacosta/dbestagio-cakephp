@@ -1,1 +1,1 @@
-/home/luis/workspace/mural/webroot/js/jquery-1.4.4.min.js
+/home/luis/workspace/mycake/webroot/js/jquery-1.4.4.min.js
