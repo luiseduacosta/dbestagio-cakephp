@@ -1,20 +1,15 @@
 <?php
 
 class User extends AppModel {
-
     /*
      * @var Role
      * @var Aro
      */
-    
-    var $Role;
-    var $Aro;
-    
-    var $name = 'User';
-    var $useTable = 'users';
-    var $displayField = 'email';
 
-    var $belongsTo = array(
+    public $name = 'User';
+    public $useTable = 'users';
+    public $displayField = 'email';
+    public $belongsTo = array(
         'Role' => array(
             'className' => 'Role',
             'foreignKey' => 'categoria',
@@ -27,11 +22,11 @@ class User extends AppModel {
             'joinTable' => 'aros'
         )
     );
-    
+
     /*
-    var $actsAs = array('Acl' => array('type' => 'requester'));
-    */
-    var $validate = array(
+      var $actsAs = array('Acl' => array('type' => 'requester'));
+     */
+    public $validate = array(
         'categoria' => array(
             'rule' => array('inList', array('1', '2', '3', '4')),
             'message' => 'Selecione uma categoria de usuário',
@@ -64,31 +59,37 @@ class User extends AppModel {
             'allowEmpty' => FALSE
         )
     );
-    
-    public function permissoes() {
-        
-        return ($this->query("SELECT aros_acos.id, aros.alias, acos.alias, _create, _read, _update, _delete FROM `aros_acos` join aros on aros_acos.aro_id = aros.id join acos on aros_acos.aco_id = acos.id ORDER BY `aros`.`alias` ASC"));
 
+    public function permissoes() {
+
+        return ($this->query("SELECT aros_acos.id, aros.alias, acos.alias, _create, _read, _update, _delete FROM `aros_acos` join aros on aros_acos.aro_id = aros.id join acos on aros_acos.aco_id = acos.id ORDER BY `aros`.`alias` ASC"));
     }
-    
-/*
-    function parentNode() {
-        if (!$this->id && empty($this->data)) {
-            return null;
+
+    function beforesave() {
+        if ($this->data['User']['password']) {
+            $this->request->data['User']['password'] = SHA1($this->data['User']['password']);
         }
-        if (isset($this->data['User']['categoria'])) {
-            $groupId = $this->data['User']['categoria'];
-        } else {
-            $groupId = $this->field('categoria');
-        }
-        if (!$groupId) {
-            return null;
-        } else {
-            // pr($groupId);
-            return array('Role' => array('id' => $groupId));
-        }
+        return true;
     }
-*/
+
+    /*
+      function parentNode() {
+      if (!$this->id && empty($this->data)) {
+      return null;
+      }
+      if (isset($this->data['User']['categoria'])) {
+      $groupId = $this->data['User']['categoria'];
+      } else {
+      $groupId = $this->field('categoria');
+      }
+      if (!$groupId) {
+      return null;
+      } else {
+      // pr($groupId);
+      return array('Role' => array('id' => $groupId));
+      }
+      }
+     */
 }
 
 ?>

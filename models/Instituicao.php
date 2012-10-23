@@ -1,38 +1,33 @@
 <?php
 
 class Instituicao extends AppModel {
-    
-     /* @var Estagiario */
-     /* @var Mural */
-     /* @var Area */
-     /* @var Supervisor */
+    /* @var Estagiario */
+    /* @var Mural */
+    /* @var Area */
+    /* @var Supervisor */
 
-    var $Estagiario;
-    var $Mural;
-    var $Area;
-    var $Supervisor;
-    
-    var $name = "Instituicao";
-    var $useTable = "estagio";
-    var $primaryKey = "id";
-    var $displayField = "instituicao";
-    var $hasMany = array(
+    public $name = "Instituicao";
+    public $useTable = "estagio";
+    public $primaryKey = "id";
+    public $displayField = "instituicao";
+    public $hasMany = array(
         'Estagiario' => array(
             'className' => 'Estagiario',
-            'foreignKey' => 'id_instituicao'
+            'foreignKey' => 'id_instituicao',
+            'joinTable' => 'estagiarios'
         ),
         'Mural' => array(
             'className' => 'Mural',
             'foreignKey' => 'id_estagio'
         )
     );
-    var $belongsTo = array(
-        'Area' => array(
-            'className' => 'Area',
-            'foreignKey' => 'area'
+    public $belongsTo = array(
+        'AreaInstituicao' => array(
+            'className' => 'AreaInstituicao',
+            'foreignKey' => 'area_instituicoes_id'
         )
     );
-    var $hasAndBelongsToMany = array(
+    public $hasAndBelongsToMany = array(
         'Supervisor' => array(
             'className' => 'Supervisor',
             'joinTable' => 'inst_super',
@@ -42,7 +37,7 @@ class Instituicao extends AppModel {
             'fields' => '',
             'order' => 'Supervisor.nome'
             ));
-    var $validate = array(
+    public $validate = array(
         'instituicao' => array(
             'rule' => 'notEmpty',
             'allowEmpty' => FALSE,
