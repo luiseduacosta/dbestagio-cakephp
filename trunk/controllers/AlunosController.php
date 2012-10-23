@@ -2,30 +2,34 @@
 
 class AlunosController extends AppController {
 
-    var $name = 'Alunos';
+    public $name = 'Alunos';
 
-    function beforeFilter() {
+    public function beforeFilter() {
 
         parent::beforeFilter();
         // Admin
-        if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
-            $this->Auth->allowedActions = array('*');
+        if ($this->Session->read('id_categoria') === '1') {
+            $this->Auth->allow();
             // $this->Session->setFlash("Administrador");
-        // Estudantes
-        } elseif ($this->Acl->check($this->Session->read('user'), 'alunos', 'update')) {
-            $this->Auth->allowedActions = array('index', 'view', 'busca', 'busca_cpf', 'busca_dre', 'busca_email', 'edit');
+            // Estudantes
+        } elseif ($this->Session->read('id_categoria') === '2') {
+            $this->Auth->allow('index', 'view', 'busca', 'busca_cpf', 'busca_dre', 'busca_email', 'edit');
             // $this->Session->setFlash("Estudante");
-        // Professores, Supervisores
-        } elseif ($this->Acl->check($this->Session->read('user'), 'alunos', 'read')) {
-            $this->Auth->allowedActions = array('index', 'view', 'busca', 'busca_cpf', 'busca_dre', 'busca_email');
+        } elseif ($this->Session->read('id_categoria') === '3') {
+            $this->Auth->allow('index', 'view', 'busca', 'busca_cpf', 'busca_dre', 'busca_email', 'edit');
+            // $this->Session->setFlash("Professor");
+            // Professores, Supervisores
+        } elseif ($this->Session->read('id_cateogria') === '4') {
+            $this->Auth->allow('index', 'view', 'busca', 'busca_cpf', 'busca_dre', 'busca_email');
             // $this->Session->setFlash("Professor/Supervisor");
         } else {
-            $this->Session->setFlash("Estudantes estagiários: Não autorizado");
+            $this->Session->setFlash("Não autorizado");
+            $this->redirect('/users/login/');
         }
         // die(pr($this->Session->read('user')));
     }
 
-    function index() {
+    public function index() {
 
         $this->paginate = array(
             'limit' => 10,
@@ -36,7 +40,7 @@ class AlunosController extends AppController {
         $this->set('alunos', $this->paginate('Aluno'));
     }
 
-    function view($id = NULL) {
+    public function view($id = NULL) {
 
         // echo "Aluno";
         // die(pr($this->Session->read('numero')));
@@ -51,8 +55,10 @@ class AlunosController extends AppController {
             }
         }
 
+        // $this->loadModel('Estagiario');
         $instituicao = $this->Aluno->findById($id);
-        // print_r($instituicao['Estagiario']);
+        // print_r($instituicao);
+        // die();
         $aluno = $instituicao['Aluno'];
         $estagios = $instituicao['Estagiario'];
 
@@ -62,6 +68,7 @@ class AlunosController extends AppController {
                 )
         );
         // print_r($instituicoes);
+        // die();
         $this->set('instituicoes', $instituicoes);
 
         $proximo = $this->Aluno->find('neighbors', array(
@@ -74,7 +81,7 @@ class AlunosController extends AppController {
         $this->set('estagios', $estagios);
     }
 
-    function edit($id = NULL) {
+    public function edit($id = NULL) {
 
         if ($this->Session->read('numero')) {
             $verifica = $this->Aluno->findByRegistro($this->Session->read('numero'));
@@ -85,15 +92,16 @@ class AlunosController extends AppController {
             }
         }
 
-        $this->Aluno->id = $id;
+        $this->request->Aluno->id = $id;
 
         if (empty($this->data)) {
             $this->data = $this->Aluno->read();
         } else {
-            
+
             $duplicada = $this->Aluno->findByRegistro($this->data['Aluno']['registro']);
-            if ($duplicada) $this->Session->setFlash("Este número de aluno já está cadastrado");
-            
+            if ($duplicada)
+                $this->Session->setFlash("Este número de aluno já está cadastrado");
+
             if ($this->Aluno->save($this->data)) {
                 // print_r($this->data);
                 $this->Session->setFlash("Atualizado");
@@ -117,7 +125,7 @@ class AlunosController extends AppController {
         }
     }
 
-    function delete($id = NULL) {
+    public function delete($id = NULL) {
 
         // Se tem pelo menos um estagio nao excluir
         $estagiario = $this->Aluno->Estagiario->findById_aluno($id);
@@ -131,7 +139,7 @@ class AlunosController extends AppController {
         }
     }
 
-    function busca($nome = NULL) {
+    public function busca($nome = NULL) {
 
         // Para paginar os resultados da busca por nome
         if ($nome)
@@ -166,7 +174,7 @@ class AlunosController extends AppController {
         }
     }
 
-    function busca_dre($registro = NULL) {
+    public function busca_dre($registro = NULL) {
 
         if (!empty($this->data['Aluno']['registro'])) {
             $alunos = $this->Aluno->findAllByRegistro($this->data['Aluno']['registro']);
@@ -191,7 +199,7 @@ class AlunosController extends AppController {
      * id eh o numero de registro
      */
 
-    function busca_email($id = NULL) {
+    public function busca_email() {
 
         if (!empty($this->data)) {
             // pr($this->data);
@@ -212,7 +220,7 @@ class AlunosController extends AppController {
         }
     }
 
-    function busca_cpf($id = NULL) {
+    public function busca_cpf() {
 
         if (!empty($this->data)) {
             // pr($this->data);
@@ -237,7 +245,7 @@ class AlunosController extends AppController {
      * O id eh o numero de registro
      */
 
-    function add($id = NULL) {
+    public function add($id = NULL) {
 
         if (!empty($this->data)) {
             // pr($this->data);

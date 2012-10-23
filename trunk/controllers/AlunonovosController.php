@@ -2,37 +2,41 @@
 
 class AlunonovosController extends AppController {
 
-    var $name = "Alunonovos";
+    public $name = "Alunonovos";
 
-    // var $scaffold;
-
-    function beforeFilter() {
+    public function beforeFilter() {
 
         parent::beforeFilter();
         // Para cadastrar usuarios do sistema precisso abrir este metodo
-        $this->Auth->allowedActions = array('add');
-        $cadastro = $this->Session->read('cadastro');
-        if (empty($cadastro)) {
-            // Admin
-            if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
-                $this->Auth->allowedActions = array('*');
-                // $this->Session->setFlash("Administrador");
-                // Estudantes
-            } elseif ($this->Acl->check($this->Session->read('user'), 'alunonovos', 'create')) {
-                $this->Auth->allowedActions = array('add', 'index', 'view', 'busca', 'busca_cpf', 'busca_dre', 'busca_email', 'edit');
-                // $this->Session->setFlash("Estudante");
-                // Professores e Supervisores
-            } elseif ($this->Acl->check($this->Session->read('user'), 'alunonovos', 'read')) {
-                $this->Auth->allowedActions = array('index', 'view', 'busca', 'busca_cpf', 'busca_dre', 'busca_email');
-                // $this->Session->setFlash("Professor/Supervisor");
-            } else {
-                $this->Session->setFlash("Estudantes novos: Não autorizado");
-            }
+
+        $this->Auth->allow('add');
+
+        // Admin
+        if ($this->Session->read('id_categoria') === '1') {
+            $this->Auth->allow();
+            // $this->Session->setFlash('Administrador');
+            // Estudantes podem somente fazer inscricao
+        } elseif ($this->Session->read('id_categoria') === '2') {
+            $this->Auth->allow('add', 'edit', 'index', 'view');
+            // $this->Session->setFlash('Estudante');
+            // die();
+            // Professores podem atualizar murais
+        } elseif ($this->Session->read('id_categoria') === '3') {
+            $this->Auth->allow('edit', 'index', 'view');
+            // $this->Session->setFlash('Professor');
+            // No futuro os supervisores poderao lançar murals
+        } elseif ($this->Session->read('id_categoria') === '4') {
+            $this->Auth->allow('add', 'edit', 'index', 'view');
+            // $this->Session->setFlash('Supervisor');
+            // Todos
+        } else {
+            $this->Session->setFlash("Não autorizado");
+            $this->redirect('/users/login/');
         }
         // die(pr($this->Session->read('user')));
     }
 
-    function index($id = NULL) {
+    public function index() {
 
         $alunonovo = $this->Alunonovo->find('all', array('order' => 'Alunonovo.nome'));
         /*
@@ -48,10 +52,10 @@ class AlunonovosController extends AppController {
      * e tambem desde termo de compromisso
      */
 
-    function add($id = NULL) {
+    public function add($id = NULL) {
 
         $this->set('registro', $id);
-
+        // die("Alunonovo add");
         /* Vejo se foi chamado desde cadastro
           $cadastro = $this->Session->read('cadastro');
           pr($cadastro);
@@ -110,7 +114,7 @@ class AlunonovosController extends AppController {
      * id eh o id do alunonovo
      */
 
-    function edit($id = NULL) {
+    public function edit($id = NULL) {
 
         // Somente o próprio pode editar
         if ($this->Session->read('numero')) {
@@ -121,8 +125,8 @@ class AlunonovosController extends AppController {
                 die("Não autorizado");
             }
         }
-        
-        $this->Alunonovo->id = $id;
+
+        $this->request->Alunonovo->id = $id;
         // pr($id);
         if (empty($this->data)) {
 
@@ -130,8 +134,9 @@ class AlunonovosController extends AppController {
         } else {
 
             $duplicada = $this->Alunonovo->findByRegistro($this->data['Alunonovo']['registro']);
-            if ($duplicada) $this->Session->setFlash("O número de aluno já está cadastrado");
-            
+            if ($duplicada)
+                $this->Session->setFlash("O número de aluno já está cadastrado");
+
             if ($this->Alunonovo->save($this->data)) {
 
                 $this->Session->setFlash("Atualizado");
@@ -159,13 +164,13 @@ class AlunonovosController extends AppController {
         }
     }
 
-    function view($id = NULL) {
+    public function view($id = NULL) {
 
         // echo "Aluno novo";
         // die(pr($this->Session->read('numero')));
         // Somente o próprio pode ver
-        
-        if (($this->Session->read('categoria') === 'estudante')  && ($this->Session->read('numero'))) {
+
+        if (($this->Session->read('categoria') === 'estudante') && ($this->Session->read('numero'))) {
             $verifica = $this->Alunonovo->findByRegistro($this->Session->read('numero'));
             // pr($this->Session->read('numero'));
 
@@ -181,13 +186,12 @@ class AlunonovosController extends AppController {
         // Onde fizeram inscricoes
         $this->loadModel('Inscricao');
         $inscricoes = $this->Inscricao->findAllByIdAluno($aluno['Alunonovo']['registro']);
-        // pr($inscricoes);
 
         $this->set('alunos', $aluno);
         $this->set('inscricoes', $inscricoes);
     }
 
-    function delete($id = NULL) {
+    public function delete($id = NULL) {
 
         // Pego o numero de registro
         $registro = $this->Alunonovo->findById($id, array('fields' => 'registro'));

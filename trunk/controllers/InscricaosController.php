@@ -2,37 +2,35 @@
 
 class InscricaosController extends AppController {
 
-    var $name = "Inscricaos";
-    var $components = array('Email');
+    public $name = "Inscricaos";
+    public $components = array('Email');
 
-    function beforeFilter() {
+    public function beforeFilter() {
 
         parent::beforeFilter();
         // Admin
-        if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
-            $this->Auth->allowedActions = array('*');
-            $this->Session->setFlash('Administrador');
-            $this->Session->write('permissao', 'tudo');
-            // echo "Tudo";
-            // Estudantes podem fazer inscricao e solicitar termo de compromisso
-        } elseif ($this->Acl->check($this->Session->read('user'), 'inscricaos', 'create')) {
-            $this->Auth->allowedActions = array('add', 'edit', 'inscricao', 'index', 'view', 'termosolicita', 'termocompromisso', 'termocadastra', 'termoimprime');
-            $this->Session->setFlash('Estudante');
-            $this->Session->write('permissao', 'crear');
-            // echo "Criar";
-            // Professores e supervisores podem ver (index e view)
-        } elseif ($this->Acl->check($this->Session->read('user'), 'inscricaos', 'read')) {
-            $this->Auth->allowedActions = array('index', 'view');
-            $this->Session->setFlash('Professor/Supervisor');
-            $this->Session->write('permissao', 'ver');
-            // echo "Atualizar";
+        if ($this->Session->read('id_categoria') === '1') {
+            $this->Auth->allow();
+            // $this->Session->setFlash("Administrador");
+            // Estudantes
+        } elseif ($this->Session->read('id_categoria') === '2') {
+            $this->Auth->allow('index', 'view', 'add', 'inscricao', 'termocadastra', 'termocompromisso', 'termoimprime', 'termosolicita');
+            // $this->Session->setFlash("Estudante");
+        } elseif ($this->Session->read('id_categoria') === '3') {
+            $this->Auth->allow('index', 'view', 'inscricao', 'termocadastra', 'termocompromisso', 'termoimprime', 'termosolicita');
+            // $this->Session->setFlash("Professor");
+            // Professores, Supervisores
+        } elseif ($this->Session->read('id_cateogria') === '4') {
+            $this->Auth->allow('index', 'view', 'inscricao', 'termocadastra', 'termocompromisso', 'termoimprime', 'termosolicita');
+            // $this->Session->setFlash("Professor/Supervisor");
         } else {
-            $this->Session->setFlash("Inscrição: Não autorizado");
+            $this->Session->setFlash("Não autorizado");
+            $this->redirect('/users/login/');
         }
         // die(pr($this->Session->read('user')));
     }
 
-    function index($id = NULL) {
+    public function index($id = NULL) {
 
         $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : "nome";
         // echo "Ordem: " . $ordem;
@@ -138,13 +136,13 @@ class InscricaosController extends AppController {
         $this->set('inscritos', $inscritos_ordem);
     }
 
-    function orfao() {
+    public function orfao() {
 
         $this->loadModel("Alunonovo");
         $this->set('orfaos', $this->Alunonovo->alunonovorfao());
     }
 
-    function add($id = NUL) {
+    public function add($id = NUL) {
 
         // pr($this->data);
         $this->set('id_instituicao', $id);
@@ -193,9 +191,10 @@ class InscricaosController extends AppController {
     /*
      * Inscreve o aluno para seleção de estágio
      * O Id e o numero de registro
-     * 
+     *
      */
-    function inscricao($id = NULL) {
+
+    public function inscricao($id = NULL) {
 
         // echo "Id: " . $id . "<br>";
         // die();
@@ -224,15 +223,15 @@ class InscricaosController extends AppController {
         }
     }
 
-    function view($id = NULL) {
+    public function view($id = NULL) {
 
         $inscricao = $this->Inscricao->findById($id);
         $this->set('inscricao', $inscricao);
     }
 
-    function edit($id = NULL) {
+    public function edit($id = NULL) {
 
-        $this->Inscricao->id = $id;
+        $this->request->Inscricao->id = $id;
 
         if (empty($this->data)) {
             $this->data = $this->Inscricao->read();
@@ -244,7 +243,7 @@ class InscricaosController extends AppController {
         }
     }
 
-    function delete($id = NULL) {
+    public function delete($id = NULL) {
 
         $instituicao = $this->Inscricao->findById($id, array('fields' => 'id_instituicao'));
         $this->Inscricao->delete($id);
@@ -252,7 +251,7 @@ class InscricaosController extends AppController {
         $this->redirect('/Inscricaos/index/' . $instituicao['Inscricao']['id_instituicao']);
     }
 
-    function emailparainstituicao($id = NULL) {
+    public function emailparainstituicao($id = NULL) {
 
         if ($id) {
             $inscritos = $this->Inscricao->find('all', array(
@@ -299,7 +298,7 @@ class InscricaosController extends AppController {
                 // $this->Email->to = $user['email'];
                 // $this->Email->to = 'uy_luis@hotmail.com'; // $incritos[0]['Mural']['email']
                 $this->Email->to = $inscritos[0]['Mural']['email'];
-                $this->Email->cc = array('estagio.ess@gmail.com');
+                $this->Email->cc = array('estagio.ess@gmail.com', 'estagio@ess.ufrj.br');
                 $this->Email->subject = 'ESS/UFRJ: Estudantes inscritos para seleção de estágio';
                 $this->Email->replyTo = '"ESS/UFRJ - Coordenação de Estágio & Extensão" <estagio@ess.ufrj.br>';
                 $this->Email->from = '"ESS/UFRJ - Coordenação de Estágio & Extensão" <estagio@ess.ufrj.br>';
@@ -330,7 +329,7 @@ class InscricaosController extends AppController {
     }
 
     // Captura o registro digitado pelo estudante
-    function termosolicita($id = NULL) {
+    public function termosolicita($id = NULL) {
 
         if ($this->data) {
             // pr($this->data);
@@ -342,7 +341,7 @@ class InscricaosController extends AppController {
     // Com o numero de registro busco as informacoes em estagiario ou alunonovo
     // Se nao esta cadastrado em alunonovo faço o cadastramento
     // Se nao eh estagiario eh um alunonovo entao faço cadastramento
-    function termocompromisso($id = NULL) {
+    public function termocompromisso($id = NULL) {
 
         // Captura o periodo de estagio para o termo de compromisso
         $this->loadModel("Configuracao");
@@ -450,7 +449,7 @@ class InscricaosController extends AppController {
      * O id eh o numero de registro do aluno
      */
 
-    function termocadastra($id = NULL) {
+    public function termocadastra($id = NULL) {
 
         // Configure::write('debug', '2');
         // echo "id " . $id . "<br>";
@@ -602,7 +601,7 @@ class InscricaosController extends AppController {
 
     /* id eh o numero de estagiario */
 
-    function termoimprime($id = NULL) {
+    public function termoimprime($id = NULL) {
 
         // echo "Estagiario id " . $id . "<br>";
 
@@ -625,7 +624,6 @@ class InscricaosController extends AppController {
 
         // pr($nivel);
         // die();
-
         // Capturo o inicio e o fim do termo de compromisso
         $this->loadModel("Configuracao");
         $configuracao = $this->Configuracao->findById('1');
