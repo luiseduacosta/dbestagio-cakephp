@@ -2,52 +2,56 @@
 
 class AreasController extends AppController {
 
-    var $name = "Areas";
+    public $name = "Areas";
 
     // var $scaffold;
 
-    function beforeFilter() {
+    public function beforeFilter() {
 
         parent::beforeFilter();
         // Admin
-        if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
-            $this->Auth->allowedActions = array('*');
+        if ($this->Session->read('id_categoria') === '1') {
+            $this->Auth->allow();
             // $this->Session->setFlash("Administrador");
-        // Professores somente (podem fazer tudo)
-        } elseif ($this->Acl->check($this->Session->read('user'), 'areas', 'create')) {
-            $this->Auth->allowedActions = array('*');
+            // Estudantes
+        } elseif ($this->Session->read('id_categoria') === '2') {
+            $this->Auth->allow('index', 'view');
+            // $this->Session->setFlash("Estudante");
+        } elseif ($this->Session->read('id_categoria') === '3') {
+            $this->Auth->allow('index', 'view');
             // $this->Session->setFlash("Professor");
-        // Estudantes e supervisores podem ver
-        } elseif ($this->Acl->check($this->Session->read('user'), 'areas', 'read')) {
-            $this->Auth->allowedActions = array('index', 'view');
-            // $this->Session->setFlash("Supervisor/Estudante");
+            // Professores, Supervisores
+        } elseif ($this->Session->read('id_cateogria') === '4') {
+            $this->Auth->allow('index', 'view');
+            // $this->Session->setFlash("Professor/Supervisor");
         } else {
-            $this->Session->setFlash("Areas: Não autorizado");
+            $this->Session->setFlash("Não autorizado");
+            // $this->redirect('/users/login/');
         }
         // die(pr($this->Session->read('user')));
     }
 
-    function index($id = NULL) {
+    public function index() {
 
         $areas = $this->Area->find('all', array(
-                    'order' => 'Area.area'));
+            'order' => 'Area.area'));
 
         $this->set('areas', $areas);
     }
 
-    function view($id = NULL) {
+    public function view($id = NULL) {
 
         $area = $this->Area->find('first', array(
-                    'conditions' => array('Area.id' => $id)
+            'conditions' => array('Area.id' => $id)
                 ));
         // pr($supervisor);
 
         $this->set('area', $area);
     }
 
-    function edit($id = NULL) {
+    public function edit($id = NULL) {
 
-        $this->Area->id = $id;
+        $this->request->Area->id = $id;
 
         if (empty($this->data)) {
             $this->data = $this->Area->read();
@@ -60,7 +64,7 @@ class AreasController extends AppController {
         }
     }
 
-    function add($id = NULL) {
+    public function add() {
 
         if ($this->data) {
             if ($this->Area->save($this->data)) {
@@ -70,15 +74,15 @@ class AreasController extends AppController {
         }
     }
 
-    function delete($id = NULL) {
+    public function delete($id = NULL) {
 
         $area = $this->Area->find('first', array(
-                    'conditions' => array('Area.id' => $id)
+            'conditions' => array('Area.id' => $id)
                 ));
 
         // $this->loadModel('Estagiario');
         $estagiarios = $this->Area->Estagiario->find('first', array(
-                    'conditions' => 'Estagiario.id_area = ' . $id));
+            'conditions' => 'Estagiario.id_area = ' . $id));
         // pr($estagiarios);
 
         if ($estagiarios) {

@@ -2,29 +2,39 @@
 
 class UsersController extends AppController {
 
-    var $name = 'Users';
+    public $name = 'Users';
 
-    function beforeFilter() {
+    public function beforeFilter() {
+
         parent::beforeFilter();
-        $this->Auth->allowedActions = array('*');
+
+        // Admin
+        if ($this->Session->read('id_categoria') === '1') {
+            $this->Auth->allow();
+        } else {
+            $this->Auth->allow('login', 'cadastro');
+        }
     }
-    
-    function login() {
+
+    public function login() {
+
+        $this->Session->delete('user');
+        $this->Session->delete('numero');
+        $this->Session->delete('id_categoria');
+        $this->Session->delete('categoria');
 
         if (!empty($this->data)) {
 
             $usuario = $this->User->find('first', array(
                 'conditions' => array('User.email' => $this->data['User']['email'])));
-            // pr($usuario);
-            // die(pr(sha1($this->Auth->data['User']['password'])));
-            // var_dump($this->Auth->user());
+
             // die();
-            if ($usuario && $usuario['User']['password'] == sha1($this->Auth->data['User']['password'])) {
+            if ($usuario['User']['password'] == sha1($this->data['User']['password'])) {
                 // die(pr($usuario));
                 $this->Session->write('user', $usuario['User']['email']);
                 $this->Session->write('numero', $usuario['User']['numero']);
+                $this->Session->write('id_categoria', $usuario['Role']['id']);
                 $this->Session->write('categoria', $usuario['Role']['categoria']);
-                // pr($usuario['Role']['categoria']);
                 // die();
                 switch ($usuario['User']['categoria']) {
                     case 1: // Administrador
@@ -51,7 +61,8 @@ class UsersController extends AppController {
                             } else {
                                 $this->Session->write('menu_aluno', 'semcadastro');
                                 $this->Session->write('menu_id_aluno', 0);
-                                $this->Session->setFlash('Estudante sem cadastro');
+                                $this->Session->setFlash('Estudante novo sem cadastro');
+                                // Tem que impedir que estudante nao cadastro possa continuar
                                 $this->redirect('/Alunonovos/add/');
                             }
                         }
@@ -97,13 +108,13 @@ class UsersController extends AppController {
                 }
             } else {
                 // die(pr($usuario));
-                $this->Session->setFlash('Login/senha errado');
+                $this->Session->setFlash('Login/senha errado ou usuário não cadastrado');
                 $this->redirect('/users/login/');
             }
         }
     }
 
-    function logout() {
+    public function logout() {
         $this->Session->delete('user');
         $this->Session->delete('numero');
         $this->Session->delete('categoria');
@@ -113,12 +124,14 @@ class UsersController extends AppController {
         $this->redirect($this->Auth->logout());
     }
 
-    function cadastro() {
+    public function cadastro() {
 
         if (!empty($this->data)) {
-            $this->data['User']['password'] = sha1($this->data['User']['password']);
 
-            // die(pr($this->data));
+            if ($this->data['User']['password']) {
+                $this->request->data['User']['password'] = SHA1($this->data['User']['password']);
+            }
+
             // Primeiro verifico se o email ja nao esta cadastrado
             $this->loadModel('Aros');
             $aluno_aros = $this->Aros->findByAlias($this->data['User']['email']);
@@ -126,6 +139,8 @@ class UsersController extends AppController {
                 $this->Session->setFlash("Email já cadastrado");
                 $this->redirect("/Users/login/");
                 die("Email já cadastrado");
+            } else {
+                pr($this->data['User']['categoria']);
             }
 
             // Agora, tenho que cadastrar como alunos, professores, etc
@@ -134,24 +149,28 @@ class UsersController extends AppController {
                     $grupo = 'alunos';
                     $this->loadModel('Aluno');
                     $aluno = $this->Aluno->findByRegistro($this->data['User']['numero']);
-
+                    // pr($aluno);
+                    // die(pr($this->data['User']['numero']));
                     if ($aluno) {
-                        $situacao = 1;
+                        $situacao = 1; // Estudante estagiário
                         $this->Session->write('menu_aluno', 'estagiario');
                         $this->Session->write('menu_id_aluno', $aluno['Aluno']['id']);
-                        echo "Estudante estagiário ";
+                        // echo "Estudante estagiário ";
                     } else {
-                        echo "Estudante novo? ";
+                        // echo "Estudante novo? ";
+                        // die("Estudante novo?");
                         $this->loadModel('Alunonovo');
                         $alunonovo = $this->Alunonovo->findByRegistro($this->data['User']['numero']);
+                        // die(pr($alunonovo));
                         if ($alunonovo) {
-                            $situacao = 2;
+                            $situacao = 2; // Estudante novo que busca estágio
                             $this->Session->write('menu_aluno', 'alunonovo');
                             $this->Session->write('menu_id_aluno', $alunonovo['Alunonovo']['id']);
                             echo "Estudante novo ja cadastrado";
                         } else {
-                            echo "Estudante novo não cadastrado";
-                            $situacao = 3;
+                            // echo "Estudante novo não cadastrado";
+                            // die("Estudante novo não cadastrado");
+                            $situacao = 3; // Estudante novo
                             $this->Session->write('menu_aluno', 'semcadastro');
                             // Para ir para alunonovos e poder voltar
                             $this->Session->write('cadastro', $this->data['User']['email']);
@@ -164,9 +183,10 @@ class UsersController extends AppController {
                         if ($this->User->save($this->data)) {
                             $this->Session->setFlash('Bem-vindo! Cadastro realizado');
                             $this->Session->write('categoria', 'estudante');
+                            $this->Session->write('id_categoria', '2');
                             $this->Session->write('user', $this->data['User']['email']);
                             $this->Session->write('numero', $this->data['User']['numero']);
-                            }
+                        }
                     } else {
                         $errors = $this->User->invalidFields();
                         $this->Session->setFlash(implode(', ', $errors));
@@ -197,31 +217,33 @@ class UsersController extends AppController {
                     }
                     break;
 
-                 case 4:
+                case 4:
                     $grupo = 'supervisores';
                     $this->loadModel('Supervisor');
                     $supervisor = $this->Supervisor->findByCress($this->data['User']['numero']);
-                    
+
                     // O supervisor ja tem que estar cadastrado
                     if ($supervisor) {
                         $this->User->save($this->data);
                         $this->Session->setFlash('Bem-vindo! Cadastro realizado');
                         $this->Session->write('user', $this->data['User']['email']);
                         $this->Session->write('numero', $this->data['User']['numero']);
-                        // $this->redirect('/Supervisors/view/' . $supervisor['Supervisor']['id']);    
-                    } else { 
-                        $this->Session->setFlash("Supervisor ainda não cadastrado. Somente podem criar conta os supervisores já cadastrados");
+                        // $this->redirect('/Supervisors/view/' . $supervisor['Supervisor']['id']);
+                    } else {
+                        $this->Session->setFlash("Supervisor ainda não cadastrado. Somente podem criar conta os supervisores com CRESS registrados na Coordenação de Estágio e Extensão");
                         $this->redirect('/users/login/');
                     }
                     break;
-                    
+
                 default:
                     $this->Session->setFlash('Error: Usuário não faz parte de nenhuma categoria');
                     $this->redirect('/users/cadastro/');
                     break;
             }
 
+            // die(pr($grupo));
             $parent = $this->Acl->Aro->findByAlias($grupo); // alunos professores supervisores
+            // die(pr($parent));
             $aro = new Aro();
             $aro->create();
             $aro->save(array(
@@ -252,33 +274,32 @@ class UsersController extends AppController {
                         }
                     }
                     break;
-                                       
+
                 case 3: // Professor
                     $this->loadModel('Professor');
                     $professor_id = $this->Professor->findBySiape($this->data['User']['numero']);
                     $this->redirect('/Professors/view/' . $professor_id['Professor']['id']);
                     break;
-                
+
                 case 4: // Supervisor
                     $this->loadModel('Supervisor');
                     $supervisor_id = $this->Supervisor->findByCress($this->data['User']['numero']);
-                     $this->Session->write("menu_id_supervisor", $supervisor['Supervisor']['id']);
+                    $this->Session->write("menu_id_supervisor", $supervisor['Supervisor']['id']);
                     $this->redirect('/Supervisors/view/' . $supervisor_id['Supervisor']['id']);
                     break;
-
             }
 
             $this->redirect('/murals/index/');
         } else {
-            $this->data['User']['password'] = '';
+            // $this->data['User']['password'] = '';
             // $this->Session->setFlash('Não foi possível completar o cadastramento');
         }
     }
 
-    function contato() {
+    public function contato() {
         
     }
-    
+
 }
 
 ?>

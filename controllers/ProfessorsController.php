@@ -2,32 +2,34 @@
 
 class ProfessorsController extends AppController {
 
-    var $name = "Professors";
+    public $name = "Professors";
 
-    // var $scaffold;
-
-    function beforeFilter() {
+    public function beforeFilter() {
 
         parent::beforeFilter();
         // Admin
-        if ($this->Acl->check($this->Session->read('user'), 'controllers', '*')) {
-            $this->Auth->allowedActions = array('*');
+        if ($this->Session->read('id_categoria') === '1') {
+            $this->Auth->allow();
             // $this->Session->setFlash("Administrador");
-            // Professores
-        } elseif ($this->Acl->check($this->Session->read('user'), 'professors', 'update')) {
-            $this->Auth->allowedActions = array('index', 'view', 'edit');
+            // Estudantes
+        } elseif ($this->Session->read('id_categoria') === '2') {
+            $this->Auth->allow('index', 'view', 'pauta');
+            // $this->Session->setFlash("Estudante");
+        } elseif ($this->Session->read('id_categoria') === '3') {
+            $this->Auth->allow('add' . 'edit' . 'index', 'view', 'pauta');
             // $this->Session->setFlash("Professor");
-            // Estudantes e supervisores
-        } elseif ($this->Acl->check($this->Session->read('user'), 'professors', 'read')) {
-            $this->Auth->allowedActions = array('index', 'view', 'busca');
-            // $this->Session->setFlash("Estudante/Supervisor");
+            // Professores, Supervisores
+        } elseif ($this->Session->read('id_cateogria') === '4') {
+            $this->Auth->allow('index', 'view', 'pauta');
+            // $this->Session->setFlash("Professor/Supervisor");
         } else {
-            $this->Session->setFlash("Professores: Não autorizado");
+            $this->Session->setFlash("Não autorizado");
+            $this->redirect('/users/login/');
         }
         // die(pr($this->Session->read('user')));
     }
 
-    function index() {
+    public function index() {
 
         $this->Paginate = array(
             'limit' => 10,
@@ -36,7 +38,7 @@ class ProfessorsController extends AppController {
         $this->set('professores', $this->Paginate('Professor'));
     }
 
-    function view($id = NULL) {
+    public function view($id = NULL) {
 
         // Configure::write('debug', 0);
         // Somente o próprio pode ver
@@ -66,9 +68,9 @@ class ProfessorsController extends AppController {
         $this->set('professor', $professor);
     }
 
-    function edit($id = NULL) {
+    public function edit($id = NULL) {
 
-        $this->Professor->id = $id;
+        $this->request->Professor->id = $id;
 
         // Somente o próprio pode ver
         if ($this->Session->read('numero')) {
@@ -92,7 +94,7 @@ class ProfessorsController extends AppController {
         }
     }
 
-    function add($id = NULL) {
+    public function add($id = NULL) {
 
         if ($this->data) {
             if ($this->Professor->save($this->data)) {
@@ -101,6 +103,10 @@ class ProfessorsController extends AppController {
                 $this->redirect('/Professors/view/' . $this->Professor->getLastInsertId());
             }
         }
+    }
+
+    public function pauta($id = NULL) {
+        
     }
 
 }
