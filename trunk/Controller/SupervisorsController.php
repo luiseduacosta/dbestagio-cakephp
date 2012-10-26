@@ -41,6 +41,12 @@ class SupervisorsController extends AppController {
         $this->Supervisor->virtualFields['virtualperiodos'] = 'count(Distinct Estagiario.periodo)';
         $this->Supervisor->virtualFields['virtualmaxperiodo'] = 'max(periodo)';
 
+        $todosPeriodos = $this->Supervisor->Estagiario->find('list', array(
+            'fields' => array('Estagiario.periodo', 'Estagiario.periodo'),
+            'group' => array('Estagiario.periodo'),
+            'order' => array('Estagiario.periodo')
+                ));
+
         if ($periodo):
             $this->paginate = array(
                 'Estagiario' => array(
@@ -62,6 +68,8 @@ class SupervisorsController extends AppController {
             );
         endif;
 
+        $this->set('todosPeriodos', $todosPeriodos);
+        $this->set('periodo', $periodo);
         $this->set('supervisores', $this->Paginate($this->Supervisor->Estagiario));
     }
 
@@ -135,7 +143,7 @@ class SupervisorsController extends AppController {
 
     public function edit($id = NULL) {
 
-        $this->request->Supervisor->id = $id;
+        $this->Supervisor->id = $id;
 
         if (empty($this->data)) {
             $this->data = $this->Supervisor->read();
@@ -174,7 +182,7 @@ class SupervisorsController extends AppController {
         }
     }
 
-    public function addinstituicao($id = NULL) {
+    public function addinstituicao() {
 
         if ($this->data) {
             // pr($this->data);

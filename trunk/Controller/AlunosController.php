@@ -92,7 +92,7 @@ class AlunosController extends AppController {
             }
         }
 
-        $this->request->Aluno->id = $id;
+        $this->Aluno->id = $id;
 
         if (empty($this->data)) {
             $this->data = $this->Aluno->read();
@@ -174,7 +174,7 @@ class AlunosController extends AppController {
         }
     }
 
-    public function busca_dre($registro = NULL) {
+    public function busca_dre() {
 
         if (!empty($this->data['Aluno']['registro'])) {
             $alunos = $this->Aluno->findAllByRegistro($this->data['Aluno']['registro']);

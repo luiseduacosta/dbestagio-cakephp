@@ -231,7 +231,7 @@ class InscricaosController extends AppController {
 
     public function edit($id = NULL) {
 
-        $this->request->Inscricao->id = $id;
+        $this->Inscricao->id = $id;
 
         if (empty($this->data)) {
             $this->data = $this->Inscricao->read();
@@ -329,7 +329,7 @@ class InscricaosController extends AppController {
     }
 
     // Captura o registro digitado pelo estudante
-    public function termosolicita($id = NULL) {
+    public function termosolicita() {
 
         if ($this->data) {
             // pr($this->data);

@@ -1,10 +1,36 @@
 <?php
+// pr($instituicoes);
 /* 
 * To change this template, choose Tools | Templates
 * and open the template in the editor.
 */
 
 ?>
+
+<?php
+echo $this->Html->script("jquery", array('inline'=>false));
+echo $this->Html->scriptBlock('
+
+$(document).ready(function() {
+
+$("#InstituicaoPeriodo").change(function() {
+	var periodo = $(this).val();
+        /* alert(periodo); */
+        window.location="/mycake/Instituicaos/index/periodo:"+periodo;
+	})
+
+})
+
+', array("inline"=>false)
+
+);
+?>
+
+<?php if ($this->Session->read('categoria') === 'administrador'): ?>
+    <?php echo $this->Form->create('Instituicao', array('controller' => 'Instituicao', 'action'=>'index')); ?>
+    <?php echo $this->Form->input('periodo', array('type'=>'select', 'label'=>array('text'=>'Período ', 'style'=>'display: inline'), 'options'=> $todosPeriodos, 'default'=>$periodo, 'empty'=>true)); ?>
+    <?php echo $this->Form->end(); ?>
+<?php endif; ?>
 
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
     <?php
@@ -50,6 +76,12 @@
                 <?php echo $this->Paginator->sort('Instituicao.virtualMaxPeriodo', 'Último estágio'); ?>
             </th>
             <th>
+                <?php echo $this->Paginator->sort('Instituicao.virtualEstudantes', 'Estudantes'); ?>
+            </th>
+            <th>
+                <?php echo $this->Paginator->sort('Instituicao.virtualSupervisores', 'Supervisores'); ?>
+            </th>
+            <th>
                 <?php echo $this->Paginator->sort('AreaInstituicao.area', 'Área'); ?>
             </th>
             <th>
@@ -73,6 +105,8 @@
                 ?>
             </td>
             <td><?php echo $c_instituicao['Instituicao']['virtualMaxPeriodo']; ?></td>
+            <td><?php echo $c_instituicao['Instituicao']['virtualEstudantes']; ?></td>
+            <td><?php echo $c_instituicao['Instituicao']['virtualSupervisores']; ?></td>
             <td><?php echo $c_instituicao['AreaInstituicao']['area']; ?></td>
             <td><?php echo $c_instituicao['Instituicao']['natureza']; ?></td>
         </tr>

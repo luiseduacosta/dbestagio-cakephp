@@ -172,7 +172,6 @@ switch ($professor['Professor']['sexo']) {
 </td>
 </tr>
 
-
 <tr>
 <td>Formação Profissional</td>
 <td><?php echo $professor['Professor']['formacaoprofissional']; ?></td>
@@ -217,7 +216,6 @@ switch ($professor['Professor']['sexo']) {
 <td>Ano de conclusão do doutorado</td>
 <td><?php echo $professor['Professor']['doutoradoanoconclusao']; ?></td>
 </tr>
-
 
 <tr>
 <td>Data de ingresso na ESS/UFRJ</td>
@@ -295,7 +293,6 @@ echo $this->Html->link('Listar', '/Professors/index/');
 ?>
 
 </div>
-
 
 <div id="aba2" class="conteudoaba">
 

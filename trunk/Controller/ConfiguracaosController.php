@@ -29,7 +29,7 @@ class ConfiguracaosController extends AppController {
 
 	public function edit($id = NULL) {
 
-		$this->request->Configuracao->id = $id;
+		$this->Configuracao->id = $id;
 
 		if (empty($this->data)) {
 			$this->data = $this->Configuracao->read();
