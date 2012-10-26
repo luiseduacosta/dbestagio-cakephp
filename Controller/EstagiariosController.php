@@ -284,9 +284,9 @@ class EstagiariosController extends AppController {
             asort($areas);
             $this->set('areas', $areas);
 
-            $this->set('id', $this->request->Estagiario->id = $id);
+            $this->set('id', $this->Estagiario->id = $id);
 
-            $this->request->Estagiario->id = $id;
+            $this->Estagiario->id = $id;
 
             $this->data = $this->Estagiario->read();
             // pr($this->data);
@@ -439,7 +439,7 @@ class EstagiariosController extends AppController {
         }
     }
 
-    public function add_estagiario($id = NULL) {
+    public function add_estagiario() {
 
         // Configure::write('debug', '2');
         if (!empty($this->data)) {

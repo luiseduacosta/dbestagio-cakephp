@@ -126,7 +126,7 @@ class AlunonovosController extends AppController {
             }
         }
 
-        $this->request->Alunonovo->id = $id;
+        $this->Alunonovo->id = $id;
         // pr($id);
         if (empty($this->data)) {
 
