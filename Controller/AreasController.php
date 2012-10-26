@@ -33,10 +33,17 @@ class AreasController extends AppController {
 
     public function index() {
 
-        $areas = $this->Area->find('all', array(
-            'order' => 'Area.area'));
+        $this->Area->virtualFields['virtualMinPeriodo'] = 'min(Estagiario.periodo)';
+        $this->Area->virtualFields['virtualMaxPeriodo'] = 'max(Estagiario.periodo)';
+        
+        $this->paginate = array(
+            'fields' => array('Area.id', 'Area.area', 'Professor.id', 'Professor.nome', 'Professor.departamento', 'min(Estagiario.periodo) as Area__virtualMinPeriodo', 'max(Estagiario.periodo) as Area__virtualMaxPeriodo'),
+            'limit' => 70,
+            'order' => 'Area.area',
+            'group' => array('Estagiario.id_professor', 'Estagiario.id_area'));
 
-        $this->set('areas', $areas);
+        $this->set('areas', $this->Paginate($this->Area->Estagiario));
+        // $this->set('areas', $areas);
     }
 
     public function view($id = NULL) {
@@ -51,7 +58,7 @@ class AreasController extends AppController {
 
     public function edit($id = NULL) {
 
-        $this->request->Area->id = $id;
+        $this->Area->id = $id;
 
         if (empty($this->data)) {
             $this->data = $this->Area->read();

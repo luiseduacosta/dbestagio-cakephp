@@ -24,7 +24,7 @@ class ProfessorsController extends AppController {
             // $this->Session->setFlash("Professor/Supervisor");
         } else {
             $this->Session->setFlash("Não autorizado");
-            $this->redirect('/users/login/');
+            $this->redirect('/Professors/index/');
         }
         // die(pr($this->Session->read('user')));
     }
@@ -70,7 +70,7 @@ class ProfessorsController extends AppController {
 
     public function edit($id = NULL) {
 
-        $this->request->Professor->id = $id;
+        $this->Professor->id = $id;
 
         // Somente o próprio pode ver
         if ($this->Session->read('numero')) {
@@ -94,7 +94,7 @@ class ProfessorsController extends AppController {
         }
     }
 
-    public function add($id = NULL) {
+    public function add() {
 
         if ($this->data) {
             if ($this->Professor->save($this->data)) {
@@ -105,7 +105,39 @@ class ProfessorsController extends AppController {
         }
     }
 
-    public function pauta($id = NULL) {
+    public function pauta() {
+
+        $parametros = $this->params['named'];
+        $periodo = isset($parametros['periodo']) ? $parametros['periodo'] : NULL;
+        $todosPeriodo = $this->Professor->Estagiario->find('list', array(
+           'fields' => array('Estagiario.periodo','Estagiario.periodo'),
+            'group' => array('Estagiario.periodo'),
+            'order' => array('Estagiario.periodo')
+        ));
+        // pr($todosPeriodo);
+
+        if (!$periodo) $periodo = end($todosPeriodo);
+        
+        $this->Professor->virtualFields['virtualAlunos'] = 'count(Estagiario.registro)';
+        /*
+        $professores = $this->Professor->Estagiario->find('all', array(
+            'fields' => array('Professor.id', 'Professor.nome', 'Professor.departamento', 'Area.area', 'Estagiario.turno', 'count(Estagiario.registro) as Professor__virtualAlunos'),
+            'conditions' => array('Estagiario.periodo' => $periodo),
+            'group' => array('Estagiario.id_professor', 'Estagiario.turno'),
+            'order' => array('Professor.nome')
+        ));
+        */
+        $this->paginate = array(
+            'fields' => array('Professor.id', 'Professor.nome', 'Professor.departamento', 'Area.area', 'Estagiario.turno', 'count(Estagiario.registro) as Professor__virtualAlunos'),
+            'conditions' => array('Estagiario.periodo' => $periodo),
+            'group' => array('Estagiario.id_professor', 'Estagiario.turno'),
+            'order' => array('Professor.nome'),
+            'limit' => 30
+        );
+        
+        $this->set('todosPeriodo', $todosPeriodo);
+        $this->set('periodo', $periodo);        
+        $this->set('professores', $this->paginate($this->Professor->Estagiario));
         
     }
 

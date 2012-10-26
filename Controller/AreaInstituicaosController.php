@@ -56,7 +56,7 @@ class AreaInstituicaosController extends AppController {
 
     public function edit($id = NULL) {
 
-        $this->request->AreaInstituicao->id = $id;
+        $this->AreaInstituicao->id = $id;
         
         if (empty($this->data)) {
             $this->data = $this->AreaInstituicao->read();

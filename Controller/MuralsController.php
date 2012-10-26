@@ -185,13 +185,13 @@ class MuralsController extends AppController {
 
     public function view($id = null) {
 
-        $this->request->Mural->id = $id;
+        $this->Mural->id = $id;
         $this->set('mural', $this->Mural->read());
     }
 
     public function edit($id = NULL) {
 
-        $this->request->Mural->id = $id;
+        $this->Mural->id = $id;
 
         if (empty($this->data)) {
 
@@ -263,7 +263,7 @@ class MuralsController extends AppController {
 
     public function publicagoogle($id = NULL) {
 
-        $this->request->Mural->id = $id;
+        $this->Mural->id = $id;
         $mural = $this->Mural->findAllById($id);
         // pr($mural);
         $this->Email->smtpOptions = array(
@@ -294,7 +294,7 @@ class MuralsController extends AppController {
 
     public function publicacartaz($id = NULL) {
 
-        $this->request->Mural->id = $id;
+        $this->Mural->id = $id;
         $mural = $this->Mural->findAllById($id);
         // pr($mural);
         $this->set('mural', $mural);
