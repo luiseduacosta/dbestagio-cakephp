@@ -22,7 +22,7 @@ $("#SupervisorPeriodo").change(function() {
 
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
     <?php echo $this->Form->create('Supervisor', array('controller' => 'Instituicao', 'action'=>'index')); ?>
-    <?php echo $this->Form->input('periodo', array('type'=>'select', 'label'=>array('text'=>'Período ', 'style'=>'display: inline'), 'options'=> $todosPeriodos, 'default'=>$periodo, 'empty'=>true)); ?>
+    <?php echo $this->Form->input('periodo', array('type'=>'select', 'label'=>array('text'=>'Período ', 'style'=>'display: inline'), 'options'=> $todosPeriodos, 'default'=>$periodo, 'empty'=>'Selecione período')); ?>
     <?php echo $this->Form->end(); ?>
 <?php endif; ?>
 
