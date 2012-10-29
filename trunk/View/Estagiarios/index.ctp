@@ -71,7 +71,7 @@ $("#EstagiarioIdSupervisor").change(function() {
 <tr>
 	<td>
 	<?php echo $this->Form->create('Estagiario', array('action'=>'index')); ?>
-	<?php echo $this->Form->input('periodo', array('type'=>'select', 'options'=> $opcoes, 'default'=>$periodo)); ?>
+	<?php echo $this->Form->input('periodo', array('type'=>'select', 'options'=> $opcoes, 'default'=>$periodo, 'empty' => 'Todos')); ?>
 	<?php echo $this->Form->end(); ?>
 	</td>
 

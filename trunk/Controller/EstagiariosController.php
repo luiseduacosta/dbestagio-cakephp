@@ -51,33 +51,26 @@ class EstagiariosController extends AppController {
         $periodos_total = $this->Estagiario->find('list', array(
             'fields' => array('Estagiario.periodo', 'Estagiario.periodo'),
             'group' => ('Estagiario.periodo'),
-            'order' => ('Estagiario.periodo')
+            'order' => array('Estagiario.periodo' => 'DESC')
                 ));
-        $periodos_total[0] = 'Todos';
-        // print_r($periodos_total);
-        // if (empty($periodo)) pr("Vazio ou zero :  " . $periodo);
-        // if (!isset($periodo)) pr("Excluido o zero: " . $periodo);
+        // pr($periodos_total);
+        
         // Guardo o valor do periodo (incluso quando eh 0) ate que seja selecionado outro
         if (isset($periodo)) {
-            // pr("Guardo session 39: " . $periodo); // 2
+            // pr("Periodo isset: " . $periodo); // 2
             $this->Session->write("periodo", $periodo);
         } else {
             $periodo = $this->Session->read("periodo");
-            // pr("Leo session 40: " . $periodo); // 3
+            // pr("Periodo read: " . $periodo);
+            if (empty($periodo)) $periodo = reset($periodos_total);
+            // pr("Período último: " . $periodo);
         }
-        // pr("Saida de guardar e ler session 42: " . $periodo); // 4
-        // Se o periodo nao foi passado como parametro e nao foi capturado anteriormente, entao o periodo eh o maior
-        if (!isset($periodo)) {
-            // pr("Nao valor de periodo, busco o maior 46: " . $periodo); // 5
-            //			if ($periodo != 0) {
-            $periodo_ultimo = $this->Estagiario->find('first', array(
-                'fields' => array('max(periodo) as max_periodo')));
-            $periodo = $periodo_ultimo[0]['max_periodo'];
-            //			}
-        }
-        // pr("Resultado depois do ultimo periodo 53: " . $periodo); // 6
-
+   
+        // pr("Resultado depois do ultimo periodo 73: " . $periodo); // 6
+        // die();
+        
         if (!empty($periodo)) {
+            // pr("Condicoes periodo: " . $periodo);
             $condicoes['Estagiario.periodo'] = $periodo;
         }
 
