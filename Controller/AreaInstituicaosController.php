@@ -33,14 +33,24 @@ class AreaInstituicaosController extends AppController {
 
     public function index() {
 
-        $this->AreaInstituicao->virtualFields['quantidadeArea'] = 'count("Instituicao.area")';
-        
-        $this->loadModel('Instituicao');
-        $areas = $this->Instituicao->find('all', array(
-            'fields' => array('AreaInstituicao.id', 'AreaInstituicao.area', 'count("Instituicao.area") as AreaInstituicao__quantidadeArea'),
-            'group' => array('Instituicao.area_instituicoes_id'),
-            'order' => 'AreaInstituicao.area'));
+        $this->AreaInstituicao->virtualFields['quantidadeArea'] = 'count(Instituicao.area_instituicoes_id)';
+          
+        $areas = $this->AreaInstituicao->find('all', array(
 
+            'joins' => array(
+                array(
+                    'table' => 'estagio',
+                    'alias' => 'Instituicao',
+                    'type' => 'left',
+                    'conditions' => array('Instituicao.area_instituicoes_id = AreaInstituicao.id')
+                )
+            ),
+
+            'fields' => array('AreaInstituicao.id', 'AreaInstituicao.area', 'count(Instituicao.area_instituicoes_id) as AreaInstituicao__quantidadeArea'),
+            'group' => array('AreaInstituicao.id'),
+            'order' => array('AreaInstituicao.area')));
+
+        // pr($areas);
         $this->set('areas', $areas);
     }
 
@@ -57,7 +67,7 @@ class AreaInstituicaosController extends AppController {
     public function edit($id = NULL) {
 
         $this->AreaInstituicao->id = $id;
-        
+
         if (empty($this->data)) {
             $this->data = $this->AreaInstituicao->read();
         } else {
@@ -87,24 +97,24 @@ class AreaInstituicaosController extends AppController {
                 ));
 
         // $this->loadModel('Estagiario');
-/*
-        $estagiarios = $this->AreaInstituicao->Estagiario->find('first', array(
-            'conditions' => 'Estagiario.id_area = ' . $id));
-        // pr($estagiarios);
+        /*
+          $estagiarios = $this->AreaInstituicao->Estagiario->find('first', array(
+          'conditions' => 'Estagiario.id_area = ' . $id));
+          // pr($estagiarios);
 
-        if ($estagiarios) {
-            $this->Session->setFlash("Error: Há estagiários vinculados com esta área");
-            // die("Estagiarios vinculados com essa área");
-            $this->redirect('/AreaInstituicao/view/' . $id);
-        } else {
-*/
-            $this->AreaInstituicao->delete($id);
-            $this->Session->setFlash("Área excluída");
-            // die("Área excluída");
-            $this->redirect('/AreaInstituicaos/index/');
-        }
+          if ($estagiarios) {
+          $this->Session->setFlash("Error: Há estagiários vinculados com esta área");
+          // die("Estagiarios vinculados com essa área");
+          $this->redirect('/AreaInstituicao/view/' . $id);
+          } else {
+         */
+        $this->AreaInstituicao->delete($id);
+        $this->Session->setFlash("Área excluída");
+        // die("Área excluída");
+        $this->redirect('/AreaInstituicaos/index/');
+    }
+
 //    }
-
 }
 
 ?>

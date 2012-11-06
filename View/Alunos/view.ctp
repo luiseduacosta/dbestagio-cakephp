@@ -34,7 +34,7 @@ if (is_null($alunos['nascimento'])) {
 <tr>
 <td style='text-align:left'>Registro: <?php echo $alunos['registro']; ?></td>
 <td style='text-align:left'>CPF: <?php echo $alunos['cpf']; ?></td>
-<td style='text-align:left'>Cartera de identidade: <?php echo $alunos['identidade']; ?></td>
+<td style='text-align:left'>Carteira de identidade: <?php echo $alunos['identidade']; ?></td>
 <td style='text-align:left'>Orgão: <?php echo $alunos['orgao']; ?></td>
 </tr>
 <tr>
