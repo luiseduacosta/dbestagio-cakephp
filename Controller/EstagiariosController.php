@@ -36,12 +36,13 @@ class EstagiariosController extends AppController {
         // die(pr($this->Session->read('user')));
     }
 
-    public function index($periodo = NULL, $id_area = NULL) {
+    public function index() {
 
         $parametros = $this->params['named'];
 
         $periodo = isset($parametros['periodo']) ? $parametros['periodo'] : NULL;
         $id_area = isset($parametros['id_area']) ? $parametros['id_area'] : NULL;
+        $id_aluno = isset($parametros['id_aluno']) ? $parametros['id_aluno'] : NULL;
         $id_professor = isset($parametros['id_professor']) ? $parametros['id_professor'] : NULL;
         $id_instituicao = isset($parametros['id_instituicao']) ? $parametros['id_instituicao'] : NULL;
         $id_supervisor = isset($parametros['id_supervisor']) ? $parametros['id_supervisor'] : NULL;
@@ -54,7 +55,6 @@ class EstagiariosController extends AppController {
             'order' => array('Estagiario.periodo' => 'DESC')
                 ));
         // pr($periodos_total);
-        
         // Guardo o valor do periodo (incluso quando eh 0) ate que seja selecionado outro
         if (isset($periodo)) {
             // pr("Periodo isset: " . $periodo); // 2
@@ -62,13 +62,14 @@ class EstagiariosController extends AppController {
         } else {
             $periodo = $this->Session->read("periodo");
             // pr("Periodo read: " . $periodo);
-            if (empty($periodo)) $periodo = reset($periodos_total);
+            if (empty($periodo))
+                $periodo = reset($periodos_total);
             // pr("Período último: " . $periodo);
         }
-   
+
         // pr("Resultado depois do ultimo periodo 73: " . $periodo); // 6
         // die();
-        
+
         if (!empty($periodo)) {
             // pr("Condicoes periodo: " . $periodo);
             $condicoes['Estagiario.periodo'] = $periodo;
