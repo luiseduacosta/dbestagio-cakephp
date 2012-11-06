@@ -10,16 +10,19 @@
 <?php echo $this->Html->link('Busca por CPF','/alunos/busca_cpf'); ?>
 </p>
 
-
+<?php 
+// pr($alunos); 
+// die();
+?>
 <?php if (isset($alunos)): ?>
 
-<h1>Resultada da busca por nome de estudante</h1>
+<h1>Resultado da busca por nome de estudante</h1>
 
-    <?php $paginator->options(array('url'=>array($nome))); ?>
+    <?php $this->Paginator->options(array('url'=>array($nome))); ?>
 
-    <?php echo $paginator->prev('<< Anterior ', null, null, array('class'=>'disabled')); ?>
-    <?php echo $paginator->numbers(); ?>
-    <?php echo $paginator->next(' Posterior >> ', null, null, array('class'=>'disabled')); ?>
+    <?php echo $this->Paginator->prev('<< Anterior ', null, null, array('class'=>'disabled')); ?>
+    <?php echo $this->Paginator->numbers(); ?>
+    <?php echo $this->Paginator->next(' Posterior >> ', null, null, array('class'=>'disabled')); ?>
 
     <table>
         <?php foreach ($alunos as $c_aluno): ?>

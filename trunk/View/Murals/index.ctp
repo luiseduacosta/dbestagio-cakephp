@@ -87,7 +87,11 @@ $("#MuralPeriodo").change(function() {
             <td><?php echo $this->Html->link($data['Mural']['id'], '/Murals/view/' . $data['Mural']['id']); ?></td>
             <td><?php echo $this->Html->link($data['Mural']['instituicao'], '/Murals/view/' . $data['Mural']['id']); ?></td>
             <td style="text-align: center"><?php echo $data['Mural']['vagas']; ?></td>
-            <td style="text-align: center"><?php echo $this->Html->link($data['Mural']['inscricoes'], '/Inscricaos/index/' . $data['Mural']['id']); ?></td>
+            <?php if ($this->Session->read('id_categoria') === '1' || $this->Session->read('id_categoria') === '3' || $this->Session->read('id_categoria') === '4'): ?>
+                <td style="text-align: center"><?php echo $this->Html->link($data['Mural']['inscricoes'], '/Inscricaos/index/' . $data['Mural']['id']); ?></td>
+            <?php else: ?>
+                <td style="text-align: center"><?php echo $data['Mural']['inscricoes']; ?></td>            
+            <?php endif; ?>
             <td><?php echo $data['Mural']['beneficios']; ?></td>
             
             <td>
