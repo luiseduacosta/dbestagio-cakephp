@@ -167,17 +167,15 @@ class InstituicaosController extends AppController {
         $instituicao = $this->Instituicao->find('first', array(
             'conditions' => array('Instituicao.id' => $id),
             'order' => 'Instituicao.instituicao'));
-
+        // pr($instituicao);
+                
         /* Para acrescentar um supervisor */
         $this->loadModel('Supervisor');
         $supervisores = $this->Supervisor->find('list', array(
             'order' => array('Supervisor.nome')));
-        $supervisores[0] = '- Seleciona -';
-        asort($supervisores);
+
         $this->set('supervisores', $supervisores);
-
-        // pr($instituicao);
-
+ 
         $proximo = $this->Instituicao->find('neighbors', array(
             'field' => 'instituicao', 'value' => $instituicao['Instituicao']['instituicao']));
 

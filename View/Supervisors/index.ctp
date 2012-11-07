@@ -31,6 +31,8 @@ $("#SupervisorPeriodo").change(function() {
     echo $this->Html->link('Inserir','/Supervisors/add/');
     echo " | ";
     echo $this->Html->link('Buscar','/Supervisors/busca/');
+    echo " || ";
+    echo $this->Html->link('Repetidos','/Supervisors/repetidos/');
     ?>
     <br />
 <?php else: ?>
