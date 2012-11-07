@@ -3,6 +3,8 @@
 <?php echo $this->Html->link('Avançar'   , array('action'=>'view', $registro_next)); ?>
 </div>
 
+<?php // pr($instituicao); ?>
+
 <table>
     <tr>
         <td width="15%">Instituição</td>
@@ -233,9 +235,26 @@ if ($instituicao['Supervisor']) {
 
 echo $this->Form->create('Instituicao', array('controller'=>'Instituicaos', 'action'=>'addassociacao'));
 echo $this->Form->input('InstSuper.id_instituicao', array('type'=>'hidden', 'value'=>$instituicao['Instituicao']['id']));
-echo $this->Form->input('InstSuper.id_supervisor', array('label'=>'Supervisor', 'options'=>$supervisores, 'default'=>0));
+echo $this->Form->input('InstSuper.id_supervisor', array('label'=>'Supervisor', 'options'=>$supervisores, 'default'=>0, 'empty'=>'Seleciona'));
 echo $this->Form->end('Confirma');
 
 ?>
 
+<?php endif; ?>
+
+<?php if ($instituicao['Estagiario']): ?>
+<!--
+<table>
+    <caption>Estagiários</caption>
+<?php foreach ($instituicao['Estagiario'] as $c_estagiario): ?>
+
+<tr>
+<td><?php echo $this->Html->link($c_estagiario['registro'], '/Estagiarios/view/' . $c_estagiario['id_aluno']); ?></td>
+<td><?php echo $c_estagiario['id_supervisor']; ?></td>
+<td><?php echo $c_estagiario['periodo']; ?></td>
+</tr>
+
+<?php endforeach; ?>
+</table>
+//-->
 <?php endif; ?>

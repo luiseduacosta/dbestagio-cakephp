@@ -131,7 +131,8 @@ class EstagiariosController extends AppController {
         $this->set('professores', $professores);
 
         // Instituicoes
-        $inst = $this->Estagiario->find('all', array('group' => 'id_instituicao'));
+        $inst = $this->Estagiario->find('all', array(
+            'group' => 'id_instituicao'));
         foreach ($inst as $c_inst) {
             if ($c_inst['Instituicao']['id']) {
                 $instituicoes[$c_inst['Instituicao']['id']] = $c_inst['Instituicao']['instituicao'];
@@ -191,6 +192,7 @@ class EstagiariosController extends AppController {
         } else {
             $this->set('estagiarios', $this->Paginate('Estagiario'));
         }
+        
         $this->set('periodo', $periodo);
         $this->set('opcoes', $periodos_total);
     }

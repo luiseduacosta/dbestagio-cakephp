@@ -205,6 +205,17 @@ class SupervisorsController extends AppController {
         $this->redirect('/Supervisors/view/' . $id_superinstituicao['InstSuper']['id_supervisor']);
     }
 
+    public function repetidos() {
+
+        $repetidos = $this->Supervisor->find('all', array(
+            'fields' => array('id', 'cress', 'nome', 'count(cress) as quantidade'),
+            'group' => 'cress having quantidade > 1',
+            'order' => 'nome')
+        );
+        
+        $this->set('repetidos', $repetidos);
+    }
+
 }
 
 ?>
