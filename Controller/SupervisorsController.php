@@ -12,18 +12,18 @@ class SupervisorsController extends AppController {
         // Admin
         if ($this->Session->read('id_categoria') === '1') {
             $this->Auth->allow();
-            $this->Session->setFlash("Administrador");
+            // $this->Session->setFlash("Administrador");
             // Estudantes
         } elseif ($this->Session->read('id_categoria') === '2') {
             $this->Auth->allow('index', 'busca');
-            $this->Session->setFlash("Estudante");
+            // $this->Session->setFlash("Estudante");
         } elseif ($this->Session->read('id_categoria') === '3') {
             $this->Auth->allow('add', 'edit', 'addinstituicao', 'deleteassociacao', 'index', 'view', 'busca');
-            $this->Session->setFlash("Professor");
+            // $this->Session->setFlash("Professor");
             // Professores, Supervisores
         } elseif ($this->Session->read('id_cateogria') === '4') {
             $this->Auth->allow('add', 'edit', 'addinstituicao', 'deleteassociacao', 'index', 'view', 'busca');
-            $this->Session->setFlash("Supervisor");
+            // $this->Session->setFlash("Supervisor");
         } else {
             $this->Session->setFlash("Não autorizado");
             $this->redirect('/users/login/');
@@ -41,6 +41,7 @@ class SupervisorsController extends AppController {
         $this->Supervisor->virtualFields['virtualperiodos'] = 'count(Distinct Estagiario.periodo)';
         $this->Supervisor->virtualFields['virtualmaxperiodo'] = 'max(periodo)';
 
+        /* Para caixa de seleção */
         $todosPeriodos = $this->Supervisor->Estagiario->find('list', array(
             'fields' => array('Estagiario.periodo', 'Estagiario.periodo'),
             'group' => array('Estagiario.periodo'),
@@ -212,8 +213,30 @@ class SupervisorsController extends AppController {
             'group' => 'cress having quantidade > 1',
             'order' => 'nome')
         );
-        
+
         $this->set('repetidos', $repetidos);
+    }
+
+    public function semalunos() {
+
+        $semalunos = $this->Supervisor->find('all', array(
+            'limit' => 100,
+            'fields' => array('Supervisor.id', 'Supervisor.cress', 'Supervisor.nome', 'Estagiario.id_supervisor'),
+            'joins' => array(
+                array(
+                    'table' => 'estagiarios',
+                    'alias' => 'Estagiario',
+                    'type' => 'LEFT',
+                    'conditions' => 'Supervisor.id = Estagiario.id_supervisor'
+                )
+            ),
+            'conditions' => array('Estagiario.id_supervisor IS NULL'),
+            'order' => 'Supervisor.nome'
+                ));
+
+        // pr($semalunos);
+
+        $this->set('semalunos', $semalunos);
     }
 
 }
