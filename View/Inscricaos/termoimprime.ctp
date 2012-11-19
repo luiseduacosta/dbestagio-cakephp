@@ -1,6 +1,6 @@
 <?php
 
-App::import("Vendor", "tcpdf");
+App::import("Vendor", "tcpdf/tcpdf");
 
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false); 
 
