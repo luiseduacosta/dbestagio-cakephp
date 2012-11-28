@@ -6,9 +6,10 @@ echo $this->Html->scriptBlock('
 $(document).ready(function() {
 
 $("#ProfessorPeriodo").change(function() {
+        var url=window.location.pathname.split("/");
 	var periodo = $(this).val();
         /* alert(periodo); */
-        window.location="/mycake/Professors/pauta/periodo:"+periodo;
+        window.location="/"+url[1]+"/Professors/pauta/periodo:"+periodo;
 	})
 
 })

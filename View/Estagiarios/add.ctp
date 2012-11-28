@@ -4,9 +4,10 @@ echo $this->Html->script("jquery", array('inline'=>false));
 echo $this->Html->scriptBlock('
 
 $(document).ready(function(){
+var url=window.location.pathname.split("/");
 $("#EstagiarioIdInstituicao").change(function() {
 	var id_instituicao = $(this).val();
-	 $("#EstagiarioIdSupervisor").load("/mycake/Instituicaos/seleciona_supervisor/"+id_instituicao, {id: $(this).val(), ajax: "true"});
+	 $("#EstagiarioIdSupervisor").load("/"+url[1]+"/Instituicaos/seleciona_supervisor/"+id_instituicao, {id: $(this).val(), ajax: "true"});
          /* alert(id_instituicao); */
 	})
  });
