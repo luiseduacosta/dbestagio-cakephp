@@ -14,9 +14,10 @@ echo $this->Html->scriptBlock('
 $(document).ready(function() {
 
 $("#InstituicaoPeriodo").change(function() {
+        var url=window.location.pathname.split("/");
 	var periodo = $(this).val();
         /* alert(periodo); */
-        window.location="/mycake/Instituicaos/index/periodo:"+periodo;
+        window.location="/"+url[1]+"/Instituicaos/index/periodo:"+periodo;
 	})
 
 })
