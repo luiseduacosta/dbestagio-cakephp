@@ -6,9 +6,10 @@ echo $this->Html->scriptBlock('
 $(document).ready(function() {
 
 $("#MuralPeriodo").change(function() {
+        var url=window.location.pathname.split("/");
 	var periodo = $(this).val();
         /* alert(periodo); */
-        window.location="/mycake/murals/index/periodo:"+periodo;
+        window.location="/"+url[1]+"/murals/index/periodo:"+periodo;
 	})
 
 })

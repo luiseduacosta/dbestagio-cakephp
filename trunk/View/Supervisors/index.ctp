@@ -8,9 +8,10 @@ echo $this->Html->scriptBlock('
 $(document).ready(function() {
 
 $("#SupervisorPeriodo").change(function() {
+        var url=window.location.pathname.split("/");
 	var periodo = $(this).val();
         /* alert(periodo); */
-        window.location="/mycake/Supervisors/index/periodo:"+periodo;
+        window.location="/"+url[1]+"/Supervisors/index/periodo:"+periodo;
 	})
 
 })
