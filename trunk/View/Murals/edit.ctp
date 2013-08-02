@@ -18,6 +18,7 @@ if (empty($professores)) $professores = "Sem dados";
         <tr>
              <td>
                  <?php
+                 echo $this->Form->input('id', array('type'=>'hidden'));
                  echo $this->Form->input('id_estagio', array('label'=>'Instituição', 'type'=>'select', 'options'=>$instituicoes));
                  ?>
              </td>
@@ -105,6 +106,10 @@ if (empty($professores)) $professores = "Sem dados";
             <td><?php echo $this->Form->input('datafax', array('label'=>'Data de envio do email (preenchimento automático)', 'empty'=>TRUE)); ?></td>
         </tr>
 
+        <tr>
+            <td><?php echo $this->Form->input('localInscricao', array('label'=>'Local da inscrição', 'type'=>'select', 'options'=>array("0"=>'Mural da Coordenação de Estágio e Extensão/ESS', "1"=>'Diretamente na Instituição'))); ?></td>
+        </tr>
+        
         <tr>
             <td><?php echo $this->Form->input('outras'); ?></td>
         </tr>

@@ -4,10 +4,9 @@ echo $this->Html->script("jquery", array('inline'=>false));
 echo $this->Html->scriptBlock('
 
 $(document).ready(function(){
-var url=window.location.pathname.split("/");
 $("#EstagiarioIdInstituicao").change(function() {
 	var id_instituicao = $(this).val();
-	 $("#EstagiarioIdSupervisor").load("/"+url[1]+"/Instituicaos/seleciona_supervisor/"+id_instituicao, {id: $(this).val(), ajax: "true"});
+	 $("#EstagiarioIdSupervisor").load("/mural/Instituicaos/seleciona_supervisor/"+id_instituicao, {id: $(this).val(), ajax: "true"});
          /* alert(id_instituicao); */
 	})
  });
@@ -88,45 +87,41 @@ $(document).ready(function(){
 echo $this->Form->create('Estagiario');
 ?>
 
-<?php
-$hoje = date('d/m/Y');
-?>
-
 <fieldset><legend>Estudante</legend>
 
 <h1>
-    <?php 
-    if ($estagiarios) {
-        echo $estagiarios[0]['Aluno']['nome']; 
-    } else {
-        echo $aluno['Aluno']['nome']; 
-    }
-    ?>
+<?php 
+if ($estagiarios) {
+	echo $estagiarios[0]['Aluno']['nome']; 
+} else {
+	echo $estagiario_sem_estagio['Aluno']['nome'];
+	// echo "Estudante sem estágio";
+}
+
+?>
 </h1>
 
 </fieldset>
 
 <fieldset><legend>Estágio</legend>
 <?php
-    if ($estagiarios) {
-    echo $this->Form->input('Estagiario.id_aluno', array('type'=>'hidden', 'value'=>$estagiarios[0]['Estagiario']['id_aluno']));
-    echo $this->Form->input('Estagiario.registro', array('type'=>'hidden', 'value'=>$estagiarios[0]['Estagiario']['registro']));
-   } else {
-    echo $this->Form->input('Estagiario.id_aluno', array('type'=>'hidden', 'value'=>$aluno['Aluno']['id']));
-    echo $this->Form->input('Estagiario.registro', array('type'=>'hidden', 'value'=>$aluno['Aluno']['registro']));
-   }   
-?>
+if ($estagiarios) {
+	echo $this->Form->input('Estagiario.id_aluno', array('type'=>'hidden', 'value'=>$estagiarios[0]['Estagiario']['id_aluno']));
+	echo $this->Form->input('Estagiario.registro', array('type'=>'hidden', 'value'=>$estagiarios[0]['Estagiario']['registro']));
+} else {
+	echo $this->Form->input('Estagiario.id_aluno', array('type'=>'hidden', 'value'=>$estagiario_sem_estagio['Aluno']['id']));
+	echo $this->Form->input('Estagiario.registro', array('type'=>'hidden', 'value'=>$estagiario_sem_estagio['Aluno']['registro']));
+}
 
-<?php
 echo 'Termo de compromisso: '. $this->Form->input('Estagiario.tc', array('type'=>'radio', 'label'=>'Termo de compromisso', 'legend'=>FALSE, 'options'=>array('0'=>'Não','1'=>'Sim'),'default'=>'0'));
 echo $this->Form->input('Estagiario.periodo', array('type'=>'select', 'label'=>'Período', 'options'=>$periodos, 'selected'=>$periodo_atual));
 echo 'Nível: '. $this->Form->input('Estagiario.nivel', array('type'=>'radio', 'legend'=>FALSE, 'label'=>'Nível', 'options'=>array('1'=>'I','2'=>'II','3'=>'III','4'=>'IV'), 'default'=>$proximo_nivel));
 echo 'Turno: '. $this->Form->input('Estagiario.turno', array('type'=>'radio', 'legend'=>FALSE, 'label'=>'Turno', 'options'=>array('D'=>'Diurno','N'=>'Noturno'), 'default'=>'D'));
-echo $this->Form->input('Estagiario.tc_solicitacao', array('label'=>'Data de solicitação do TC (inserida automáticamente quando o estudante solicita o TC)', 'dateFormat'=>'DMY', 'selected'=>array('day'=>date('d'), 'month'=>date('m'), 'year'=>date('Y'))));
+echo $this->Form->input('Estagiario.tc_solicitacao', array('label'=>'Data de solicitação do TC (inserida automáticamente quando o estudante solicita o TC)', 'dateFormat'=>'DMY', 'empty'=>TRUE));
 echo $this->Form->input('Estagiario.id_instituicao', array('label'=>'Instituição','options'=>$instituicoes,'default'=>0));
-echo $this->Form->input('Estagiario.id_supervisor', array('label'=>'Supervisor','options'=>$supervisores, 'default'=>0, 'empty'=>'Seleciona'));
-echo $this->Form->input('Estagiario.id_professor', array('label'=>'Professor','options'=>$professores, 'default'=>0, 'empty'=>'Seleciona'));
-echo $this->Form->input('Estagiario.id_area', array('label'=>'Área temática','options'=>$areas, 'default'=>0, 'empty'=>'Seleciona'));
+echo $this->Form->input('Estagiario.id_supervisor', array('label'=>'Supervisor','options'=>$supervisores, 'default'=>0));
+echo $this->Form->input('Estagiario.id_professor', array('label'=>'Professor','options'=>$professores, 'default'=>0));
+echo $this->Form->input('Estagiario.id_area', array('label'=>'Área temática','options'=>$areas, 'default'=>0));
 echo $this->Form->input('Estagiario.nota', array('label'=>'Nota'));
 echo $this->Form->input('Estagiario.ch', array('label'=>'Carga horária'));
 ?>

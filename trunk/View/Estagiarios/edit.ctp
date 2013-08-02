@@ -5,9 +5,8 @@ echo $this->Html->scriptBlock('
 
 $(document).ready(function(){
 $("#EstagiarioIdInstituicao").change(function() {
-        var url=window.location.pathname.split("/");
 	var id_instituicao = $(this).val();
-	 $("#EstagiarioIdSupervisor").load("/"+url[1]+"/Instituicaos/seleciona_supervisor/"+id_instituicao, {id: $(this).val(), ajax: "true"});
+	 $("#EstagiarioIdSupervisor").load("/mural/Instituicaos/seleciona_supervisor/"+id_instituicao, {id: $(this).val(), ajax: "true"});
          /* alert(id_instituicao); */
 	})
  });
@@ -33,6 +32,7 @@ echo $this->Form->input('Estagiario.id_area', array('label'=>'Área temática','
 echo $this->Form->input('Estagiario.id_aluno', array('type'=>'hidden'));
 echo $this->Form->input('Estagiario.nota', array('label'=>'Nota: separar casas decimais com ponto'));
 echo $this->Form->input('Estagiario.ch', array('label'=>'Carga horária (Digitar números inteiros)'));
+echo $this->Form->input('Estagiario.observacoes', array('label'=>'Observações'));
 echo $this->Form->input('id', array('type'=>'hidden'));
 echo $this->Form->end('Atualizar');
 

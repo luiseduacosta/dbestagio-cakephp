@@ -65,7 +65,7 @@ class User extends AppModel {
         return ($this->query("SELECT aros_acos.id, aros.alias, acos.alias, _create, _read, _update, _delete FROM `aros_acos` join aros on aros_acos.aro_id = aros.id join acos on aros_acos.aco_id = acos.id ORDER BY `aros`.`alias` ASC"));
     }
 
-    function beforesave() {
+    function beforeSave($options = array()) {
         if ($this->data['User']['password']) {
             $this->request->data['User']['password'] = SHA1($this->data['User']['password']);
         }

@@ -24,6 +24,11 @@ class Inscricao extends AppModel {
 					'className' => 'Alunonovo',
 					'foreignKey' => FALSE,
 					'conditions' => 'Inscricao.id_aluno = Alunonovo.registro'
+			),
+			'Estagiario' => array(
+					'className' => 'Estagiario',
+					'foreignKey' => FALSE,
+					'conditions' => array('Inscricao.id_aluno = Estagiario.registro', 'Inscricao.periodo = Estagiario.periodo')
 			)
 	);
 

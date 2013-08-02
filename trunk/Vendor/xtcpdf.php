@@ -33,7 +33,7 @@ class XTCPDF  extends TCPDF {
         $this->Text(50,17, "Centro de Filosofia e Ciências Sociais"); 
         $this->Text(50,22, "ESCOLA DE SERVIÇO SOCIAL");
         $this->Text(50,27, $this->xheadertext ); 
-        
+
     } 
 
     /** 

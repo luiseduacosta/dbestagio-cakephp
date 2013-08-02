@@ -40,11 +40,13 @@ class Alunonovo extends AppModel {
 							'on' => 'create',
 							'message' => 'Registro inválido'
 					),
+
 					'registro3' => array(
 							'rule' => 'registro_verifica',
 							'on' => 'create',
 							'message' => 'Número de DRE inválido'
 					)
+
 			),
 			'nascimento' => array(
 					'nascimento1' => array(
@@ -79,7 +81,7 @@ class Alunonovo extends AppModel {
 							'rule' => '/^\d{9}-\d{2}$/i',
 							'required' => TRUE,
 							'on' => 'create',
-							'message' => 'Digite o número de CPF'
+							'message' => 'Digite o número de CPF corretamente formatado'
 					),
 					'cpf2' => array(
 							'rule' => 'cpf_verifica',
@@ -121,7 +123,7 @@ class Alunonovo extends AppModel {
 					'rule' => '/^\d{5}-\d{3}$/i',
 					'required' => TRUE,
 					'on' => 'create',
-					'message' => 'Digite o número de CEP'
+					'message' => 'Digite o número de CEP corretamente formatado'
 			)
 	);
 
@@ -134,17 +136,17 @@ class Alunonovo extends AppModel {
 			return FALSE;
 		}
 
-		if (!empty($value)) {
-			echo "Consulta tabela alunosNovos";
+		if ($value) {
+			// echo "Modelo - Consulta tabela alunosNovos ";
 			$registro = $this->find('first', array('conditions' => 'Alunonovo.registro = ' . $value));
 		}
 
-		if (!empty($value)) {
-			echo "Consulta tabela alunos";
+		if ($value) {
+			// echo "Modelo - Consulta tabela alunos ";
 			$registro = $this->query('select registro from ess.alunos as Aluno where registro = ' . $value);
 		}
 
-		// pr($registro);
+		// echo "Registro: " . $registro[0];
 		// die();
 
 		if ($registro) {

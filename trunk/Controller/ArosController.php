@@ -185,13 +185,13 @@ class ArosController extends AppController {
         if ($this->User->delete($id)) {
             // Delete Associated Aro
             $AroData = $this->Aro->findByForeignKey($id);
-            print_r($AroData);
+            // print_r($AroData);
             $this->Aro->delete($AroData['Aro']['id']);
             $this->Session->setFlash(__('User deleted', true));
-            // $this->Session->setFlash(__('User deleted', true), 'flash');
+            $this->Session->setFlash(__('Usuário excluído', true), 'flash');
             $this->redirect(array('action' => 'listausuarios'));
         } else {
-            print_r($id);
+            // print_r($id);
             $this->redirect(array('action' => 'listausuarios'));
             $this->Session->setFlash(__('Usuário não foi excluído', true), 'flash');
             die("Error: usuário não foi excluido");

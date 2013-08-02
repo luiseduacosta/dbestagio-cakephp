@@ -43,7 +43,7 @@ class InstituicaosController extends AppController {
             'fields' => array('Estagiario.periodo', 'Estagiario.periodo'),
             'group' => array('Estagiario.periodo'),
             'order' => array('Estagiario.periodo')
-                ));
+        ));
 
         // if (!$periodo) $periodo = end($todosPeriodos);
 
@@ -153,6 +153,12 @@ class InstituicaosController extends AppController {
 
     public function add() {
 
+	$area_instituicao = $this->Instituicao->AreaInstituicao->find('list', array(
+		'order' => 'AreaInstituicao.area'));
+	// pr($area_instituicao);
+	// die();
+	$this->set('id_area_instituicao', $area_instituicao);
+
         if ($this->data) {
             if ($this->Instituicao->save($this->data)) {
                 $this->Session->setFlash('Dados da instituição inseridos!');
@@ -168,14 +174,14 @@ class InstituicaosController extends AppController {
             'conditions' => array('Instituicao.id' => $id),
             'order' => 'Instituicao.instituicao'));
         // pr($instituicao);
-                
+
         /* Para acrescentar um supervisor */
         $this->loadModel('Supervisor');
         $supervisores = $this->Supervisor->find('list', array(
             'order' => array('Supervisor.nome')));
 
         $this->set('supervisores', $supervisores);
- 
+
         $proximo = $this->Instituicao->find('neighbors', array(
             'field' => 'instituicao', 'value' => $instituicao['Instituicao']['instituicao']));
 
@@ -191,7 +197,7 @@ class InstituicaosController extends AppController {
 
         $area_instituicao = $this->Instituicao->AreaInstituicao->find('list', array(
             'order' => 'AreaInstituicao.area'
-                ));
+        ));
 
         $this->set('area_instituicao', $area_instituicao);
 
@@ -210,7 +216,7 @@ class InstituicaosController extends AppController {
 
         $instituicao = $this->Instituicao->find('first', array(
             'conditions' => array('Instituicao.id' => $id)
-                ));
+        ));
 
         $murais = $instituicao['Mural'];
         $supervisores = $instituicao['Supervisor'];
@@ -263,7 +269,7 @@ class InstituicaosController extends AppController {
     public function busca($id = NULL) {
 
         if ($id)
-            $this->data['Instituicao']['instituicao'] = $id;
+            $this->request->data['Instituicao']['instituicao'] = $id;
 
         $this->paginate = array(
             'limit' => 10,
@@ -271,7 +277,7 @@ class InstituicaosController extends AppController {
                 'Instituicao.instituicao' => 'asc')
         );
 
-        if ($this->data['Instituicao']['instituicao']) {
+        if ($this->request->data['Instituicao']['instituicao']) {
 
             $condicao = array('Instituicao.instituicao like' => '%' . $this->data['Instituicao']['instituicao'] . '%');
             $instituicoes = $this->Instituicao->find('all', array('conditions' => $condicao));
@@ -332,7 +338,7 @@ class InstituicaosController extends AppController {
                 'conditions' => array('Estagiario.id_instituicao =' . $id),
                 'fields' => array('Estagiario.id_supervisor', 'Estagiario.id_professor', 'Estagiario.id_area', 'Estagiario.periodo'),
                 'order' => array('Estagiario.periodo DESC')
-                    ));
+            ));
             // pr($prof_area);
 
             $id_area = $prof_area['Estagiario']['id_area'];
@@ -361,6 +367,48 @@ class InstituicaosController extends AppController {
         );
 
         $this->set('natureza', $natureza);
+    }
+
+    public function listainstituicao() {
+        if ($this->request->is('ajax')) {
+            $this->autoRender = false;
+            $resultado = $this->Instituicao->find('all', array(
+                'fields' => array('Instituicao.instituicao'),
+                'conditions' => array('Instituicao.instituicao LIKE ' => '%' . $this->request->query['q'] . '%'),
+                'group' => array('Instituicao.instituicao')
+            ));
+            foreach ($resultado as $q_resultado) {
+                echo $q_resultado['Instituicao']['instituicao'] . "\n";
+            }
+        }
+    }
+
+    public function listanatureza() {
+        if ($this->request->is('ajax')) {
+            $this->autoRender = false;
+            $resultado = $this->Instituicao->find('all', array(
+                'fields' => array('Instituicao.natureza'),
+                'conditions' => array('Instituicao.natureza LIKE ' => '%' . $this->request->query['q'] . '%'),
+                'group' => array('Instituicao.natureza')
+            ));
+            foreach ($resultado as $q_resultado) {
+                echo $q_resultado['Instituicao']['natureza'] . "\n";
+            }
+        }
+    }
+
+    public function listabairro() {
+        if ($this->request->is('ajax')) {
+            $this->autoRender = false;
+            $resultado = $this->Instituicao->find('all', array(
+                'fields' => array('Instituicao.bairro'),
+                'conditions' => array('Instituicao.bairro LIKE ' => '%' . $this->request->query['q'] . '%'),
+                'group' => array('Instituicao.bairro')
+            ));
+            foreach ($resultado as $q_resultado) {
+                echo $q_resultado['Instituicao']['bairro'] . "\n";
+            }
+        }
     }
 
 }

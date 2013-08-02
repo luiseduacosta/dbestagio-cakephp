@@ -13,6 +13,22 @@ $(document).ready(function(){
 
 ', array('inline'=>false));
 
+echo $this->Html->css('jquery.autocomplete');
+echo $this->Html->script("jquery.autocomplete", array('inline'=>false));
+
+echo $this->Html->scriptBlock('
+
+$(document).ready(function(){
+
+    $("#InstituicaoInstituicao").autocomplete("/mural/Instituicaos/listainstituicao", { maxItemsToShow:0 });
+    $("#InstituicaoNatureza").autocomplete("/mural/Instituicaos/listanatureza");
+    $("#InstituicaoBairro").autocomplete("/mural/Instituicaos/listabairro", { maxItemsToShow:0 });
+    
+});
+
+', array('inline'=>false));
+
+
 ?>
 
 <h1>Cadastro de instituições</h1>
@@ -26,7 +42,7 @@ echo $this->Form->input('email');
 echo $this->Form->input('url', array('label'=>'Endereço na internet (inclua o protocolo: http://)'));
 echo $this->Form->input('convenio', array('label'=>'Número de convênio na UFRJ', 'default'=>0));
 echo $this->Form->input('seguro', array('options'=>array('0'=>'Não', '1'=>'Sim')));
-echo $this->Form->input('area');
+echo $this->Form->input('area_instituicoes_id', array('label'=>'Área da Instituição (não é a área da OTP)', 'options'=>$id_area_instituicao, 'empty'=>true));
 echo $this->Form->input('natureza');
 echo $this->Form->input('endereco');
 echo $this->Form->input('cep');

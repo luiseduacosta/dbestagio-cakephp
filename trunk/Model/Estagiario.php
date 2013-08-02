@@ -10,7 +10,7 @@ class Estagiario extends AppModel {
 
 	public $name = "Estagiario";
 	public $useTable = "estagiarios";
-	public $order = array("Aluno.nome" => "asc", "Estagiario.periodo" => "asc");
+	public $order = array("Aluno.nome" => "ASC", "Estagiario.periodo" => "ASC");
 
 	public $belongsTo = array(
 			'Aluno' => array(

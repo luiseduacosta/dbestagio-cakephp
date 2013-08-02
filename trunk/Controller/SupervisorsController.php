@@ -119,7 +119,7 @@ class SupervisorsController extends AppController {
     public function busca($id = NULL) {
 
         if ($id)
-            $this->data['Supervisor']['nome'] = $id;
+            $this->request->data['Supervisor']['nome'] = $id;
 
         $this->paginate = array(
             'limit' => 10,
