@@ -55,20 +55,21 @@ class AlunonovosController extends AppController {
     public function add($id = NULL) {
 
         $this->set('registro', $id);
-        // die("Alunonovo add");
+        // die("Alunonovo add: " . $id);
         /* Vejo se foi chamado desde cadastro
           $cadastro = $this->Session->read('cadastro');
           pr($cadastro);
           // die();
          */
 
-        if ($this->Alunonovo->save($this->data)) {
-
+        if ($this->Alunonovo->save($this->request->data)) {
+            // die("Aluno novo save");
             // Capturo o id da instituicao (se foi chamada desde inscriacao add)
             $inscricao_selecao_estagio = $this->Session->read('id_instituicao');
             // Ainda nao posso apagar
             // $this->Session->delete('id_instituicao');
-            // Capturo se foi chamado desde a solicitacao do termo
+
+	    // Capturo se foi chamado desde a solicitacao do termo
             $registro_termo = $this->Session->read('termo');
             // Acho que posso apagar aqui porque nao vai ser chamado novamente
             $this->Session->delete('termo');
@@ -77,29 +78,37 @@ class AlunonovosController extends AppController {
             $cadastro = $this->Session->read('cadastro');
 
             $registro = $this->data['Alunonovo']['registro'];
-            $this->Session->setFlash("Cadastro realizado");
+            $this->Session->setFlash("Cadastro realizado: " . $registro);
+            // $this->redirect("/Inscricaos/solicitatermo/" . $registro);
+	    // die(" Verificacao da rotina " . $registro);
 
-            if ($inscricao_selecao_estagio) {
+    	    if ($inscricao_selecao_estagio) {
                 // Volta para a pagina de inscricao
-                $this->redirect('/Inscricaos/inscricao/' . $registro);
+                // die("inscricao_seleciona_estagio");
+                $this->redirect("/Inscricaos/inscricao/" . $registro);
             } elseif ($registro_termo) {
                 // Volta para a pagina de termo de compromisso
-                $this->redirect('/Inscricaos/termocompromisso/' . $registro_termo);
+                // die(" registro_termo " . $registro_termo);
+                $this->redirect("/Inscricaos/termocompromisso/" . $registro_termo);
+		die("Redireciona para concluir solicitacao de termo de compromisso");
             } elseif ($cadastro) {
+                // die("cadastro");
                 $this->Session->delete('cadastro');
                 $id_alunonovo = $this->Alunonovo->getLastInsertId();
-                // $this->Session->write('menu_aluno', 'alunonovo');
-                // $this->Session->write('menu_id_aluno', $id_alunonovo);
-                $this->redirect('/Alunonovos/view/' . $id_alunonovo);
+                $this->Session->write('menu_aluno', 'alunonovo');
+                $this->Session->write('menu_id_aluno', $id_alunonovo);
+                $this->redirect("/Alunonovos/view/" . $id_alunonovo);
             } else {
                 // Mostra resultado da insercao
                 /* Para poder colocar o link no menu superior */
                 $id_alunonovo = $this->Alunonovo->getLastInsertId();
+                // die(" else " . $id_alunonovo);
                 $this->Session->write('menu_aluno', 'alunonovo');
                 $this->Session->write('menu_id_aluno', $id_alunonovo);
                 $this->Session->setFlash('Dados inseridos');
                 $id_alunonovo = $this->Alunonovo->getLastInsertId();
-                $this->redirect('/Alunonovos/view/' . $id_alunonovo);
+                // die(" else " . $id_alunonovo);
+  		$this->redirect("/Alunonovos/view/" . $id_alunonovo);
             }
         }
     }
@@ -167,7 +176,7 @@ class AlunonovosController extends AppController {
     public function view($id = NULL) {
 
         // echo "Aluno novo";
-        // die(pr($this->Session->read('numero')));
+        $this->Session->read('numero');
         // Somente o próprio pode ver
 
         if (($this->Session->read('categoria') === 'estudante') && ($this->Session->read('numero'))) {

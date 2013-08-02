@@ -58,7 +58,7 @@ $(document).ready(function(){
 
 <?php echo $this->Form->input('datafax', array('label'=>'Data de envio do email (preenchimento automático)', 'empty'=>TRUE)); ?>
 
-<?php echo $this->Form->input('inscricaoLocal', array('label'=>'Inscrição na Coordenação de Estágio ou diretamente na instituição')); ?>
+<?php echo $this->Form->input('localInscricao', array('label'=>'Inscrição na Coordenação de Estágio ou diretamente na instituição', 'type'=>'select', 'options' => array('0'=>'Mural da Coordenação de Estágio/ESS', '1'=>'Diretamente na Instituição'))); ?>
 
 <?php echo $this->Form->input('outras', array('label'=>'Outras informações')); ?>
 

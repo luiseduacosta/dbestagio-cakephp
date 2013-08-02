@@ -7,11 +7,12 @@ class Mural extends AppModel {
      * @var Area
      * @var Professor
      */
-  
+
     public $name = 'Mural';
     public $useTable = 'mural_estagio';
     public $primaryKey = 'id';
     public $displayField = 'instituicao';
+
     public $hasMany = array(
         'Inscricao' => array(
             'className' => 'Inscricao',
@@ -30,7 +31,7 @@ class Mural extends AppModel {
         'Professor' => array(
             'className' => 'Professor',
             'foreignKey' => 'id_professor'
-        )
+        ),
     );
     public $validate = array(
         'id_estagio' => array(
@@ -93,7 +94,7 @@ class Mural extends AppModel {
         ),
         'formaSelecao' => array(
             'rule' => array('inList', array('0', '1', '2', '3')),
-            'required' => TRUE,
+            'required' => FALSE,
             'message' => 'Escolher uma das opções'
         ),
         /*

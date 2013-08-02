@@ -130,7 +130,7 @@ class Aluno extends AppModel {
 		}
 
 		if (!empty($value)) {
-			echo "Consulta";
+			// echo "Modelo - Consulta";
 			$registro = $this->find('first', array('conditions' => 'Aluno.registro = ' . $value));
 		}
 		// pr($registro);
@@ -150,13 +150,13 @@ class Aluno extends AppModel {
 
 		if ($data_informada == $hoje) {
 			$msg = "Data de hoje";
-			echo $msg;
+			// echo $msg;
 			return FALSE;
 		}
 
 		if ($data_informada > $hoje) {
 			$msg = "Data de nascimento maior que o dia de hoje";
-			echo $msg;
+			// echo $msg;
 			return FALSE;
 		}
 
@@ -164,7 +164,7 @@ class Aluno extends AppModel {
 		$idade = floor($diff / (365 * 60 * 60 * 24));
 		if ($idade < 17) {
 			$msg = 'Menor de idade: ' . $idade;
-			echo $msg;
+			// echo $msg;
 			return FALSE;
 		}
 

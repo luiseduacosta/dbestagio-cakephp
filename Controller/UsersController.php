@@ -12,7 +12,7 @@ class UsersController extends AppController {
         if ($this->Session->read('id_categoria') === '1') {
             $this->Auth->allow();
         } else {
-            $this->Auth->allow('login', 'cadastro');
+            $this->Auth->allow('login', 'cadastro', 'contato');
         }
     }
 
@@ -132,16 +132,60 @@ class UsersController extends AppController {
                 $this->request->data['User']['password'] = SHA1($this->data['User']['password']);
             }
 
-            // Primeiro verifico se o email ja nao esta cadastrado
-            $this->loadModel('Aros');
-            $aluno_aros = $this->Aros->findByAlias($this->data['User']['email']);
-            if ($aluno_aros) {
+             /*
+             * Para recuperar a senha faz um novo cadastro
+             */
+            $usuariocadastrado = $this->User->find('first', array(
+                'conditions' => array('and' => array('User.categoria' => $this->data['User']['categoria'], 'User.email' => $this->data['User']['email'], 'User.numero' => $this->data['User']['numero']))
+            ));
+
+            // pr($usuariocadastrado);
+            // die();
+            /*
+             * Se está recuperando a senha
+             * excluo o registro do usuer e do aro
+             */
+            if ($usuariocadastrado) {
+                echo "Recuperação de senha de usuário já cadastrado";
+                // pr($usuariocadastrado);
+                // pr($usuariocadastrado['User']['id']);
+                if ($this->User->delete($usuariocadastrado['User']['id'])) {
+                    echo "Usuario excluido";
+                    // die("delete user");
+                }
+                // die("delete user");
+            }
+            // die("usuariocadastrado");
+
+            // Primeiro verifico se o registro ja nao esta cadastrado no user
+            $numero = $this->User->findByNumero($this->data['User']['numero']);
+            // pr($numero);
+            // die();
+
+            if ($numero) {
+                $numero_user = $this->User->findByNumero($this->data['User']['numero']);
+                // pr($email_user);
+                // die();
+                $this->Session->setFlash("Número (DRE, CRESS ou SIAPE) já cadastrado");
+                $this->redirect("/Users/login/");
+                die("Numero já cadastrado");
+            }
+            // die("Numero já cadastrado");
+
+            // Segundo verifico se o email ja nao esta cadastrado no user
+            $email = $this->User->findByEmail($this->data['User']['email']);
+            // pr($email);
+            // die();
+
+            if ($email) {
+                $email_user = $this->User->findByEmail($this->data['User']['email']);
+                // pr($email_user);
+                // die();
                 $this->Session->setFlash("Email já cadastrado");
                 $this->redirect("/Users/login/");
                 die("Email já cadastrado");
-            } else {
-                pr($this->data['User']['categoria']);
             }
+            // die("Email já cadastrado");
 
             // Agora, tenho que cadastrar como alunos, professores, etc
             switch ($this->data['User']['categoria']) {
@@ -153,6 +197,7 @@ class UsersController extends AppController {
                     // die(pr($this->data['User']['numero']));
                     if ($aluno) {
                         $situacao = 1; // Estudante estagiário
+                        $nome = $aluno['Aluno']['nome'];
                         $this->Session->write('menu_aluno', 'estagiario');
                         $this->Session->write('menu_id_aluno', $aluno['Aluno']['id']);
                         // echo "Estudante estagiário ";
@@ -164,6 +209,7 @@ class UsersController extends AppController {
                         // die(pr($alunonovo));
                         if ($alunonovo) {
                             $situacao = 2; // Estudante novo que busca estágio
+                            $nome = $aluno['Alunonovo']['nome'];
                             $this->Session->write('menu_aluno', 'alunonovo');
                             $this->Session->write('menu_id_aluno', $alunonovo['Alunonovo']['id']);
                             echo "Estudante novo ja cadastrado";
@@ -188,8 +234,10 @@ class UsersController extends AppController {
                             $this->Session->write('numero', $this->data['User']['numero']);
                         }
                     } else {
-                        $errors = $this->User->invalidFields();
-                        $this->Session->setFlash(implode(', ', $errors));
+                        // $errors = $this->User->invalidFields();
+                        // pr($errors);
+                        // $this->Session->setFlash(implode(', ', $errors));
+                        $this->Session->setFlash('Não foi possível completar seu cadastro.');
                         $this->redirect('/users/cadastro/');
                     }
                     /*
@@ -241,19 +289,6 @@ class UsersController extends AppController {
                     break;
             }
 
-            // die(pr($grupo));
-            $parent = $this->Acl->Aro->findByAlias($grupo); // alunos professores supervisores
-            // die(pr($parent));
-            $aro = new Aro();
-            $aro->create();
-            $aro->save(array(
-                'alias' => $this->data['User']['email'],
-                'model' => 'User',
-                'foreign_key' => $this->User->id,
-                'parent_id' => $parent['Aro']['id'])
-            );
-            $this->Acl->Aro->save();
-
             // Redirecionamentos
             switch ($this->data['User']['categoria']) {
                 // Encaminhar para aluno ou alunonovo view
@@ -291,13 +326,26 @@ class UsersController extends AppController {
 
             $this->redirect('/murals/index/');
         } else {
-            // $this->data['User']['password'] = '';
+            // $this->request->data['User']['password'] = '';
             // $this->Session->setFlash('Não foi possível completar o cadastramento');
         }
     }
 
     public function contato() {
-        
+
+	// echo "Enviar email para estagio@ess.ufrj.br";
+
+    }
+
+    public function index() {
+
+        $usuarios = $this->User->find('all', array(
+            'order' => array('User.email')
+        ));
+        // pr($usuarios);
+
+        $this->set('usuarios', $usuarios);
+
     }
 
 }

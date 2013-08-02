@@ -47,7 +47,7 @@ class Instituicao extends AppModel {
             'rule' => array('url', TRUE),
             'required' => TRUE,
             'allowEmpty' => TRUE,
-            'message' => 'Digite o endereço da paǵina web'
+            'message' => 'Digite o endereço da pagína web'
         )
     );
 
