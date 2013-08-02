@@ -4,35 +4,34 @@ echo $this->Html->script("jquery", array('inline'=>false));
 echo $this->Html->scriptBlock('
 
 $(document).ready(function() {
-var url=window.location.pathname.split("/");
 $("#EstagiarioPeriodo").change(function() {
 	var periodo = $(this).val();
-        /* alert(dir); */ 
-        window.location="/"+url[1]+"/estagiarios/index/periodo:"+periodo;
+        /* alert(periodo); */
+        window.location="/mural/estagiarios/index/periodo:"+periodo;
 	})
 
 $("#EstagiarioIdArea").change(function() {
 	var id_area = $(this).val();
-    	window.location="/"+url[1]+"/estagiarios/index/id_area:"+id_area;
+    	window.location="/mural/estagiarios/index/id_area:"+id_area;
     	/* alert(id_area); */
 	})
 
 $("#EstagiarioIdProfessor").change(function() {
 	var id_professor = $(this).val();
     	/* alert(id_professor); */
-    	window.location="/"+url[1]+"/estagiarios/index/id_professor:"+id_professor;
+    	window.location="/mural/estagiarios/index/id_professor:"+id_professor;
 	})
 
 $("#EstagiarioIdInstituicao").change(function() {
 	var id_instituicao = $(this).val();
     	/* alert(id_instituicao); */
-    	window.location="/"+url[1]+"/estagiarios/index/id_instituicao:"+id_instituicao;
+    	window.location="/mural/estagiarios/index/id_instituicao:"+id_instituicao;
 	})
 
 $("#EstagiarioIdSupervisor").change(function() {
 	var id_supervisor = $(this).val();
     	/* alert(id_supervisor); */
-    	window.location="/"+url[1]+"/estagiarios/index/id_supervisor:"+id_supervisor;
+    	window.location="/mural/estagiarios/index/id_supervisor:"+id_supervisor;
 	})
 
     });
@@ -52,7 +51,7 @@ $("#EstagiarioIdSupervisor").change(function() {
     <?php echo $this->Html->link("Inserir estágio", '/estagiarios/add_estagiario'); ?>
 
     <?php echo " | "; ?>
-    <?php echo $this->Html->link('Alunos sem estágio', '/estagiarios/alunorfao'); ?>
+    <?php echo $this->Html->link('Estagiários sem estágio', '/estagiarios/alunorfao'); ?>
     </p>
     <hr />
 <?php endif; ?>

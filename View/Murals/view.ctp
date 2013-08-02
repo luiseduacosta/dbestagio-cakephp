@@ -164,41 +164,72 @@
         </tr>
 
         <tr>
+            <td>Local de Inscrição</td>
+            <td>
+            <?php
+            if (($mural['Mural']['localInscricao']) == 0) {
+                echo "Inscrição no mural da Coordenação de Estágio e Extensão da ESS"; 
+            } elseif (($mural['Mural']['localInscricao']) == 1) {
+                echo "Inscrição diretamente na Instituição";
+            }
+            ?></td>
+        </tr>
+
+        
+        <tr>
             <td>Observações</td>
             <td><?php echo $mural['Mural']['outras']; ?></td>
         </tr>
 
-        <!--
-        Para o administrador as inscrições sempre estão abertas
-        //-->
-        <?php if ($this->Session->read('categoria') === 'administrador'): ?>        
-        <tr>
-            <td colspan = 2 style="text-align: center">
-            <?php echo $this->Form->create('Inscricao', array('action'=>'add/' . $mural['Mural']['id'])); ?>
-            <?php echo $this->Form->input('id_instituicao', array('type'=>'hidden', 'value'=>$mural['Mural']['id'])); ?>
-            <?php echo $this->Form->end('Inscrição'); ?>
-            </td>
-        </tr>
-        <?php endif; ?>
+	<!--
+	Se a inscricao e no proprio mural
+	//-->
+        <?php if ($mural['Mural']['localInscricao'] === '0'): ?>
+
+        	<!--
+        	Para o administrador as inscrições sempre estão abertas
+        	//-->
+        	<?php if ($this->Session->read('categoria') === 'administrador'): ?>        
+        	<tr>
+            		<td colspan = 2 style="text-align: center">
+            		<?php echo $this->Form->create('Inscricao', array('action'=>'add/' . $mural['Mural']['id'])); ?>
+            		<?php echo $this->Form->input('id_instituicao', array('type'=>'hidden', 'value'=>$mural['Mural']['id'])); ?>
+            		<?php echo $this->Form->end('Inscrição'); ?>
+            		</td>
+        	</tr>
+        	<?php else: ?>
         
-        <!--
-        Para os outros usuários as inscrições dependem da data de encerramento
-        //-->
-        <?php if (date('Y-m-d') < $mural['Mural']['dataInscricao']): ?> 
-        <tr>
-            <td colspan = 2 style="text-align: center">
-            <?php echo $this->Form->create('Inscricao', array('action'=>'add/' . $mural['Mural']['id'])); ?>
-            <?php echo $this->Form->input('id_instituicao', array('type'=>'hidden', 'value'=>$mural['Mural']['id'])); ?>
-            <?php echo $this->Form->end('Inscrição'); ?>
-            </td>
-        </tr>
-        <?php else: ?>
-        <tr>
-            <td colspan = 2>
-                <p style="text-align: center; color: red">Inscrições encerradas!</p>
-            </td>
-        </tr>
-        <?php endif; ?>
-        
+        		<!--
+        		Para os outros usuários as inscrições dependem da data de encerramento
+        		//-->
+
+			<?php if (date('Y-m-d') < $mural['Mural']['dataInscricao']): ?> 
+        		<tr>
+        			<td colspan = 2 style="text-align: center">
+        			<?php echo $this->Form->create('Inscricao', array('action'=>'add/' . $mural['Mural']['id'])); ?>
+        			<?php echo $this->Form->input('id_instituicao', array('type'=>'hidden', 'value'=>$mural['Mural']['id'])); ?>
+        			<?php echo $this->Form->end('Inscrição'); ?>
+        			</td>
+        		</tr>
+        		<?php else: ?>
+        		<tr>
+        			<td colspan = 2>
+                		<p style="text-align: center; color: red">Inscrições encerradas!</p>
+            			</td>
+        		</tr>
+        		<?php endif; ?>
+		
+		<?php endif; ?>
+	
+	<?php else: ?>
+
+		<tr>
+			<td colspan = 2>
+			<p style="text-align: center; color: red">Inscrição diretamente na instituição</p>
+			</td>
+		</tr>
+
+	<?php endif; ?>        
+
     </tbody>
 </table>

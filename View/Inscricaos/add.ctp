@@ -7,7 +7,7 @@ echo $this->Html->scriptBlock('
 
 $(document).ready(function(){
 
-    $("#InscricaoIdAluno").mask("999999999");
+    /* $("#InscricaoIdAluno").mask("999999999"); */
 
 });
 
@@ -21,7 +21,12 @@ $(document).ready(function(){
 <?php
 
 echo $this->Form->create('Inscricao', array('action'=>'add/' . $id_instituicao));
-echo $this->Form->input('id_aluno', array('label'=>'Registro (DRE)', 'size'=>9, 'maxlenght'=>9, 'default'=>$this->Session->read('numero')));
+$numero = $this->Session->read('numero');
+if ($numero) {
+	echo $this->Form->input('id_aluno', array('label'=>'Registro (DRE)', 'size'=>9, 'maxlenght'=>9, 'default'=>$this->Session->read('numero')));
+} else {
+	echo $this->Form->input('id_aluno', array('label'=>'Registro (DRE)', 'size'=>9, 'maxlenght'=>9, 'dafault'=>NULL));
+}
 echo $this->Form->input('id_instituicao', array('type'=>'hidden', 'value'=>$id_instituicao));
 echo $this->Form->end('Confirma');
 

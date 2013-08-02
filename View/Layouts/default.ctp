@@ -31,52 +31,62 @@
             <?php echo $title_for_layout; ?>
         </title>
         <?php
-
         echo $this->Html->meta('icon');
 
         echo $this->Html->css('cake.generic');
 
         echo $scripts_for_layout;
-
         ?>
     </head>
     <body>
         <div id="container">
             <div id="header">
-                <h1><?php echo $this->Html->link(__('Coordenação de Estágio & Extensão - ESS - UFRJ', true),
-                    'http://www.ess.ufrj.br/estagio'); ?></h1>
+                <h1><?php echo $this->Html->link(__('Coordenação de Estágio & Extensão - ESS - UFRJ', true), 'http://www.ess.ufrj.br/estagio');
+        ?></h1>
             </div>
 
             <div id='menu'>
+                <?php echo $this->Html->link("Estágio", "http://200.20.112.2/estagio"); ?>
+                <?php echo " | "; ?>
                 <?php echo $this->Html->link("Login", "/users/login/"); ?>
                 <?php echo " | "; ?>
                 <?php echo $this->Html->link("Mural", "/murals/"); ?>
                 <?php echo " | "; ?> 
-                
+
                 <?php if ($this->Session->read('categoria')): ?>
                     <?php echo $this->Html->link("Estagiários", "/estagiarios/index"); ?>
                     <?php echo " | "; ?>
-                    <?php echo $this->Html->link("Instituições", "/instituicaos/index", array('escape'=>FALSE)); ?>
+                    <?php echo $this->Html->link("Termo de compromisso", "/inscricaos/termosolicita"); ?>
+                    <?php echo " | "; ?>
+                    <?php echo $this->Html->link("Avaliação discente", "/alunos/avaliacaosolicita"); ?>
+                    <?php echo " | "; ?>
+
+                    <?php echo $this->Html->link("Instituições", "/instituicaos/index", array('escape' => FALSE)); ?>
                     <?php echo " | "; ?>
                     <?php echo $this->Html->link("Supervisores", "/supervisors/index"); ?>
                     <?php echo " | "; ?>
                     <?php echo $this->Html->link("Professores", "/professors/index"); ?>
                     <?php echo " | "; ?>
-                    <?php if ($this->Session->read('categoria') === 'administrador'): ?>
-                        <?php echo $this->Html->link("Administração", "/configuracaos/view/1"); ?>
-                        <?php echo " | "; ?>
-                    <?php endif; ?>
-                <?php endif; ?>
 
-                <?php echo $this->Html->link('Manual', 'http://200.20.112.2/wiki/doku.php?id=estagio'); ?>
+                <?php endif; ?> 
+                
+                <?php echo $this->Html->link('Manual', 'http://www.ess.ufrj.br/wiki/doku.php?id=estagio'); ?>
                 <?php echo " | "; ?>
                 <?php echo $this->Html->link('Fale conosco', 'mailto: estagio@ess.ufrj.br'); ?>
+                
+                <?php if ($this->Session->read('categoria') === 'administrador'): ?>
+                    <?php echo " | "; ?>
+                    <?php echo $this->Html->link("Administração", "/configuracaos/view/1"); ?>
+                <?php endif; ?>
+
+
+
 
                 <br/>
-                    
-                <?php if ($this->Session->read('user')): ?>
+
+<?php if ($this->Session->read('user')): ?>
                     <?php echo "<span style='color: white; font-weight: bold; text-transform: capitalize'>" . $this->Session->read('categoria') . "</span>" . ": "; ?>
-                        
+
                     <?php
                     switch ($this->Session->read('menu_aluno')) {
                         case 'estagiario':
@@ -89,14 +99,15 @@
                             echo "<span style='color: white; font-weight: bold'>" . $this->Session->read('user') . "</span>" . " ";
                             break;
                     }
-                    if ($this->Session->read('menu_id_supervisor')) echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/supervisors/view/" . $this->Session->read('menu_id_supervisor')) . "</span>" . " ";
+                    if ($this->Session->read('menu_id_supervisor'))
+                        echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/supervisors/view/" . $this->Session->read('menu_id_supervisor')) . "</span>" . " ";
                     ?>
 
                     <?php echo $this->Html->link('Sair', '/users/logout/'); ?>
                 <?php endif; ?>
-                
+
             </div>
-            
+
             <div id="content">
 
                 <?php echo $this->Session->flash(); ?>
@@ -106,15 +117,14 @@
             </div>
 
             <div id="footer">
-                <?php echo $this->Html->link(
-				$this->Html->image('cake.power.gif', array('alt'=> __("CakePHP: the rapid development php framework", true), 'border'=>"0")),
-                		'http://www.cakephp.org/',
-                		array('target' => '_blank', 'escape' => false)
+                <?php
+                echo $this->Html->link(
+                        $this->Html->image('cake.power.gif', array('alt' => __("CakePHP: the rapid development php framework", true), 'border' => "0")), 'http://www.cakephp.org/', array('target' => '_blank', 'escape' => false)
                 );
                 ?>
             </div>
 
         </div>
-        <?php echo $this->element('sql_dump'); ?>
+<?php echo $this->element('sql_dump'); ?>
     </body>
 </html>

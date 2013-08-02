@@ -2,12 +2,25 @@
 
 <hr />
 
-<h1>Estudantes inscritos para estágio</h1>
+<h1>
+    Estudantes inscritos para estágio 
+    <?php 
+    if (isset($periodo)) echo " " . $periodo; 
+    ?>
+</h1>
 
-<?php if (isset($instituicao)): ?>
-<h1><?php echo $this->Html->link($instituicao, '/murals/view/' . $mural_id); ?></h1>
-<?php endif; ?>
+<?php 
+    if (isset($instituicao)): 
+?>
+    <h1><?php echo $this->Html->link($instituicao . ': ', '/murals/view/' . $mural_id); echo " Vagas: " . $vagas ?></h1>
+    <?php echo $this->Html->link($instituicao . ': ', '/estagiarios/index/id_instituicao:' . $id_instituicao . '/periodo:' . $periodo); ; echo " Estagiarios: " . $estagiarios; ?>
+<?php 
+    endif; 
+?>
 
+<?php
+    if (isset($inscritos)): 
+?>
 <table>
     <thead>
         <tr>
@@ -15,6 +28,7 @@
                 <th><a href="?ordem=id">Id</a></th>
                 <th><a href="?ordem=id_aluno">DRE</a></th>
                 <th><a href="?ordem=tipo">T</a></th>
+                <th><a href="?ordem=selecao_mural">Estágio</a></th>
                 <th><a href="?ordem=nome">Estudante</a></th>
                 <th><a href="?ordem=nascimento">Nascimento</a></th>
                 <th><a href="?ordem=telefone">Telefone</a></th>
@@ -26,13 +40,22 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach($inscritos as $c_inscrito): ?>
+        <?php
+        foreach($inscritos as $c_inscrito): 
+        ?>
         <tr>
             
             <?php if ($this->Session->read('categoria') === 'administrador'): ?>
                 <td><?php echo $this->Html->link($c_inscrito['id_inscricao'], '/inscricaos/view/' . $c_inscrito['id_inscricao']); ?></td>
                 <td><?php echo $c_inscrito['id_aluno']; ?></td>
                 <td><?php echo $c_inscrito['tipo']; ?></td>
+                <td>
+                    <?php
+                    if (isset($c_inscrito['selecao_mural'])) {
+                        echo $c_inscrito['selecao_mural']; 
+                    }
+                    ?>
+                </td>
             <?php endif; ?>
             
             <td>
@@ -63,3 +86,6 @@
         <?php endforeach; ?>
     </tbody>
 </table>
+<?php
+    endif;
+?>

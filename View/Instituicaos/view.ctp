@@ -28,7 +28,7 @@
     </tr>    
     
     <tr>
-        <td>Internet</td>
+        <td>Página web</td>
         <td>
         <?php echo $this->Html->link($instituicao['Instituicao']['url'], $instituicao['Instituicao']['url']); ?>
         </td>

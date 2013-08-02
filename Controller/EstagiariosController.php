@@ -346,18 +346,10 @@ class EstagiariosController extends AppController {
                 'conditions' => array('Estagiario.id_aluno' => $id)
                     ));
             // pr($estagiarios);
-            // Aluno que nao buscou estagio e eh inserido manualmente
-            $this->loadModel('Aluno');
-            if (empty($estagiarios)) {
-                $aluno = $this->Aluno->find('first', array(
-                    'fields' => array('id', 'nome', 'registro'),
-                    'conditions' => array('Aluno.id' => $id)
-                        ));
-                $this->set('aluno', $aluno);
-            }
-            // pr($aluno);
-            // Não sei se isto eh necessario aqui
+
+	    // Não sei se isto eh necessario aqui
             $nivel_periodo_atual = NULL;
+
             if ($estagiarios) {
                 // Calculo o nivel de estagio para o proximo periodo
                 foreach ($estagiarios as $c_estagio) {
@@ -368,9 +360,16 @@ class EstagiariosController extends AppController {
                         echo $nivel[$c_estagio['Estagiario']['nivel']] = $c_estagio['Estagiario']['nivel'];
                     }
                 }
-            } else {
-                $nivel_periodo_atual = '1';
-            }
+                // Não deveria acontecer, mas se acontecer ...
+		} else {
+		// echo "Estudante sem estágio: " . $id;
+		$this->loadModel('Aluno');
+		$estagiario_sem_estagio = $this->Aluno->find('first', array(
+			'conditions'=>array('Aluno.id' => $id))
+		);
+		// pr($estagiario_sem_estagio);
+		// die($estagiario_sem_estagio);
+		}
 
             // Ordeno os niveis (estagios anteriores ao periodo atual)
             $ultimo_nivel = NULL;
@@ -391,9 +390,7 @@ class EstagiariosController extends AppController {
             // Se o nivel eh do periodo atual entao nao muda
             if ($nivel_periodo_atual)
                 $ultimo_nivel = $nivel_periodo_atual;
-
             // pr($ultimo_nivel);
-            // pr($estagiarios);
 
             $this->set('estagiarios', $estagiarios);
             $this->set('proximo_nivel', $ultimo_nivel);
@@ -412,8 +409,8 @@ class EstagiariosController extends AppController {
         /* Select dos supervisores */
         $this->loadModel('Supervisor');
         $supervisores = $this->Supervisor->find('list', array('order' => 'Supervisor.nome'));
-//        $supervisores[0] = '- Seleciona -';
-//        asort($supervisores);
+        $supervisores[0] = '- Seleciona -';
+        asort($supervisores);
         $this->set('supervisores', $supervisores);
 
         /* Select dos professores */
@@ -421,20 +418,21 @@ class EstagiariosController extends AppController {
         $professores = $this->Professor->find('list', array(
             'order' => array('Professor.nome'),
             'conditions' => array('motivoegresso' => '')));
-//        $professores[0] = '- Seleciona -';
-//        asort($professores);
+        $professores[0] = '- Seleciona -';
+        asort($professores);
         $this->set('professores', $professores);
 
         /* Select das areas tematicas */
         $this->loadModel('Area');
         $areas = $this->Area->find('list', array(
             'order' => 'area'));
-//        $areas[0] = '- Seleciona -';
-//        asort($areas);
+        $areas[0] = '- Seleciona -';
+        asort($areas);
         $this->set('areas', $areas);
 
         $this->set('periodos', $periodos_total);
         $this->set('periodo_atual', $periodo_atual);
+	$this->set('estagiario_sem_estagio', $estagiario_sem_estagio);
 
         if ($this->data) {
             /*

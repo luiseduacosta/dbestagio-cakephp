@@ -4,6 +4,7 @@ class InscricaosController extends AppController {
 
     public $name = "Inscricaos";
     public $components = array('Email');
+    private $Estagiario;
 
     public function beforeFilter() {
 
@@ -35,16 +36,21 @@ class InscricaosController extends AppController {
         $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : "nome";
         // echo "Ordem: " . $ordem;
         // die();
-        // Capturo o periodo atual de estagio para o mural
-        $this->loadModel("Configuracao");
-        $configuracao = $this->Configuracao->findById('1');
-        $periodo = $configuracao['Configuracao']['mural_periodo_atual'];
+        // Capturo o periodo de estagio para o mural
+        $periodo = $this->Session->read('mural_periodo');
+        if (!$periodo) {
+            $this->loadModel("Configuracao");
+            $configuracao = $this->Configuracao->findById('1');
+            $periodo = $configuracao['Configuracao']['mural_periodo_atual'];
+        }
+        // echo "Período: " . $periodo;
+        // die();
 
         if ($id) {
             $inscritos = $this->Inscricao->find('all', array(
                 'conditions' => array('Inscricao.id_instituicao' => $id),
-                'fields' => array('Inscricao.id', 'Inscricao.id_aluno', 'Aluno.id', 'Aluno.nome', 'Aluno.nascimento', 'Aluno.telefone', 'Aluno.celular', 'Aluno.email', 'Alunonovo.id', 'Alunonovo.nome', 'Alunonovo.nascimento', 'Alunonovo.telefone', 'Alunonovo.celular', 'Alunonovo.email', 'Mural.instituicao', 'Inscricao.id_instituicao'),
-                'order' => array('Aluno.nome' => 'asc')
+                'fields' => array('Inscricao.id', 'Inscricao.id_aluno', 'Aluno.id', 'Aluno.nome', 'Aluno.nascimento', 'Aluno.telefone', 'Aluno.celular', 'Aluno.email', 'Estagiario.id', 'Estagiario.periodo', 'Estagiario.id_instituicao', 'Mural.id_estagio', 'Mural.vagas', 'Alunonovo.id', 'Alunonovo.nome', 'Alunonovo.nascimento', 'Alunonovo.telefone', 'Alunonovo.celular', 'Alunonovo.email', 'Mural.instituicao', 'Inscricao.id_instituicao'),
+                'order' => array('Aluno.nome' => 'asc'),
                     )
             );
         } else {
@@ -56,84 +62,112 @@ class InscricaosController extends AppController {
                     )
             );
         }
-        // pr($inscritos);
-        // Junto todo num array para ordernar alfabeticamente
-        $i = 0;
-        foreach ($inscritos as $c_inscritos) {
 
-            if (!empty($c_inscritos['Aluno']['nome'])) {
-                $inscritos_ordem[$i]['nome'] = $c_inscritos['Aluno']['nome'];
-                $inscritos_ordem[$i]['id'] = $c_inscritos['Aluno']['id'];
-                $inscritos_ordem[$i]['id_inscricao'] = $c_inscritos['Inscricao']['id'];
-                $inscritos_ordem[$i]['id_aluno'] = $c_inscritos['Inscricao']['id_aluno'];
+        // Somento se há inscritos
+        if ($inscritos) {
+            $vagas = $inscritos[0]['Mural']['vagas'];
+            // pr($inscritos[0]['Mural']['vagas']);
+            $id_instituicao = $inscritos[0]['Mural']['id_estagio'];
 
-                // print_r($c_inscritos['Aluno']['nascimento']);
-                if (!is_null($c_inscritos['Aluno']['nascimento'])) {
-                    $inscritos_ordem[$i]['nascimento'] = $c_inscritos['Aluno']['nascimento'];
+            // pr($inscritos);
+            // Junto todo num array para ordernar alfabeticamente
+            $i = 0;
+            foreach ($inscritos as $c_inscritos) {
+
+                if (!empty($c_inscritos['Aluno']['nome'])) {
+                    $inscritos_ordem[$i]['nome'] = $c_inscritos['Aluno']['nome'];
+                    $inscritos_ordem[$i]['id'] = $c_inscritos['Aluno']['id'];
+                    $inscritos_ordem[$i]['id_inscricao'] = $c_inscritos['Inscricao']['id'];
+                    $inscritos_ordem[$i]['id_aluno'] = $c_inscritos['Inscricao']['id_aluno'];
+
+                    // print_r($c_inscritos['Aluno']['nascimento']);
+                    if (!is_null($c_inscritos['Aluno']['nascimento'])) {
+                        $inscritos_ordem[$i]['nascimento'] = $c_inscritos['Aluno']['nascimento'];
+                    } else {
+                        $inscritos_ordem[$i]['nascimento'] = 's/d';
+                    }
+                    // print_r($inscritos_ordem[$i]['nascimento']);
+                    // echo "<br>";
+
+                    $inscritos_ordem[$i]['telefone'] = $c_inscritos['Aluno']['telefone'];
+                    $inscritos_ordem[$i]['celular'] = $c_inscritos['Aluno']['celular'];
+                    $inscritos_ordem[$i]['email'] = $c_inscritos['Aluno']['email'];
+                    $inscritos_ordem[$i]['tipo'] = 1; // Estagiario
+                    // Estudante estagio no campo que fez selecao de estagio
+                    if ($c_inscritos['Estagiario']['id_instituicao'] === $c_inscritos['Mural']['id_estagio']) {
+                        // echo $c_inscritos['Estagiario']['id_instituicao'] . " " . $c_inscritos['Mural']['id_estagio'];
+                        $inscritos_ordem[$i]['selecao_mural'] = $c_inscritos['Estagiario']['periodo'];
+                        // die("Estagio no Mural");
+                    }
+
+                    // Para ordenar o array
+                    $criterio[] = $inscritos_ordem[$i][$ordem];
                 } else {
-                    $inscritos_ordem[$i]['nascimento'] = 's/d';
+                    $inscritos_ordem[$i]['nome'] = $c_inscritos['Alunonovo']['nome'];
+                    $inscritos_ordem[$i]['id'] = $c_inscritos['Alunonovo']['id'];
+                    $inscritos_ordem[$i]['id_inscricao'] = $c_inscritos['Inscricao']['id'];
+                    $inscritos_ordem[$i]['id_aluno'] = $c_inscritos['Inscricao']['id_aluno'];
+
+                    // print_r($c_inscritos['Inscricao']['id_aluno']);
+                    // echo ": ";
+                    // print_r($c_inscritos['Alunonovo']['nascimento']);
+                    if (!is_null($c_inscritos['Alunonovo']['nascimento'])) {
+                        $inscritos_ordem[$i]['nascimento'] = $c_inscritos['Alunonovo']['nascimento'];
+                    } else {
+                        $inscritos_ordem[$i]['nascimento'] = 's/d';
+                    }
+                    // print_r($inscritos_ordem[$i]['nascimento']);
+                    // echo "<br>";
+
+                    $inscritos_ordem[$i]['telefone'] = $c_inscritos['Alunonovo']['telefone'];
+                    $inscritos_ordem[$i]['celular'] = $c_inscritos['Alunonovo']['celular'];
+                    $inscritos_ordem[$i]['email'] = $c_inscritos['Alunonovo']['email'];
+                    $inscritos_ordem[$i]['tipo'] = 0; // Novo
+                    // Para ordenar o array
+                    $criterio[] = $inscritos_ordem[$i][$ordem];
                 }
-                // print_r($inscritos_ordem[$i]['nascimento']);
-                // echo "<br>";
+                $i++;
+            }
 
-                $inscritos_ordem[$i]['telefone'] = $c_inscritos['Aluno']['telefone'];
-                $inscritos_ordem[$i]['celular'] = $c_inscritos['Aluno']['celular'];
-                $inscritos_ordem[$i]['email'] = $c_inscritos['Aluno']['email'];
-                $inscritos_ordem[$i]['tipo'] = 1; // Estagiario
-                // Para ordenar o array
-                $criterio[] = $inscritos_ordem[$i][$ordem];
-            } else {
-                $inscritos_ordem[$i]['nome'] = $c_inscritos['Alunonovo']['nome'];
-                $inscritos_ordem[$i]['id'] = $c_inscritos['Alunonovo']['id'];
-                $inscritos_ordem[$i]['id_inscricao'] = $c_inscritos['Inscricao']['id'];
-                $inscritos_ordem[$i]['id_aluno'] = $c_inscritos['Inscricao']['id_aluno'];
+            if (isset($criterio))
+                array_multisort($criterio, SORT_ASC, $inscritos_ordem);
 
-                // print_r($c_inscritos['Inscricao']['id_aluno']);
-                // echo ": ";
-                // print_r($c_inscritos['Alunonovo']['nascimento']);
-                if (!is_null($c_inscritos['Alunonovo']['nascimento'])) {
-                    $inscritos_ordem[$i]['nascimento'] = $c_inscritos['Alunonovo']['nascimento'];
+            /* Conta a quantidade de alunos novos e estagiarios */
+            $alunos_estagiarios = 0;
+            $alunos_novos = 0;
+            foreach ($inscritos as $c_inscritos) {
+                // pr($c_inscritos);
+                if ($c_inscritos['Aluno']['nome']) {
+                    $alunos_estagiarios++;
                 } else {
-                    $inscritos_ordem[$i]['nascimento'] = 's/d';
+                    $alunos_novos++;
                 }
-                // print_r($inscritos_ordem[$i]['nascimento']);
-                // echo "<br>";
-
-                $inscritos_ordem[$i]['telefone'] = $c_inscritos['Alunonovo']['telefone'];
-                $inscritos_ordem[$i]['celular'] = $c_inscritos['Alunonovo']['celular'];
-                $inscritos_ordem[$i]['email'] = $c_inscritos['Alunonovo']['email'];
-                $inscritos_ordem[$i]['tipo'] = 0; // Novo
-                // Para ordenar o array
-                $criterio[] = $inscritos_ordem[$i][$ordem];
             }
-            $i++;
-        }
+            // echo "Estagiarios: " . $alunos_estagiarios . " Novos: " . $alunos_novos;
+            /* Fim da conta da quantidade de alunos novos e estagiarios */
 
-        if (isset($criterio))
-            array_multisort($criterio, SORT_ASC, $inscritos_ordem);
-
-        /* Conta a quantidade de alunos novos e estagiarios */
-        $alunos_estagiarios = 0;
-        $alunos_novos = 0;
-        foreach ($inscritos as $c_inscritos) {
-            // pr($c_inscritos);
-            if ($c_inscritos['Aluno']['nome']) {
-                $alunos_estagiarios++;
-            } else {
-                $alunos_novos++;
+            // pr($inscritos[0]['Mural']['instituicao']);
+            if (isset($inscritos[0]['Mural']['instituicao'])) {
+                $this->set('instituicao', $inscritos[0]['Mural']['instituicao']);
             }
-        }
-        // echo "Estagiarios: " . $alunos_estagiarios . " Novos: " . $alunos_novos;
-        /* Fim da conta da quantidade de alunos novos e estagiarios */
+            if (isset($inscritos[0]['Inscricao']['id_instituicao'])) {
+                $this->set('mural_id', $inscritos[0]['Inscricao']['id_instituicao']);
+            }
 
-        // pr($inscritos[0]['Mural']['instituicao']);
-        if (isset($inscritos[0]['Mural']['instituicao'])) {
-            $this->set('instituicao', $inscritos[0]['Mural']['instituicao']);
+            $estagiarios = $this->Inscricao->Estagiario->find('all', array(
+                'fields' => array("count('Estagiario.id') as estagiarios"),
+                'conditions' => array('Estagiario.id_instituicao' => $id_instituicao,
+                    'Estagiario.periodo' => $periodo)
+            ));
+            // pr($estagiarios[0][0]);
+            // die();
+
+            $this->set('periodo', $periodo);
+            $this->set('vagas', $vagas);
+            $this->set('estagiarios', $estagiarios[0][0]['estagiarios']);
+            $this->set('id_instituicao', $id_instituicao);
+            $this->set('inscritos', $inscritos_ordem);
         }
-        if (isset($inscritos[0]['Inscricao']['id_instituicao'])) {
-            $this->set('mural_id', $inscritos[0]['Inscricao']['id_instituicao']);
-        }
-        $this->set('inscritos', $inscritos_ordem);
     }
 
     public function orfao() {
@@ -151,6 +185,12 @@ class InscricaosController extends AppController {
         if (isset($this->data['Inscricao']['id_aluno'])) {
 
             /* Verificacoes */
+            if ((strlen($this->request->data['Inscricao']['id_aluno'])) < 9) {
+                $this->Session->setFlash("Registro incorreto");
+                $this->redirect('/Inscricaos/add/');
+                die("Registro incorreto");
+                exit;
+            }
             // Verifico se ja esta em estagio. Se está atualiza
             $this->loadModel('Aluno');
             $registro = $this->data['Inscricao']['id_aluno'];
@@ -201,6 +241,8 @@ class InscricaosController extends AppController {
         if ($id) {
             // Capturo o id da instituicao de inscricao para selecao de estagio (vem tanto de aluno como de alunonvo)
             $id_instituicao = $this->Session->read('id_instituicao');
+            // echo "Instituicao: " . $id_instituicao;
+            // die();
             // Agora sim posso apagar
             $this->Session->delete('id_instituicao');
 
@@ -208,15 +250,20 @@ class InscricaosController extends AppController {
             $this->loadModel('Mural');
             $instituicao = $this->Mural->findById($id_instituicao, array('fields' => 'periodo'));
             $periodo = $instituicao['Mural']['periodo'];
+            // echo "Período: " . $periodo;
+            // die();
 
             /* Carrego o array de inscrição com os valores */
-            $this->data['Inscricao']['periodo'] = $periodo;
-            $this->data['Inscricao']['id_instituicao'] = $id_instituicao;
-            $this->data['Inscricao']['data'] = date('Y-m-d');
-            $this->data['Inscricao']['id_aluno'] = $id;
+            $this->request->data['Inscricao']['periodo'] = $periodo;
+            $this->request->data['Inscricao']['id_instituicao'] = $id_instituicao;
+            $this->request->data['Inscricao']['data'] = date('Y-m-d');
+            $this->request->data['Inscricao']['id_aluno'] = $id;
 
-            if ($this->Inscricao->save($this->data)) {
-                // pr($this->data);
+            // debug($this->data);
+            // pr($this->data);
+            // die();
+
+            if ($this->Inscricao->save($this->request->data)) {
                 $this->Session->setFlash("Inscrição realizada");
                 $this->redirect('/Inscricaos/index/' . $id_instituicao);
             }
@@ -226,6 +273,7 @@ class InscricaosController extends AppController {
     public function view($id = NULL) {
 
         $inscricao = $this->Inscricao->findById($id);
+        // pr($inscricao);
         $this->set('inscricao', $inscricao);
     }
 
@@ -283,45 +331,50 @@ class InscricaosController extends AppController {
                 $i++;
             }
 
-            asort($inscritos_ordem);
+            if (isset($inscritos_ordem)) {
 
-            if ($inscritos[0]['Mural']['email']) {
-                $this->Email->smtpOptions = array(
-                    'port' => '465',
-                    'timeout' => '30',
-                    'host' => 'ssl://smtp.gmail.com',
-                    'username' => 'estagio.ess',
-                    'password' => 'e$tagi0ess',
-                );
-                /* Set delivery method */
-                $this->Email->delivery = 'smtp';
-                // $this->Email->to = $user['email'];
-                // $this->Email->to = 'uy_luis@hotmail.com'; // $incritos[0]['Mural']['email']
-                $this->Email->to = $inscritos[0]['Mural']['email'];
-                $this->Email->cc = array('estagio.ess@gmail.com', 'estagio@ess.ufrj.br');
-                $this->Email->subject = 'ESS/UFRJ: Estudantes inscritos para seleção de estágio';
-                $this->Email->replyTo = '"ESS/UFRJ - Coordenação de Estágio & Extensão" <estagio@ess.ufrj.br>';
-                $this->Email->from = '"ESS/UFRJ - Coordenação de Estágio & Extensão" <estagio@ess.ufrj.br>';
-                $this->Email->template = 'emailinstituicao'; // note no '.ctp'
-                // Send as 'html', 'text' or 'both' (default is 'text')
-                $this->Email->sendAs = 'html'; // because we like to send pretty mail
+                asort($inscritos_ordem);
 
-                $this->set('instituicao', $inscritos);
-                $this->set('inscritos', $inscritos_ordem);
+                if ($inscritos[0]['Mural']['email']) {
+                    $this->Email->smtpOptions = array(
+                        'port' => '465',
+                        'timeout' => '30',
+                        'host' => 'ssl://smtp.gmail.com',
+                        'username' => 'estagio.ess',
+                        'password' => 'e$tagi0ess',
+                    );
+                    /* Set delivery method */
+                    $this->Email->delivery = 'smtp';
+                    $this->Email->to = $user['email'];
+                    // $this->Email->to = 'uy_luis@hotmail.com'; // $incritos[0]['Mural']['email']
+                    $this->Email->to = $inscritos[0]['Mural']['email'];
+                    // $this->Email->cc = array('estagio.ess@gmail.com', 'estagio@ess.ufrj.br');
+                    $this->Email->subject = 'ESS/UFRJ: Estudantes inscritos para seleção de estágio';
+                    $this->Email->replyTo = '"ESS/UFRJ - Coordenação de Estágio & Extensão" <estagio@ess.ufrj.br>';
+                    $this->Email->from = '"ESS/UFRJ - Coordenação de Estágio & Extensão" <estagio@ess.ufrj.br>';
+                    $this->Email->template = 'emailinstituicao'; // note no '.ctp'
+                    // Send as 'html', 'text' or 'both' (default is 'text')
+                    $this->Email->sendAs = 'html'; // because we like to send pretty mail
 
-                /* Do not pass any args to send() */
-                $this->Email->send();
-                /* Check for SMTP errors. */
-                $this->set('smtp-errors', $this->Email->smtpError);
+                    $this->set('instituicao', $inscritos);
+                    $this->set('inscritos', $inscritos_ordem);
 
-                // Informo que o email foi enviado
-                $this->loadModel("Mural");
-                $this->Mural->id = $inscritos[0]['Mural']['id'];
-                $this->Mural->savefield('datafax', date('Y-m-d'));
+                    /* Do not pass any args to send() */
+                    $this->Email->send();
+                    /* Check for SMTP errors. */
+                    $this->set('smtp-errors', $this->Email->smtpError);
 
-                $this->Session->setFlash('Email enviado');
-                $this->redirect('/Murals/view/' . $inscritos[0]['Mural']['id']);
+                    // Informo que o email foi enviado
+                    $this->loadModel("Mural");
+                    $this->Mural->id = $inscritos[0]['Mural']['id'];
+                    $this->Mural->savefield('datafax', date('Y-m-d'));
+
+                    $this->Session->setFlash('Email enviado');
+                    $this->redirect('/Murals/view/' . $inscritos[0]['Mural']['id']);
+                }
+                
             } else {
+                
                 $this->Session->setFlash('Imposível enviar email (falta o endereço)');
                 $this->redirect('/Murals/view/' . $inscritos[0]['Mural']['id']);
             }
@@ -331,9 +384,11 @@ class InscricaosController extends AppController {
     // Captura o registro digitado pelo estudante
     public function termosolicita() {
 
-        if ($this->data) {
-            // pr($this->data);
-            $registro = $this->data['Inscricao']['id_aluno'];
+        if ($this->request->data) {
+            // pr($this->request->data);
+            $registro = $this->request->data['Inscricao']['id_aluno'];
+            // pr($registro);
+            // die("termosoliciata");
             $this->redirect('/Inscricaos/termocompromisso/' . $registro);
         }
     }
@@ -344,24 +399,26 @@ class InscricaosController extends AppController {
     public function termocompromisso($id = NULL) {
 
         // Captura o periodo de estagio para o termo de compromisso
+        // pr($id);
+        // die("termocompromisso ");
         $this->loadModel("Configuracao");
         $configuracao = $this->Configuracao->findById('1');
         $periodo = $configuracao['Configuracao']['termo_compromisso_periodo'];
 
-        // pr($this->data);
+        // die("termocompromisso ");
         // Busca em estagiarios o ultimo estagio do aluno
-        $this->loadModel('Estagiario');
-        $estagiario = $this->Estagiario->find('first', array(
+        // die("termocompromisso");        
+        $estagiario = $this->Inscricao->Estagiario->find('first', array(
             'conditions' => array('Estagiario.registro' => $id),
             'fields' => array('Estagiario.id', 'Estagiario.periodo', 'Estagiario.turno', 'Estagiario.id_aluno', 'Estagiario.registro', 'Estagiario.nivel', 'Estagiario.id_instituicao', 'Estagiario.id_supervisor', 'Estagiario.id_professor', 'Aluno.id', 'Aluno.registro', 'Aluno.nome'),
             'order' => array('periodo' => 'DESC')
                 )
         );
         // pr($estagiario);
+        // die("termocompromisso");
         // Aluno estagiario
         if ($estagiario) {
-            echo "Aluno estagiario" . "<br />";
-
+            // echo "Aluno estagiario" . "<br />";
             // pr($estagiario);
             $periodo_ultimo = $estagiario['Estagiario']['periodo'];
             $nivel_ultimo = $estagiario['Estagiario']['nivel'];
@@ -391,14 +448,15 @@ class InscricaosController extends AppController {
             $nivel_ultimo = 1;
             $this->loadModel('Alunonovo');
             $alunonovo = $this->Alunonovo->findByRegistro($id);
-            // pr($alunonovo);
-            // die();
+            // die($alunonovo);
+            // die("Alunonovo " . $alunonovo);
             // Aluno novo nao cadastrado: vai para cadastro e retorna
-            if (empty($alunonovo)) {
+            if (!($alunonovo)) {
                 $this->Session->setFlash("Aluno não cadastrado");
                 $this->Session->write('termo', $id);
+                // die("Aluno novo nao cadastrado: " . $id);
                 $this->redirect('/Alunonovos/add/' . $id);
-                die('Redireciona para cadastro de alunos novos');
+                die("Redireciona para cadastro de alunos novos ");
             } else {
                 $this->set('aluno', $alunonovo['Alunonovo']['nome']);
             }
@@ -448,20 +506,19 @@ class InscricaosController extends AppController {
     /*
      * O id eh o numero de registro do aluno
      */
-
     public function termocadastra($id = NULL) {
 
         // Configure::write('debug', '2');
         // echo "id " . $id . "<br>";
         // pr($this->data);
-        // die('456');
+        // die('514');
         // Se ja esta como estagiario pego o id para atualizar
-        $this->loadModel("Estagiario");
-        $periodo_estagio = $this->Estagiario->find('first', array(
+        // $this->loadModel("Estagiario");
+        $periodo_estagio = $this->Inscricao->Estagiario->find('first', array(
             'conditions' => array('Estagiario.periodo' => $this->data['Inscricao']['periodo'], 'Estagiario.registro' => $this->data['Inscricao']['id_aluno']),
             'fields' => array('Estagiario.id', 'Estagiario.id_aluno')));
         // pr($periodo_estagio);
-        // die('394');
+        // die('521');
         /* Capturo os valores da area e professor da instituicao selecionada
          * Estes valores foram capturados no controller Instituicao funcao seleciona_supervisor
          */
@@ -471,7 +528,7 @@ class InscricaosController extends AppController {
         $this->Session->delete('id_area');
         $this->Session->delete('id_prof');
         // echo $id_area . " " . $id_prof . "<br>";
-        // die('473');
+        // die('531');
         // Tem que ter o id da instituicao diferente de zero
         if (empty($this->data['Inscricao']['id_instituicao'])) {
             $this->Session->setFlash('Selecione uma instituição de estágio');
@@ -496,14 +553,14 @@ class InscricaosController extends AppController {
                     'id_instituicao' => $this->data['Inscricao']['id_instituicao'],
                     'id_supervisor' => $this->data['Inscricao']['id_supervisor'],
                     'id_area' => $id_area,
-                    ));
+            ));
 
-            $this->Estagiario->set($dados);
-            if ($this->Estagiario->save($dados, array('validate' => TRUE))) {
+            $this->Inscricao->Estagiario->set($dados);
+            if ($this->Inscricao->Estagiario->save($dados, array('validate' => TRUE))) {
                 $this->Session->setFlash('Registro de estágio atualizado');
                 $this->redirect('/Inscricaos/termoimprime/' . $id_estagio);
             } else {
-                $errors = $this->Estagiario->invalidFields();
+                $errors = $this->Inscricao->Estagiario->invalidFields();
                 $this->Session->setFlash(implode(', ', $errors));
                 die("Error: não foi possível atualizar inscrição de estágio");
             }
@@ -517,15 +574,15 @@ class InscricaosController extends AppController {
             $this->loadModel('Aluno');
             $alunocadastrado = $this->Aluno->find('first', array(
                 'conditions' => array('Aluno.registro = ' . $id)
-                    ));
+            ));
             // pr($alunocadastrado);
             // die();
             if (empty($alunocadastrado)) {
-                echo "Aluno nao cadastrado";
+                // echo "Aluno nao cadastrado";
                 $this->loadModel('Alunonovo');
                 $alunonovo = $this->Alunonovo->find('first', array(
                     'conditions' => array('Alunonovo.registro =' . $id)
-                        ));
+                ));
                 // pr($alunonovo);
                 // die();
                 /*
@@ -548,7 +605,7 @@ class InscricaosController extends AppController {
                         'municipio' => $alunonovo['Alunonovo']['municipio'],
                         'bairro' => $alunonovo['Alunonovo']['bairro'],
                         'observacoes' => $alunonovo['Alunonovo']['observacoes']
-                        ));
+                ));
                 // pr($cadastroaluno);
                 // die();
 
@@ -566,7 +623,7 @@ class InscricaosController extends AppController {
                 echo "Aluno cadastrado: ";
                 $aluno_id = $alunocadastrado['Aluno']['id'];
                 // echo "aluno_id: " . $aluno_id;
-                // die('468');
+                // die('626');
             }
 
             /*
@@ -584,15 +641,15 @@ class InscricaosController extends AppController {
                     'id_instituicao' => $this->data['Inscricao']['id_instituicao'],
                     'id_supervisor' => $this->data['Inscricao']['id_supervisor'],
                     'id_area' => $id_area,
-                    ));
+            ));
 
-            $this->Estagiario->set($dados);
-            if ($this->Estagiario->save($dados, array('validate' => TRUE))) {
+            $this->Inscricao->Estagiario->set($dados);
+            if ($this->Inscricao->Estagiario->save($dados, array('validate' => TRUE))) {
                 $this->Session->setFlash('Registro de estágio inserido');
-                $estagiario_id = $this->Estagiario->getlastInsertId();
+                $estagiario_id = $this->Inscricao->Estagiario->getlastInsertId();
                 $this->redirect('/Inscricaos/termoimprime/' . $estagiario_id);
             } else {
-                $errors = $this->Estagiario->invalidFields();
+                $errors = $this->Inscricao->Estagiario->invalidFields();
                 $this->Session->setFlash(implode(',', $errors));
                 die('Error: Não foi possível inserir dados de estágio');
             }
@@ -600,17 +657,16 @@ class InscricaosController extends AppController {
     }
 
     /* id eh o numero de estagiario */
-
     public function termoimprime($id = NULL) {
 
         // echo "Estagiario id " . $id . "<br>";
 
         Configure::write('debug', 2);
 
-        $this->loadModel('Estagiario');
-        $estagiario = $this->Estagiario->find('first', array(
+        // $this->loadModel('Estagiario');
+        $estagiario = $this->Inscricao->Estagiario->find('first', array(
             'conditions' => array('Estagiario.id' => $id)
-                ));
+        ));
         // pr($estagiario);
 
         $instituicao_nome = $estagiario['Instituicao']['instituicao'];
@@ -638,7 +694,9 @@ class InscricaosController extends AppController {
         $this->set('termofinal', $termofinal);
         $this->set('registro', $registro);
         $this->set('supervisor_cress', $supervisor_cress);
-
+        // die();
+        $this->response->header(array("Content-type: application/pdf"));
+        $this->response->type("pdf");
         $this->layout = "pdf";
         $this->render();
     }

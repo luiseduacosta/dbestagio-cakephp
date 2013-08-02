@@ -51,10 +51,11 @@ echo $this->Html->scriptBlock('
             <?php echo $this->Form->input('password'); ?>
         </td>
     </tr>
-
+<!--
     <td colspan='2'>
         <?php echo $this->Form->input('Confirmar a senha', array('type' => 'password')); ?>
     </td>
+-->
 </tr>
 
 </table>

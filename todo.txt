@@ -57,3 +57,10 @@ Colocar barra de navegação nos View
 Possibilitar inserir/atualizar/deletar Supervisor nas Instituições (feito)
 
 Verificar que não existam dois cress iguais no inserção de um novo registro (feito)
+
+Estagiarios_add não está funcionando
+
+Tem que possibilitar ordenar os usuarios por nome e por email. Também tem que acrescentar uma função de busca.
+
+Tem que criar a função de ver todas as instituições e não somente por cada período
+

@@ -39,58 +39,79 @@ class MuralsController extends AppController {
         $parametros = $this->params['named'];
         $periodo = isset($parametros['periodo']) ? $parametros['periodo'] : NULL;
 
+        // Se o periodo não veio como parametro
         if (!$periodo) {
             // Capturo o periodo atual de estagio para o mural
-            $this->loadModel("Configuracao");
-            $configuracao = $this->Configuracao->findById('1');
-            $periodo = $configuracao['Configuracao']['mural_periodo_atual'];
+            $periodo = $this->Session->read('mural_periodo');
+            // Se não está na variavel da session entao pega da configuracao
+            if (!$periodo) {
+                $this->loadModel("Configuracao");
+                $configuracao = $this->Configuracao->findById('1');
+                $periodo = $configuracao['Configuracao']['mural_periodo_atual'];
+            }
             // pr($periodo);
             // die();
         }
 
         $this->Session->write('mural_periodo', $periodo);
 
-        // Capturo todos os periodos
+        // Capturo todos os periodos para fazer o select
         $todos_periodos = $this->Mural->find('list', array(
             'fields' => array('Mural.periodo', 'Mural.periodo'),
             'group' => array('Mural.periodo'),
             'order' => array('Mural.periodo DESC')));
-        // $periodo = '2009-1';
         // pr($todos_periodos);
         // die();
-
-        $i = 0;
+        // Capturo todos as ofertas do periodo
         $mural = $this->Mural->find('all', array(
             'conditions' => array('Mural.periodo' => $periodo),
             'order' => array('Mural.dataInscricao DESC')));
         // pr($mural);
         // die();
-
+        // Capturo os inscritos para cada oferta de vaga de estágio
+        $this->loadModel('Estagiario');
+        $i = 0;
+        $total_estagiarios = NULL;
         foreach ($mural as $c_mural) {
             $inscricoes = sizeof($c_mural['Inscricao']);
+            // $estagio = $c_mural['Mural']['id_estagio'];
+            // $instituicao = $c_mural['Instituicao']['instituicao'];
+            // Calculo a quantidade de estagiarios desse mural
+            $estagiarios = $this->Estagiario->find('all', array(
+                'conditions' => array('Estagiario.id_instituicao = ' . "'" . $c_mural["Mural"]["id_estagio"] . "'",
+                    'Estagiario.periodo = ' . "'" . $c_mural["Mural"]["periodo"] . "'")
+                    )
+            );
+            // pr($estagiarios);
+            $mural[$i]['Mural']['estagiarios'] = sizeof($estagiarios);
             $mural[$i]['Mural']['inscricoes'] = $inscricoes;
+
+            $total_estagiarios = $total_estagiarios + sizeof($estagiarios);
+
             $i++;
         }
 
         /* Conta quantos alunos inscritos (sem repeticoes) */
         $alunos = $this->Mural->Inscricao->find('all', array(
-            'fields' => array('distinct (id_aluno) as estudante_id', 'periodo'),
-            'order' => 'periodo, estudante_id',
-            'conditions' => 'Inscricao.periodo = ' . "'" . $periodo . "'")
+            'fields' => array('distinct (Inscricao.id_aluno) as estudante_id', 'periodo'),
+            'order' => 'Inscricao.periodo, estudante_id',
+            'conditions' => array('Inscricao.periodo' => $periodo))
         );
         $total_alunos = sizeof($alunos);
         /* Finaliza conta de alunos inscritos */
 
         /* Discrimina os alunos estagiarios e novos */
-        $this->loadModel('Inscricao');
-        $inscritos = $this->Inscricao->find('all', array(
+        $inscritos = $this->Mural->Inscricao->find('all', array(
             'conditions' => array('Inscricao.periodo' => $periodo),
             'fields' => array('Inscricao.id', 'Inscricao.id_aluno', 'Aluno.nome', 'Alunonovo.nome', 'Mural.instituicao', 'Inscricao.id_instituicao', 'Inscricao.periodo'),
             'group' => array('id_aluno'),
             'order' => array('Aluno.nome' => 'asc')
-                ));
+        ));
         // pr($inscritos);
 
+        /*
+         * Teria que buscar nos estagiarios até o periodo atual
+         */
         $alunos_estagiarios = 0;
         $alunos_novos = 0;
         foreach ($inscritos as $c_inscritos) {
@@ -104,7 +125,7 @@ class MuralsController extends AppController {
         // echo "Novos: " . $alunos_novos . " Estagiarios: " . $alunos_estagiarios;
         /* Fim da descriminacao entre estagiarios e novos */
 
-        /* Conta a quantidade de vagas oferecidas */
+        /* Conta a quantidade total de vagas oferecidas */
         $vagas = $this->Mural->find('all', array(
             'fields' => 'Sum(vagas) as total_vagas',
             'conditions' => 'Mural.periodo = ' . "'" . $periodo . "'")
@@ -116,6 +137,7 @@ class MuralsController extends AppController {
         $this->set('periodo', $periodo);
         $this->set('total_alunos', $total_alunos);
         $this->set('total_vagas', $total_vagas);
+        $this->set('total_estagiarios', $total_estagiarios);
         $this->set('alunos_novos', $alunos_novos);
         $this->set('alunos_estagiarios', $alunos_estagiarios);
         $this->set('mural', $mural);
@@ -129,9 +151,9 @@ class MuralsController extends AppController {
             $instituicao = $this->Instituicao->find('first', array(
                 'conditions' => array('Instituicao.id =' . $this->data['Mural']['id_estagio']),
                 'fields' => 'Instituicao.instituicao'
-                    ));
+            ));
             // pr($instituicao['Instituicao']);
-            $this->data['Mural']['instituicao'] = $instituicao['Instituicao']['instituicao'];
+            $this->request->data['Mural']['instituicao'] = $instituicao['Instituicao']['instituicao'];
             // pr($this->data);
             // die();
             if ($this->Mural->save($this->data)) {
@@ -151,7 +173,7 @@ class MuralsController extends AppController {
             $instituicoes = $this->Instituicao->find('list', array(
                 'fields' => array('id', 'instituicao'),
                 'order' => array('instituicao')
-                    ));
+            ));
             // Inserir no topo do array
             $instituicoes[0] = '- Seleciona instituicao -';
             asort($instituicoes);
@@ -161,7 +183,7 @@ class MuralsController extends AppController {
             $areas = $this->Area->find('list', array(
                 'fields' => array('id', 'area'),
                 'order' => array('area')
-                    ));
+            ));
             $areas[0] = '- Selecionar área';
             asort($areas);
             // pr($areas);
@@ -171,7 +193,7 @@ class MuralsController extends AppController {
             $professores = $this->Professor->find('list', array(
                 'fields' => array('id', 'nome'),
                 'order' => array('nome')
-                    ));
+            ));
             $professores[0] = '- Selecionar professor -';
             asort($professores);
             // pr($professores);
@@ -193,45 +215,38 @@ class MuralsController extends AppController {
 
         $this->Mural->id = $id;
 
+        // Instituicoes para selecionar
+        $instituicoes = $this->Mural->Instituicao->find('list', array(
+            'fields' => array('id', 'instituicao'),
+            'order' => array('instituicao')
+        ));
+        // pr($instituicoes);
+        $this->set('instituicoes', $instituicoes);
+
+        // A lista de professores para selecionar
+        $this->loadModel('Professor');
+        $professores = $this->Professor->find('list', array(
+            'fidelds' => array('id', 'nome'), 'order' => 'nome'));
+        $professores[0] = "Selecione";
+        $this->set('professores', $professores);
+
+        // A lista das areas para selecionar
+        $this->loadModel('Area');
+        $areas = $this->Area->find('list', array(
+            'fields' => array('id', 'area')));
+        $areas[0] = "Selecione";
+        $this->set('areas', $areas);
+
         if (empty($this->data)) {
 
-            // Instituicoes
-            $this->loadModel('Instituicao');
-            $instituicoes = $this->Instituicao->find('list', array(
-                'fields' => array('id', 'instituicao'),
-                'order' => array('instituicao')
-                    ));
-            // pr($instituicoes);
-            $this->set('instituicoes', $instituicoes);
-
-            // A lista de professores para selecionar
-            $this->loadModel('Professor');
-            $professores = $this->Professor->find('list', array(
-                'fidelds' => array('id', 'nome'), 'order' => 'nome'));
-            $professores[0] = "Selecione";
-            $this->set('professores', $professores);
-
-            // A lista das areas para selecionar
-            $this->loadModel('Area');
-            $areas = $this->Area->find('list', array(
-                'fields' => array('id', 'area')));
-            $areas[0] = "Selecione";
-            $this->set('areas', $areas);
-
             $this->data = $this->Mural->read();
+
         } else {
-            $this->loadModel('Instituicao');
-            $id_instituicao = $this->Instituicao->find('first', array(
-                'conditions' => array('Instituicao.id' => $this->data['Mural']['id_estagio']),
-                'fields' => array('instituicao')
-                    ));
-            // pr($id_instituicao['Instituicao']['instituicao']);
-            // die();
-            $this->data['Mural']['instituicao'] = $id_instituicao['Instituicao']['instituicao'];
-            // pr($this->data);
+
             /* Coloquei para ignorar as validações. Eh ruin mas senao nao funcionava */
             if ($this->Mural->save($this->data, FALSE)) {
                 $this->Session->setFlash("Dados atualizados");
+                //  die();
                 $this->redirect('/Murals/view/' . $id);
             } else {
                 // pr($this->validationErrors);
@@ -246,7 +261,7 @@ class MuralsController extends AppController {
         // Busco se ha inscricoes nesse mural
         $inscricoes = $this->Mural->find('first', array(
             'conditions' => array('Mural.id' => $id)
-                ));
+        ));
 
         // Se ha inscricoes entao primeiro tem que ser excluidas
         if ($inscricoes['Inscricao']) {
