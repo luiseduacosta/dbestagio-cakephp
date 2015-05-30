@@ -1,0 +1,1 @@
+Gestão de campos de estágio da ESS da UFRJ utilizando o framework Cakephp. Trabalha com tabelas de alunos, professores, supervisores, instituições. Inclui também um módulo de inscrição para o curso de Supervisores. É um reformulação do projeto dbestagio, buscando simplificar o desenvolvimento e avançar na gestão de usuários do sistema.
