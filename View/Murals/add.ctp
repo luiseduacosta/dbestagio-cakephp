@@ -24,7 +24,7 @@ $(document).ready(function(){
 
 <?php echo $this->Form->input('id_estagio', array('label'=>'Instituição (se a instituição não está cadastrada, tem que cadastrar no menu Instituições)', 'type'=>'select', 'options'=>$instituicoes)); ?>
 
-<?php echo $this->Form->input('convenio', array('label'=>'Convênio com a UFRJ', 'type'=>'select', 'options'=>array('0'=>'Não', '1'=>'Sim'), 'selected'=>0)); ?>
+<?php echo $this->Form->input('convenio', array('label'=>'Convênio com a UFRJ', 'type'=>'select', 'options'=>array('0'=>'Não', '1'=>'Sim'))); ?>
 
 <?php echo $this->Form->input('vagas', array('label'=>'Vagas (digitar somente números inteiros)', 'default'=>0)); ?>
 

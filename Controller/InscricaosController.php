@@ -3,7 +3,7 @@
 class InscricaosController extends AppController {
 
     public $name = "Inscricaos";
-    public $components = array('Email');
+    public $components = array('Email', 'Auth');
     private $Estagiario;
 
     public function beforeFilter() {
@@ -33,11 +33,16 @@ class InscricaosController extends AppController {
 
     public function index($id = NULL) {
 
+        $parametros = $this->params['named'];
+        $periodo = isset($parametros['periodo']) ? $parametros['periodo'] : NULL;
+        // echo "Período: " . $periodo;
+        // die();
+
         $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : "nome";
         // echo "Ordem: " . $ordem;
-        // die();
+        // die($id);
         // Capturo o periodo de estagio para o mural
-        $periodo = $this->Session->read('mural_periodo');
+        // $periodo = $this->Session->read('mural_periodo');
         if (!$periodo) {
             $this->loadModel("Configuracao");
             $configuracao = $this->Configuracao->findById('1');
@@ -45,6 +50,12 @@ class InscricaosController extends AppController {
         }
         // echo "Período: " . $periodo;
         // die();
+
+        $todosPeriodos = $this->Inscricao->find('list', array(
+            'fields' => array('Inscricao.periodo', 'Inscricao.periodo'),
+            'group' => array('Inscricao.periodo'),
+            'order' => array('Inscricao.periodo')
+        ));
 
         if ($id) {
             $inscritos = $this->Inscricao->find('all', array(
@@ -56,117 +67,76 @@ class InscricaosController extends AppController {
         } else {
             $inscritos = $this->Inscricao->find('all', array(
                 'conditions' => array('Inscricao.periodo' => $periodo),
-                'fields' => array('Inscricao.id', 'Inscricao.id_aluno', 'Aluno.id', 'Aluno.nome', 'Aluno.nascimento', 'Aluno.telefone', 'Aluno.celular', 'Aluno.email', 'Alunonovo.id', 'Alunonovo.nome', 'Alunonovo.nascimento', 'Alunonovo.telefone', 'Alunonovo.celular', 'Alunonovo.email'),
-                'group' => array('Inscricao.id_aluno'),
-                'order' => array('Aluno.nome' => 'asc')
+                'fields' => array('Inscricao.id_aluno'),
+                'group' => array('Inscricao.id_aluno')
                     )
             );
         }
 
-        // Somento se há inscritos
+        // pr($inscritos);
+        // die();
+        // Somente se há inscritos
         if ($inscritos) {
-            $vagas = $inscritos[0]['Mural']['vagas'];
-            // pr($inscritos[0]['Mural']['vagas']);
-            $id_instituicao = $inscritos[0]['Mural']['id_estagio'];
 
-            // pr($inscritos);
-            // Junto todo num array para ordernar alfabeticamente
-            $i = 0;
+            $i = 1;
             foreach ($inscritos as $c_inscritos) {
-
-                if (!empty($c_inscritos['Aluno']['nome'])) {
-                    $inscritos_ordem[$i]['nome'] = $c_inscritos['Aluno']['nome'];
-                    $inscritos_ordem[$i]['id'] = $c_inscritos['Aluno']['id'];
-                    $inscritos_ordem[$i]['id_inscricao'] = $c_inscritos['Inscricao']['id'];
-                    $inscritos_ordem[$i]['id_aluno'] = $c_inscritos['Inscricao']['id_aluno'];
-
-                    // print_r($c_inscritos['Aluno']['nascimento']);
-                    if (!is_null($c_inscritos['Aluno']['nascimento'])) {
-                        $inscritos_ordem[$i]['nascimento'] = $c_inscritos['Aluno']['nascimento'];
-                    } else {
-                        $inscritos_ordem[$i]['nascimento'] = 's/d';
+                // pr($c_inscritos);
+                // die();
+                // Busca entre os alunos estagiarios //
+                $inscritos_1 = $this->Inscricao->Aluno->find('all', array(
+                    'conditions' => array('Aluno.registro' => $c_inscritos['Inscricao']['id_aluno']),
+                        // 'fields' => array('Alunonovo.nome')
+                        )
+                );
+                if (!$inscritos_1) {
+                    $inscritos_0 = $this->Inscricao->Alunonovo->find('all', array(
+                        'conditions' => array('Alunonovo.registro' => $c_inscritos['Inscricao']['id_aluno']),
+                            // 'fields' => array('Alunonovo.nome')
+                            )
+                    );
+                    // pr($inscritos_0);
+                    if ($inscritos_0) {
+                        $inscritos_novos[$i]['id'] = $inscritos_0[0]['Alunonovo']['id'];
+                        $inscritos_novos[$i]['nome'] = $inscritos_0[0]['Alunonovo']['nome'];
+                        $inscritos_novos[$i]['registro'] = $inscritos_0[0]['Alunonovo']['registro'];
+                        $inscritos_novos[$i]['nascimento'] = $inscritos_0[0]['Alunonovo']['nascimento'];
+                        $inscritos_novos[$i]['codigo_telefone'] = $inscritos_0[0]['Alunonovo']['codigo_telefone'];
+                        $inscritos_novos[$i]['telefone'] = $inscritos_0[0]['Alunonovo']['telefone'];
+                        $inscritos_novos[$i]['codigo_celular'] = $inscritos_0[0]['Alunonovo']['codigo_celular'];
+                        $inscritos_novos[$i]['celular'] = $inscritos_0[0]['Alunonovo']['celular'];
+                        $inscritos_novos[$i]['email'] = $inscritos_0[0]['Alunonovo']['email'];
+                        $inscritos_novos[$i]['estagiario'] = 0;
+                        $criterio[] = $inscritos_novos[$i][$ordem];
                     }
-                    // print_r($inscritos_ordem[$i]['nascimento']);
-                    // echo "<br>";
-
-                    $inscritos_ordem[$i]['telefone'] = $c_inscritos['Aluno']['telefone'];
-                    $inscritos_ordem[$i]['celular'] = $c_inscritos['Aluno']['celular'];
-                    $inscritos_ordem[$i]['email'] = $c_inscritos['Aluno']['email'];
-                    $inscritos_ordem[$i]['tipo'] = 1; // Estagiario
-                    // Estudante estagio no campo que fez selecao de estagio
-                    if ($c_inscritos['Estagiario']['id_instituicao'] === $c_inscritos['Mural']['id_estagio']) {
-                        // echo $c_inscritos['Estagiario']['id_instituicao'] . " " . $c_inscritos['Mural']['id_estagio'];
-                        $inscritos_ordem[$i]['selecao_mural'] = $c_inscritos['Estagiario']['periodo'];
-                        // die("Estagio no Mural");
-                    }
-
-                    // Para ordenar o array
-                    $criterio[] = $inscritos_ordem[$i][$ordem];
+                    // pr($inscritos_novos);
+                    // die();
                 } else {
-                    $inscritos_ordem[$i]['nome'] = $c_inscritos['Alunonovo']['nome'];
-                    $inscritos_ordem[$i]['id'] = $c_inscritos['Alunonovo']['id'];
-                    $inscritos_ordem[$i]['id_inscricao'] = $c_inscritos['Inscricao']['id'];
-                    $inscritos_ordem[$i]['id_aluno'] = $c_inscritos['Inscricao']['id_aluno'];
-
-                    // print_r($c_inscritos['Inscricao']['id_aluno']);
-                    // echo ": ";
-                    // print_r($c_inscritos['Alunonovo']['nascimento']);
-                    if (!is_null($c_inscritos['Alunonovo']['nascimento'])) {
-                        $inscritos_ordem[$i]['nascimento'] = $c_inscritos['Alunonovo']['nascimento'];
-                    } else {
-                        $inscritos_ordem[$i]['nascimento'] = 's/d';
-                    }
-                    // print_r($inscritos_ordem[$i]['nascimento']);
-                    // echo "<br>";
-
-                    $inscritos_ordem[$i]['telefone'] = $c_inscritos['Alunonovo']['telefone'];
-                    $inscritos_ordem[$i]['celular'] = $c_inscritos['Alunonovo']['celular'];
-                    $inscritos_ordem[$i]['email'] = $c_inscritos['Alunonovo']['email'];
-                    $inscritos_ordem[$i]['tipo'] = 0; // Novo
-                    // Para ordenar o array
-                    $criterio[] = $inscritos_ordem[$i][$ordem];
+                    $inscritos_novos[$i]['id'] = $inscritos_1[0]['Aluno']['id'];
+                    $inscritos_novos[$i]['nome'] = $inscritos_1[0]['Aluno']['nome'];
+                    $inscritos_novos[$i]['registro'] = $inscritos_1[0]['Aluno']['registro'];
+                    $inscritos_novos[$i]['nascimento'] = $inscritos_1[0]['Aluno']['nascimento'];
+                    $inscritos_novos[$i]['codigo_telefone'] = $inscritos_1[0]['Aluno']['codigo_telefone'];
+                    $inscritos_novos[$i]['telefone'] = $inscritos_1[0]['Aluno']['telefone'];
+                    $inscritos_novos[$i]['codigo_celular'] = $inscritos_1[0]['Aluno']['codigo_celular'];
+                    $inscritos_novos[$i]['celular'] = $inscritos_1[0]['Aluno']['celular'];
+                    $inscritos_novos[$i]['email'] = $inscritos_1[0]['Aluno']['email'];
+                    $inscritos_novos[$i]['estagiario'] = 1;
+                    $criterio[] = $inscritos_novos[$i][$ordem];
+                    // pr($inscritos_novos);
+                    // die();
                 }
                 $i++;
             }
 
-            if (isset($criterio))
-                array_multisort($criterio, SORT_ASC, $inscritos_ordem);
-
-            /* Conta a quantidade de alunos novos e estagiarios */
-            $alunos_estagiarios = 0;
-            $alunos_novos = 0;
-            foreach ($inscritos as $c_inscritos) {
-                // pr($c_inscritos);
-                if ($c_inscritos['Aluno']['nome']) {
-                    $alunos_estagiarios++;
-                } else {
-                    $alunos_novos++;
-                }
+            if (isset($ordem)) {
+                array_multisort($criterio, SORT_ASC, $inscritos_novos);
             }
-            // echo "Estagiarios: " . $alunos_estagiarios . " Novos: " . $alunos_novos;
-            /* Fim da conta da quantidade de alunos novos e estagiarios */
-
-            // pr($inscritos[0]['Mural']['instituicao']);
-            if (isset($inscritos[0]['Mural']['instituicao'])) {
-                $this->set('instituicao', $inscritos[0]['Mural']['instituicao']);
-            }
-            if (isset($inscritos[0]['Inscricao']['id_instituicao'])) {
-                $this->set('mural_id', $inscritos[0]['Inscricao']['id_instituicao']);
-            }
-
-            $estagiarios = $this->Inscricao->Estagiario->find('all', array(
-                'fields' => array("count('Estagiario.id') as estagiarios"),
-                'conditions' => array('Estagiario.id_instituicao' => $id_instituicao,
-                    'Estagiario.periodo' => $periodo)
-            ));
-            // pr($estagiarios[0][0]);
+            // pr($inscritos_novos);
             // die();
 
             $this->set('periodo', $periodo);
-            $this->set('vagas', $vagas);
-            $this->set('estagiarios', $estagiarios[0][0]['estagiarios']);
-            $this->set('id_instituicao', $id_instituicao);
-            $this->set('inscritos', $inscritos_ordem);
+            $this->set('todososperiodos', $todosPeriodos);
+            $this->set('inscritos', $inscritos_novos);
         }
     }
 
@@ -372,9 +342,8 @@ class InscricaosController extends AppController {
                     $this->Session->setFlash('Email enviado');
                     $this->redirect('/Murals/view/' . $inscritos[0]['Mural']['id']);
                 }
-                
             } else {
-                
+
                 $this->Session->setFlash('Imposível enviar email (falta o endereço)');
                 $this->redirect('/Murals/view/' . $inscritos[0]['Mural']['id']);
             }
@@ -407,7 +376,7 @@ class InscricaosController extends AppController {
 
         // die("termocompromisso ");
         // Busca em estagiarios o ultimo estagio do aluno
-        // die("termocompromisso");        
+        // die("termocompromisso");
         $estagiario = $this->Inscricao->Estagiario->find('first', array(
             'conditions' => array('Estagiario.registro' => $id),
             'fields' => array('Estagiario.id', 'Estagiario.periodo', 'Estagiario.turno', 'Estagiario.id_aluno', 'Estagiario.registro', 'Estagiario.nivel', 'Estagiario.id_instituicao', 'Estagiario.id_supervisor', 'Estagiario.id_professor', 'Aluno.id', 'Aluno.registro', 'Aluno.nome'),
@@ -506,6 +475,7 @@ class InscricaosController extends AppController {
     /*
      * O id eh o numero de registro do aluno
      */
+
     public function termocadastra($id = NULL) {
 
         // Configure::write('debug', '2');
@@ -657,6 +627,7 @@ class InscricaosController extends AppController {
     }
 
     /* id eh o numero de estagiario */
+
     public function termoimprime($id = NULL) {
 
         // echo "Estagiario id " . $id . "<br>";

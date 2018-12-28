@@ -1,7 +1,12 @@
 <?php echo $this->Html->link('Configurações','/configuracaos/view/1'); ?>
 <?php echo " | "; ?>
+
 <?php echo $this->Html->link('Usuários','/aros/listausuarios/'); ?>
 <?php echo " | "; ?>
+
+<?php echo $this->Html->link('Usuários','/users/index/'); ?>
+<?php echo " | "; ?>
+
 <?php echo $this->Html->link('Permissões','/aros/indexaros/'); ?>
 
 <h1>Configuração</h1>

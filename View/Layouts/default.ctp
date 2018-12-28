@@ -41,14 +41,14 @@
     <body>
         <div id="container">
             <div id="header">
-                <h1><?php echo $this->Html->link(__('Coordenação de Estágio & Extensão - ESS - UFRJ', true), 'http://www.ess.ufrj.br/estagio');
-        ?></h1>
+                <h1><?php echo $this->Html->link(__('Coordenação de Estágio & Extensão - ESS - UFRJ', true), 'http://mural.ess.ufrj.br') ;?>
+                </h1>
             </div>
 
             <div id='menu'>
-                <?php echo $this->Html->link("Estágio", "http://200.20.112.2/estagio"); ?>
+                <?php echo $this->Html->link("ESS", "http://www.ess.ufrj.br"); ?>
                 <?php echo " | "; ?>
-                <?php echo $this->Html->link("Login", "/users/login/"); ?>
+                <?php echo $this->Html->link("Login", array('controller'=> 'users', 'action'=> 'login', 'full_base'=>true)); ?>
                 <?php echo " | "; ?>
                 <?php echo $this->Html->link("Mural", "/murals/"); ?>
                 <?php echo " | "; ?> 
@@ -70,8 +70,10 @@
 
                 <?php endif; ?> 
                 
-                <?php echo $this->Html->link('Manual', 'http://www.ess.ufrj.br/wiki/doku.php?id=estagio'); ?>
+                <?php echo $this->Html->link('Manual', 'http://www.ess.ufrj.br'); ?>
                 <?php echo " | "; ?>
+		<?php echo $this->Html->link('Grupo Google', 'https://groups.google.com/forum/#!forum/estagio_ess'); ?>
+		<?php echo " | "; ?>
                 <?php echo $this->Html->link('Fale conosco', 'mailto: estagio@ess.ufrj.br'); ?>
                 
                 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
@@ -79,12 +81,9 @@
                     <?php echo $this->Html->link("Administração", "/configuracaos/view/1"); ?>
                 <?php endif; ?>
 
-
-
-
                 <br/>
 
-<?php if ($this->Session->read('user')): ?>
+                <?php if ($this->Session->read('user')): ?>
                     <?php echo "<span style='color: white; font-weight: bold; text-transform: capitalize'>" . $this->Session->read('categoria') . "</span>" . ": "; ?>
 
                     <?php

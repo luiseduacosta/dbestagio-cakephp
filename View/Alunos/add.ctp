@@ -10,7 +10,7 @@ $(document).ready(function(){
     $("#AlunoRegistro").mask("999999999");
     $("#AlunoCpf").mask("999999999-99");
     $("#AlunoTelefone").mask("9999.9999");
-    $("#AlunoCelular").mask("9999.9999");
+    $("#AlunoCelular").mask("99999.9999");
     $("#AlunoCep").mask("99999-999");
 
 });
@@ -49,7 +49,7 @@ if (!isset($alunonovo['Alunonovo']['cep'])) $alunonovo['Alunonovo']['cep'] = NUL
 <h1>Inserir aluno</h1>
 
 <?php
-echo $this->Form->create('Aluno', array('action'=>'add'));
+echo $this->Form->create('Aluno', array('url'=>'add'));
 ?>
 
 <fieldset>

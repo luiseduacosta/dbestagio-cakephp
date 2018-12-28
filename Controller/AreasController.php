@@ -3,6 +3,7 @@
 class AreasController extends AppController {
 
     public $name = "Areas";
+    public $components = array('Auth');
 
     // var $scaffold;
 
@@ -35,7 +36,7 @@ class AreasController extends AppController {
 
         $this->Area->virtualFields['virtualMinPeriodo'] = 'min(Estagiario.periodo)';
         $this->Area->virtualFields['virtualMaxPeriodo'] = 'max(Estagiario.periodo)';
-        
+
         $this->paginate = array(
             'fields' => array('Area.id', 'Area.area', 'Professor.id', 'Professor.nome', 'Professor.departamento', 'min(Estagiario.periodo) as Area__virtualMinPeriodo', 'max(Estagiario.periodo) as Area__virtualMaxPeriodo'),
             'limit' => 70,
@@ -44,6 +45,15 @@ class AreasController extends AppController {
 
         $this->set('areas', $this->Paginate($this->Area->Estagiario));
         // $this->set('areas', $areas);
+    }
+
+    public function lista() {
+
+	$areas = $this->Area->find("all", array(
+		"order" => array("Area.area")));
+
+	$this->set("areas", $areas);
+
     }
 
     public function view($id = NULL) {

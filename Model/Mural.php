@@ -49,7 +49,7 @@ class Mural extends AppModel {
           ),
          */
         'convenio' => array(
-            'rule' => array('inList', array(0, 1)),
+            'rule' => array('inList', array('0', '1')),
             'required' => TRUE,
             'allowEmpty' => FALSE,
             'message' => 'Escolha uma das opções'

@@ -38,8 +38,8 @@ class AppController extends Controller {
         'Acl',
         'Auth' => array(
             // O certo eh redirecionar para o perfil do usuario
-            'loginRedirect' => array('controller' => 'murals', 'action' => 'index'),
-            'logoutRedirect' => array('controller' => 'murals', 'action' => 'index')
+            'loginRedirect' => array('controller' => 'murals', 'url' => 'index'),
+            'logoutRedirect' => array('controller' => 'murals', 'url' => 'index')
         )
     );
 

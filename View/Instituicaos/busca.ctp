@@ -23,7 +23,7 @@
 
 <h1>Busca instituições</h1>
 
-    <?php echo $this->Form->create('Instituicao', array('controller'=>'Instituicao','action'=>'busca')); ?>
+    <?php echo $this->Form->create('Instituicao', array('controller'=>'Instituicao','url'=>'busca')); ?>
     <?php echo $this->Form->input('instituicao',array('label'=>'Digite o nome da instituição')); ?>
     <?php echo $this->Form->end('Confirma'); ?>
 

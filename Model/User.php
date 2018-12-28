@@ -14,7 +14,9 @@ class User extends AppModel {
             'className' => 'Role',
             'foreignKey' => 'categoria',
             'joinTable' => 'roles'
-        ),
+        )
+    );
+/*
         'Aro' => array(
             'className' => 'Aro',
             'foreignKey' => FALSE,
@@ -22,7 +24,7 @@ class User extends AppModel {
             'joinTable' => 'aros'
         )
     );
-
+*/
     /*
       var $actsAs = array('Acl' => array('type' => 'requester'));
      */
@@ -60,18 +62,21 @@ class User extends AppModel {
         )
     );
 
+/*
     public function permissoes() {
 
         return ($this->query("SELECT aros_acos.id, aros.alias, acos.alias, _create, _read, _update, _delete FROM `aros_acos` join aros on aros_acos.aro_id = aros.id join acos on aros_acos.aco_id = acos.id ORDER BY `aros`.`alias` ASC"));
     }
+*/
 
+/*
     function beforeSave($options = array()) {
         if ($this->data['User']['password']) {
             $this->request->data['User']['password'] = SHA1($this->data['User']['password']);
         }
         return true;
     }
-
+*/
     /*
       function parentNode() {
       if (!$this->id && empty($this->data)) {

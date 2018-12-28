@@ -3,6 +3,7 @@
 class ArosController extends AppController {
 
     public $name = 'Aros';
+    public $components = array('Auth');
 
     public function beforeFilter() {
         parent::beforeFilter();
@@ -178,7 +179,7 @@ class ArosController extends AppController {
 
         if ($id == 1) {
             $this->Session->setFlash("Administrador não pode ser excluído");
-            $this->redirect(array('action' => 'listausuarios'));
+            $this->redirect(array('url' => 'listausuarios'));
             die("Error: usuário administrador não pode ser excluido");
             break;
         }
@@ -189,10 +190,10 @@ class ArosController extends AppController {
             $this->Aro->delete($AroData['Aro']['id']);
             $this->Session->setFlash(__('User deleted', true));
             $this->Session->setFlash(__('Usuário excluído', true), 'flash');
-            $this->redirect(array('action' => 'listausuarios'));
+            $this->redirect(array('url' => 'listausuarios'));
         } else {
             // print_r($id);
-            $this->redirect(array('action' => 'listausuarios'));
+            $this->redirect(array('url' => 'listausuarios'));
             $this->Session->setFlash(__('Usuário não foi excluído', true), 'flash');
             die("Error: usuário não foi excluido");
         }

@@ -97,7 +97,7 @@ class Supervisor extends AppModel {
 
         $cpf = NULL;
         if (!empty($value)) {
-            $cpf = $this->query('select cpf from ess.supervisores as Supervisor where cpf = ' . "'" . $value . "'" . ' limit 1');
+            $cpf = $this->query('select cpf from supervisores as Supervisor where cpf = ' . "'" . $value . "'" . ' limit 1');
         }
         // pr($cpf);
         // die();

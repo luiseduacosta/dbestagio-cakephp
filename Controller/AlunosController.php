@@ -3,6 +3,7 @@
 class AlunosController extends AppController {
 
     public $name = 'Alunos';
+    public $components = array('Auth');
 
     public function beforeFilter() {
 
@@ -42,7 +43,8 @@ class AlunosController extends AppController {
 
     public function view($id = NULL) {
 
-        // echo "Aluno";
+        // echo $id;
+        // die();
         // die(pr($this->Session->read('numero')));
         // Se eh estudante somente o próprio pode ver
         if (($this->Session->read('categoria') === 'estudante') && ($this->Session->read('numero'))) {
@@ -119,7 +121,7 @@ class AlunosController extends AppController {
                 } elseif ($registro_termo) {
                     $this->redirect('/Inscricaos/termocompromisso/' . $registro_termo);
                 } else {
-                    $this->redirect('/Alunos/view/' . $id);
+                    $this->redirect('/Alunos/view/' . $this->data['Aluno']['id']);
                 }
             }
         }
@@ -131,11 +133,11 @@ class AlunosController extends AppController {
         $estagiario = $this->Aluno->Estagiario->findById_aluno($id);
         if ($estagiario) {
             $this->Session->setFlash('Aluno com estágios não foi excluido. Exclua os estágios primeiro.');
-            $this->redirect(array('action' => 'view', $id));
+            $this->redirect(array('url' => 'view', $id));
         } else {
             $this->Aluno->delete($id);
             $this->Session->setFlash('O registro ' . $id . ' foi excluido.');
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(array('url' => 'index'));
         }
     }
 

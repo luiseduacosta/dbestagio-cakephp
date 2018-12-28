@@ -10,7 +10,7 @@ $(document).ready(function(){
     $("#AlunonovoRegistro").mask("999999999");
     $("#AlunonovoCpf").mask("999999999-99");
     $("#AlunonovoTelefone").mask("9999.9999");
-    $("#AlunonovoCelular").mask("9999.9999");
+    $("#AlunonovoCelular").mask("99999.9999");
     $("#AlunonovoCep").mask("99999-999");
     
 });

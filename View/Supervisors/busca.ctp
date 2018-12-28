@@ -22,7 +22,7 @@
 
 <h1>Busca supervisores</h1>
 
-    <?php echo $this->Form->create('Supervisor', array('controller'=>'Supervisor','action'=>'busca')); ?>
+    <?php echo $this->Form->create('Supervisor', array('controller'=>'Supervisor','url'=>'busca')); ?>
     <?php echo $this->Form->input('nome',array('label'=>'Digite o nome do supervisor')); ?>
     <?php echo $this->Form->end('Confirma'); ?>
 

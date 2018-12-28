@@ -3,25 +3,27 @@
 class InstituicaosController extends AppController {
 
     public $name = "Instituicaos";
+    public $components = array('Auth', 'Paginator');
+    public $helpers = array('Paginator');
 
     public function beforeFilter() {
 
         parent::beforeFilter();
-        // Admin
+// Admin
         if ($this->Session->read('id_categoria') === '1') {
             $this->Auth->allow();
-            // $this->Session->setFlash("Administrador");
-            // Estudantes
+// $this->Session->setFlash("Administrador");
+// Estudantes
         } elseif ($this->Session->read('id_categoria') === '2') {
             $this->Auth->allow('index', 'view', 'busca');
-            // $this->Session->setFlash("Estudante");
+// $this->Session->setFlash("Estudante");
         } elseif ($this->Session->read('id_categoria') === '3') {
             $this->Auth->allow('add', 'edit', 'addassociacao', 'deleteassociacao', 'index', 'view', 'busca');
-            // $this->Session->setFlash("Professor");
-            // Professores, Supervisores
+// $this->Session->setFlash("Professor");
+// Professores, Supervisores
         } elseif ($this->Session->read('id_cateogria') === '4') {
             $this->Auth->allow('add', 'edit', 'addassociacao', 'deleteassociacao', 'index', 'view', 'busca');
-            // $this->Session->setFlash("Professor/Supervisor");
+// $this->Session->setFlash("Professor/Supervisor");
         } else {
             $this->Session->setFlash("Não autorizado");
             $this->redirect('/users/login/');
@@ -31,13 +33,19 @@ class InstituicaosController extends AppController {
     public function index() {
 
         $parametros = $this->params['named'];
-        // print_r($parametros);
+// pr($parametros);
         $area_instituicao_id = isset($parametros['area_instituicoes_id']) ? $parametros['area_instituicoes_id'] : NULL;
-        // print_r($area_instituicao_id);
+// print_r($area_instituicao_id);
         $natureza = isset($parametros['natureza']) ? $parametros['natureza'] : NULL;
-        // print_r($natureza);
+// print_r($natureza);
         $periodo = isset($parametros['periodo']) ? $parametros['periodo'] : NULL;
-        // print_r($periodo);
+        print_r($periodo);
+        $limite = isset($parametros['limite']) ? $parametros['limite'] : 25;
+// print_r($limite);
+        $visita = isset($parametros['visita']) ? $parametros['visita'] : NULL;
+// print_r($visita);
+
+        $ordem = $this->params['named'];
 
         $todosPeriodos = $this->Instituicao->Estagiario->find('list', array(
             'fields' => array('Estagiario.periodo', 'Estagiario.periodo'),
@@ -45,119 +53,105 @@ class InstituicaosController extends AppController {
             'order' => array('Estagiario.periodo')
         ));
 
-        // if (!$periodo) $periodo = end($todosPeriodos);
+        // Capturo o periodo atual 
+        $periodo_atual = $this->Instituicao->Estagiario->find('all', array(
+            'fields' => 'MAX(Estagiario.periodo) as periodo')
+        );
+        foreach ($periodo_atual as $c_periodo_atual) {
+            // pr($c_periodo_atual);
+            foreach ($c_periodo_atual as $periodo_hoje) {
+                // pr($periodo);
+            }
+        }
+        $atual_periodo = $periodo_hoje['periodo'];
+        // pr($atual_periodo);
 
-        $this->Instituicao->virtualFields['virtualMaxPeriodo'] = 'max(Estagiario.periodo)';
-        $this->Instituicao->virtualFields['virtualEstudantes'] = 'count(Distinct Estagiario.registro)';
-        $this->Instituicao->virtualFields['virtualSupervisores'] = 'count(Distinct Estagiario.id_supervisor)';
+        if (empty($periodo)) {
+            $periodo = $atual_periodo;
+        }
 
-        if ($periodo):
-            if ($area_instituicao_id):
-                $this->paginate = array(
-                    'limit' => 10,
-                    'fields' => array('Instituicao.id', 'Instituicao.instituicao', 'Instituicao.convenio', 'Instituicao.natureza', 'AreaInstituicao.area', 'max(Estagiario.periodo) as Instituicao__virtualMaxPeriodo', 'count(Distinct Estagiario.registro) as Instituicao__virtualEstudantes', 'count(Distinct Estagiario.id_supervisor) as Instituicao__virtualSupervisores'),
-                    'joins' => array(
-                        array('alias' => 'Estagiario',
-                            'table' => 'estagiarios',
-                            'type' => 'RIGHT',
-                            'conditions' => 'Instituicao.id = Estagiario.id_instituicao')
-                    ),
-                    'group' => array('Estagiario.id_instituicao'),
-                    'conditions' => array('area_instituicoes_id' => $area_instituicao_id, 'periodo' => $periodo),
-                    'order' => array(
-                        'Instituicao.instituicao' => 'asc')
-                );
-            elseif ($natureza):
-                $this->paginate = array(
-                    'limit' => 10,
-                    'fields' => array('Instituicao.id', 'Instituicao.instituicao', 'Instituicao.convenio', 'Instituicao.natureza', 'AreaInstituicao.area', 'max(Estagiario.periodo) as Instituicao__virtualMaxPeriodo', 'count(Distinct Estagiario.registro) as Instituicao__virtualEstudantes', 'count(Distinct Estagiario.id_supervisor) as Instituicao__virtualSupervisores'),
-                    'joins' => array(
-                        array('alias' => 'Estagiario',
-                            'table' => 'estagiarios',
-                            'type' => 'RIGHT',
-                            'conditions' => 'Instituicao.id = Estagiario.id_instituicao')
-                    ),
-                    'group' => array('Estagiario.id_instituicao'),
-                    'conditions' => array('natureza' => $natureza, 'periodo' => $periodo),
-                    'order' => array(
-                        'Instituicao.instituicao' => 'asc')
-                );
-            else:
-                $this->paginate = array(
-                    'limit' => 10,
-                    'fields' => array('Instituicao.id', 'Instituicao.instituicao', 'Instituicao.convenio', 'Instituicao.natureza', 'AreaInstituicao.area', 'max(Estagiario.periodo) as Instituicao__virtualMaxPeriodo', 'count(Distinct Estagiario.registro) as Instituicao__virtualEstudantes', 'count(Distinct Estagiario.id_supervisor) as Instituicao__virtualSupervisores'),
-                    'joins' => array(
-                        array('alias' => 'Estagiario',
-                            'table' => 'estagiarios',
-                            'type' => 'RIGHT',
-                            'conditions' => 'Instituicao.id = Estagiario.id_instituicao')
-                    ),
-                    'conditions' => array('periodo' => $periodo),
-                    'group' => array('Estagiario.id_instituicao'),
-                    'order' => array(
-                        'Instituicao.instituicao' => 'asc')
-                );
-            endif;
-        else:
-            if ($area_instituicao_id):
-                $this->paginate = array(
-                    'limit' => 10,
-                    'fields' => array('Instituicao.id', 'Instituicao.instituicao', 'Instituicao.convenio', 'Instituicao.natureza', 'AreaInstituicao.area', 'max(Estagiario.periodo) as Instituicao__virtualMaxPeriodo', 'count(Distinct Estagiario.registro) as Instituicao__virtualEstudantes', 'count(Distinct Estagiario.id_supervisor) as Instituicao__virtualSupervisores'),
-                    'joins' => array(
-                        array('alias' => 'Estagiario',
-                            'table' => 'estagiarios',
-                            'type' => 'RIGHT',
-                            'conditions' => 'Instituicao.id = Estagiario.id_instituicao')
-                    ),
-                    'group' => array('Estagiario.id_instituicao'),
-                    'conditions' => array('area_instituicoes_id' => $area_instituicao_id),
-                    'order' => array(
-                        'Instituicao.instituicao' => 'asc')
-                );
-            elseif ($natureza):
-                $this->paginate = array(
-                    'limit' => 10,
-                    'fields' => array('Instituicao.id', 'Instituicao.instituicao', 'Instituicao.convenio', 'Instituicao.natureza', 'AreaInstituicao.area', 'max(Estagiario.periodo) as Instituicao__virtualMaxPeriodo', 'count(Distinct Estagiario.registro) as Instituicao__virtualEstudantes', 'count(Distinct Estagiario.id_supervisor) as Instituicao__virtualSupervisores'),
-                    'joins' => array(
-                        array('alias' => 'Estagiario',
-                            'table' => 'estagiarios',
-                            'type' => 'RIGHT',
-                            'conditions' => 'Instituicao.id = Estagiario.id_instituicao')
-                    ),
-                    'group' => array('Estagiario.id_instituicao'),
-                    'conditions' => array('natureza' => $natureza),
-                    'order' => array(
-                        'Instituicao.instituicao' => 'asc')
-                );
-            else:
-                $this->paginate = array(
-                    'limit' => 10,
-                    'fields' => array('Instituicao.id', 'Instituicao.instituicao', 'Instituicao.convenio', 'Instituicao.natureza', 'AreaInstituicao.area', 'max(Estagiario.periodo) as Instituicao__virtualMaxPeriodo', 'count(Distinct Estagiario.registro) as Instituicao__virtualEstudantes', 'count(Distinct Estagiario.id_supervisor) as Instituicao__virtualSupervisores'),
-                    'joins' => array(
-                        array('alias' => 'Estagiario',
-                            'table' => 'estagiarios',
-                            'type' => 'RIGHT',
-                            'conditions' => 'Instituicao.id = Estagiario.id_instituicao')
-                    ),
-                    'group' => array('Estagiario.id_instituicao'),
-                    'order' => array(
-                        'Instituicao.instituicao' => 'asc')
-                );
-            endif;
-        endif;
+        $options = array(
+            'joins' =>
+            array(
+                array(
+                    'table' => 'estagiarios',
+                    'alias' => 'Estagiario',
+                    'type' => 'left',
+                    'foreignKey' => false,
+                    'conditions' => array('Instituicao.id = Estagiario.id_instituicao'))
+            )
+        );
+        
+        $this->loadModel('Estagiario');
+        $instituicaoes_prova = $this->Estagiario->find('first', array(
+            'contain' => array('Supervisor', 'Instituicao', 'Visita')
+        ));
+        
+ /*       
+        $this->recursive = -1;
+        $instituicaoes_prova = $this->Instituicao->find('first', $options, array(
+            'contain' => array('Estagiario', array(
+            'fields' => array(
+                'Instituicao.instituicao',
+                'count(Distinct Estagiario.id_supervisor) as supervisores',
+                'count(Distinct Estagiario.id_aluno) as alunos'),
+            'Group by => Estagiario.id_instituicao'),
+                'Visita'),
+            'limit' => 10)
+        );
+*/
+        $log = $this->Estagiario->getDataSource()->getLog(false, false);
+        debug($log);
+
+        pr($instituicaoes_prova);
+        die();
+        /*
+          $instituicoes = $this->Instituicao->Estagiario->find('all', array(
+          'fields' => array('Estagiario.periodo',
+          'Estagiario.id_instituicao',
+          'Estagiario.id_supervisor',
+          'Instituicao.instituicao',
+          'Instituicao.expira'),
+          'conditions' => array('Estagiario.periodo' => $periodo)
+          )
+          );
+         */
+
+        // $log = $this->Instituicao->Estagiario->getDataSource()->getLog(false, false);
+        // debug($log);
+        // pr($instituicoes);
+        // die();
+
+        $this->Paginator->settings = array(
+            'contain' => array(
+                'Estagiario.periodo', 'Estagiario.id_supervisor', 'Estagiario.registro',
+                'Visita.data'),
+            'limit' => $limite)
+        ;
+
+        $this->Paginator->settings = array(
+            'contain' => array(
+                'Estagiario.periodo = ' . $periodo,
+                'Estagiario.id_supervisor',
+                'Estagiario.registro',
+                'Visita.data'),
+            'limit' => $limite)
+        ;
 
         $this->set('todosPeriodos', $todosPeriodos);
         $this->set('periodo', $periodo);
-        $this->set('instituicoes', $this->Paginate('Instituicao'));
+        $this->set('limite', $limite);
+// $this->set('instituicoes', $this->Paginate($instituicoes_total));
+        $this->set('instituicoes', $this->Paginator->paginate('Instituicao'));
     }
 
     public function add() {
 
-	$area_instituicao = $this->Instituicao->AreaInstituicao->find('list', array(
-		'order' => 'AreaInstituicao.area'));
-	// pr($area_instituicao);
-	// die();
-	$this->set('id_area_instituicao', $area_instituicao);
+        $area_instituicao = $this->Instituicao->AreaInstituicao->find('list', array(
+            'order' => 'AreaInstituicao.area'));
+// pr($area_instituicao);
+// die();
+        $this->set('id_area_instituicao', $area_instituicao);
 
         if ($this->data) {
             if ($this->Instituicao->save($this->data)) {
@@ -173,7 +167,7 @@ class InstituicaosController extends AppController {
         $instituicao = $this->Instituicao->find('first', array(
             'conditions' => array('Instituicao.id' => $id),
             'order' => 'Instituicao.instituicao'));
-        // pr($instituicao);
+// pr($instituicao);
 
         /* Para acrescentar um supervisor */
         $this->loadModel('Supervisor');
@@ -205,7 +199,7 @@ class InstituicaosController extends AppController {
             $this->data = $this->Instituicao->read();
         } else {
             if ($this->Instituicao->save($this->data)) {
-                // print_r($id);
+// print_r($id);
                 $this->Session->setFlash("Atualizado");
                 $this->redirect('/Instituicaos/view/' . $id);
             }
@@ -223,7 +217,7 @@ class InstituicaosController extends AppController {
         $alunos = $instituicao['Estagiario'];
 
         if ($murais) {
-            // die(pr($murais[0]['id']));
+// die(pr($murais[0]['id']));
 
             $this->Session->setFlash('Há murais vinculados com esta instituição');
             $this->redirect('/Murals/view/' . $murais[0]['id']);
@@ -245,8 +239,8 @@ class InstituicaosController extends AppController {
     public function deleteassociacao($id = NULL) {
 
         $id_superinstituicao = $this->Instituicao->InstSuper->find('first', array('conditions' => 'InstSuper.id = ' . $id));
-        // pr($id_superinstituicao);
-        // die();
+// pr($id_superinstituicao);
+// die();
 
         $this->Instituicao->InstSuper->delete($id);
 
@@ -257,8 +251,8 @@ class InstituicaosController extends AppController {
     public function addassociacao() {
 
         if ($this->data) {
-            // pr($this->data);
-            // die();
+// pr($this->data);
+// die();
             if ($this->Instituicao->InstSuper->save($this->data)) {
                 $this->Session->setFlash('Dados inseridos');
                 $this->redirect('/Instituicaos/view/' . $this->data['InstSuper']['id_instituicao']);
@@ -282,7 +276,7 @@ class InstituicaosController extends AppController {
             $condicao = array('Instituicao.instituicao like' => '%' . $this->data['Instituicao']['instituicao'] . '%');
             $instituicoes = $this->Instituicao->find('all', array('conditions' => $condicao));
 
-            // Nenhum resultado
+// Nenhum resultado
             if (empty($instituicoes)) {
                 $this->Session->setFlash("Não foram encontrados registros");
             } else {
@@ -298,7 +292,7 @@ class InstituicaosController extends AppController {
 
     public function seleciona_supervisor($id = NULL) {
 
-        // Configure::write('debug', 2);
+// Configure::write('debug', 2);
         if ($id != 0) {
             $supervisores = $this->Instituicao->find('all', array(
                 'conditions' => array('Instituicao.id = ' . $id)
@@ -308,21 +302,21 @@ class InstituicaosController extends AppController {
             if ($supervisores) {
                 $i = 0;
                 foreach ($supervisores as $c_supervisor) {
-                    // pr($c_supervisor['Supervisor']);
+// pr($c_supervisor['Supervisor']);
                     foreach ($c_supervisor['Supervisor'] as $cada_supervisor) {
                         $super[$i]['nome'] = $cada_supervisor['nome'];
                         $super[$i]['id'] = $cada_supervisor['id'];
                         $i++;
                     }
-                    // die();
+// die();
                 }
 
-                // Pode ser que nao tenha supervisores
+// Pode ser que nao tenha supervisores
                 if (isset($super)) {
                     asort($super);
                     $this->set('supervisores', $super);
                 }
-                // pr($super);
+// pr($super);
                 $this->set('id', $id);
             } else {
                 $this->Sesion->setFlash("Sem supervisores cadastrados");
@@ -339,12 +333,12 @@ class InstituicaosController extends AppController {
                 'fields' => array('Estagiario.id_supervisor', 'Estagiario.id_professor', 'Estagiario.id_area', 'Estagiario.periodo'),
                 'order' => array('Estagiario.periodo DESC')
             ));
-            // pr($prof_area);
+// pr($prof_area);
 
             $id_area = $prof_area['Estagiario']['id_area'];
             $id_prof = $prof_area['Estagiario']['id_professor'];
 
-            // $id_area = $this->Estagiario->find('all');
+// $id_area = $this->Estagiario->find('all');
             $this->Session->delete('id_area', $id_area);
             $this->Session->delete('id_prof', $id_prof);
             $this->Session->write('id_area', $id_area);

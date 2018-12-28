@@ -82,9 +82,9 @@ class DATABASE_CONFIG {
 			'datasource' => 'Database/Mysql',
 			'persistent' => false,
 			'host' => 'localhost',
-			'login' => 'ess',
-			'password' => 'ess123',
-			'database' => 'ess',
+			'login' => 'root',
+			'password' => 'root',
+			'database' => 'ess_app',
 			'prefix' => '',
 			'encoding' => 'utf8',
 	);
@@ -93,9 +93,9 @@ class DATABASE_CONFIG {
 			'datasource' => 'Database/Mysql',
 			'persistent' => false,
 			'host' => 'localhost',
-			'login' => 'ess',
-			'password' => 'ess123',
-			'database' => 'ess',
+			'login' => 'root',
+			'password' => 'root',
+			'database' => 'ess_app',
 			'prefix' => 'utf8',
 	);
 }

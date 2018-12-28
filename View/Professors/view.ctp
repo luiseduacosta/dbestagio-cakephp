@@ -39,8 +39,8 @@ $(document).ready(function() {
 ?>
 
 <div align="center">
-<?php echo $this->Html->link('Retroceder', array('action'=>'view', $registro_prev)) . " "; ?> |
-<?php echo $this->Html->link('Avançar'   , array('action'=>'view', $registro_next)); ?>
+<?php echo $this->Html->link('Retroceder', array('url'=>'view', $registro_prev)) . " "; ?> |
+<?php echo $this->Html->link('Avançar'   , array('url'=>'view', $registro_next)); ?>
 </div>
 
 <ul id="abas">

@@ -9,7 +9,7 @@ $(document).ready(function(){
 
     $("#ProfessorCpf").mask("999999999-99");
     $("#ProfessorTelefone").mask("9999.9999");
-    $("#ProfessorCelular").mask("9999.9999");
+    $("#ProfessorCelular").mask("99999.9999");
 
 });
 

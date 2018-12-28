@@ -1,7 +1,8 @@
 <IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteBase /mycake/	
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^(.*)$ index.php [QSA,L]
+	RewriteEngine On
+	RewriteBase /mural
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteRule ^(.*)$ index.php [QSA,L]
+	# RewriteRule ^ index.php [L]
 </IfModule>
