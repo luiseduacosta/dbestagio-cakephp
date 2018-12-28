@@ -94,6 +94,7 @@
  */
 	//Configure::write('App.baseUrl', env('SCRIPT_NAME'));
 
+
 /**
  * Uncomment the define below to use CakePHP prefix routes.
  *
@@ -173,7 +174,8 @@
  *
  */
 	Configure::write('Session', array(
-		'defaults' => 'php'
+		/* 'defaults' => 'php' */
+		'defaults' => 'cake'
 	));
 
 /**
@@ -226,7 +228,7 @@
 	Configure::write('Acl.database', 'default');
 
 /**
- * Uncomment this line and correct your server timezone to fix 
+ * Uncomment this line and correct your server timezone to fix
  * any date & time related errors.
  */
 	//date_default_timezone_set('UTC');

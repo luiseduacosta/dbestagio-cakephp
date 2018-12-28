@@ -27,7 +27,7 @@
 
 <h1>Busca por DRE</h1>
 
-    <?php echo $this->Form->create('Aluno', array('controller'=>'Alunos','action'=>'busca_dre')); ?>
+    <?php echo $this->Form->create('Aluno', array('controller'=>'Alunos','url'=>'busca_dre')); ?>
     <?php echo $this->Form->input('registro', array('label'=>'Digite o DRE do aluno', 'maxsize'=>9)); ?>
     <?php echo $this->Form->end('Confirma'); ?>
 

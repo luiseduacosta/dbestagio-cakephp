@@ -3,6 +3,7 @@
 class AreaInstituicaosController extends AppController {
 
     public $name = "AreaInstituicaos";
+    public $components = array('Auth');
 
     // var $scaffold;
 

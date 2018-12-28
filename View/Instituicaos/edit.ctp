@@ -39,6 +39,8 @@ echo $this->Form->input('cnpj');
 echo $this->Form->input('email');
 echo $this->Form->input('url', array('label'=>'Página web (inclua o protocolo: http://)'));
 echo $this->Form->input('convenio', array('label'=>'Número de convênio na UFRJ', 'default'=>0));
+echo $this->Form->input('expira', array('label'=>'Expira', 'dateFormat'=>'DMY', 'empty'=>true));
+// echo $this->Form->input('Visita.data', array('label'=>'Visita', 'dateFormat'=>'DMY', 'empty'=>true));
 echo $this->Form->input('seguro', array('options'=>array('0'=>'Não', '1'=>'Sim')));
 echo $this->Form->input('area_instituicoes_id', array('options'=>$area_instituicao, 'empty'=>true));
 echo $this->Form->input('natureza');

@@ -8,7 +8,7 @@
 
 <?php else: ?>
 
-    <?php echo $this->Form->create('Alunonovo', array('controller'=>'Alunonovos','action'=>'busca_dre')); ?>
+    <?php echo $this->Form->create('Alunonovo', array('controller'=>'Alunonovos','url'=>'busca_dre')); ?>
     <?php echo $this->Form->input('registro', array('label'=>'Digite o DRE do aluno', 'maxsize'=>9)); ?>
     <?php echo $this->Form->end('Confirma'); ?>
 

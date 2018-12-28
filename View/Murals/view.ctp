@@ -192,7 +192,7 @@
         	<?php if ($this->Session->read('categoria') === 'administrador'): ?>        
         	<tr>
             		<td colspan = 2 style="text-align: center">
-            		<?php echo $this->Form->create('Inscricao', array('action'=>'add/' . $mural['Mural']['id'])); ?>
+            		<?php echo $this->Form->create('Inscricao', array('url'=>'add/' . $mural['Mural']['id'])); ?>
             		<?php echo $this->Form->input('id_instituicao', array('type'=>'hidden', 'value'=>$mural['Mural']['id'])); ?>
             		<?php echo $this->Form->end('Inscrição'); ?>
             		</td>
@@ -206,7 +206,7 @@
 			<?php if (date('Y-m-d') < $mural['Mural']['dataInscricao']): ?> 
         		<tr>
         			<td colspan = 2 style="text-align: center">
-        			<?php echo $this->Form->create('Inscricao', array('action'=>'add/' . $mural['Mural']['id'])); ?>
+        			<?php echo $this->Form->create('Inscricao', array('url'=>'add/' . $mural['Mural']['id'])); ?>
         			<?php echo $this->Form->input('id_instituicao', array('type'=>'hidden', 'value'=>$mural['Mural']['id'])); ?>
         			<?php echo $this->Form->end('Inscrição'); ?>
         			</td>

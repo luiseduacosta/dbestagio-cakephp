@@ -3,6 +3,7 @@
 class ConfiguracaosController extends AppController {
 
 	public $name = "Configuracaos";
+        public $components = array('Auth');
 
 	// var $scaffold;
 

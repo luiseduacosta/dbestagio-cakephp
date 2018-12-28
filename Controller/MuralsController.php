@@ -3,7 +3,7 @@
 class MuralsController extends AppController {
 
     public $name = "Murals";
-    public $components = array('Email');
+    public $components = array('Email', 'Auth');
 
     // var $scaffold;
 
@@ -100,14 +100,18 @@ class MuralsController extends AppController {
         $total_alunos = sizeof($alunos);
         /* Finaliza conta de alunos inscritos */
 
-        /* Discrimina os alunos estagiarios e novos */
+        /* Discrimina 1 os alunos estagiarios e novos */
         $inscritos = $this->Mural->Inscricao->find('all', array(
             'conditions' => array('Inscricao.periodo' => $periodo),
-            'fields' => array('Inscricao.id', 'Inscricao.id_aluno', 'Aluno.nome', 'Alunonovo.nome', 'Mural.instituicao', 'Inscricao.id_instituicao', 'Inscricao.periodo'),
-            'group' => array('id_aluno'),
+            'fields' => array('Aluno.nome'),
+            'group' => array('Inscricao.id_aluno'),
             'order' => array('Aluno.nome' => 'asc')
         ));
+        
+        // $log = $this->Mural->Inscricao->getDataSource()->getLog(false, false);
+        // debug($log);
         // pr($inscritos);
+        // die();
 
         /*
          * Teria que buscar nos estagiarios até o periodo atual
@@ -116,6 +120,7 @@ class MuralsController extends AppController {
         $alunos_novos = 0;
         foreach ($inscritos as $c_inscritos) {
             // pr($c_inscritos);
+            // die();
             if ($c_inscritos['Aluno']['nome']) {
                 $alunos_estagiarios++;
             } else {
@@ -124,6 +129,7 @@ class MuralsController extends AppController {
         }
         // echo "Novos: " . $alunos_novos . " Estagiarios: " . $alunos_estagiarios;
         /* Fim da descriminacao entre estagiarios e novos */
+        // die();
 
         /* Conta a quantidade total de vagas oferecidas */
         $vagas = $this->Mural->find('all', array(
@@ -153,7 +159,8 @@ class MuralsController extends AppController {
                 'fields' => 'Instituicao.instituicao'
             ));
             // pr($instituicao['Instituicao']);
-            $this->request->data['Mural']['instituicao'] = $instituicao['Instituicao']['instituicao'];
+            if ($instituicao)
+                $this->request->data['Mural']['instituicao'] = $instituicao['Instituicao']['instituicao'];
             // pr($this->data);
             // die();
             if ($this->Mural->save($this->data)) {
@@ -240,7 +247,6 @@ class MuralsController extends AppController {
         if (empty($this->data)) {
 
             $this->data = $this->Mural->read();
-
         } else {
 
             /* Coloquei para ignorar as validações. Eh ruin mas senao nao funcionava */
@@ -256,13 +262,14 @@ class MuralsController extends AppController {
         }
     }
 
-    public function delete($id = Null) {
+    public function delete($id = NULL) {
 
         // Busco se ha inscricoes nesse mural
         $inscricoes = $this->Mural->find('first', array(
             'conditions' => array('Mural.id' => $id)
         ));
-
+        // print_r($id);
+        // die();
         // Se ha inscricoes entao primeiro tem que ser excluidas
         if ($inscricoes['Inscricao']) {
 
@@ -270,7 +277,7 @@ class MuralsController extends AppController {
             $this->redirect('/Inscricaos/index/' . $id);
         } else {
 
-            $this->Mural->delete();
+            $this->Mural->delete($id);
             $this->Session->setFlash('Registro excluído');
             $this->redirect('/Murals/index/');
         }
@@ -314,6 +321,8 @@ class MuralsController extends AppController {
         // pr($mural);
         $this->set('mural', $mural);
 
+        $this->response->header(array("Content-type: application/pdf"));
+        $this->response->type("pdf");
         $this->layout = "pdf";
         $this->render();
     }

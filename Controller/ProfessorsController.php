@@ -3,6 +3,7 @@
 class ProfessorsController extends AppController {
 
     public $name = "Professors";
+    public $components = array('Auth');
 
     public function beforeFilter() {
 

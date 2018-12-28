@@ -1,5 +1,7 @@
 <?php /* pr($areas); */ ?>
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
+    <?php echo $this->Html->link('Listar', '/Areas/lista/'); ?>
+    <?php echo " | "; ?>
     <?php echo $this->Html->link('Inserir', '/Areas/add/'); ?>
     <br />
 <?php endif; ?>

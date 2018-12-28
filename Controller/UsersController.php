@@ -3,6 +3,7 @@
 class UsersController extends AppController {
 
     public $name = 'Users';
+    public $components = array('Auth');
 
     public function beforeFilter() {
 
@@ -344,7 +345,13 @@ class UsersController extends AppController {
         ));
         // pr($usuarios);
 
-        $this->set('usuarios', $usuarios);
+	$this->paginate = array(
+		'User' => array(
+			'limit' => 20,
+			'order' => array('User.email'))
+	);
+
+        $this->set('usuarios', $this->paginate('User'));
 
     }
 

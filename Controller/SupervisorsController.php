@@ -3,6 +3,7 @@
 class SupervisorsController extends AppController {
 
     public $name = 'Supervisors';
+    public $components = array('Auth');
 
     public function beforeFilter() {
 

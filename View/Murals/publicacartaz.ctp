@@ -1,7 +1,6 @@
 <?php
 
-App::import("Vendor", "tcpdf");
-// App::import("Vendor", "xtcpdf");
+App::import("Vendor", "tcpdf/tcpdf");
 
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false); 
 // $pdf = new XTCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false); 
@@ -43,9 +42,9 @@ $pdf->setPrintHeader(false);
 // add a page
 $pdf->AddPage();
 
-$pdf->Image("http://www.ess.ufrj.br/components/com_joomgallery/img_pictures/imagens_8/minervas_12/minervas_20101218_1477684175.jpg", 25, 20, 20, 20);
+$pdf->Image("/usr/local/htdocs/html/mural/webroot/img/minerva_transparente.png", 90, 20, 20, 20);
 
-$pdf->SetY(20);
+$pdf->SetY(40);
 $cabecalho1 = $pdf->GetStringWidth("UNIVERSIDADE FEDERAL DO RIO DE JANEIRO");
 $pdf->SetX((210-$cabecalho1)/2);
 $pdf->Cell(0, 0, "UNIVERSIDADE FEDERAL DO RIO DE JANEIRO");

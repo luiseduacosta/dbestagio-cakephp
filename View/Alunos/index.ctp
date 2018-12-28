@@ -13,8 +13,9 @@
 </div>
 
 <table border=1>
+
 <tr>
-    
+<th>
 <?php if ($this->Session->read('categoria') != 'estudante'): ?>    
     <th><?php echo $this->Paginator->sort('Registro','registro'); ?></th>
 <?php endif; ?>

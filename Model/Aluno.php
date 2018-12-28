@@ -177,7 +177,7 @@ class Aluno extends AppModel {
 
 		$emails = NULL;
 		if (!empty($cadastro_email)) {
-			$emails = $this->query('select email from ess.alunos as Aluno where email = ' . "'" . $cadastro_email . "'");
+			$emails = $this->query('select email from  alunos as Aluno where email = ' . "'" . $cadastro_email . "'");
 		}
 
 		if ($emails) {
@@ -196,7 +196,7 @@ class Aluno extends AppModel {
 
 		$cpf = NULL;
 		if (!empty($value)) {
-			$cpf = $this->query('select cpf from ess.alunos as Aluno where cpf = ' . "'" . $value . "'" . ' limit 1');
+			$cpf = $this->query('select cpf from alunos as Aluno where cpf = ' . "'" . $value . "'" . ' limit 1');
 		}
 
 		if ($cpf) {
