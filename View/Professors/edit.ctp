@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 echo $this->Html->script("jquery", array('inline'=>false));
 echo $this->Html->script("jquery.maskedinput", array('inline'=>false));
@@ -49,7 +49,7 @@ echo $this->Form->input('formaingresso');
 echo $this->Form->input('tipocargo', array('options'=>array('efetivo'=>'Efetivo', 'substituto'=>'Substituto')));
 echo $this->Form->input('categoria', array('options'=>array('sem dados'=>'Sem dados', 'auxiliar'=>'Auxiliar', 'assistente'=>'Assistente', 'adjunto'=>'Adjunto', 'associado'=>'Associado', 'titular'=>'Titular', 'outro'=>'Outro'), 'default'=>0));
 echo $this->Form->input('regimetrabalho', array('options'=>array('40DE'=>'40DE', '40'=>'40', '20'=>'20')));
-echo $this->Form->input('departamento', array('options'=>array('Fundamentos'=>'Fundamentos', 'Metodos e tecnicas'=>'Métodos e técnicas', 'Politica social'=>'Política Social')));
+echo $this->Form->input('departamento', array('options'=>array('Fundamentos'=>'Fundamentos', 'Metodos'=>'Métodos e técnicas', 'Politicas'=>'Política Social')));
 echo $this->Form->input('dataegresso', array('dateFormat'=>'DMY', 'minYear'=>'1900', 'empty'=>TRUE));
 echo $this->Form->input('motivoegresso');
 echo $this->Form->input('observacoes');

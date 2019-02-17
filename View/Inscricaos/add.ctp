@@ -20,7 +20,7 @@ $(document).ready(function(){
 
 <?php
 
-echo $this->Form->create('Inscricao', array('url'=>'add/' . $id_instituicao));
+echo $this->Form->create('Inscricao', array('action'=>'add/' . $id_instituicao));
 $numero = $this->Session->read('numero');
 if ($numero) {
 	echo $this->Form->input('id_aluno', array('label'=>'Registro (DRE)', 'size'=>9, 'maxlenght'=>9, 'default'=>$this->Session->read('numero')));

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 echo $this->Html->script("jquery", array('inline'=>false));
 echo $this->Html->script("jquery.maskedinput", array('inline'=>false));
@@ -49,7 +49,7 @@ echo $this->Form->input('formaingresso');
 echo $this->Form->input('tipocargo');
 echo $this->Form->input('categoria', array('label'=>'Categoria (Adjunto, etc.)'));
 echo $this->Form->input('regimetrabalho');
-echo $this->Form->input('departamento', array('options'=>array('Fundamentos'=>'Fundamentos', 'Metodos e tecnicas'=>'Métodos e técnicas', 'Politica social'=>'Política Social')));
+echo $this->Form->input('departamento', array('options'=>array('Fundamentos'=>'Fundamentos', 'Metodos'=>'Métodos e técnicas', 'Politicas'=>'Política Social')));
 echo $this->Form->input('dataegresso', array('dateFormat'=>'DMY', 'empty'=>TRUE));
 echo $this->Form->input('motivoegresso');
 echo $this->Form->input('observacoes');

@@ -1,7 +1,3 @@
-<?php
-// pr($alunos);
-// die();
-?>
 <h1>Aluno: <?php echo $alunos['Alunonovo']['nome']; ?></h1>
 
 <table border='1'>
@@ -36,10 +32,10 @@
     <hr/>
 
     <p>
-    <?php echo $this->Html->link('Alunos novos', array('controller'=>'Alunonovos','url'=>'index')); ?> |
-    <?php echo $this->Html->link('Buscar', array('controller'=>'Alunonovos','url'=>'busca')); ?>
+    <?php echo $this->Html->link('Alunos novos', array('controller'=>'Alunonovos','action'=>'index')); ?> |
+    <?php echo $this->Html->link('Buscar', array('controller'=>'Alunonovos','action'=>'busca')); ?>
     <br />
-    <?php echo $this->Html->link('Todos os alunos', array('controller'=>'Inscricaos','url'=>'index')); ?>
+    <?php echo $this->Html->link('Todos os alunos', array('controller'=>'Inscricaos','action'=>'index')); ?>
     </p>
 <?php endif; ?>
 
@@ -69,7 +65,7 @@
 
     </tr>
 <?php endforeach; ?>
-
+    
 </table>
 <?php else: ?>
 

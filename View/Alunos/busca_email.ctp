@@ -23,7 +23,7 @@
 
 <h1>Busca por Email</h1>
 
-    <?php echo $this->Form->create('Aluno', array('controller'=>'Alunos','url'=>'busca_email')); ?>
+    <?php echo $this->Form->create('Aluno', array('controller'=>'Alunos','action'=>'busca_email')); ?>
     <?php echo $this->Form->input('email', array('label'=>'Digite o email', 'maxsize'=>70, 'size'=>70)); ?>
     <?php echo $this->Form->end('Confirma'); ?>
 

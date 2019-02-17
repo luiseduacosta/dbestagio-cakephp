@@ -3,62 +3,37 @@ echo $this->Html->script("jquery", array('inline' => false));
 echo $this->Html->scriptBlock('
 
 $(document).ready(function() {
-
-var url = location.hostname;
-
-var base_url = window.location.pathname.split("/");
-
 $("#EstagiarioPeriodo").change(function() {
 	var periodo = $(this).val();
         /* alert(periodo); */
-        if (url === "localhost") {
-            window.location="/" + base_url[1] + "/estagiarios/index/periodo:"+periodo;
-        } else {
-            window.location="/murals/index/periodo:"+periodo;
-        }
-})
+        window.location="/estagiarios/index/periodo:"+periodo;
+	})
 
 $("#EstagiarioIdArea").change(function() {
 	var id_area = $(this).val();
-        /* alert(id_area); */
-        if (url === "localhost") {
-            window.location="/" + base_url[1] + "/estagiarios/index/id_area:"+id_area;
-        } else {
-            window.location="/murals/index/periodo:"+periodo;
-        }
-})
+    	window.location="/estagiarios/index/id_area:"+id_area;
+    	/* alert(id_area); */
+	})
 
 $("#EstagiarioIdProfessor").change(function() {
 	var id_professor = $(this).val();
     	/* alert(id_professor); */
-        if (url === "localhost") {        
-            window.location="/" + base_url[1] + "/estagiarios/index/id_professor:"+id_professor;
-        } else {
-            window.location="/murals/index/periodo:"+periodo;
-        }
-})
+    	window.location="/estagiarios/index/id_professor:"+id_professor;
+	})
 
 $("#EstagiarioIdInstituicao").change(function() {
 	var id_instituicao = $(this).val();
     	/* alert(id_instituicao); */
-        if (url === "localhost") {
-            window.location="/" + base_url[1] + "/estagiarios/index/id_instituicao:"+id_instituicao;
-        } else {
-            window.location="/murals/index/periodo:"+periodo;
-        }        
-})
+    	window.location="/estagiarios/index/id_instituicao:"+id_instituicao;
+	})
 
 $("#EstagiarioIdSupervisor").change(function() {
 	var id_supervisor = $(this).val();
     	/* alert(id_supervisor); */
-        if (url === "localhost") {        
-    	window.location="/" + base_url[1] + "/estagiarios/index/id_supervisor:"+id_supervisor;
-        } else {
-            window.location="/murals/index/periodo:"+periodo;
-        }
-})
+    	window.location="/estagiarios/index/id_supervisor:"+id_supervisor;
+	})
 
-});
+    });
 
 ', array("inline" => false));
 ?>
@@ -93,19 +68,19 @@ $("#EstagiarioIdSupervisor").change(function() {
     <table>
         <tr>
             <td>
-                <?php echo $this->Form->create('Estagiario', array('url' => 'index')); ?>
+                <?php echo $this->Form->create('Estagiario', array('action' => 'index')); ?>
                 <?php echo $this->Form->input('periodo', array('type' => 'select', 'options' => $opcoes, 'default' => $periodo, 'empty' => 'Todos')); ?>
                 <?php echo $this->Form->end(); ?>
             </td>
 
             <td>
-                <?php echo $this->Form->create('Estagiario', array('url' => 'index')); ?>
+                <?php echo $this->Form->create('Estagiario', array('action' => 'index')); ?>
                 <?php echo $this->Form->input('id_area', array('label' => 'Áreas', 'type' => 'select', 'options' => $areas, 'default' => $id_area)); ?>
                 <?php echo $this->Form->end(); ?>
             </td>
 
             <td>
-                <?php echo $this->Form->create('Estagiario', array('url' => 'index')); ?>
+                <?php echo $this->Form->create('Estagiario', array('action' => 'index')); ?>
                 <?php echo $this->Form->input('id_professor', array('label' => 'Professores', 'type' => 'select', 'options' => $professores, 'selected' => $id_professor, 'default' => 0)); ?>
                 <?php echo $this->Form->end(); ?>
             </td>
@@ -113,7 +88,7 @@ $("#EstagiarioIdSupervisor").change(function() {
 
         <tr>
             <td colspan = '3'>
-                <?php echo $this->Form->create('Estagiario', array('url' => 'index')); ?>
+                <?php echo $this->Form->create('Estagiario', array('action' => 'index')); ?>
                 <?php echo $this->Form->input('id_supervisor', array('label' => 'Supervisores', 'type' => 'select', 'options' => $supervisores, 'selected' => $id_supervisor, 'default' => 0)); ?>
                 <?php echo $this->Form->end(); ?>
             </td>
@@ -121,7 +96,7 @@ $("#EstagiarioIdSupervisor").change(function() {
 
         <tr>
             <td colspan = '3'>
-                <?php echo $this->Form->create('Estagiario', array('url' => 'index')); ?>
+                <?php echo $this->Form->create('Estagiario', array('action' => 'index')); ?>
                 <?php echo $this->Form->input('id_instituicao', array('label' => 'Instituições', 'type' => 'select', 'options' => $instituicoes, 'selected' => $id_instituicao, 'default' => 0)); ?>
                 <?php echo $this->Form->end(); ?>
             </td>

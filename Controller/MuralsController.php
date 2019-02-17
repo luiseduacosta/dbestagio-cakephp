@@ -100,16 +100,14 @@ class MuralsController extends AppController {
         $total_alunos = sizeof($alunos);
         /* Finaliza conta de alunos inscritos */
 
-        /* Discrimina 1 os alunos estagiarios e novos */
+        /* Discrimina os alunos estagiarios e novos */
         $inscritos = $this->Mural->Inscricao->find('all', array(
             'conditions' => array('Inscricao.periodo' => $periodo),
-            'fields' => array('Aluno.nome'),
-            'group' => array('Inscricao.id_aluno'),
+            // 'fields' => array('any_value(Inscricao.id)', 'Inscricao.id_aluno', 'Aluno.nome', 'Alunonovo.nome', 'any_value(Mural.instituicao)', 'any_value(Inscricao.id_instituicao)', 'Inscricao.periodo'),
+            'fields' => array('Inscricao.id', 'Inscricao.id_aluno', 'Aluno.nome', 'Alunonovo.nome', 'Mural.instituicao', 'Inscricao.id_instituicao', 'Inscricao.periodo'),
+            /* 'group' => array('Inscricao.id_aluno'), */
             'order' => array('Aluno.nome' => 'asc')
         ));
-        
-        // $log = $this->Mural->Inscricao->getDataSource()->getLog(false, false);
-        // debug($log);
         // pr($inscritos);
         // die();
 
@@ -120,7 +118,6 @@ class MuralsController extends AppController {
         $alunos_novos = 0;
         foreach ($inscritos as $c_inscritos) {
             // pr($c_inscritos);
-            // die();
             if ($c_inscritos['Aluno']['nome']) {
                 $alunos_estagiarios++;
             } else {
@@ -129,7 +126,6 @@ class MuralsController extends AppController {
         }
         // echo "Novos: " . $alunos_novos . " Estagiarios: " . $alunos_estagiarios;
         /* Fim da descriminacao entre estagiarios e novos */
-        // die();
 
         /* Conta a quantidade total de vagas oferecidas */
         $vagas = $this->Mural->find('all', array(

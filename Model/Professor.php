@@ -7,7 +7,7 @@ class Professor extends AppModel {
 	*/
 
 	public $name = 'Professor';
-	public $useTable = 'professores';
+	public $useTable = 'docentes';
 	public $primaryKey = 'id';
 	public $displayField = 'nome';
 	public $hasMany = array(

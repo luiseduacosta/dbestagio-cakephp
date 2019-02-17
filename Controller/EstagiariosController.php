@@ -140,11 +140,7 @@ class EstagiariosController extends AppController {
         // Instituicoes
         // $inst = $this->Estagiario->find('all', array('group' => 'id_instituicao'));
         $inst = $this->Estagiario->find('all', 
-                array('fields' => array('Instituicao.id', 'Instituicao.instituicao')));
-        
-        // pr($inst);
-        // die();
-        
+                array('fields' => array('Instituicao.id', 'Instituicao.instituicao')));        
         foreach ($inst as $c_inst) {
             if ($c_inst['Instituicao']['id']) {
                 $instituicoes[$c_inst['Instituicao']['id']] = $c_inst['Instituicao']['instituicao'];

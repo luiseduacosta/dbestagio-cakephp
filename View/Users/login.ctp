@@ -2,7 +2,7 @@
 
 $this->Session->flash('auth');
 
-echo $this->Form->create('User', array('url'=>'login'));
+echo $this->Form->create('User', array('action'=>'login'));
 ?>
 <table>
     <tr>

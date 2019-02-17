@@ -1,3 +1,5 @@
+<?php // pr($this->data); ?>
+
 <?php
 
 echo $this->Html->script("jquery", array('inline'=>false));
@@ -23,7 +25,7 @@ $(document).ready(function(){
 
 <?php
 
-echo $this->Form->create('Alunonovo', array('url'=>'edit'));
+echo $this->Form->create('Alunonovo', array('url'=>'edit/' . $this->data['Alunonovo']['id']));
 echo $this->Form->input('registro');
 echo $this->Form->input('nome');
 echo $this->Form->input('nascimento', array('label'=>'Data de nascimento', 'dateFormat'=>'DMY', 'minYear'=>'1910', 'empty'=>TRUE));

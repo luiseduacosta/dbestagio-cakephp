@@ -20,7 +20,7 @@ $("#ProfessorPeriodo").change(function() {
 ?>
 
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
-    <?php echo $this->Form->create('Professor', array('controller' => 'Professor', 'url'=>'pauta')); ?>
+    <?php echo $this->Form->create('Professor', array('controller' => 'Professor', 'action'=>'pauta')); ?>
     <?php echo $this->Form->input('periodo', array('type'=>'select', 'label'=>array('text'=>'Período ', 'style'=>'display: inline'), 'options'=> $todosPeriodo, 'default'=>$periodo)); ?>
     <?php echo $this->Form->end(); ?>
 <?php else: ?>
