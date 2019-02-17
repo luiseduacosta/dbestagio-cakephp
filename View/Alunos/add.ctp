@@ -49,7 +49,7 @@ if (!isset($alunonovo['Alunonovo']['cep'])) $alunonovo['Alunonovo']['cep'] = NUL
 <h1>Inserir aluno</h1>
 
 <?php
-echo $this->Form->create('Aluno', array('url'=>'add'));
+echo $this->Form->create('Aluno', array('action'=>'add'));
 ?>
 
 <fieldset>

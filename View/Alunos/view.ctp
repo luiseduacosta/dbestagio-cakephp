@@ -9,8 +9,8 @@
 
 <?php if ($this->Session->read('categoria') != 'estudante'): ?>
     <div align="center">
-    <?php echo $this->Html->link('Retroceder', array('url'=>'view', $registro_prev)) . " "; ?> |
-    <?php echo $this->Html->link('Avançar'   , array('url'=>'view', $registro_next)); ?>
+    <?php echo $this->Html->link('Retroceder', array('action'=>'view', $registro_prev)) . " "; ?> |
+    <?php echo $this->Html->link('Avançar'   , array('action'=>'view', $registro_next)); ?>
     </div>
 <?php endif; ?>
 
@@ -117,10 +117,10 @@ if (is_null($alunos['nascimento'])) {
 </table>
 
 <p>
-<?php echo $this->Html->link('Listar', array('controller'=>'Estagiarios','url'=>'index')); ?> |
-<?php echo $this->Html->link('Buscar', array('controller'=>'Alunos','url'=>'busca')); ?>
+<?php echo $this->Html->link('Listar', array('controller'=>'Estagiarios','action'=>'index')); ?> |
+<?php echo $this->Html->link('Buscar', array('controller'=>'Alunos','action'=>'busca')); ?>
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
     <?php echo " | "; ?>
-    <?php echo $this->Html->link("Inserir estágio",array('controller'=>'Estagiarios','url'=>'add',$alunos['id'])); ?>
+    <?php echo $this->Html->link("Inserir estágio",array('controller'=>'Estagiarios','action'=>'add',$alunos['id'])); ?>
 <?php endif; ?>
 </p>

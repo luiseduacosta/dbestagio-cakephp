@@ -18,7 +18,6 @@ class ArosController extends AppController {
     public function listausuarios() {
 
         $this->loadModel('User');
-        // $this->set('listausuarios', $this->Acl->Aro->find('all'));
         $usuarios = $this->User->find('all');
 
         $this->loadModel('Aluno');
@@ -41,24 +40,26 @@ class ArosController extends AppController {
                     // Busco entre os estudantes em estágio
                     $estudante = $this->Aluno->find('first', array(
                         'conditions' => 'Aluno.registro=' . $cadausuario['User']['numero']));
-                    $nome = $estudante['Aluno']['nome'];
-                    $aluno_id = $estudante['Aluno']['id'];
-                    $aluno_tipo = 0; // Aluno estagiario
-                    // Se não está entre os estudantes em estágio busco entre os novos
-                    // $estudantenovo = NULL;
-                    if (empty($estudante)) {
+
+                    if ($estudante) {
+                        $nome = $estudante['Aluno']['nome'];
+                        $aluno_id = $estudante['Aluno']['id'];
+                        $aluno_tipo = 0; // Aluno estagiario
+                    } else {
+                        // Se não está entre os estudantes em estágio busco entre os novos
+                        // $estudantenovo = NULL;
                         $estudantenovo = $this->Alunonovo->find('first', array(
                             'conditions' => 'Alunonovo.registro=' . $cadausuario['User']['numero']));
-                        $nome = $estudantenovo['Alunonovo']['nome'];
-                        $aluno_id = $estudantenovo['Alunonovo']['id'];
-                        $aluno_tipo = 1; // Aluno novo
-                    }
-
-                    // Se não está entre os novos então é um usuario nao cadastrado
-                    if ((empty($estudante)) & (empty($estudantenovo))) {
-                        $nome = "Usuário estudante sem cadastro";
-                        $aluno_id = NULL;
-                        $aluno_tipo = 2; // Usuario estudante nao cadastrado
+                        if ($estudantenovo) {
+                            $nome = $estudantenovo['Alunonovo']['nome'];
+                            $aluno_id = $estudantenovo['Alunonovo']['id'];
+                            $aluno_tipo = 1; // Aluno novo
+                        } else {
+                            // Se não está entre os novos então é um usuario nao cadastrado    
+                            $nome = "Usuário estudante sem cadastro";
+                            $aluno_id = NULL;
+                            $aluno_tipo = 2; // Usuario estudante nao cadastrado                            
+                        }
                     }
                     break;
                 case 3:
@@ -181,7 +182,7 @@ class ArosController extends AppController {
             $this->Session->setFlash("Administrador não pode ser excluído");
             $this->redirect(array('url' => 'listausuarios'));
             die("Error: usuário administrador não pode ser excluido");
-            break;
+            // break;
         }
         if ($this->User->delete($id)) {
             // Delete Associated Aro

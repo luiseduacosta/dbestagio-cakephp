@@ -7,20 +7,13 @@ echo $this->Html->scriptBlock('
 
 $(document).ready(function() {
 
-var url = location.hostname;
-
-var base_url = window.location.pathname.split("/");
-
 $("#SupervisorPeriodo").change(function() {
+        var url = window.location.pathname.split("/");
 	var periodo = $(this).val();
         /* alert(periodo); */
         /* alert(url); */
-        if (url === "localhost") {        
-            window.location="/" + base_url[1] + "/Supervisors/index/periodo:"+periodo;
-        } else {
-            window.location="/murals/index/periodo:"+periodo;
-        }
-})
+        window.location="/"+url[1]+"/index/periodo:"+periodo;
+	})
 
 })
 
@@ -48,7 +41,7 @@ $("#SupervisorPeriodo").change(function() {
 <?php endif; ?>
 
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
-    <?php echo $this->Form->create('Supervisor', array('controller' => 'Instituicao', 'url'=>'index')); ?>
+    <?php echo $this->Form->create('Supervisor', array('controller' => 'Instituicao', 'action'=>'index')); ?>
     <?php echo $this->Form->input('periodo', array('type'=>'select', 'label'=>array('text'=>'Período ', 'style'=>'display: inline'), 'options'=> $todosPeriodos, 'default'=>$periodo, 'empty'=>'Selecione período')); ?>
     <?php echo $this->Form->end(); ?>
 <?php endif; ?>

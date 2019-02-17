@@ -138,13 +138,11 @@ class AlunonovosController extends AppController {
 
         $this->Alunonovo->id = $id;
         // pr($id);
-        // pr($this->data);
-        // die();
         if (empty($this->data)) {
-            // die('empty');
+
             $this->data = $this->Alunonovo->read();
         } else {
-            // die('else');
+
             $duplicada = $this->Alunonovo->findByRegistro($this->data['Alunonovo']['registro']);
             if ($duplicada)
                 $this->Session->setFlash("O número de aluno já está cadastrado");
@@ -170,9 +168,7 @@ class AlunonovosController extends AppController {
                     // $this->redirect('/Inscricaos/termocompromisso/' . $registro_termo);
                 } else {
                     // Simplesmente atualiza e mostra o resultado
-                    // pr($this->data['Alunonovo']['id']);
-                    // die();
-                     $this->redirect('/Alunonovos/view/' . $this->data['Alunonovo']['id']);
+                    $this->redirect('/Alunonovos/view/' . $id);
                 }
             }
         }
@@ -194,15 +190,13 @@ class AlunonovosController extends AppController {
                 die("Não autorizado");
             }
         }
-        // pr($id);
-        // die();
+
         $aluno = $this->Alunonovo->findById($id);
         // pr($aluno);
         // Onde fizeram inscricoes
         $this->loadModel('Inscricao');
         $inscricoes = $this->Inscricao->findAllByIdAluno($aluno['Alunonovo']['registro']);
-        // pr($inscricoes);
-        // die();
+
         $this->set('alunos', $aluno);
         $this->set('inscricoes', $inscricoes);
     }

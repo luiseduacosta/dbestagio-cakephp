@@ -21,7 +21,7 @@ $("#InscricaoIdInstituicao").change(function() {
 
 <?php 
 
-echo $this->Form->create('Inscricao', array('url'=>'termocadastra/' . $id));
+echo $this->Form->create('Inscricao', array('action'=>'termocadastra/' . $id));
 
 echo $this->Form->input('id_aluno', array('type'=>'hidden', 'label'=>'Registro', 'value'=>$id));
 echo "Registro (DRE): " . $id . "<br>";

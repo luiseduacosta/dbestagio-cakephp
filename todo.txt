@@ -74,3 +74,4 @@ Dica
 ====
 $log = $this->Votacao->getDataSource()->getLog(false, false);
 debug($log);
+  

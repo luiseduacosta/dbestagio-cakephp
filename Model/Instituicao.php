@@ -10,22 +10,16 @@ class Instituicao extends AppModel {
     public $useTable = "estagio";
     public $primaryKey = "id";
     public $displayField = "instituicao";
-    
-    public $actsAs = array('Containable');
-    
     public $hasMany = array(
         'Estagiario' => array(
             'className' => 'Estagiario',
-            'foreignKey' => 'id_instituicao'
+            'foreignKey' => 'id_instituicao',
+            'joinTable' => 'estagiarios'
         ),
         'Mural' => array(
             'className' => 'Mural',
             'foreignKey' => 'id_estagio'
-        ),
-        'Visita' => array(
-            'className' => 'Visita',
-            'foreignKey' => 'estagio_id'
-        )        
+        )
     );
     public $belongsTo = array(
         'AreaInstituicao' => array(

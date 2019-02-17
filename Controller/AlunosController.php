@@ -43,10 +43,11 @@ class AlunosController extends AppController {
 
     public function view($id = NULL) {
 
-        // echo $id;
-        // die();
+        // echo "Aluno";
         // die(pr($this->Session->read('numero')));
         // Se eh estudante somente o próprio pode ver
+        // echo $this->Session->read('numero');
+	// die();
         if (($this->Session->read('categoria') === 'estudante') && ($this->Session->read('numero'))) {
             // die(pr($this->Session->read('numero')));
             $verifica = $this->Aluno->findByRegistro($this->Session->read('numero'));
@@ -121,7 +122,7 @@ class AlunosController extends AppController {
                 } elseif ($registro_termo) {
                     $this->redirect('/Inscricaos/termocompromisso/' . $registro_termo);
                 } else {
-                    $this->redirect('/Alunos/view/' . $this->data['Aluno']['id']);
+                    $this->redirect('/Alunos/view/' . $id);
                 }
             }
         }
