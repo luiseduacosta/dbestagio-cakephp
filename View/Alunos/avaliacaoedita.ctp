@@ -21,13 +21,29 @@ $(document).ready(function(){
 <h1>Preencha todos os campos do formulário</h1>
 
 <p>
-Estudante: <?php echo $aluno; ?><br />
-Registro: <?php echo $registro; ?><br />
-Período: <?php echo $periodo; ?><br />
-Nível: <?php echo $nivel; ?><br />
-Professor: <?php echo $professor; ?><br />
-Instituição: <?php echo $instituicao; ?><br />
-Supervisor: <?php echo $supervisor; ?> <br />
+<table>
+    <tr>
+        <td>Estudante:</td><td><?php echo $aluno; ?></td>
+    </tr>
+        <tr>
+        <td>Registro:</td><td><?php echo $registro; ?></td>
+    </tr>
+        <tr>
+        <td>Período:</td><td><?php echo $periodo; ?></td>
+    </tr>
+        <tr>
+        <td>Nível:</td><td><?php echo $nivel; ?></td>
+    </tr>
+        <tr>
+        <td>Professor:</td><td><?php echo $professor; ?></td>
+    </tr>
+        <tr>
+        <td>Instituição:</td><td><?php echo $instituicao; ?></td>
+    </tr>
+        <tr>
+        <td>Supervisor:</td><td><?php echo $supervisor; ?></td>
+    </tr>
+</table>
 </p>
 
 <?php
@@ -46,5 +62,7 @@ echo $this->Form->input('email');
 ?>
 
 <?php
+echo $this->Form->input('registro', array('type' => 'hidden', 'value' => $registro));
+echo $this->Form->input('supervisor_id', array('type' => 'hidden', 'value' => $supervisor_id));
 echo $this->Form->end('Confirma');
 ?>

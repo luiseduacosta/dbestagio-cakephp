@@ -1,3 +1,4 @@
+<?php // pr($periodos); ?>
 <?php
 
 echo $this->Html->script("jquery", array('inline'=>false));

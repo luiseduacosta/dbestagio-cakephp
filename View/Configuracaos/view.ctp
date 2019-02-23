@@ -1,13 +1,13 @@
 <?php echo $this->Html->link('Configurações','/configuracaos/view/1'); ?>
 <?php echo " | "; ?>
 
-<?php echo $this->Html->link('Usuários','/aros/listausuarios/'); ?>
+<?php // echo $this->Html->link('Usuários','/aros/listausuarios/'); ?>
+<?php // echo " | "; ?>
+
+<?php echo $this->Html->link('Usuários','/users/listausuarios/'); ?>
 <?php echo " | "; ?>
 
-<?php echo $this->Html->link('Usuários','/users/index/'); ?>
-<?php echo " | "; ?>
-
-<?php echo $this->Html->link('Permissões','/aros/indexaros/'); ?>
+<?php echo $this->Html->link('Planejamento','/configuraplanejamentos/index/'); ?>
 
 <h1>Configuração</h1>
 

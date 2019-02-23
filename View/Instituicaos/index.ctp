@@ -1,9 +1,6 @@
 <?php
+
 // pr($instituicoes);
-/* 
-* To change this template, choose Tools | Templates
-* and open the template in the editor.
-*/
 
 ?>
 
@@ -13,19 +10,20 @@ echo $this->Html->scriptBlock('
 
 $(document).ready(function() {
 
+var url = location.hostname;
+var base_url = window.location.pathname.split("/");
+
 $("#InstituicaoPeriodo").change(function() {
 	var periodo = $(this).val();
 	var limite = $("#LimiteLimite").val();
         /* alert(periodo +  " " + limite); */
-        window.location="/Instituicaos/index/periodo:" +periodo+ "/limite:" +limite;
-	})
+        if (url === "localhost") {
+            window.location="/" + base_url[1] + "/instituicaos/index/periodo:" +periodo+ "/limite:" +limite;
+        } else {
+            window.location="/instituicaos/index/periodo:" +periodo+ "/limite:" +limite;
+        }
 
-$("#LimiteLimite").change(function() {
-	var limite = $(this).val();
-	var periodo = $("#InstituicaoPeriodo").val();
-	/* alert(periodo + " " + limite); */
-	window.location="/Instituicaos/index/periodo:" +periodo+ "/limite:" +limite;
-	})
+})
 
 })
 
@@ -40,10 +38,6 @@ $("#LimiteLimite").change(function() {
     <?php echo $this->Form->input('periodo', array('type'=>'select', 'label'=>array('text'=>'Período ', 'style'=>'display: inline'), 'options'=> $todosPeriodos, 'default'=>$periodo, 'empty'=>'Selecione')); ?>
     <?php echo $this->Form->end(); ?>
 
-    <?php echo $this->Form->create('Limite'); ?>
-    <?php echo $this->Form->input('limite', array('type'=>'select', 'label'=>array('text'=>'Registros', 'style'=>'display: inline'), 'options'=>array(0=>"0",10=>"10"), 'default'=>$limite)); ?>
-    <?php echo $this->Form->end(); ?>
-
 <?php endif; ?>
 
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
@@ -55,10 +49,13 @@ $("#LimiteLimite").change(function() {
     echo $this->Html->link('Área','/AreaInstituicaos/index/');
     echo " | ";
     echo $this->Html->link('Natureza','/Instituicaos/natureza/');
+    echo " | ";
+    echo $this->Html->link('Lista','/instituicaos/lista/');
     ?>
 <?php else: ?>
     <?php
     echo $this->Html->link('Buscar','/Instituicaos/busca/');
+    echo $this->Html->link('Lista','/instituicaos/lista/');
     ?>
 <?php endif; ?>
 
@@ -68,7 +65,7 @@ $("#LimiteLimite").change(function() {
 <?php echo $this->Paginator->next(' Posterior > ', null, null, array('class'=>'disabled')); ?>
 <?php echo $this->Paginator->last(' Último >> ', null, null, array('class'=>'disabled')); ?>
 
-<br />
+    <br />
 
 <?php echo $this->Paginator->numbers(); ?>
 
@@ -101,7 +98,7 @@ $("#LimiteLimite").change(function() {
             <th>
                 <?php echo $this->Paginator->sort('Instituicao.natureza', 'Natureza'); ?>
             </th>
-            
+
         </tr>
     </thead>
     <tbody>

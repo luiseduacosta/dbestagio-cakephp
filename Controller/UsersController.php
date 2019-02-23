@@ -24,11 +24,14 @@ class UsersController extends AppController {
         $this->Session->delete('id_categoria');
         $this->Session->delete('categoria');
 
+        // pr($this->data);
+        // die();
         if (!empty($this->data)) {
 
             $usuario = $this->User->find('first', array(
                 'conditions' => array('User.email' => $this->data['User']['email'])));
 
+            // pr($usuario);
             // die();
             if ($usuario['User']['password'] == sha1($this->data['User']['password'])) {
                 // die(pr($usuario));
@@ -127,21 +130,27 @@ class UsersController extends AppController {
 
     public function cadastro() {
 
+        // pr($this->data);
         if (!empty($this->data)) {
-
-            if ($this->data['User']['password']) {
-                $this->request->data['User']['password'] = SHA1($this->data['User']['password']);
-            }
+        // pr($this->data);
+            
+            // if ($this->data['User']['password']) {
+                // $this->request->data['User']['password'] = SHA1($this->data['User']['password']);
+            // }
 
             /*
              * Para recuperar a senha faz um novo cadastro
              */
             $usuariocadastrado = $this->User->find('first', array(
-                'conditions' => array('and' => array('User.categoria' => $this->data['User']['categoria'], 'User.email' => $this->data['User']['email'], 'User.numero' => $this->data['User']['numero']))
-            ));
+                'conditions' => array(
+                    'User.categoria' => $this->data['User']['categoria'],
+                    'User.email' => $this->data['User']['email'],
+                    'User.numero' => $this->data['User']['numero'])
+                    )
+            );
 
             // pr($usuariocadastrado);
-            // die();
+            // die('Recupera senha');
             /*
              * Se está recuperando a senha
              * excluo o registro do usuer e do aro
@@ -160,10 +169,10 @@ class UsersController extends AppController {
             // Primeiro verifico se o registro ja nao esta cadastrado no user
             $numero = $this->User->findByNumero($this->data['User']['numero']);
             // pr($numero);
-            // die();
+            // die('numero');
 
             if ($numero) {
-                $numero_user = $this->User->findByNumero($this->data['User']['numero']);
+                // $numero_user = $this->User->findByNumero($this->data['User']['numero']);
                 // pr($email_user);
                 // die();
                 $this->Session->setFlash("Número (DRE, CRESS ou SIAPE) já cadastrado");
@@ -174,10 +183,10 @@ class UsersController extends AppController {
             // Segundo verifico se o email ja nao esta cadastrado no user
             $email = $this->User->findByEmail($this->data['User']['email']);
             // pr($email);
-            // die();
+            // die('email');
 
             if ($email) {
-                $email_user = $this->User->findByEmail($this->data['User']['email']);
+                // $email_user = $this->User->findByEmail($this->data['User']['email']);
                 // pr($email_user);
                 // die();
                 $this->Session->setFlash("Email já cadastrado");
@@ -192,10 +201,10 @@ class UsersController extends AppController {
                     $this->loadModel('Aluno');
                     $aluno = $this->Aluno->findByRegistro($this->data['User']['numero']);
                     // pr($aluno);
-                    // die(pr($this->data['User']['numero']));
+                    //die(pr($this->data['User']['numero']));
                     if ($aluno) {
                         $situacao = 1; // Estudante estagiário
-                        $nome = $aluno['Aluno']['nome'];
+                        $nome = ucwords($aluno['Aluno']['nome']);
                         $this->Session->write('menu_aluno', 'estagiario');
                         $this->Session->write('menu_id_aluno', $aluno['Aluno']['id']);
                         // echo "Estudante estagiário ";
@@ -207,7 +216,7 @@ class UsersController extends AppController {
                         // die(pr($alunonovo));
                         if ($alunonovo) {
                             $situacao = 2; // Estudante novo que busca estágio
-                            $nome = $aluno['Alunonovo']['nome'];
+                            $nome = ucwords($aluno['Alunonovo']['nome']);
                             $this->Session->write('menu_aluno', 'alunonovo');
                             $this->Session->write('menu_id_aluno', $alunonovo['Alunonovo']['id']);
                             echo "Estudante novo ja cadastrado";
@@ -217,10 +226,10 @@ class UsersController extends AppController {
                             $situacao = 3; // Estudante novo
                             $this->Session->write('menu_aluno', 'semcadastro');
                             // Para ir para alunonovos e poder voltar
-                            $this->Session->write('cadastro', $this->data['User']['email']);
+                            $this->Session->write('cadastro', strtolower($this->data['User']['email']));
                         }
                     }
-
+                    
                     $this->User->set($this->data);
 
                     if ($this->User->validates()) {
@@ -228,7 +237,7 @@ class UsersController extends AppController {
                             $this->Session->setFlash('Bem-vindo! Cadastro realizado');
                             $this->Session->write('categoria', 'estudante');
                             $this->Session->write('id_categoria', '2');
-                            $this->Session->write('user', $this->data['User']['email']);
+                            $this->Session->write('user', strtolower($this->data['User']['email']));
                             $this->Session->write('numero', $this->data['User']['numero']);
                         }
                     } else {
@@ -238,12 +247,7 @@ class UsersController extends AppController {
                         $this->Session->setFlash('Não foi possível completar seu cadastro.');
                         $this->redirect('/users/cadastro/');
                     }
-                    /*
-                      die();
-                      $this->Session->setFlash('Bem-vindo! Cadastro realizado');
-                      $this->Session->write('user', $this->data['User']['email']);
-                      $this->Session->write('numero', $this->data['User']['numero']);
-                     */
+                    
                     break;
 
                 case 3:
@@ -255,7 +259,7 @@ class UsersController extends AppController {
                     if ($professor) {
                         $this->User->save($this->data);
                         $this->Session->setFlash('Bem-vindo! Cadastro realizado');
-                        $this->Session->write('user', $this->data['User']['email']);
+                        $this->Session->write('user', strtolower($this->data['User']['email']));
                         $this->Session->write('numero', $this->data['User']['numero']);
                     } else {
                         $this->Session->setFlash("Professor ainda não cadastrado: verifique o SIAPE");
@@ -272,7 +276,7 @@ class UsersController extends AppController {
                     if ($supervisor) {
                         $this->User->save($this->data);
                         $this->Session->setFlash('Bem-vindo! Cadastro realizado');
-                        $this->Session->write('user', $this->data['User']['email']);
+                        $this->Session->write('user', strtolower($this->data['User']['email']));
                         $this->Session->write('numero', $this->data['User']['numero']);
                         // $this->redirect('/Supervisors/view/' . $supervisor['Supervisor']['id']);
                     } else {
@@ -335,11 +339,6 @@ class UsersController extends AppController {
     }
 
     public function index() {
-
-        $usuarios = $this->User->find('all', array(
-            'order' => array('User.email')
-        ));
-        // pr($usuarios);
 
         $this->paginate = array(
             'User' => array(

@@ -1,3 +1,5 @@
+<?php echo $this->element('submenu_visitas'); ?>
+
 <?php
 echo $this->Html->script("jquery", array('inline' => false));
 echo $this->Html->scriptBlock('
@@ -26,9 +28,7 @@ $("#VisitaEstagioId").change(function() {
 
 <h1>Informe de visita institucional</h1>
 
-<?php // pr($visitas); ?>
-
-<?php if (!empty(($visitas))): ?>
+<?php if (!empty($visitas)): ?>
     <table>
         <tr>
             <th>Id</th>

@@ -1,9 +1,11 @@
+<?php // pr($instituicao); ?>
+
+<?php echo $this->element('submenu_instituicoes'); ?>
+
 <div align="center">
 <?php echo $this->Html->link('Retroceder', array('url'=>'view', $registro_prev)) . " "; ?> |
 <?php echo $this->Html->link('Avançar'   , array('url'=>'view', $registro_next)); ?>
 </div>
-
-<?php // pr($instituicao); ?>
 
 <table>
     <tr>
@@ -12,7 +14,7 @@
         <?php echo $this->Html->link($instituicao['Instituicao']['instituicao'], '/Estagiarios/index/id_instituicao:' . $instituicao['Instituicao']['id']); ?>
         </td>
     </tr>
-    
+
     <tr>
         <td>CNPJ</td>
         <td>
@@ -26,14 +28,14 @@
         <?php echo $instituicao['Instituicao']['email']; ?>
         </td>
     </tr>    
-    
+
     <tr>
         <td>Página web</td>
         <td>
         <?php echo $this->Html->link($instituicao['Instituicao']['url'], $instituicao['Instituicao']['url']); ?>
         </td>
     </tr>
-       
+
     <tr>
         <td>Convênio com a UFRJ</td>
         <td>
@@ -59,11 +61,29 @@
         ?>
         </td>
     </tr>
-    
+
     <tr>
         <td>Seguro</td>
         <td>
         <?php echo $instituicao['Instituicao']['seguro']; ?>
+        </td>
+    </tr>
+
+    <tr>
+        <td>Visita</td>
+        <td>
+        <?php 
+        if (sizeof($instituicao['Visita'] > 0)) {
+            $ultimavisita = end($instituicao['Visita']);
+            if ($ultimavisita['data']):
+                echo $this->Html->link(date('d-m-Y', strtotime($ultimavisita['data'])), '/visitas/view/' . $ultimavisita['id']);
+            else:
+                echo "Sem visita";
+            endif;
+        } else {
+            echo "Sem visita";
+        }
+        ?>
         </td>
     </tr>
 
@@ -152,6 +172,10 @@
     echo " | ";
     echo $this->Html->link('Editar','/Instituicaos/edit/' . $instituicao['Instituicao']['id']);
     echo " | ";
+    if (sizeof($instituicao['Visita']) == 0) {
+        echo $this->Html->link('Visita','/Visitas/add/' . $instituicao['Instituicao']['id']);
+        echo " | ";
+    }
     echo $this->Html->link('Inserir','/Instituicaos/add/');
     echo " | ";
     echo $this->Html->link('Buscar','/Instituicaos/busca/');
@@ -204,25 +228,25 @@ if ($instituicao['Supervisor']) {
             </th>
             <?php if ($this->Session->read('categoria') === 'administrador'): ?>
             <th>
-            	Ação
+                Ação
             </th>
             <?php endif; ?>
         </tr>
     </thead>
     <?php foreach ($cada_supervisor as $c_supervisor): ?>
     <tbody>
-    <tr>
-        <td>
+        <tr>
+            <td>
             <?php echo $c_supervisor['cress']; ?>
-        </td>
-        
+            </td>
 
-        <td>
+
+            <td>
             <?php
             echo $this->Html->link($c_supervisor['nome'],'/Supervisors/view/'. $c_supervisor['id']);
             ?>
-        </td>
-        
+            </td>
+
         <?php if ($this->Session->read('categoria') === 'administrador'): ?>
             <td>
                 <?php 
@@ -230,8 +254,8 @@ if ($instituicao['Supervisor']) {
                 ?>
             </td>
         <?php endif; ?>
-        
-    </tr>
+
+        </tr>
     </tbody>
     <?php endforeach; ?>
 </table>

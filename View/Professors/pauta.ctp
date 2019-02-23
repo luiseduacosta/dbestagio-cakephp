@@ -1,3 +1,7 @@
+<?php // pr($professores); ?>
+
+<?php echo $this->element('submenu_professores'); ?>
+
 <?php
 
 echo $this->Html->script("jquery", array('inline'=>false));
@@ -8,7 +12,7 @@ $(document).ready(function() {
 $("#ProfessorPeriodo").change(function() {
 	var periodo = $(this).val();
         /* alert(periodo); */
-        window.location="/mycake/Professors/pauta/periodo:"+periodo;
+        window.location="/mural/Professors/pauta/periodo:"+periodo;
 	})
 
 })
@@ -20,7 +24,7 @@ $("#ProfessorPeriodo").change(function() {
 ?>
 
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
-    <?php echo $this->Form->create('Professor', array('controller' => 'Professor', 'action'=>'pauta')); ?>
+    <?php echo $this->Form->create('Professor', array('controller' => 'Professor', 'url' => 'pauta')); ?>
     <?php echo $this->Form->input('periodo', array('type'=>'select', 'label'=>array('text'=>'Período ', 'style'=>'display: inline'), 'options'=> $todosPeriodo, 'default'=>$periodo)); ?>
     <?php echo $this->Form->end(); ?>
 <?php else: ?>
@@ -33,23 +37,27 @@ $("#ProfessorPeriodo").change(function() {
     <caption>Pauta: <?php echo $this->Html->link($periodo, '/Estagiarios/index/periodo:' . $periodo); ?></caption>
     <thead>
         <tr>
-            <th><?php echo $this->Paginator->sort('Professor.nome', 'Professor'); ?></th>
-            <th><?php echo $this->Paginator->sort('Professor.departamento', 'Departamento'); ?></th>
-            <th><?php echo $this->Paginator->sort('Area.area', 'Área'); ?></th>
-            <th><?php echo $this->Paginator->sort('Estagiario.turno', 'Turno'); ?></th>
-            <th><?php echo $this->Paginator->sort('Estagiario.turma', 'Turma'); ?></th>
+            <th><?php echo 'Professor'; ?></th>
+            <th><?php echo 'Departamento'; ?></th>
+            <th><?php echo 'Turma'; ?></th>
+            <th><?php // echo 'Turno'; ?></th>
+            <th><?php echo 'Turma'; ?></th>
         </tr>
     </thead>
     <tbody>
 <?php foreach ($professores as $c_professores): ?>
 <tr>
-    <td><?php echo $this->Html->link($c_professores['Professor']['nome'], '/Estagiarios/index/id_professor:'. $c_professores['Professor']['id'] . '/periodo:' . $periodo); ?></td>
-    <td><?php echo $c_professores['Professor']['departamento']; ?></td>
-    <td><?php echo $c_professores['Area']['area']; ?></td>
-    <td><?php echo $c_professores['Estagiario']['turno']; ?></td>
-    <td><?php echo $c_professores['Professor']['virtualAlunos']; ?></td>
+    <td><?php echo $this->Html->link($c_professores['professor'], '/Estagiarios/index/id_professor:' . $c_professores['professor_id'] . '/periodo:' . $periodo); ?></td>
+    <td><?php echo $c_professores['departamento']; ?></td>
+    <td><?php 
+    if ($c_professores['area']) :
+        echo $c_professores['area']; 
+    endif;
+    ?></td>
+    <td><?php // echo $c_professores['periodo']; ?></td>
+    <td><?php echo $c_professores['estagiariosperiodo']; ?></td>
 </tr>
-<?php $total += $c_professores['Professor']['virtualAlunos']; ?>
+<?php $total += $c_professores['estagiariosperiodo']; ?>
 <?php endforeach; ?>
 <tr>
     <td>Total estudantes</td>

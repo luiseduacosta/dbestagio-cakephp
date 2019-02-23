@@ -12,22 +12,33 @@ class User extends AppModel {
     public $belongsTo = array(
         'Role' => array(
             'className' => 'Role',
-            'foreignKey' => 'categoria',
-            'joinTable' => 'roles'
-        )
-    );
-/*
-        'Aro' => array(
-            'className' => 'Aro',
+            'foreignKey' => 'categoria'),
+        'Aluno' => array(
+            'className' => 'Aluno',
             'foreignKey' => FALSE,
-            'conditions' => 'User.id=Aro.foreign_key',
-            'joinTable' => 'aros'
-        )
+            'conditions' => array('User.numero' => 'Aluno.registro')),
+        'Alunonovo' => array(
+            'className' => 'Alunonovo',
+            'foreignKey' => FALSE,
+            'conditions' => array('User.numero' => 'Alunonovo.registro')),
+        'Professor' => array(
+            'className' => 'Professor',
+            'foreignKey' => FALSE,
+            'conditions' => array('User.numero' => 'Professor.siape')),
+        'Supervisor' => array(
+            'className' => 'Supervisor',
+            'foreignKey' => FALSE,
+            'conditions' => array('User.numero' => 'Supervisor.cress'))
     );
-*/
-    /*
-      var $actsAs = array('Acl' => array('type' => 'requester'));
-     */
+
+    public function beforeValidate($options = array()) {
+
+        $this->data['User']['password'] = SHA1($this->data['User']['password']);
+        $this->data['User']['email'] = strtolower($this->data['User']['email']);
+        // pr($this->data['User']['email']);
+        return true;
+    }
+
     public $validate = array(
         'categoria' => array(
             'rule' => array('inList', array('1', '2', '3', '4')),
@@ -55,46 +66,13 @@ class User extends AppModel {
             )
         ),
         'password' => array(
-            'rule' => 'notEmpty',
+            'rule' => 'notBlank',
             'message' => 'Senha: Digite uma senha',
             'required' => TRUE,
             'allowEmpty' => FALSE
         )
     );
 
-/*
-    public function permissoes() {
-
-        return ($this->query("SELECT aros_acos.id, aros.alias, acos.alias, _create, _read, _update, _delete FROM `aros_acos` join aros on aros_acos.aro_id = aros.id join acos on aros_acos.aco_id = acos.id ORDER BY `aros`.`alias` ASC"));
-    }
-*/
-
-/*
-    function beforeSave($options = array()) {
-        if ($this->data['User']['password']) {
-            $this->request->data['User']['password'] = SHA1($this->data['User']['password']);
-        }
-        return true;
-    }
-*/
-    /*
-      function parentNode() {
-      if (!$this->id && empty($this->data)) {
-      return null;
-      }
-      if (isset($this->data['User']['categoria'])) {
-      $groupId = $this->data['User']['categoria'];
-      } else {
-      $groupId = $this->field('categoria');
-      }
-      if (!$groupId) {
-      return null;
-      } else {
-      // pr($groupId);
-      return array('Role' => array('id' => $groupId));
-      }
-      }
-     */
 }
 
 ?>
