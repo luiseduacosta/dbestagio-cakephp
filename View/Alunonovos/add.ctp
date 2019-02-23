@@ -81,7 +81,7 @@ $(document).ready(function(){
         <?php if ($this->Session->read('numero') || ($this->Session->read('categoria') === 'estudante')): ?>
         <tr>
             <td colspan="2">
-            <label for="AlunonovoEmail">Email: <?php echo $this->Session->read('user'); ?></label>    
+            <label for="AlunonovoEmail">Email: <?php echo strtolower($this->Session->read('user')); ?></label>    
             <?php echo $this->Form->input('email', array('type'=>'hidden', 'default'=>$this->Session->read('user'))); ?>
             </td>
         </tr>

@@ -35,14 +35,14 @@ class Mural extends AppModel {
     );
     public $validate = array(
         'id_estagio' => array(
-            'rule' => 'notEmpty',
+            'rule' => 'notBlank',
             'required' => TRUE,
             'allowEmpty' => FALSE,
             'message' => 'Escolha uma instituição'
         ),
         /*
           'instituicao' => array(
-          'rule' => 'notEmpty',
+          'rule' => 'notBlank',
           'required' => TRUE,
           'allowEmpty' => FALSE,
           'message' => 'Instituição não pode ficar em branco'

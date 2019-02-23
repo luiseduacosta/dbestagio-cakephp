@@ -1,5 +1,7 @@
 <?php // pr($visita);    ?>
 
+<?php echo $this->element('submenu_visitas'); ?>
+
 <h1>Visita institucional: <?php echo $visita['Instituicao']['instituicao']; ?></h1>
 
 <table>

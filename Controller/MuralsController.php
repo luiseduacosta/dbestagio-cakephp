@@ -62,7 +62,7 @@ class MuralsController extends AppController {
             'order' => array('Mural.periodo DESC')));
         // pr($todos_periodos);
         // die();
-        // Capturo todos as ofertas do periodo
+        // Capturo todas as ofertas do periodo
         $mural = $this->Mural->find('all', array(
             'conditions' => array('Mural.periodo' => $periodo),
             'order' => array('Mural.dataInscricao DESC')));
@@ -91,40 +91,48 @@ class MuralsController extends AppController {
             $i++;
         }
 
-        /* Conta quantos alunos inscritos (sem repeticoes) */
-        $alunos = $this->Mural->Inscricao->find('all', array(
-            'fields' => array('distinct (Inscricao.id_aluno) as estudante_id', 'periodo'),
-            'order' => 'Inscricao.periodo, estudante_id',
+        /* Conta o total de alunos inscritos (sem repeticoes) */
+        $total_alunos = $this->Mural->Inscricao->find('count', array(
+            'fields' => array('Inscricao.id_aluno', 'Aluno.registro', 'Alunonovo.registro'),
+            'group' => 'Inscricao.id_aluno',
+            'order' => array('Inscricao.id_aluno'),
             'conditions' => array('Inscricao.periodo' => $periodo))
         );
-        $total_alunos = sizeof($alunos);
+        // pr($total_alunos);
         /* Finaliza conta de alunos inscritos */
 
-        /* Discrimina os alunos estagiarios e novos */
-        $inscritos = $this->Mural->Inscricao->find('all', array(
-            'conditions' => array('Inscricao.periodo' => $periodo),
-            // 'fields' => array('any_value(Inscricao.id)', 'Inscricao.id_aluno', 'Aluno.nome', 'Alunonovo.nome', 'any_value(Mural.instituicao)', 'any_value(Inscricao.id_instituicao)', 'Inscricao.periodo'),
-            'fields' => array('Inscricao.id', 'Inscricao.id_aluno', 'Aluno.nome', 'Alunonovo.nome', 'Mural.instituicao', 'Inscricao.id_instituicao', 'Inscricao.periodo'),
-            /* 'group' => array('Inscricao.id_aluno'), */
-            'order' => array('Aluno.nome' => 'asc')
+        /* Discrimina os alunos estagiarios */
+        $alunos_estagiarios = $this->Mural->Inscricao->find('count', array(
+            'conditions' => array('Inscricao.periodo' => $periodo,
+                'NOT' => array('Aluno.registro' => '')),
+            'fields' => array('Aluno.registro)'),
+            'group' => array('Aluno.registro'),
+            'order' => array('Aluno.registro' => 'ASC')
         ));
-        // pr($inscritos);
-        // die();
+        // pr($alunos_estagiarios);
 
-        /*
-         * Teria que buscar nos estagiarios até o periodo atual
-         */
-        $alunos_estagiarios = 0;
-        $alunos_novos = 0;
-        foreach ($inscritos as $c_inscritos) {
-            // pr($c_inscritos);
-            if ($c_inscritos['Aluno']['nome']) {
-                $alunos_estagiarios++;
-            } else {
-                $alunos_novos++;
-            }
-        }
-        // echo "Novos: " . $alunos_novos . " Estagiarios: " . $alunos_estagiarios;
+        /* Discrimina os alunos novos */
+        $alunos_novos = $this->Mural->Inscricao->find('count', array(
+            'conditions' => array('Inscricao.periodo' => $periodo,
+                'NOT' => array('Alunonovo.registro' => ''),
+                'Aluno.registro' => ''),
+            'fields' => array('Alunonovo.registro'),
+            'group' => array('Alunonovo.registro'),
+            'order' => array('Alunonovo.registro' => 'ASC')
+        ));
+        // pr($alunos_novos);
+
+        /* Aluno estagiario que não está na tabela Alunonovo */
+        $alunos_nao_novos = $this->Mural->Inscricao->find('count', array(
+            'conditions' => array('Inscricao.periodo' => $periodo,
+                'Alunonovo.registro' => '',
+                'NOT' => array('Aluno.registro' => '')),
+            'fields' => array('Aluno.registro'),
+            'group' => array('Aluno.registro'),
+            'order' => array('Aluno.registro' => 'ASC')
+        ));
+        // pr($alunos_nao_novos);
+
         /* Fim da descriminacao entre estagiarios e novos */
 
         /* Conta a quantidade total de vagas oferecidas */

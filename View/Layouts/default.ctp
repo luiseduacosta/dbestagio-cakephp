@@ -61,7 +61,7 @@
                     <?php echo $this->Html->link("Avaliação discente", "/alunos/avaliacaosolicita"); ?>
                     <?php echo " | "; ?>
 
-                    <?php echo $this->Html->link("Instituições", "/instituicaos/index", array('escape' => FALSE)); ?>
+                    <?php echo $this->Html->link("Instituições", "/instituicaos/lista", array('escape' => FALSE)); ?>
                     <?php echo " | "; ?>
                     <?php echo $this->Html->link("Supervisores", "/supervisors/index"); ?>
                     <?php echo " | "; ?>
@@ -70,8 +70,8 @@
 
                 <?php endif; ?> 
                 
-                <?php echo $this->Html->link('Manual', 'http://www.ess.ufrj.br'); ?>
-                <?php echo " | "; ?>
+                <?php // echo $this->Html->link('Manual', 'http://www.ess.ufrj.br'); ?>
+                <?php // echo " | "; ?>
 		<?php echo $this->Html->link('Grupo Google', 'https://groups.google.com/forum/#!forum/estagio_ess'); ?>
 		<?php echo " | "; ?>
                 <?php echo $this->Html->link('Fale conosco', 'mailto: estagio@ess.ufrj.br'); ?>

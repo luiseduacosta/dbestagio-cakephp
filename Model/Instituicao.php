@@ -19,6 +19,10 @@ class Instituicao extends AppModel {
         'Mural' => array(
             'className' => 'Mural',
             'foreignKey' => 'id_estagio'
+        ),
+        'Visita' => array(
+            'className' => 'Visita',
+            'foreignKey' => 'estagio_id'
         )
     );
     public $belongsTo = array(
@@ -36,10 +40,11 @@ class Instituicao extends AppModel {
             'unique' => true,
             'fields' => '',
             'order' => 'Supervisor.nome'
-            ));
+        )
+    );
     public $validate = array(
         'instituicao' => array(
-            'rule' => 'notEmpty',
+            'rule' => 'notBlank',
             'allowEmpty' => FALSE,
             'message' => 'Digite o nome da instituição'
         ),

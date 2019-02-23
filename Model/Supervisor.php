@@ -33,6 +33,14 @@ class Supervisor extends AppModel {
       'virtualperiodos' => 'count("Distintc Estagiario.periodo")'
     );
 */
+        public function beforeValidate($options = array()) {
+
+        $this->data['Supervisor']['nome'] = ucwords(strtolower($this->data['Supervisor']['nome']));
+        $this->data['Supervisor']['email'] = strtolower($this->data['Supervisor']['email']);
+
+        return true;
+    }
+
     public $validate = array(
         'cress' => array(
             'cress1' => array(

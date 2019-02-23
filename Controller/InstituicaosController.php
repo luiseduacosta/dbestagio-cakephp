@@ -34,14 +34,9 @@ class InstituicaosController extends AppController {
         $parametros = $this->params['named'];
         // print_r($parametros);
         $area_instituicao_id = isset($parametros['area_instituicoes_id']) ? $parametros['area_instituicoes_id'] : NULL;
-        // print_r($area_instituicao_id);
         $natureza = isset($parametros['natureza']) ? $parametros['natureza'] : NULL;
-        // print_r($natureza);
         $periodo = isset($parametros['periodo']) ? $parametros['periodo'] : NULL;
-        // print_r($periodo);
-	$limite = isset($parametros['limite']) ? $parametros['limite'] : 10;
-	// print_r($limite);
-	// $limite = 0;
+        $limite = isset($parametros['limite']) ? $parametros['limite'] : 10;
 
         $todosPeriodos = $this->Instituicao->Estagiario->find('list', array(
             'fields' => array('Estagiario.periodo', 'Estagiario.periodo'),
@@ -55,8 +50,8 @@ class InstituicaosController extends AppController {
         $this->Instituicao->virtualFields['virtualEstudantes'] = 'count(Distinct Estagiario.registro)';
         $this->Instituicao->virtualFields['virtualSupervisores'] = 'count(Distinct Estagiario.id_supervisor)';
 
-	// pr($periodo);
-	// die();
+        // pr($periodo);
+        // die();
 
         if ($periodo):
             if ($area_instituicao_id):
@@ -155,17 +150,17 @@ class InstituicaosController extends AppController {
 
         $this->set('todosPeriodos', $todosPeriodos);
         $this->set('periodo', $periodo);
-	$this->set('limite', $limite);
+        $this->set('limite', $limite);
         $this->set('instituicoes', $this->Paginate('Instituicao'));
     }
 
     public function add() {
 
-	$area_instituicao = $this->Instituicao->AreaInstituicao->find('list', array(
-		'order' => 'AreaInstituicao.area'));
-	// pr($area_instituicao);
-	// die();
-	$this->set('id_area_instituicao', $area_instituicao);
+        $area_instituicao = $this->Instituicao->AreaInstituicao->find('list', array(
+            'order' => 'AreaInstituicao.area'));
+        // pr($area_instituicao);
+        // die();
+        $this->set('id_area_instituicao', $area_instituicao);
 
         if ($this->data) {
             if ($this->Instituicao->save($this->data)) {
@@ -276,9 +271,9 @@ class InstituicaosController extends AppController {
 
     public function busca($id = NULL) {
 
-        if ($id)
+        if ($id) {
             $this->request->data['Instituicao']['instituicao'] = $id;
-
+        }
         $this->paginate = array(
             'limit' => 10,
             'order' => array(
@@ -369,8 +364,8 @@ class InstituicaosController extends AppController {
         $this->Instituicao->virtualFields['qnatureza'] = 'count(natureza)';
 
         $natureza = $this->Instituicao->find('all', array(
-            'fields' => array('natureza', 'count(natureza) as Instituicao__qnatureza'),
-            'group' => array('natureza')
+            'fields' => array('Instituicao.natureza', 'count(Instituicao.natureza) as Instituicao__qnatureza')
+                /* 'group' => array('Instituicao.natureza') */
                 )
         );
 
@@ -392,6 +387,7 @@ class InstituicaosController extends AppController {
     }
 
     public function listanatureza() {
+
         if ($this->request->is('ajax')) {
             $this->autoRender = false;
             $resultado = $this->Instituicao->find('all', array(
@@ -406,6 +402,7 @@ class InstituicaosController extends AppController {
     }
 
     public function listabairro() {
+
         if ($this->request->is('ajax')) {
             $this->autoRender = false;
             $resultado = $this->Instituicao->find('all', array(
@@ -417,6 +414,164 @@ class InstituicaosController extends AppController {
                 echo $q_resultado['Instituicao']['bairro'] . "\n";
             }
         }
+    }
+
+    public function lista() {
+
+        $parametros = $this->params['named'];
+        // pr($parametros);
+        $linhas = isset($parametros['linhas']) ? $parametros['linhas'] : NULL;
+        $periodo = isset($parametros['periodo']) ? $parametros['periodo'] : NULL;
+        $ordem = isset($parametros['ordem']) ? $parametros['ordem'] : 'instituicao';
+        $pagina = isset($parametros['pagina']) ? $parametros['pagina'] : NULL;
+        $direcao = isset($parametros['direcao']) ? $parametros['direcao'] : NULL;
+        $mudadirecao = isset($parametros['mudadirecao']) ? $parametros['mudadirecao'] : NULL;
+
+        // Para ordenar por periodos //
+        // Nao implementado //
+        $todosperiodos = $this->Instituicao->Estagiario->find('all', array(
+            'fields' => array('DISTINCT Estagiario.periodo'),
+                )
+        );
+        foreach ($todosperiodos as $c_periodo) {
+            $periodos[$c_periodo['Estagiario']['periodo']] = $c_periodo['Estagiario']['periodo'];
+        }
+
+        if ($periodo == NULL):
+            $periodoatual = end($todosperiodos);
+            $periodo = $periodoatual['Estagiario']['periodo'];
+        endif;
+
+        // Matriz com os dados para ordenar e paginar //
+        $g_instituicoes = $this->Instituicao->find('all', array(
+            'order' => 'Instituicao.instituicao'
+                )
+        );
+        // pr($g_instituicoes);
+        $i = 0;
+        foreach ($g_instituicoes as $c_instituicao):
+            // pr($c_instituicao['Mural']);
+            $ultimoperiodo = NULL;
+            $q_estagiarios = sizeof($c_instituicao['Estagiario']);
+            // echo $q_estagiarios . "<br>";
+            if ($q_estagiarios > 0):
+                $p = 0;
+                foreach ($c_instituicao['Estagiario'] as $c_periodo):
+                    $instituicao_periodo[$p] = $c_periodo['periodo'];
+                    $p++;
+                endforeach;
+                $ultimoperiodo = max($instituicao_periodo);
+            else:
+                $ultimoperiodo = NULL;
+            endif;
+
+            $visitas = sizeof($c_instituicao['Visita']);
+            if ($visitas > 0):
+                $ultimavisita = max($c_instituicao['Visita']);
+            elseif (sizeof($c_instituicao['Visita']) == 0):
+                $ultimavisita = NULL;
+            endif;
+            // pr($ultimavisita);
+
+            $estagiarios = sizeof($c_instituicao['Estagiario']);
+            $supervisores = sizeof($c_instituicao['Supervisor']);
+
+            $m_instituicao[$i]['instituicao_id'] = $c_instituicao['Instituicao']['id'];
+            $m_instituicao[$i]['instituicao'] = $c_instituicao['Instituicao']['instituicao'];
+            $m_instituicao[$i]['expira'] = $c_instituicao['Instituicao']['expira'];
+            $m_instituicao[$i]['visita_id'] = $ultimavisita['id'];
+            $m_instituicao[$i]['visita'] = $ultimavisita['data'];
+            $m_instituicao[$i]['ultimoperiodo'] = $ultimoperiodo;
+            $m_instituicao[$i]['estagiarios'] = $estagiarios;
+            $m_instituicao[$i]['supervisores'] = $supervisores;
+            $m_instituicao[$i]['area'] = $c_instituicao['AreaInstituicao']['area'];
+            $m_instituicao[$i]['natureza'] = $c_instituicao['Instituicao']['natureza'];
+            $criterio[] = $m_instituicao[$i][$ordem];
+
+            $i++;
+        endforeach;
+
+        // Ordeno o array por diferentes criterios ou chaves
+        // pr($ordem);
+        // pr('muda ' . $mudadirecao);
+        // pr('1 ' . $direcao);
+        if ($mudadirecao) {
+            $direcao = $mudadirecao;
+            // pr('2 ' . $direcao);
+            if ($direcao == 'ascendente'):
+                $direcao = 'descendente';
+                array_multisort($criterio, SORT_DESC, $m_instituicao);
+            elseif ($direcao == 'descendente'):
+                $direcao = 'ascendente';
+                array_multisort($criterio, SORT_ASC, $m_instituicao);
+            else:
+                $direcao = 'ascendente';
+                array_multisort($criterio, SORT_ASC, $m_instituicao);
+            endif;
+        } else {
+            if ($direcao == 'ascendente'):
+                array_multisort($criterio, SORT_ASC, $m_instituicao);
+            elseif ($direcao == 'descendente'):
+                array_multisort($criterio, SORT_DESC, $m_instituicao);
+            else:
+                $direcao = 'ascendente';
+                array_multisort($criterio, SORT_ASC, $m_instituicao);
+            endif;
+            // die();
+        }
+        // pr('Direcao: ' . $direcao);
+        // Paginação //
+        if ($pagina) {
+            $this->Session->write('pagina', $pagina);
+        } else {
+            $pagina = $this->Session->read('pagina');
+            if (!$pagina) {
+                $pagina = 1;
+            }
+        }
+
+        if ($linhas == NULL) {
+            $linhas = $this->Session->read('linhas');
+            if (!$linhas) {
+                $linhas = 15;
+                $this->Session->write('linhas', $linhas);
+            }
+        }
+        // pr($linhas);
+        // die();
+        if ($linhas == 0) { // Sem paginação
+            $q_paginas = 1;
+        } else {
+            $registros = sizeof($m_instituicao);
+            // echo "Calculo quantos registros: " . $registros . "<br>";
+            $q_paginas = $registros / $linhas;
+            // echo "Quantas páginas " . ceil($q_paginas) . "<br>";
+            // die();
+            $c_pagina[] = NULL;
+            $pagina_inicial = 0;
+            $pagina_final = 0;
+            for ($i = 0; $i < ceil($q_paginas); $i++):
+                $pagina_inicial = $pagina_inicial + $pagina_final;
+                $pagina_final = $linhas;
+                $c_pagina[] = array_slice($m_instituicao, $pagina_inicial, $pagina_final);
+            endfor;
+        }
+        // die();
+
+        // $this->set('periodoatual', reset($periodos));
+        // $this->set('periodos', $periodos);
+        $this->set('linhas', $linhas);
+        $this->set('direcao', $direcao);
+        $this->set('ordem', $ordem);
+        $this->set('pagina', $pagina);        
+        if ($linhas == 0) {
+            $this->set('instituicoes', $m_instituicao);
+        } else {
+            $this->set('q_paginas', ceil($q_paginas));
+            $this->set('paginas', $c_pagina);
+            $this->set('instituicoes', $c_pagina[$pagina]);
+        }
+        // die();
     }
 
 }

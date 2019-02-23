@@ -4,6 +4,9 @@ class ProfessorsController extends AppController {
 
     public $name = "Professors";
     public $components = array('Auth');
+    public $paginate = array(
+        'limit' => 10,
+        'order' => array('Professor.nome' => 'asc'));
 
     public function beforeFilter() {
 
@@ -32,11 +35,13 @@ class ProfessorsController extends AppController {
 
     public function index() {
 
-        $this->Paginate = array(
-            'limit' => 10,
-            'order' => array('Professor.nome' => 'asc'));
-
+        // $professores = $this->Professor->find('all');
+        // pr($professores);
+        // die();
+        // $this->set('professores', $professores);
         $this->set('professores', $this->Paginate('Professor'));
+
+        // die();
     }
 
     public function view($id = NULL) {
@@ -52,7 +57,6 @@ class ProfessorsController extends AppController {
                 die("Não autorizado");
             }
         }
-
 
         $professor = $this->Professor->find('first', array(
             'conditions' => array('Professor.id' => $id),
@@ -110,36 +114,66 @@ class ProfessorsController extends AppController {
 
         $parametros = $this->params['named'];
         $periodo = isset($parametros['periodo']) ? $parametros['periodo'] : NULL;
+
         $todosPeriodo = $this->Professor->Estagiario->find('list', array(
-           'fields' => array('Estagiario.periodo','Estagiario.periodo'),
+            'fields' => array('Estagiario.periodo', 'Estagiario.periodo'),
             'group' => array('Estagiario.periodo'),
             'order' => array('Estagiario.periodo')
         ));
         // pr($todosPeriodo);
 
-        if (!$periodo) $periodo = end($todosPeriodo);
-        
-        $this->Professor->virtualFields['virtualAlunos'] = 'count(Estagiario.registro)';
-        /*
-        $professores = $this->Professor->Estagiario->find('all', array(
-            'fields' => array('Professor.id', 'Professor.nome', 'Professor.departamento', 'Area.area', 'Estagiario.turno', 'count(Estagiario.registro) as Professor__virtualAlunos'),
-            'conditions' => array('Estagiario.periodo' => $periodo),
-            'group' => array('Estagiario.id_professor', 'Estagiario.turno'),
-            'order' => array('Professor.nome')
-        ));
-        */
-        $this->paginate = array(
-            'fields' => array('Professor.id', 'Professor.nome', 'Professor.departamento', 'Area.area', 'Estagiario.turno', 'count(Estagiario.registro) as Professor__virtualAlunos'),
-            'conditions' => array('Estagiario.periodo' => $periodo),
-            'group' => array('Estagiario.id_professor', 'Estagiario.turno'),
-            'order' => array('Professor.nome'),
-            'limit' => 30
-        );
-        
+        if (!$periodo)
+            $periodo = end($todosPeriodo);
+
+        $this->Professor->recursive = 1;
+        $estagiarios = $this->Professor->find('all');
+        // pr($estagiarios);
+
+        $k = 0;
+        foreach ($estagiarios as $c_professor) {
+            $professor = $c_professor['Professor']['nome'];
+            $professor_id = $c_professor['Professor']['id'];
+            $departamento = $c_professor['Professor']['departamento'];
+            // $area = $c_professor['Professor']['id_area'];            
+
+            $k++;
+            // echo $professor . " ";
+            $i = 0;
+            $estagiariostotal = sizeof($c_professor['Estagiario']);
+            // echo '<br>';
+            $p = 1;
+            foreach ($c_professor['Estagiario'] as $estagiariodoprofessor) {
+
+                if ($estagiariodoprofessor['periodo'] == $periodo) {
+
+                    $this->loadModel('Area');
+                    $this->Area->recursive = -1;
+                    $area = $this->Area->find('first', array('conditions' => array('Area.id' => $estagiariodoprofessor['id_area'])));
+                    // pr($area);
+                    // echo $k . " " . $professor . " -> " . " " . $periodo . " " . $p++ . "<br>";
+                    $pauta[$k]['id'] = $k;
+                    $pauta[$k]['professor'] = $professor;
+                    $pauta[$k]['professor_id'] = $professor_id;
+                    $pauta[$k]['departamento'] = $departamento;
+                    $pauta[$k]['estagariariostotal'] = $estagiariostotal;
+                    if ($area) {
+                        $pauta[$k]['area'] = $area['Area']['area'];
+                        $pauta[$k]['area_id'] = $area['Area']['id'];
+                    } else {
+                        $pauta[$k]['area'] = NULL;
+                        $pauta[$k]['area_id'] = NUll;
+                    }
+                    $pauta[$k]['estagiariosperiodo'] = $p;
+                    $p++;
+                }
+                // echo "Periodo " . $p . "<br>";
+                $i++;
+            }
+        }
+
         $this->set('todosPeriodo', $todosPeriodo);
-        $this->set('periodo', $periodo);        
-        $this->set('professores', $this->paginate($this->Professor->Estagiario));
-        
+        $this->set('periodo', $periodo);
+        $this->set('professores', $pauta);
     }
 
 }

@@ -2,7 +2,7 @@
 
 $this->Session->flash('auth');
 
-echo $this->Form->create('User', array('action'=>'login'));
+echo $this->Form->create('User', array('url' =>'login'));
 ?>
 <table>
     <tr>
@@ -10,7 +10,7 @@ echo $this->Form->create('User', array('action'=>'login'));
         <?php
         echo $this->Form->input('email', array('label'=>'Email', 'type'=>'text', 'size'=>'20'));
 
-        echo $this->Form->input('password');
+        echo $this->Form->input('password', array('label' => 'Senha'));
 
         echo $this->Form->end('Login');
         ?>

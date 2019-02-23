@@ -134,7 +134,7 @@ class AlunosController extends AppController {
         $estagiario = $this->Aluno->Estagiario->findById_aluno($id);
         if ($estagiario) {
             $this->Session->setFlash('Aluno com estágios não foi excluido. Exclua os estágios primeiro.');
-            $this->redirect(array('url' => 'view', $id));
+            $this->redirect(array('url' => 'view/' . $id));
         } else {
             $this->Aluno->delete($id);
             $this->Session->setFlash('O registro ' . $id . ' foi excluido.');
@@ -304,7 +304,7 @@ class AlunosController extends AppController {
                 if (!empty($aluno['Supervisor']['id'])) {
                     $this->Session->setFlash("Verificar e completar dados do supervisor da instituicao.");
                     // $this->redirect('/Alunos/avaliacaoverifica/' . $aluno['Supervisor']['id'] . '/' . $this->data['Aluno']['registro']);
-                    $this->redirect('/Alunos/avaliacaoedita/' . $aluno['Supervisor']['id'] . '/' . $this->data['Aluno']['registro']);
+                    $this->redirect('/Alunos/avaliacaoedita/supervisor_id:' . $aluno['Supervisor']['id'] . '/registro:' . $this->data['Aluno']['registro']);
                 } else {
                     $this->Session->setFlash("Não foi indicado supervisor da instituicao. Retorna para solicitar termo de compromisso");
                     $this->redirect('/Inscricaos/termocompromisso/' . $aluno['Aluno']['registro']);
@@ -336,9 +336,9 @@ class AlunosController extends AppController {
 
     public function avaliacaoedita() {
 
-        // pr($this->request->params);
-        $id_supervisor = $this->request->params['pass'][0];
-        $registro = $this->request->params['pass'][1];
+        // pr($this->params);
+        $id_supervisor = $this->params['named']['supervisor_id'];
+        $registro = $this->params['named']['registro'];
 
         // pr($registro);
         $estagiario = $this->Aluno->Estagiario->find('first', array(
@@ -352,6 +352,7 @@ class AlunosController extends AppController {
             $this->set('professor', $estagiario['Professor']['nome']);
             $this->set('instituicao', $estagiario['Instituicao']['instituicao']);
             $this->set('supervisor', $estagiario['Supervisor']['nome']);
+            $this->set('supervisor_id', $estagiario['Supervisor']['id']);            
             $this->set('nivel', $estagiario['Estagiario']['nivel']);
             $this->set('periodo', $estagiario['Estagiario']['periodo']);
             // die("empty");
@@ -370,40 +371,40 @@ class AlunosController extends AppController {
 
             if (!$this->data['Supervisor']['cress']) {
                 $this->Session->setFlash("O número de CRESS é obrigatório");
-                $this->redirect('/Alunos/avaliacaosolicita/' . $id_supervisor);
+                $this->redirect('/Alunos/avaliacaosolicita/supervisor_id:' . $id_supervisor . '/registro:' . $registro);
                 die("O número de Cress é obrigatório");
             }
 
             if (!$this->data['Supervisor']['nome']) {
                 $this->Session->setFlash("O nome do supervisor é obrigatório");
-                $this->redirect('/Alunos/avaliacaoedita/' . $id_supervisor);
+                $this->redirect('/Alunos/avaliacaoedita/supervisor_id:' . $id_supervisor . '/registro:' . $registro);
                 die("O nome do supervisor é obrigatório");
             }
 
             if ((!$this->data['Supervisor']['celular']) && (!$this->data['Supervisor']['telefone'])) {
                 $this->Session->setFlash("O número de telefone ou celular é obrigatório");
-                $this->redirect('/Alunos/avaliacaoedita/' . $id_supervisor);
+                $this->redirect('/Alunos/avaliacaoedita/supervisor_id:' . $id_supervisor . '/registro:' . $registro);
                 die("O número de telefone ou celular é obrigatório");
             }
 
             if (!$this->data['Supervisor']['email']) {
                 $this->Session->setFlash("O endereço de email é obrigatório");
-                $this->redirect('/Alunos/avaliacaoedita/' . $id_supervisor);
+                $this->redirect('/Alunos/avaliacaoedita/supervisor_id:' . $id_supervisor . '/registro:' . $registro);
                 die("O email é obrigatório");
             }
 
             if ($this->Supervisor->save($this->data)) {
                 // die();
-                // print_r($this->data);
+                // pr($this->data);
                 $this->Session->setFlash("Atualizado");
-                $this->redirect('/Alunos/avaliacaoimprime/' . $registro);
+                $this->redirect('/Alunos/avaliacaoimprime/registro:' . $registro);
             }
         }
     }
 
     public function avaliacaoimprime() {
 
-        $registro = $this->request->params['pass'][0];
+        $registro = $this->request->params['named']['registro'];
 
         $aluno = $this->Aluno->Estagiario->find('first', array(
             'conditions' => array('Estagiario.registro' => $registro),

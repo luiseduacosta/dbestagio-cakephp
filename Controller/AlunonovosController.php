@@ -63,7 +63,7 @@ class AlunonovosController extends AppController {
           // die();
          */
 
-        if ($this->Alunonovo->save($this->request->data)) {
+        if ($this->Alunonovo->save($this->data)) {
             // die("Aluno novo save");
             // Capturo o id da instituicao (se foi chamada desde inscriacao add)
             $inscricao_selecao_estagio = $this->Session->read('id_instituicao');
@@ -101,9 +101,6 @@ class AlunonovosController extends AppController {
                 $this->redirect("/Alunonovos/view/" . $id_alunonovo);
             } else {
                 // Mostra resultado da insercao
-                /* Para poder colocar o link no menu superior */
-                $id_alunonovo = $this->Alunonovo->getLastInsertId();
-                // die(" else " . $id_alunonovo);
                 $this->Session->write('menu_aluno', 'alunonovo');
                 $this->Session->write('menu_id_aluno', $id_alunonovo);
                 $this->Session->setFlash('Dados inseridos');
@@ -185,13 +182,14 @@ class AlunonovosController extends AppController {
             // pr($this->Session->read('numero'));
 
             if ($id != $verifica['Alunonovo']['id']) {
-                $this->Session->setFlash("Acesso não autorizado");
-                $this->redirect("/Murals/index");
-                die("Não autorizado");
+                $this->Session->setFlash("Estudante");
+                // $this->redirect("/Murals/index");
+                // die("Não autorizado");
             }
         }
 
-        $aluno = $this->Alunonovo->findById($id);
+        $aluno = $this->Alunonovo->find('first', 
+                array('conditions' => array('Alunonovo.id' => $id)));
         // pr($aluno);
         // Onde fizeram inscricoes
         $this->loadModel('Inscricao');

@@ -48,7 +48,7 @@ echo $this->Html->scriptBlock('
 
     <tr>
         <td colspan='2'>
-            <?php echo $this->Form->input('password'); ?>
+            <?php echo $this->Form->input('password', array('label' => 'Senha')); ?>
         </td>
     </tr>
 <!--
