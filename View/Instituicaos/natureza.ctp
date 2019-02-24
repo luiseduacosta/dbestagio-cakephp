@@ -1,9 +1,16 @@
-<table>
-    <caption>Natureza das instituições</caption>
-<?php foreach ($natureza as $c_natureza): ?>
-<tr>
-    <td><?php echo $this->Html->link($c_natureza['Instituicao']['natureza'], '/Instituicaos/index/natureza:' . $c_natureza['Instituicao']['natureza']); ?></td>
-    <td><?php echo $c_natureza['Instituicao']['qnatureza']; ?></td>
-</tr>
-<?php endforeach; ?>
-</table>
+
+<?php
+echo "<table>";
+echo "<caption>Natureza das instituições</caption>";
+echo "<tr>";
+echo "<th>Natureza</th>";
+echo "<th>Quantidade de instituições</th>";
+echo "</tr>";
+for ($i = 0; $i < sizeof($natureza); $i++):
+    echo '<tr>';
+    echo '<td>' . $this->Html->link($natureza[$i]['Instituicao']['natureza'], '/instituicaos/lista/natureza:' . $natureza[$i]['Instituicao']['natureza'] . '/linhas:0') . '</td>';
+    echo '<td>' . $natureza[$i]['0']['qnatureza'] . '</td>';
+    echo '</tr>';
+endfor;
+echo "</table>";
+?>

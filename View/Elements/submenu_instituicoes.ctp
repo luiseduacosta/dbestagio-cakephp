@@ -5,7 +5,7 @@
     echo " | ";
     echo $this->Html->link('Buscar','/Instituicaos/busca/');
     echo " || ";
-    echo $this->Html->link('Área','/AreaInstituicaos/index/');
+    echo $this->Html->link('Área','/Areainstituicaos/index/');
     echo " | ";
     echo $this->Html->link('Natureza','/Instituicaos/natureza/');
     echo " | ";

@@ -132,11 +132,7 @@ class UsersController extends AppController {
 
         // pr($this->data);
         if (!empty($this->data)) {
-        // pr($this->data);
-            
-            // if ($this->data['User']['password']) {
-                // $this->request->data['User']['password'] = SHA1($this->data['User']['password']);
-            // }
+            // pr($this->data);
 
             /*
              * Para recuperar a senha faz um novo cadastro
@@ -149,8 +145,6 @@ class UsersController extends AppController {
                     )
             );
 
-            // pr($usuariocadastrado);
-            // die('Recupera senha');
             /*
              * Se está recuperando a senha
              * excluo o registro do usuer e do aro
@@ -229,7 +223,7 @@ class UsersController extends AppController {
                             $this->Session->write('cadastro', strtolower($this->data['User']['email']));
                         }
                     }
-                    
+
                     $this->User->set($this->data);
 
                     if ($this->User->validates()) {
@@ -247,7 +241,7 @@ class UsersController extends AppController {
                         $this->Session->setFlash('Não foi possível completar seu cadastro.');
                         $this->redirect('/users/cadastro/');
                     }
-                    
+
                     break;
 
                 case 3:
@@ -351,7 +345,15 @@ class UsersController extends AppController {
 
     public function listausuarios() {
 
-        // $this->loadModel('User');
+        $parametros = $this->params['named'];
+        $ordem = isset($parametros['ordem']) ? $parametros['ordem'] : 'nome';
+        $direcao = isset($parametros['direcao']) ? $parametros['direcao'] : 'ascendente';
+        $linhas = isset($parametros['linhas']) ? $parametros['linhas'] : 15;
+        $pagina = isset($parametros['pagina']) ? $parametros['pagina'] : 1;
+        $q_paginas = isset($parametros['q_paginas']) ? $parametros['q_paginas'] : NULL;        
+        // pr('param: ' . $pagina);
+        // die();
+
         $usuarios = $this->User->find('all');
 
         $this->loadModel('Aluno');
@@ -432,11 +434,100 @@ class UsersController extends AppController {
             $todos[$i]['nome'] = $nome;
             $todos[$i]['email'] = $cadausuario['User']['email'];
             $todos[$i]['categoria'] = $cadausuario['Role']['categoria'];
+            $criterio[$i] = $todos[$i][$ordem];
             $i++;
         }
+        // pr($criterio);
+        // pr($direcao);
+        if ($direcao):
+            if ($direcao == 'ascendente'):
+                array_multisort($criterio, SORT_ASC, $todos);
+                $direcao = 'descendente';
+            elseif ($direcao == 'descendente'):
+                array_multisort($criterio, SORT_DESC, $todos);
+                $direcao = 'ascendente';
+            else:
+                $direcao = 'ascendente';
+                array_multisort($criterio, SORT_ASC, $todos);
+            endif;
+        endif;
+        // pr($direcao);
+
+        if ($linhas == 0) { // Sem paginação
+            $q_paginas = 1;
+        } else {
+            $registros = sizeof($todos);
+            // echo "Calculo quantos registros: " . $registros . "<br>";
+            $q_paginas = $registros / $linhas;
+            // echo "Quantas páginas " . ceil($q_paginas) . "<br>";
+            // die();
+            $c_pagina[] = NULL;
+            $pagina_inicial = 0;
+            $pagina_final = 0;
+            for ($i = 0; $i < ceil($q_paginas); $i++):
+                $pagina_inicial = $pagina_inicial + $pagina_final;
+                $pagina_final = $linhas;
+                $c_pagina[] = array_slice($todos, $pagina_inicial, $pagina_final);
+            endfor;
+        }
+        // pr($c_pagina[10]);
         // pr($todos);
-        $this->set('listausuarios', $todos);
+        if ($linhas == 0):
+            $this->set('listausuarios', $todos);
+        else:
+            $this->set('listausuarios', $c_pagina[$pagina]);
+            $this->set('pagina', $pagina);
+            $this->set('q_paginas', ceil($q_paginas));
+        endif;
+        $this->set('ordem', $ordem);
+        $this->set('linhas', $linhas);
+        $this->set('direcao', $direcao);
+
         // $this->set('listausuarios', $this->User->find('all'));
+    }
+
+    public function delete($id = NULL) {
+
+        // pr($id);
+        // die();
+        $usuario_id = $this->User->find('first', array('conditions' => array('User.numero' => $id)));
+        // pr($usuario_id);
+        // die();
+        
+        $this->loadModel('Aluno');
+        $aluno = $this->Aluno->find('first', array('conditions' => array('Aluno.registro' => $id)));
+        $this->loadModel('Alunonovo');
+        $alunonovo = $this->Alunonovo->find('first', array('conditions' => array('Alunonovo.registro' => $id)));        
+        $this->loadModel('Professor');
+        $professor = $this->Professor->find('first', array('conditions' => array('Professor.siape' => $id)));        
+        $this->loadModel('Supervisor');
+        $supervisor = $this->Supervisor->find('first', array('conditions' => array('Supervisor.cress' => $id)));        
+
+        if ($aluno or $alunonovo or $professor or $supervisor) {
+            $this->Session->setFlash('Usuário existe como aluno, alunonovo, professor ou supervisor' );
+            $this->redirect('/users/listausuarios');
+        } else {
+            $this->User->delete($usuario_id['User']['id']);
+            $this->Session->setFlash('Registro excluído');
+            $this->redirect('/users/listausuarios/');
+            
+        }
+        }
+
+
+    public function padroniza() {
+
+        $emails = $this->User->find('all', array('fields' => array('id', 'email', 'timestamp')));
+        // pr($emails);
+        foreach ($emails as $c_email):
+            if ($c_email['User']['timestamp'] === '0000-00-00 00:00:00'):
+                // pr($c_email['User']['timestamp']);
+                $this->User->query("UPDATE users set timestamp = '2000-01-01 00:00:00' where id = " . $c_email['User']['id']);
+            endif;
+            // pr(strtolower($c_email['User']['email']));
+            // $this->User->query("UPDATE users set email = '" . strtolower($c_email['User']['email'] . "' where id = ". $c_email['User']['id']));
+        endforeach;
+        die();
     }
 
 }

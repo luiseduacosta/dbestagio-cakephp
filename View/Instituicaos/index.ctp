@@ -46,7 +46,7 @@ $("#InstituicaoPeriodo").change(function() {
     echo " | ";
     echo $this->Html->link('Buscar','/Instituicaos/busca/');
     echo " || ";
-    echo $this->Html->link('Área','/AreaInstituicaos/index/');
+    echo $this->Html->link('Área','/Areainstituicaos/index/');
     echo " | ";
     echo $this->Html->link('Natureza','/Instituicaos/natureza/');
     echo " | ";
@@ -93,7 +93,7 @@ $("#InstituicaoPeriodo").change(function() {
                 <?php echo $this->Paginator->sort('Instituicao.virtualSupervisores', 'Supervisores'); ?>
             </th>
             <th>
-                <?php echo $this->Paginator->sort('AreaInstituicao.area', 'Área'); ?>
+                <?php echo $this->Paginator->sort('Areainstituicao.area', 'Área'); ?>
             </th>
             <th>
                 <?php echo $this->Paginator->sort('Instituicao.natureza', 'Natureza'); ?>
@@ -114,7 +114,7 @@ endif;
             <td><?php echo $c_instituicao['Instituicao']['virtualMaxPeriodo']; ?></td>
             <td><?php echo $c_instituicao['Instituicao']['virtualEstudantes']; ?></td>
             <td><?php echo $c_instituicao['Instituicao']['virtualSupervisores']; ?></td>
-            <td><?php echo $c_instituicao['AreaInstituicao']['area']; ?></td>
+            <td><?php echo $c_instituicao['Areainstituicao']['area']; ?></td>
             <td><?php echo $c_instituicao['Instituicao']['natureza']; ?></td>
         </tr>
         <?php endforeach; ?>

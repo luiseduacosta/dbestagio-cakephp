@@ -26,8 +26,8 @@ class Instituicao extends AppModel {
         )
     );
     public $belongsTo = array(
-        'AreaInstituicao' => array(
-            'className' => 'AreaInstituicao',
+        'Areainstituicao' => array(
+            'className' => 'Areainstituicao',
             'foreignKey' => 'area_instituicoes_id'
         )
     );

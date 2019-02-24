@@ -246,7 +246,7 @@ if ($supervisor['Instituicao']) {
 
 <?php
 
-echo $this->Form->create('Supervisor', array('controller'=>'Supervisors', 'action'=>'addinstituicao'));
+echo $this->Form->create('Supervisor', array('controller'=>'Supervisors', 'url'=>'addinstituicao'));
 echo $this->Form->input('InstSuper.id_instituicao', array('label'=>'Instituição', 'options'=>$instituicoes, 'default'=>0));
 echo $this->Form->input('InstSuper.id_supervisor', array('type'=>'hidden', 'value'=>$supervisor['Supervisor']['id']));
 echo $this->Form->end('Confirma');
