@@ -12,8 +12,10 @@ class User extends AppModel {
     public $belongsTo = array(
         'Role' => array(
             'className' => 'Role',
-            'foreignKey' => 'categoria'),
-        'Aluno' => array(
+            'foreignKey' => 'categoria')
+);
+    /*
+    . '        'Aluno' => array(
             'className' => 'Aluno',
             'foreignKey' => FALSE,
             'conditions' => array('User.numero' => 'Aluno.registro')),
@@ -29,8 +31,9 @@ class User extends AppModel {
             'className' => 'Supervisor',
             'foreignKey' => FALSE,
             'conditions' => array('User.numero' => 'Supervisor.cress'))
+        
     );
-
+*/
     public function beforeValidate($options = array()) {
 
         $this->data['User']['password'] = SHA1($this->data['User']['password']);

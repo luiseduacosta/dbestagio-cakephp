@@ -226,6 +226,36 @@ class AlunonovosController extends AppController {
         $this->redirect("/Inscricaos/index/");
     }
 
+        public function padroniza() {
+
+        $alunos = $this->Alunonovo->find('all', array('fields' => array('id', 'nome', 'email', 'endereco', 'bairro')));
+        // pr($alunos);
+        // die();
+        foreach ($alunos as $c_aluno):
+
+            if ($c_aluno['Alunonovo']['email']):
+                $email = strtolower($c_aluno['Alunonovo']['email']);
+                $this->Alunonovo->query("UPDATE alunosNovos set email = ". "\"" . $email . "\"" . " where id = " . $c_aluno['Alunonovo']['id']);
+            endif;
+
+            if ($c_aluno["Alunonovo"]['nome']):
+                $nome = ucwords(strtolower($c_aluno['Alunonovo']['nome']));
+                $this->Alunonovo->query("UPDATE alunosNovos set nome = " . "\"" . $nome . "\"" . " where id = " . $c_aluno['Alunonovo']['id']);
+            endif;
+
+            if ($c_aluno['Alunonovo']['endereco']):
+                $endereco = ucwords(strtolower($c_aluno['Alunonovo']['endereco']));
+                $this->Alunonovo->query("UPDATE alunosNovos set endereco = " . "\"" . $endereco . "\"" . " where id = " . $c_aluno['Alunonovo']['id']);
+            endif;
+
+            if ($c_aluno['Alunonovo']['bairro']):
+                $bairro = ucwords(strtolower($c_aluno['Alunonovo']['bairro']));
+                $this->Alunonovo->query("UPDATE alunosNovos set bairro = " . "\"" . $bairro . "\"" . " where id = " . $c_aluno['Alunonovo']['id']);
+            endif;
+
+        endforeach;
+    }
+
 }
 
 ?>

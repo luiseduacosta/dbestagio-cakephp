@@ -50,7 +50,7 @@ $("#InstituicaoLinhas").change(function() {
     echo " | ";
     echo $this->Html->link('Index','/Instituicaos/index/');
     echo " | ";
-    echo $this->Html->link('Área','/AreaInstituicaos/index/');
+    echo $this->Html->link('Área','/Areainstituicaos/index/');
     echo " | ";
     echo $this->Html->link('Natureza','/Instituicaos/natureza/');
     ?>

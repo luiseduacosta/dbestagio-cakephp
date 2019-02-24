@@ -47,7 +47,7 @@ class AlunosController extends AppController {
         // die(pr($this->Session->read('numero')));
         // Se eh estudante somente o próprio pode ver
         // echo $this->Session->read('numero');
-	// die();
+        // die();
         if (($this->Session->read('categoria') === 'estudante') && ($this->Session->read('numero'))) {
             // die(pr($this->Session->read('numero')));
             $verifica = $this->Aluno->findByRegistro($this->Session->read('numero'));
@@ -348,11 +348,11 @@ class AlunosController extends AppController {
         // pr($estagiario);
         if ($estagiario) {
             $this->set('aluno', $estagiario['Aluno']['nome']);
-            $this->set('registro', $estagiario['Aluno']['registro']);            
+            $this->set('registro', $estagiario['Aluno']['registro']);
             $this->set('professor', $estagiario['Professor']['nome']);
             $this->set('instituicao', $estagiario['Instituicao']['instituicao']);
             $this->set('supervisor', $estagiario['Supervisor']['nome']);
-            $this->set('supervisor_id', $estagiario['Supervisor']['id']);            
+            $this->set('supervisor_id', $estagiario['Supervisor']['id']);
             $this->set('nivel', $estagiario['Estagiario']['nivel']);
             $this->set('periodo', $estagiario['Estagiario']['periodo']);
             // die("empty");
@@ -444,6 +444,36 @@ class AlunosController extends AppController {
         $this->response->type("pdf");
         $this->layout = "pdf";
         $this->render();
+    }
+
+    public function padroniza() {
+
+        $alunos = $this->Aluno->find('all', array('fields' => array('id', 'nome', 'email', 'endereco', 'bairro')));
+        // pr($alunos);
+        // die();
+        foreach ($alunos as $c_aluno):
+
+            if ($c_aluno['Aluno']['email']):
+                $email = strtolower($c_aluno['Aluno']['email']);
+                $this->Aluno->query("UPDATE alunos set email = ". "\"" . $email . "\"" . " where id = " . $c_aluno['Aluno']['id']);
+            endif;
+
+            if ($c_aluno["Aluno"]['nome']):
+                $nome = ucwords(strtolower($c_aluno['Aluno']['nome']));
+                $this->Aluno->query("UPDATE alunos set nome = " . "\"" . $nome . "\"" . " where id = " . $c_aluno['Aluno']['id']);
+            endif;
+
+            if ($c_aluno['Aluno']['endereco']):
+                $endereco = ucwords(strtolower($c_aluno['Aluno']['endereco']));
+                $this->Aluno->query("UPDATE alunos set endereco = " . "\"" . $endereco . "\"" . " where id = " . $c_aluno['Aluno']['id']);
+            endif;
+
+            if ($c_aluno['Aluno']['bairro']):
+                $bairro = ucwords(strtolower($c_aluno['Aluno']['bairro']));
+                $this->Aluno->query("UPDATE alunos set bairro = " . "\"" . $bairro . "\"" . " where id = " . $c_aluno['Aluno']['id']);
+            endif;
+
+        endforeach;
     }
 
 }

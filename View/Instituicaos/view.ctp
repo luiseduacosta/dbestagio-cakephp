@@ -90,7 +90,7 @@
     <tr>
         <td>Área da instituição</td>
         <td>
-        <?php echo $instituicao['AreaInstituicao']['area']; ?>
+        <?php echo $instituicao['Areainstituicao']['area']; ?>
         </td>
     </tr>
 
