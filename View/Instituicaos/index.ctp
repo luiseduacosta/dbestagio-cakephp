@@ -32,31 +32,14 @@ $("#InstituicaoPeriodo").change(function() {
 );
 ?>
 
+<?php echo $this->element('submenu_instituicoes'); ?>
+
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
 
     <?php echo $this->Form->create('Instituicao', array('controller' => 'Instituicao', 'url'=>'index')); ?>
     <?php echo $this->Form->input('periodo', array('type'=>'select', 'label'=>array('text'=>'Período ', 'style'=>'display: inline'), 'options'=> $todosPeriodos, 'default'=>$periodo, 'empty'=>'Selecione')); ?>
     <?php echo $this->Form->end(); ?>
 
-<?php endif; ?>
-
-<?php if ($this->Session->read('categoria') === 'administrador'): ?>
-    <?php
-    echo $this->Html->link('Inserir','/Instituicaos/add/');
-    echo " | ";
-    echo $this->Html->link('Buscar','/Instituicaos/busca/');
-    echo " || ";
-    echo $this->Html->link('Área','/Areainstituicaos/index/');
-    echo " | ";
-    echo $this->Html->link('Natureza','/Instituicaos/natureza/');
-    echo " | ";
-    echo $this->Html->link('Lista','/instituicaos/lista/');
-    ?>
-<?php else: ?>
-    <?php
-    echo $this->Html->link('Buscar','/Instituicaos/busca/');
-    echo $this->Html->link('Lista','/instituicaos/lista/');
-    ?>
 <?php endif; ?>
 
 <div align="center">

@@ -17,16 +17,16 @@ echo $this->Form->create('User', array('url' =>'login'));
         </td>
 
         <td style="vertical-align: inherit">
-            Prezados usuários,
+            Prezadas(os) usuárias(os),
             <br />
             <br />
-            Agora, para fazer inscrição para seleção de estágio, assim como também para solicitar o termo de compromisso, é necessário estar <?php echo $this->Html->link('cadastrado', '/users/cadastro/'); ?> como usuário do sistema.
+            Para fazer inscrição para seleção de estágio, assim como também para solicitar o termo de compromisso, é necessário estar <?php echo $this->Html->link('cadastrado', '/users/cadastro/'); ?> como usuária(o) do sistema.
             <br />
             <br />
-            Os estudantes cadastrados poderão, além de fazer inscrição para seleção de estágio e solcitar <?php echo $this->Html->link('termo de compromisso', '/inscricaos/termosolicita/'); ?>, formulário de <?php echo $this->Html->link('avaliação discente', '/alunos/avaliacaosolicita/'); ?> de parte do supervisor, atualizar a informação sobre seus dados pessoais, assim como também, atualizar informação sobre as instituições campos de estágio da ESS/UFRJ.
+            As(os) estudantes cadastrados poderão, além de fazer inscrição para seleção de estágio, solicitar <?php echo $this->Html->link('termo de compromisso', '/inscricaos/termosolicita/'); ?>, formulário de <?php echo $this->Html->link('avaliação discente', '/alunos/avaliacaosolicita/'); ?> de parte do supervisor, atualizar a informação sobre seus dados pessoais, assim como também, atualizar informação sobre as instituições campos de estágio da ESS/UFRJ.
             <br />
             <br />
-            Supervisores e professores também podem realizar cadastro, e assim contribuir para atualizar dados das instituições, assim como manter atualizada a informação sobre seus dados profissionais.
+            Supervisores e professores também podem realizar cadastro, e contribuir para atualizar dados das instituições, assim como manter atualizada a informação sobre seus dados profissionais.
             <br />
             <br />
             
