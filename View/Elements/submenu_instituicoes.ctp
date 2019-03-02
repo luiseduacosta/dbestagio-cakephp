@@ -10,6 +10,8 @@
     echo $this->Html->link('Natureza','/Instituicaos/natureza/');
     echo " | ";
     echo $this->Html->link('Lista','/instituicaos/lista/');
+    echo " | ";
+    echo $this->Html->link('Visitas','/visitas/index/');
     ?>
 <?php else: ?>
     <?php

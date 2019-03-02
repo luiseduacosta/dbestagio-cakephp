@@ -48,15 +48,16 @@ class VisitasController extends AppController {
 
     public function add($id = NULL) {
 
+        $parametros = $this->params['named'];
+        $instituicao_id = isset($parametros['instituicao_id']) ? $parametros['instituicao_id'] : NULL;
         // Capturo e envio o id da instituicao se houver
-        $instituicao_id = $this->params['named']['instituicao_id'];
         if ($instituicao_id == NULL) {
             $instituicao_id = $id;
             // pr($instituicao_id);
             $this->set('instituicao_id', $instituicao_id);
         } else {
             $this->Session->setFlash('Selecione uma instituição');
-            $this->redirect('/instituicaos/lista');            
+            $this->redirect('/instituicaos/lista');
         }
         // Mostar as visitas anteriores
         $visitas = $this->Visita->find('all', array(

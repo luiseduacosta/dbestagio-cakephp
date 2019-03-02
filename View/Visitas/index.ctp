@@ -1,5 +1,7 @@
 <?php // pr($visitas);  ?>
 
+<?php echo $this->element('submenu_visitas'); ?>
+
 <div align="center">
     <?php echo $this->Paginator->first('<< Primeiro ', null, null, array('class' => 'disabled')); ?>
     <?php echo $this->Paginator->prev('< Anterior ', null, null, array('class' => 'disabled')); ?>
@@ -32,7 +34,7 @@
             <?php // pr($c_visita); ?>
             <tr>
                 <td>
-                    <?php echo $c_visita['Visita']['id']; ?>
+                    <?php echo $this->Html->link($c_visita['Visita']['id'], 'view/' . $c_visita['Visita']['id']); ?>
                 </td>
                 <td>
                     <?php
