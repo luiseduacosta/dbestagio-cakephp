@@ -56,23 +56,34 @@ class EstagiariosController extends AppController {
             'group' => ('Estagiario.periodo'),
             'order' => array('Estagiario.periodo' => 'DESC')
         ));
+        // pr($periodo);
+        // pr("Período: ", $periodo);
         // Guardo o valor do periodo (incluso quando eh 0) ate que seja selecionado outro periodo
         if ($periodo == NULL) {
+            // echo "Período NULL";
+            // die("Período NULL");
             $periodo = $this->Session->read("periodo");
             if ($periodo) {
                 $condicoes['periodo'] = $periodo;
             }
         } elseif ($periodo == 0) {
+            /* Todos os periodos */
+            // echo "Período 0";
+            // die("Período 0");
             $this->Session->delete("periodo");
         } else {
+            // $periodoatual = reset($periodos_total);
+            //pr($periodoatual);
+            //die("Período atual");
             $this->Session->write("periodo", $periodo);
             $condicoes['periodo'] = $periodo;
         }
         // pr($periodo);
         // die();
         // Se o periodo nõa foi indicado então assume como periodo o periodo atual
+        // $periodoatual = reset($periodos_total);
         $this->set('periodoatual', reset($periodos_total));
-
+        // pr($periodoatual);
         // Guardo o valor do id_area ate que seja selecionada outra
         if ($id_area == NULL) {
             $id_area = $this->Session->read("estagiario_id_area");
@@ -144,7 +155,7 @@ class EstagiariosController extends AppController {
             'order' => array('Supervisor.nome')
                 )
         );
-        // Guardo o valor do id_instituicao ate que seja selecionado outro
+        // Guardo o valor do id_supervisor ate que seja selecionado outro
         if ($id_supervisor == NULL) {
             $id_supervisor = $this->Session->read("estagiario_id_supervisor");
             if ($id_supervisor) {
@@ -192,8 +203,10 @@ class EstagiariosController extends AppController {
         $this->set('turno', $turno);
         $this->set('turnos', array('turnos' => 'D', 'N'));
 
-        // pr($condicoes);
-        // die();
+        if (isset($condicoes)) {
+            // pr($condicoes);
+            // die();
+        }
 
         if (isset($condicoes)) {
             $this->set('estagiarios', $this->Paginate($condicoes));
@@ -202,7 +215,7 @@ class EstagiariosController extends AppController {
         }
 
         $this->set('periodo', $periodo);
-        $this->set('opcoes', $periodos_total);
+        $this->set('periodos_todos', $periodos_total);
     }
 
     public function view($id = NULL) {
