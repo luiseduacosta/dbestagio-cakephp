@@ -34,7 +34,7 @@ if (!defined('DS')) {
  */
 if (!defined('ROOT')) {
 	define('ROOT', dirname(dirname(dirname(__FILE__))));
-	// print "ROOT " . ROOT . "<BR>";
+	print "ROOT " . ROOT . "<BR>";
 	// die();
 }
 
@@ -61,8 +61,10 @@ if (!defined('APP_DIR')) {
  * The following line differs from its sibling
  * /lib/Cake/Console/Templates/skel/webroot/index.php
  */
-// define('CAKE_CORE_INCLUDE_PATH', ROOT . DS . 'lib');
-define('CAKE_CORE_INCLUDE_PATH', DS . 'usr' . DS . 'share' . DS . 'php');
+
+/* O Cake está no mesmo diretorio ROOT da aplicação */
+define('CAKE_CORE_INCLUDE_PATH', ROOT);
+// define('CAKE_CORE_INCLUDE_PATH', DS . 'usr' . DS . 'share' . DS . 'php');
 // print "CAKE_CORE_INCLUDE_PATH " . CAKE_CORE_INCLUDE_PATH . "<BR>";
 
 /**

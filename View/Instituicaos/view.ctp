@@ -1,4 +1,6 @@
-<?php // pr($instituicao); ?>
+<?php
+
+// pr($instituicao); ?>
 
 <?php echo $this->element('submenu_instituicoes'); ?>
 
@@ -72,17 +74,21 @@
     <tr>
         <td>Visita</td>
         <td>
-        <?php 
-        if (sizeof($instituicao['Visita'] > 0)) {
-            $ultimavisita = end($instituicao['Visita']);
-            if ($ultimavisita['data']):
-                echo $this->Html->link(date('d-m-Y', strtotime($ultimavisita['data'])), '/visitas/view/' . $ultimavisita['id']);
+        <?php
+        /* PHP 7.2 */    
+        $visitas = (is_array($instituicao['Visita']) ? sizeof($instituicao['Visita']) : 0);
+        /* PHP 7.2 */
+            if ($visitas > 0):
+                $ultimavisita = end($instituicao['Visita']);
+                if ($ultimavisita['data']):
+                    echo $this->Html->link(date('d-m-Y', strtotime($ultimavisita['data'])), '/visitas/view/' . $ultimavisita['id']);
+                else:
+                    echo "Sem visita";
+                endif;
             else:
                 echo "Sem visita";
             endif;
-        } else {
-            echo "Sem visita";
-        }
+            
         ?>
         </td>
     </tr>
