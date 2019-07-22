@@ -134,7 +134,7 @@ endif;
             endif;
             ?>
             </td>
-            <td><?php echo $c_instituicao['ultimoperiodo']; ?></td>
+            <td><?php echo $this->Html->link($c_instituicao['ultimoperiodo'], '/estagiarios/index/id_instituicao:' . $c_instituicao['instituicao_id']); ?></td>
             <td><?php echo $c_instituicao['estagiarios']; ?></td>
             <td><?php echo $c_instituicao['supervisores']; ?></td>
             <td><?php echo $c_instituicao['area']; ?></td>

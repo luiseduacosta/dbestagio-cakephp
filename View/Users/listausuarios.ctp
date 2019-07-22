@@ -1,4 +1,6 @@
-<?php // pr($listausuarios);   ?>
+<?php
+
+// pr($listausuarios);   ?>
 <?php // pr($direcao);   ?>
 <?php // pr($linhas);   ?>
 <?php // pr($ordem);   ?>
@@ -82,6 +84,7 @@ $("#UserLinhas").change(function() {
     <thead>
         <tr>
             <th>Excluir</th>
+            <th>Editar</th>
             <th><?php echo $this->Html->link('Número', 'listausuarios/ordem:numero/direcao:' . $direcao); ?></th>
             <th><?php echo $this->Html->link('Nome', 'listausuarios/ordem:nome/direcao:' . $direcao); ?></th>        
             <th><?php echo $this->Html->link('Email', 'listausuarios/ordem:email/direcao:' . $direcao); ?></th>
@@ -91,15 +94,24 @@ $("#UserLinhas").change(function() {
 
     <?php foreach ($listausuarios as $usuario): ?>
 
-        <tr>
-            <td>
+    <tr>
+        <td>
                 <?php
                 if ($usuario['numero'] != 0):
                     echo $this->Html->link('X', '/users/delete/' . $usuario['numero'], NULL, 'Tem certeza?');
                 endif;
                 ?>
-            </td>
-            <td>
+        </td>
+
+        <td>
+                <?php
+                if ($usuario['numero'] != 0):
+                    echo $this->Html->link('Editar', '/users/view/' . $usuario['numero']);
+                endif;
+                ?>
+        </td>
+
+        <td>
                 <?php if ($usuario['aluno_tipo'] == 0): ?>
                     <?php echo $this->Html->link($usuario['numero'], '/alunos/view/' . $usuario['aluno_id']); ?>
                 <?php elseif ($usuario['aluno_tipo'] == 1): ?>
@@ -111,17 +123,17 @@ $("#UserLinhas").change(function() {
                 <?php elseif ($usuario['aluno_tipo'] == 4): ?>
                     <?php echo $this->Html->link($usuario['numero'], '/supervisors/view/' . $usuario['aluno_id']); ?>
                 <?php endif; ?>
-            </td>
-            <td>
+        </td>
+        <td>
                 <?php echo $usuario['nome']; ?>
-            </td>    
-            <td>
+        </td>    
+        <td>
                 <?php echo $usuario['email']; ?>
-            </td>
-            <td>
+        </td>
+        <td>
                 <?php echo $usuario['categoria']; ?>
-            </td>
-        </tr>
+        </td>
+    </tr>
 
     <?php endforeach; ?>
 

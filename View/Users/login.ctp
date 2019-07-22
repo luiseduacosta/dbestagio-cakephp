@@ -29,7 +29,9 @@ echo $this->Form->create('User', array('url' =>'login'));
             Supervisores e professores também podem realizar cadastro, e contribuir para atualizar dados das instituições, assim como manter atualizada a informação sobre seus dados profissionais.
             <br />
             <br />
-            
+            <blink>Agora também está disponível para <i>download</i> a <strong>Folha de atividades!</blink></span>
+            <br />
+            <br />
             <p style="text-align: right">Coordenação de Estágio & Extensão</p>
         </td>
     </tr>
