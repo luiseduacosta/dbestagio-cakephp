@@ -53,11 +53,11 @@ class Estagiario extends AppModel {
             'message' => 'Digitar o periodo de estágio'
         ),
         'nivel' => array(
-            'rule' => array('inList', array('1', '2', '3', '4')),
+            'rule' => array('inList', array('1', '2', '3', '4', '9')),
             'required' => TRUE,
             'allowEmpty' => FALSE,
             'on' => 'create',
-            'message' => 'Selecionar nível de estágio'
+            'message' => 'Selecionar nível de estágio. Para estágio não obrigatório selecionar 9'
         ),
         'turno' => array(
             'rule' => array('inList', array('D', 'N', 'I')),

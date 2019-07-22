@@ -462,20 +462,22 @@ class InstituicaosController extends AppController {
         // pr($g_instituicoes);
         $i = 0;
         foreach ($g_instituicoes as $c_instituicao):
-            // pr($c_instituicao['Mural']);
+            // pr($c_instituicao);
+            // pr($c_instituicao['Instituicao']['id']);
             $ultimoperiodo = NULL;
-            $q_estagiarios = sizeof($c_instituicao['Estagiario']);
-            // echo $q_estagiarios . "<br>";
-            if ($q_estagiarios > 0):
-                $p = 0;
-                foreach ($c_instituicao['Estagiario'] as $c_periodo):
-                    $instituicao_periodo[$p] = $c_periodo['periodo'];
-                    $p++;
-                endforeach;
+
+            $z = 0;
+            $instituicao_periodo = NULL;
+            foreach ($c_instituicao['Estagiario'] as $c_periodo):
+                $instituicao_periodo[$z] = $c_periodo['periodo'];
+                // pr($c_periodo['periodo']);
+                $z++;
+            endforeach;
+            // pr($instituicao_periodo);
+            if ($instituicao_periodo) {
                 $ultimoperiodo = max($instituicao_periodo);
-            else:
-                $ultimoperiodo = NULL;
-            endif;
+                // pr($ultimoperiodo);
+            }
 
             $visitas = sizeof($c_instituicao['Visita']);
             if ($visitas > 0):

@@ -49,3 +49,12 @@ root {
 .contaba{
   clear: both;
 }
+
+blink {
+    display: inline;
+    color: inherit;
+    animation: blink 1s steps(1) infinite;
+    -webkit-animation: blink 1s steps(1) infinite;
+}
+@keyframes blink { 50% { color: transparent; } }
+@-webkit-keyframes blink { 50% { color: transparent; } }

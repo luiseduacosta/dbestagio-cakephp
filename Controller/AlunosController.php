@@ -14,7 +14,7 @@ class AlunosController extends AppController {
             // $this->Session->setFlash("Administrador");
             // Estudantes
         } elseif ($this->Session->read('id_categoria') === '2') {
-            $this->Auth->allow('index', 'view', 'busca', 'busca_cpf', 'busca_dre', 'busca_email', 'edit', 'avaliacaosolicita', 'avaliacaoverifica', 'avaliacaoedita', 'avaliacaoimprime');
+            $this->Auth->allow('index', 'view', 'busca', 'busca_cpf', 'busca_dre', 'busca_email', 'edit', 'avaliacaosolicita', 'avaliacaoverifica', 'avaliacaoedita', 'avaliacaoimprime', 'folhadeatividades');
             // $this->Session->setFlash("Estudante");
         } elseif ($this->Session->read('id_categoria') === '3') {
             $this->Auth->allow('index', 'view', 'busca', 'busca_cpf', 'busca_dre', 'busca_email', 'edit');
@@ -60,7 +60,7 @@ class AlunosController extends AppController {
 
         // $this->loadModel('Estagiario');
         $instituicao = $this->Aluno->findById($id);
-        // print_r($instituicao);
+        // pr($instituicao);
         // die();
         $aluno = $instituicao['Aluno'];
         $estagios = $instituicao['Estagiario'];
@@ -70,9 +70,71 @@ class AlunosController extends AppController {
             'conditions' => array('Estagiario.id_aluno=' . $id)
                 )
         );
-        // print_r($instituicoes);
+        // pr($instituicoes);
         // die();
-        $this->set('instituicoes', $instituicoes);
+        // Para ordernar o array por nivel de estágio 
+        $i = 0;
+        $y = 0;
+        foreach ($instituicoes as $c_instituicao) {
+
+            // pr($c_instituicao);
+
+            if ($c_instituicao['Estagiario']['nivel'] < 9):
+
+                $ordem = 'nivel';
+                $c_estagios[$i]['id'] = $c_instituicao['Estagiario']['id'];
+                $c_estagios[$i]['periodo'] = $c_instituicao['Estagiario']['periodo'];
+                $c_estagios[$i]['nivel'] = $c_instituicao['Estagiario']['nivel'];
+                $c_estagios[$i]['turno'] = $c_instituicao['Estagiario']['turno'];
+                $c_estagios[$i]['tc'] = $c_instituicao['Estagiario']['tc'];
+                $c_estagios[$i]['id_instituicao'] = $c_instituicao['Instituicao']['id'];
+                $c_estagios[$i]['instituicao'] = $c_instituicao['Instituicao']['instituicao'];
+                $c_estagios[$i]['id_professor'] = $c_instituicao['Professor']['id'];
+                $c_estagios[$i]['professor'] = $c_instituicao['Professor']['nome'];
+                $c_estagios[$i]['id_supervisor'] = $c_instituicao['Supervisor']['id'];
+                $c_estagios[$i]['supervisor'] = $c_instituicao['Supervisor']['nome'];
+                $c_estagios[$i]['id_area'] = $c_instituicao['Area']['id'];
+                $c_estagios[$i]['area'] = $c_instituicao['Area']['area'];
+                $c_estagios[$i]['nota'] = $c_instituicao['Estagiario']['nota'];
+                $c_estagios[$i]['ch'] = $c_instituicao['Estagiario']['ch'];
+                $criterio[$i] = $c_estagios[$i][$ordem];
+
+                $i++;
+
+            elseif ($c_instituicao['Estagiario']['nivel'] == 9):
+
+                $ordem = 'periodo';
+                $nao_estagios[$y]['id'] = $c_instituicao['Estagiario']['id'];
+                $nao_estagios[$y]['periodo'] = $c_instituicao['Estagiario']['periodo'];
+                $nao_estagios[$y]['nivel'] = $c_instituicao['Estagiario']['nivel'];
+                $nao_estagios[$y]['turno'] = $c_instituicao['Estagiario']['turno'];
+                $nao_estagios[$y]['tc'] = $c_instituicao['Estagiario']['tc'];
+                $nao_estagios[$y]['id_instituicao'] = $c_instituicao['Instituicao']['id'];
+                $nao_estagios[$y]['instituicao'] = $c_instituicao['Instituicao']['instituicao'];
+                $nao_estagios[$y]['id_professor'] = $c_instituicao['Professor']['id'];
+                $nao_estagios[$y]['professor'] = $c_instituicao['Professor']['nome'];
+                $nao_estagios[$y]['id_supervisor'] = $c_instituicao['Supervisor']['id'];
+                $nao_estagios[$y]['supervisor'] = $c_instituicao['Supervisor']['nome'];
+                $nao_estagios[$y]['id_area'] = $c_instituicao['Area']['id'];
+                $nao_estagios[$y]['area'] = $c_instituicao['Area']['area'];
+                $nao_estagios[$y]['nota'] = $c_instituicao['Estagiario']['nota'];
+                $nao_estagios[$y]['ch'] = $c_instituicao['Estagiario']['ch'];
+                $nao_criterio[$y] = $nao_estagios[$y][$ordem];
+
+                $y++;
+
+            endif;
+        }
+
+        array_multisort($criterio, SORT_ASC, $c_estagios);
+        if (isset($nao_estagios) && !(empty($nao_estagios))):
+            array_multisort($nao_criterio, SORT_ASC, $nao_estagios);
+            $this->set('nao_obrigatorio', $nao_estagios);
+        endif;
+        // pr($c_estagios);
+        // pr($nao_estagios);
+
+        $this->set('c_estagios', $c_estagios);
 
         $proximo = $this->Aluno->find('neighbors', array(
             'field' => 'nome', 'value' => $aluno['nome']));
@@ -82,6 +144,45 @@ class AlunosController extends AppController {
         // $this->set('alunos', $this->paginate('Aluno', array('id'=>$id)));
         $this->set('alunos', $aluno);
         $this->set('estagios', $estagios);
+    }
+
+    public function planilhacress($id = NULL) {
+
+        $parametros = $this->params['named'];
+        // pr($parametros);
+        $periodo = isset($parametros['periodo']) ? $parametros['periodo'] : NULL;
+        // pr($periodo);
+        // die();
+        // $periodo = '2015-2';
+        $ordem = 'Aluno.nome';
+
+        $periodototal = $this->Aluno->Estagiario->find('list', array(
+            'fields' => array('Estagiario.periodo'),
+            'order' => array('Estagiario.periodo')));
+
+        // pr($totalperiodo);
+        // die();
+        $periodosunicos = array_unique($periodototal);
+        foreach ($periodosunicos as $c_periodo):
+            $periodos[$c_periodo] = $c_periodo;
+        endforeach;
+
+        if (empty($periodo)) {
+            $periodo = end($periodos);
+        }
+        // pr($periodos);
+
+        $cress = $this->Aluno->Estagiario->find('all', array(
+            'fields' => array('Estagiario.periodo', 'Aluno.id', 'Aluno.nome', 'Instituicao.id', 'Instituicao.instituicao', 'Instituicao.cep', 'Instituicao.endereco', 'Instituicao.bairro', 'Supervisor.nome', 'Supervisor.cress', 'Professor.nome'),
+            'conditions' => array('Estagiario.periodo' => $periodo),
+            'order' => array('Aluno.nome')
+        ));
+
+        // pr($cress);
+        $this->set('cress', $cress);
+        $this->set('periodos', $periodos); 
+        $this->set('periodoatual', $periodo);         
+        // die();
     }
 
     public function edit($id = NULL) {
@@ -334,6 +435,54 @@ class AlunosController extends AppController {
         // $this->redirect('/Alunos/avaliacaoedita/' . $estagiario['Supervisor']['id'] . '/' . $this->$estagiario['Aluno']['registro']);
     }
 
+    public function folhasolicita() {
+
+        $categoria = $this->Session->read('id_categoria');
+        if ($categoria == 1) {
+
+            // pr($this->data);
+            if (empty($this->data)) {
+                $this->data = $this->Aluno->read();
+            } else {
+                // pr($this->data());
+                // $this->Session->write('menu_aluno', 'estagiario');
+                $this->Session->write('numero', $this->data['Aluno']['DRE']);
+                $this->redirect('folhadeatividades');
+            }
+        }
+    }
+
+    public function folhadeatividades() {
+
+        $dre = $this->Session->read('numero');
+        if (empty($dre)) {
+            $this->redirect('folhasolicita');
+        } else {
+            // pr($dre);
+            $estagiario = $this->Aluno->Estagiario->find('first', array(
+                'conditions' => array('Estagiario.registro' => $dre),
+                'order' => array('Estagiario.nivel DESC')
+            ));
+            // pr($estagiario);
+            $this->Session->delete('numero');
+
+            $this->set('registro', $registro = $estagiario['Aluno']['registro']);
+            $this->set('estudante', $estudante = $estagiario['Aluno']['nome']);
+            $this->set('nivel', $nivel = $estagiario['Estagiario']['nivel']);
+            $this->set('periodo', $periodo = $estagiario['Estagiario']['periodo']);
+            $this->set('supervisor', $supervisor = $estagiario['Supervisor']['nome']);
+            $this->set('cress', $cress = $estagiario['Supervisor']['cress']);
+            $this->set('celular', $celular = $estagiario['Supervisor']['celular']);
+            $this->set('instituicao', $instituicao = $estagiario['Instituicao']['instituicao']);
+            $this->set('professor', $professor = $estagiario['Professor']['nome']);
+
+            $this->response->header(array("Content-type: application/pdf"));
+            $this->response->type("pdf");
+            $this->layout = "pdf";
+            $this->render();
+        }
+    }
+
     public function avaliacaoedita() {
 
         // pr($this->params);
@@ -446,6 +595,174 @@ class AlunosController extends AppController {
         $this->render();
     }
 
+    public function planilhaseguro($id = NULL) {
+
+        $parametros = $this->params['named'];
+        // pr($parametros);
+        $periodo = isset($parametros['periodo']) ? $parametros['periodo'] : NULL;
+        // pr($periodo);
+        // die();
+        // $periodo = '2015-2';
+        $ordem = 'nome';
+
+        $periodototal = $this->Aluno->Estagiario->find('list', array(
+            'fields' => array('Estagiario.periodo'),
+            'order' => array('Estagiario.periodo')));
+
+        // pr($totalperiodo);
+        // die();
+        $periodosunicos = array_unique($periodototal);
+        foreach ($periodosunicos as $c_periodo):
+            $periodos[$c_periodo] = $c_periodo;
+        endforeach;
+
+        if (empty($periodo)) {
+            $periodo = end($periodos);
+        }
+        // pr($periodos);
+
+        $seguro = $this->Aluno->Estagiario->find('all', array(
+            'fields' => array('Aluno.id', 'Aluno.nome', 'Aluno.cpf', 'Aluno.nascimento', 'Aluno.registro',
+                'Estagiario.nivel', 'Estagiario.periodo',
+                'Instituicao.instituicao'),
+            'conditions' => array('Estagiario.periodo' => $periodo),
+            'order' => array('Estagiario.nivel')));
+
+        // pr($seguro);
+        // die();
+        $i = 0;
+        foreach ($seguro as $c_seguro) {
+
+            if ($c_seguro['Estagiario']['nivel'] == 1) {
+
+                // Início
+                $inicio = $c_seguro['Estagiario']['periodo'];
+
+                // Final
+                $semestre = explode('-', $c_seguro['Estagiario']['periodo']);
+                $ano = $semestre[0];
+                $indicasemestre = $semestre[1];
+
+                if ($indicasemestre == 1) {
+                    $novoano = $ano + 1;
+                    $novoindicasemestre = $indicasemestre + 1;
+                    $final = $novoano . "-" . $novoindicasemestre;
+                } elseif ($indicasemestre == 2) {
+                    $novoano = $ano + 2;
+                    $final = $novoano . "-" . 1;
+                }
+            } elseif ($c_seguro['Estagiario']['nivel'] == 2) {
+
+                $semestre = explode('-', $c_seguro['Estagiario']['periodo']);
+                $ano = $semestre[0];
+                $indicasemestre = $semestre[1];
+
+                // Início
+                if ($indicasemestre == 1) {
+                    $novoano = $ano - 1;
+                    $inicio = $novoano . "-" . 2;
+                } elseif ($indicasemestre == 2) {
+                    $inicio = $ano . "-" . "1";
+                }
+
+                // Final
+                if ($indicasemestre == 1) {
+                    $novoano = $ano + 1;
+                    $final = $novoano . "-" . 1;
+                } elseif ($indicasemestre == 2) {
+                    $novoano = $ano + 1;
+                    $final = $novoano . "-" . "2";
+                }
+            } elseif ($c_seguro['Estagiario']['nivel'] == 3) {
+
+                $semestre = explode('-', $c_seguro['Estagiario']['periodo']);
+                $ano = $semestre[0];
+                $indicasemestre = $semestre[1];
+
+                // Início
+                $novoano = $ano - 1;
+                $inicio = $novoano . "-" . $indicasemestre;
+
+                // Final
+                if ($indicasemestre == 1) {
+                    // $ano = $ano + 1;
+                    $final = $ano . "-" . 2;
+                } elseif ($indicasemestre == 2) {
+                    $novoano = $ano + 1;
+                    $final = $novoano . "-" . 1;
+                }
+            } elseif ($c_seguro['Estagiario']['nivel'] == 4) {
+
+                $semestre = explode('-', $c_seguro['Estagiario']['periodo']);
+                $ano = $semestre[0];
+                $indicasemestre = $semestre[1];
+
+                // Início
+                if ($indicasemestre == 1) {
+                    $ano = $ano - 2;
+                    $inicio = $ano . "-" . 2;
+                } elseif ($indicasemestre == 2) {
+                    $ano = $ano - 1;
+                    $inicio = $ano . "-" . 1;
+                }
+
+                // Final
+                $final = $c_seguro['Estagiario']['periodo'];
+
+                // Estagio não obrigatório. Conto como estágio 5    
+            } elseif ($c_seguro['Estagiario']['nivel'] == 9) {
+
+                $semestre = explode('-', $c_seguro['Estagiario']['periodo']);
+                $ano = $semestre[0];
+                $indicasemestre = $semestre[1];
+
+                // Início
+                if ($indicasemestre == 1) {
+                    $ano = $ano - 2;
+                    $inicio = $ano . "-" . 1;
+                } elseif ($indicasemestre == 2) {
+                    $ano = $ano - 2;
+                    $inicio = $ano . "-" . 2;
+                }
+
+                // Final
+                $final = $c_seguro['Estagiario']['periodo'];
+
+                // echo "Nível: " . $c_seguro['Estagiario']['nivel'] . " Período: " . $c_seguro['Estagiario']['periodo'] . " Início: " . $inicio . " Final: " . $final . '<br>';
+            }
+
+            $t_seguro[$i]['id'] = $c_seguro['Aluno']['id'];            
+            $t_seguro[$i]['nome'] = $c_seguro['Aluno']['nome'];
+            $t_seguro[$i]['cpf'] = $c_seguro['Aluno']['cpf'];
+            $t_seguro[$i]['nascimento'] = $c_seguro['Aluno']['nascimento'];
+            $t_seguro[$i]['sexo'] = "";
+            $t_seguro[$i]['registro'] = $c_seguro['Aluno']['registro'];
+            $t_seguro[$i]['curso'] = "UFRJ/Serviço Social";
+            if ($c_seguro['Estagiario']['nivel'] == 9):
+                // pr("Não");
+                $t_seguro[$i]['nivel'] = "Não obrigatório";
+            else:
+                // pr($c_seguro['Estagiario']['nivel']);                
+                $t_seguro[$i]['nivel'] = $c_seguro['Estagiario']['nivel'];
+            endif;
+            $t_seguro[$i]['periodo'] = $c_seguro['Estagiario']['periodo'];
+            $t_seguro[$i]['inicio'] = $inicio;
+            $t_seguro[$i]['final'] = $final;
+            $t_seguro[$i]['instituicao'] = $c_seguro['Instituicao']['instituicao'];
+            $criterio[$i] = $t_seguro[$i][$ordem];
+
+            $i++;
+        }
+        if (!empty($t_seguro)) {
+            array_multisort($criterio, SORT_ASC, $t_seguro);
+        }
+        // pr($t_seguro);
+        $this->set('t_seguro', $t_seguro);
+        $this->set('periodos', $periodos);
+        $this->set('periodoselecionado', $periodo);
+        // die();
+    }
+
     public function padroniza() {
 
         $alunos = $this->Aluno->find('all', array('fields' => array('id', 'nome', 'email', 'endereco', 'bairro')));
@@ -455,7 +772,7 @@ class AlunosController extends AppController {
 
             if ($c_aluno['Aluno']['email']):
                 $email = strtolower($c_aluno['Aluno']['email']);
-                $this->Aluno->query("UPDATE alunos set email = ". "\"" . $email . "\"" . " where id = " . $c_aluno['Aluno']['id']);
+                $this->Aluno->query("UPDATE alunos set email = " . "\"" . $email . "\"" . " where id = " . $c_aluno['Aluno']['id']);
             endif;
 
             if ($c_aluno["Aluno"]['nome']):

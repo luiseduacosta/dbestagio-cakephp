@@ -34,7 +34,8 @@
         echo $this->Html->meta('icon');
 
         echo $this->Html->css('cake.generic');
-
+        echo $this->Html->css('abas');
+        
         echo $scripts_for_layout;
         ?>
     </head>
@@ -60,6 +61,8 @@
                     <?php echo " | "; ?>
                     <?php echo $this->Html->link("Avaliação discente", "/alunos/avaliacaosolicita"); ?>
                     <?php echo " | "; ?>
+                    <?php echo $this->Html->tag('blink', $this->Html->link("Folha de atividades", "/alunos/folhadeatividades")); ?>
+                    <?php echo " | "; ?>                
 
                     <?php echo $this->Html->link("Instituições", "/instituicaos/lista", array('escape' => FALSE)); ?>
                     <?php echo " | "; ?>

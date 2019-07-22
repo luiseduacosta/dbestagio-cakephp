@@ -50,6 +50,10 @@ class EstagiariosController extends AppController {
         $nivel = isset($parametros['nivel']) ? $parametros['nivel'] : NULL;
         $turno = isset($parametros['turno']) ? $parametros['turno'] : NULL;
 
+        // pr($nivel);
+        
+        $condicoes = NULL;
+        
         // Para fazer a lista para o select dos estagios anteriores
         $periodos_total = $this->Estagiario->find('list', array(
             'fields' => array('Estagiario.periodo', 'Estagiario.periodo'),
@@ -185,7 +189,7 @@ class EstagiariosController extends AppController {
         }
 
         $this->set('nivel', $nivel);
-        $this->set('nivels', array('niveis' => '1', '2', '3', '4'));
+        $this->set('nivels', array('niveis' => '1', '2', '3', '4', '9'));
 
         // Guardo o valor do nivel de estágio ate que seja selecionado outro
         if ($turno == NULL) {
@@ -422,11 +426,11 @@ class EstagiariosController extends AppController {
                 asort($nivel);
                 // Passo o valor do ultimo
                 $ultimo_nivel = end($nivel);
-                // Incremento em hum para o próximo estágio
+                // Incremento em 1 para o próximo estágio
                 $ultimo_nivel = $ultimo_nivel + 1;
-                // Se eh maior de 4 deixo em 4
+                // Se eh maior de 4 coloco 0 (estágio não obrigatório)
                 if ($ultimo_nivel > 4) {
-                    $ultimo_nivel = 4;
+                    $ultimo_nivel = 9;
                 }
                 // Se nao existe o nivel entao eh 1
             } else {
@@ -517,8 +521,6 @@ class EstagiariosController extends AppController {
             $periodo_estagio = $this->Estagiario->find('first', array(
                 'conditions' => array('Estagiario.registro' => $registro),
                 'fields' => array('Estagiario.id', 'Estagiario.id_aluno', 'Estagiario.registro')));
-
-
 
             if (empty($periodo_estagio)) {
                 // echo "Aluno  novo sem estágio";

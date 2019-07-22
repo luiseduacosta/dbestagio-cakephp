@@ -70,8 +70,14 @@ Colocar barra de navegação nos View
 
 20/12/2018. Na área das instituições criar a tabela visitas para registrar as visitas institucionais. Ao mesmo tempo na tabela Instituições colocar um novo campo para registrar a data da última visita.
 
+Para fazer
+==========
+No index das instituições colocar em destaque os convenios vencidos ou que estão por vencer.
+
 Dica
 ====
 $log = $this->Votacao->getDataSource()->getLog(false, false);
 debug($log);
+
+É possível estabelecer um tamanho de campo no view da seguinte forma: 'style'=>'width: 25em'
   

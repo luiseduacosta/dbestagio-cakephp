@@ -102,7 +102,9 @@ $("#EstagiarioTurno").change(function() {
         <?php echo $this->Html->link("Busca aluno", "/alunos/busca"); ?>
         <?php echo " | "; ?>
         <?php echo $this->Html->link("Inserir estágio", '/estagiarios/add_estagiario'); ?>
-
+    
+        <?php echo " | "; ?>
+        <?php echo $this->Html->link('Estágio não obrigatório', '/estagiarios/index/nivel:' . 9); ?>
         <?php echo " | "; ?>
         <?php echo $this->Html->link('Estagiários sem estágio', '/estagiarios/alunorfao'); ?>
 </p>
@@ -128,11 +130,11 @@ $("#EstagiarioTurno").change(function() {
             </td>
             <td>
 <?php echo $this->Form->create('Estagiario', array('url' => 'index', 'inputDefaults' => array('label' => false, 'div' => false))); ?>
-                <?php echo $this->Form->input('nivel', array('type' => 'select', 'options' => array('1' => 'OTP 1', '2' => 'OTP 2', '3' => 'OTP 3', '4' => 'OTP 4'), 'selected' => $nivel, 'default' => 0, 'empty' => array('0' => 'OTP'))); ?>
+                <?php echo $this->Form->input('nivel', array('type' => 'select', 'options' => array('1' => 'OTP 1', '2' => 'OTP 2', '3' => 'OTP 3', '4' => 'OTP 4', '9' => 'Não obrigatório'), 'selected' => $nivel, 'default' => 0, 'empty' => array('0' => 'OTP'))); ?>
                 <?php // echo $this->Form->end(); ?>
             </td>
             <td>
-                    <?php echo $this->Form->create('Estagiario', array('url' => 'index', 'inputDefaults' => array('label' => false, 'div' => false))); ?>
+<?php echo $this->Form->create('Estagiario', array('url' => 'index', 'inputDefaults' => array('label' => false, 'div' => false))); ?>
                 <?php echo $this->Form->input('turno', array('type' => 'select', 'options' => array('D' => 'Diurno', 'N' => 'Noturno'), 'selected' => $turno, 'empty' => array('0' => 'Turno'))); ?>
                 <?php // echo $this->Form->end(); ?>
             </td>
@@ -206,7 +208,11 @@ $("#EstagiarioTurno").change(function() {
             <?php endif; ?>    
         <td style='text-align:left'><?php echo $aluno['Aluno']['nome']; ?></td>
         <td style='text-align:center'><?php echo $aluno['Estagiario']['periodo']; ?></td>
-        <td style='text-align:center'><?php echo $aluno['Estagiario']['nivel']; ?></td>
+        <?php if ($aluno['Estagiario']['nivel'] == 9): ?>
+            <td style='text-align:center'><?php echo 'Não obrigatório'; ?></td>
+        <?php else: ?>
+            <td style='text-align:center'><?php echo $aluno['Estagiario']['nivel']; ?></td>
+        <?php endif; ?>
         <td style='text-align:center'><?php echo $aluno['Estagiario']['turno']; ?></td>
         <td style='text-align:center'><?php echo $aluno['Estagiario']['tc']; ?></td>
     <?php if ($this->Session->read('categoria') != 'estudante'): ?>
@@ -234,4 +240,5 @@ echo $this->Paginator->counter(array(
 exibindo %current% registros do %count% total,
 começando no registro %start%, finalizando no %end%"
 ));
+
 ?>
