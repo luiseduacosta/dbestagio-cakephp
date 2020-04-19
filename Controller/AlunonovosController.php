@@ -60,8 +60,8 @@ class AlunonovosController extends AppController {
         /* Vejo se foi chamado desde cadastro
           $cadastro = $this->Session->read('cadastro');
           pr($cadastro);
-          // die();
-         */
+        // die();
+        */
 
         if ($this->Alunonovo->save($this->data)) {
             // die("Aluno novo save");
@@ -70,7 +70,7 @@ class AlunonovosController extends AppController {
             // Ainda nao posso apagar
             // $this->Session->delete('id_instituicao');
 
-	          // Capturo se foi chamado desde a solicitacao do termo
+	        // Capturo se foi chamado desde a solicitacao do termo
             $registro_termo = $this->Session->read('termo');
             // Acho que posso apagar aqui porque nao vai ser chamado novamente
             $this->Session->delete('termo');
@@ -81,7 +81,7 @@ class AlunonovosController extends AppController {
             $registro = $this->data['Alunonovo']['registro'];
             $this->Session->setFlash("Cadastro realizado: " . $registro);
             // $this->redirect("/Inscricaos/solicitatermo/" . $registro);
-	          // die(" Verificacao da rotina " . $registro);
+	        // die(" Verificacao da rotina " . $registro);
 
     	    if ($inscricao_selecao_estagio) {
                 // Volta para a pagina de inscricao
@@ -91,7 +91,7 @@ class AlunonovosController extends AppController {
                 // Volta para a pagina de termo de compromisso
                 // die(" registro_termo " . $registro_termo);
                 $this->redirect("/Inscricaos/termocompromisso/" . $registro_termo);
-		die("Redireciona para concluir solicitacao de termo de compromisso");
+		        die("Redireciona para concluir solicitacao de termo de compromisso");
             } elseif ($cadastro) {
                 // die("cadastro");
                 $this->Session->delete('cadastro');
@@ -188,7 +188,7 @@ class AlunonovosController extends AppController {
         }
 
         $aluno = $this->Alunonovo->find('first',
-                array('conditions' => array('Alunonovo.id' => $id)));
+            array('conditions' => array('Alunonovo.id' => $id)));
         // pr($aluno);
         // Onde fizeram inscricoes
         $this->loadModel('Inscricao');
