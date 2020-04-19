@@ -52,7 +52,6 @@ class AlunonovosController extends AppController {
      * esta funcao eh chamada desde inscricao para selecao de estagio
      * e tambem desde termo de compromisso
      */
-
     public function add($id = NULL) {
 
         $this->set('registro', $id);
@@ -120,7 +119,6 @@ class AlunonovosController extends AppController {
     /*
      * id eh o id do alunonovo
      */
-
     public function edit($id = NULL) {
 
         // Somente o próprio pode editar

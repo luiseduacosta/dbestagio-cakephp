@@ -2,6 +2,26 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/home/luis/html/mural/View/Estagiarios/index.ctp</file>
+            <file>file:/home/luis/html/mural/View/Users/alternarusuario.ctp</file>
+            <file>file:/home/luis/html/mural/Controller/AlunosController.php</file>
+            <file>file:/home/luis/html/mural/View/Estagiarios/add.ctp</file>
+            <file>file:/home/luis/html/mural/View/Estagiarios/add_estagiario.ctp</file>
+            <file>file:/home/luis/html/mural/Model/Estagiario.php</file>
+            <file>file:/home/luis/html/mural/View/Users/login.ctp</file>
+            <file>file:/home/luis/html/mural/Controller/EstagiariosController.php</file>
+            <file>file:/home/luis/html/mural/View/Inscricaos/add.ctp</file>
+            <file>file:/home/luis/html/mural/View/Alunos/avaliacaoedita.ctp</file>
+            <file>file:/home/luis/html/mural/View/Alunos/folhasolicita.ctp</file>
+            <file>file:/home/luis/html/mural/webroot/css/abas.css</file>
+            <file>file:/home/luis/html/mural/View/Murals/view.ctp</file>
+            <file>file:/home/luis/html/mural/View/Alunos/view.ctp</file>
+            <file>file:/home/luis/html/mural/View/Layouts/default.ctp</file>
+            <file>file:/home/luis/html/mural/View/Configuracaos/view.ctp</file>
+            <file>file:/home/luis/html/mural/View/Estagiarios/edit.ctp</file>
+            <file>file:/home/luis/html/mural/Controller/UsersController.php</file>
+            <file>file:/home/luis/html/mural/View/Alunos/folhadeatividades.ctp</file>
+        </group>
     </open-files>
 </project-private>

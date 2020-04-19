@@ -7,7 +7,10 @@ echo $this->Html->link('Listar mural', '/murals/index'); ?>
 <h1>
     Estudantes inscritos para estágio 
     <?php 
-    if (isset($periodo)) echo " " . $periodo; 
+    if (isset($periodo)) {
+        echo " " . $periodo;
+                
+    }; 
     ?>
 </h1>
 
