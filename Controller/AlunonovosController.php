@@ -202,8 +202,8 @@ class AlunonovosController extends AppController {
 
         // Pego o numero de registro
         $registro = $this->Alunonovo->findById($id, array('fields' => 'registro'));
-        // Pego as inscricoes realizadas
 
+        // Pego as inscricoes realizadas
         $this->loadModel('Inscricao');
         $inscricao = $this->Inscricao->find('all', array(
             'conditions' => array('Inscricao.id_aluno' => $registro['Alunonovo']['registro']),
@@ -225,7 +225,7 @@ class AlunonovosController extends AppController {
         $this->redirect("/Inscricaos/index/");
     }
 
-        public function padroniza() {
+    public function padroniza() {
 
         $alunos = $this->Alunonovo->find('all', array('fields' => array('id', 'nome', 'email', 'endereco', 'bairro')));
         // pr($alunos);
