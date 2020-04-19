@@ -1,4 +1,6 @@
-<?php // pr($instituicao); ?>
+<?php
+
+// pr($instituicao); ?>
 
 <?php echo $this->element('submenu_instituicoes'); ?>
 
@@ -11,7 +13,7 @@
     <tr>
         <td width="15%">Instituição</td>
         <td width="85%">
-        <?php echo $this->Html->link($instituicao['Instituicao']['instituicao'], '/Estagiarios/index/id_instituicao:' . $instituicao['Instituicao']['id']); ?>
+        <?php echo $this->Html->link($instituicao['Instituicao']['instituicao'], '/Estagiarios/index/instituicao_id:' . $instituicao['Instituicao']['id']); ?>
         </td>
     </tr>
 
@@ -72,17 +74,21 @@
     <tr>
         <td>Visita</td>
         <td>
-        <?php 
-        if (sizeof($instituicao['Visita'] > 0)) {
-            $ultimavisita = end($instituicao['Visita']);
-            if ($ultimavisita['data']):
-                echo $this->Html->link(date('d-m-Y', strtotime($ultimavisita['data'])), '/visitas/view/' . $ultimavisita['id']);
+        <?php
+        /* PHP 7.2 */    
+        $visitas = (is_array($instituicao['Visita']) ? sizeof($instituicao['Visita']) : 0);
+        /* PHP 7.2 */
+            if ($visitas > 0):
+                $ultimavisita = end($instituicao['Visita']);
+                if ($ultimavisita['data']):
+                    echo $this->Html->link(date('d-m-Y', strtotime($ultimavisita['data'])), '/visitas/view/' . $ultimavisita['id']);
+                else:
+                    echo "Sem visita";
+                endif;
             else:
                 echo "Sem visita";
             endif;
-        } else {
-            echo "Sem visita";
-        }
+            
         ?>
         </td>
     </tr>
@@ -271,8 +277,8 @@ if ($instituicao['Supervisor']) {
 <?php
 
 echo $this->Form->create('Instituicao', array('controller'=>'Instituicaos', 'url'=>'addassociacao'));
-echo $this->Form->input('InstSuper.id_instituicao', array('type'=>'hidden', 'value'=>$instituicao['Instituicao']['id']));
-echo $this->Form->input('InstSuper.id_supervisor', array('label'=>'Supervisor', 'options'=>$supervisores, 'default'=>0, 'empty'=>'Seleciona'));
+echo $this->Form->input('InstSuper.instituicao_id', array('type'=>'hidden', 'value'=>$instituicao['Instituicao']['id']));
+echo $this->Form->input('InstSuper.supervisor_id', array('label'=>'Supervisor', 'options'=>$supervisores, 'default'=>0, 'empty'=>'Seleciona'));
 echo $this->Form->end('Confirma');
 
 ?>
@@ -287,7 +293,7 @@ echo $this->Form->end('Confirma');
 
 <tr>
 <td><?php echo $this->Html->link($c_estagiario['registro'], '/Estagiarios/view/' . $c_estagiario['id_aluno']); ?></td>
-<td><?php echo $c_estagiario['id_supervisor']; ?></td>
+<td><?php echo $c_estagiario['supervisor_id']; ?></td>
 <td><?php echo $c_estagiario['periodo']; ?></td>
 </tr>
 

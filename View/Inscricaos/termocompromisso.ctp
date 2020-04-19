@@ -5,9 +5,9 @@ echo $this->Html->scriptBlock('
 
 $(document).ready(function(){
 $("#InscricaoIdInstituicao").change(function() {
-	var id_instituicao = $(this).val();
-	 $("#InscricaoIdSupervisor").load("/mural/Instituicaos/seleciona_supervisor/"+id_instituicao, {id: $(this).val(), ajax: "true"});
-         /* alert(id_instituicao); */
+	var instituicao_id = $(this).val();
+	 $("#InscricaoIdSupervisor").load("/mural/Instituicaos/seleciona_supervisor/"+instituicao_id, {id: $(this).val(), ajax: "true"});
+         /* alert(instituicao_id); */
 	})
  });
  
@@ -23,7 +23,7 @@ $("#InscricaoIdInstituicao").change(function() {
 
 echo $this->Form->create('Inscricao', array('url'=>'termocadastra/' . $id));
 
-echo $this->Form->input('id_aluno', array('type'=>'hidden', 'label'=>'Registro', 'value'=>$id));
+echo $this->Form->input('aluno_id', array('type'=>'hidden', 'label'=>'Registro', 'value'=>$id));
 echo "Registro (DRE): " . $id . "<br>";
 
 echo $this->Form->input('aluno_nome', array('type'=>'hidden', 'value'=>$aluno));
@@ -48,10 +48,10 @@ if ($turno == 'D') {
 
 echo "Turno: " . $turno . "<br>";
 
-echo $this->Form->input('id_professor', array('type'=>'hidden', 'label'=>'Professor', 'value'=>$professor_atual));
+echo $this->Form->input('docente_id', array('type'=>'hidden', 'label'=>'Professor', 'value'=>$professor_atual));
 
-echo $this->Form->input('id_instituicao', array('type'=>'select', 'label'=>'Instituição (É obrigatório selecionar a instituição)', 'options'=>$instituicoes, 'selected'=>$instituicao_atual));
-echo $this->Form->input('id_supervisor', array('type'=>'select', 'label'=>'Supervisor (Se não souber quem é o supervisor deixar em branco)', 'options'=>$supervisores, 'selected'=>$supervisor_atual));
+echo $this->Form->input('instituicao_id', array('type'=>'select', 'label'=>'Instituição (É obrigatório selecionar a instituição)', 'options'=>$instituicoes, 'selected'=>$instituicao_atual));
+echo $this->Form->input('supervisor_id', array('type'=>'select', 'label'=>'Supervisor (Se não souber quem é o supervisor deixar em branco)', 'options'=>$supervisores, 'selected'=>$supervisor_atual));
 
 echo $this->Form->end('Confirmar');
 

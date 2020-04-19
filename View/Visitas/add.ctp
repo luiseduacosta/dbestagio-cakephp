@@ -1,3 +1,5 @@
+<?php // pr($visitas); ?>
+
 <?php echo $this->element('submenu_visitas'); ?>
 
 <?php

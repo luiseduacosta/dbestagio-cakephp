@@ -1,7 +1,7 @@
 <?php // pr($supervisor); ?>
 
 <?php if (($this->Session->read('categoria') === 'supervisor') and ($this->Session->read('numero') === $supervisor['Supervisor']['cress'])): ?>
-    <?php echo $this->Html->link('Meus estudantes', '/estagiarios/index/id_supervisor:' . $supervisor['Supervisor']['id'] . '/periodo:0'); ?>
+    <?php echo $this->Html->link('Meus estudantes', '/estagiarios/index/supervisor_id:' . $supervisor['Supervisor']['id'] . '/periodo:0'); ?>
 <?php endif; ?>
 
 <div align="center">
@@ -24,7 +24,7 @@
         <tr>
             <td>Nome</td>
             <td>
-            <?php echo $this->Html->link($supervisor['Supervisor']['nome'], '/Estagiarios/index/id_supervisor:' . $supervisor['Supervisor']['id']); ?>
+            <?php echo $this->Html->link($supervisor['Supervisor']['nome'], '/Estagiarios/index/supervisor_id:' . $supervisor['Supervisor']['id']); ?>
             </td>
         </tr>
 
@@ -247,8 +247,8 @@ if ($supervisor['Instituicao']) {
 <?php
 
 echo $this->Form->create('Supervisor', array('controller'=>'Supervisors', 'url'=>'addinstituicao'));
-echo $this->Form->input('InstSuper.id_instituicao', array('label'=>'Instituição', 'options'=>$instituicoes, 'default'=>0));
-echo $this->Form->input('InstSuper.id_supervisor', array('type'=>'hidden', 'value'=>$supervisor['Supervisor']['id']));
+echo $this->Form->input('InstSuper.instituicao_id', array('label'=>'Instituição', 'options'=>$instituicoes, 'default'=>0));
+echo $this->Form->input('InstSuper.supervisor_id', array('type'=>'hidden', 'value'=>$supervisor['Supervisor']['id']));
 echo $this->Form->end('Confirma');
 
 ?>

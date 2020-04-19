@@ -6,7 +6,7 @@
 
 <tr>
 <td>Registro</td>
-<td><?php echo $inscricao['Inscricao']['id_aluno']; ?></td>
+<td><?php echo $inscricao['Inscricao']['aluno_id']; ?></td>
 </tr>
 
 <tr>

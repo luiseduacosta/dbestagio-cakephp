@@ -10,17 +10,19 @@ class Supervisor extends AppModel {
     public $useTable = 'supervisores';
     public $primaryKey = 'id';
     public $displayField = 'nome';
+
     public $hasMany = array(
         'Estagiario' => array(
             'className' => 'Estagiario',
-            'foreignKey' => 'id_supervisor')
+            'foreignKey' => 'supervisor_id')
     );
+
     public $hasAndBelongsToMany = array(
         'Instituicao' => array(
             'className' => 'Instituicao',
             'joinTable' => 'inst_super',
-            'foreignKey' => 'id_supervisor',
-            'associationForeignKey' => 'id_instituicao',
+            'foreignKey' => 'instituicao_id',
+            'associationForeignKey' => 'supervisor_id',
             'unique' => TRUE,
             'fields' => '',
             'order' => '',

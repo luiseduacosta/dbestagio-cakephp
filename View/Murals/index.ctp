@@ -1,4 +1,7 @@
 <?php
+
+// pr($mural);
+
 echo $this->Html->script("jquery", array('inline' => false));
 echo $this->Html->scriptBlock('
 
@@ -80,7 +83,7 @@ $("#MuralPeriodo").change(function() {
                 <td><?php echo $this->Html->link($data['Mural']['instituicao'], '/Murals/view/' . $data['Mural']['id']); ?></td>
                 <td style="text-align: center"><?php echo $data['Mural']['vagas']; ?></td>
     <?php if ($this->Session->read('id_categoria') === '1' || $this->Session->read('id_categoria') === '3' || $this->Session->read('id_categoria') === '4'): ?>
-                    <td style="text-align: center"><?php echo $this->Html->link($data['Mural']['estagiarios'], '/Estagiarios/index/id_instituicao:' . $data['Mural']['id_estagio'] . '/periodo:' . $data['Mural']['periodo']); ?></td>
+                    <td style="text-align: center"><?php echo $this->Html->link($data['Mural']['estagiarios'], '/Estagiarios/index/instituicao_id:' . $data['Mural']['id_estagio'] . '/periodo:' . $data['Mural']['periodo']); ?></td>
                     <td style="text-align: center"><?php echo $this->Html->link($data['Mural']['inscricoes'], '/Inscricaos/index/' . $data['Mural']['id']); ?></td>
                 <?php else: ?>
                     <td style="text-align: center"><?php echo $data['Mural']['estagiarios']; ?></td>

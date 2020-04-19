@@ -66,9 +66,9 @@ class AlunonovosController extends AppController {
         if ($this->Alunonovo->save($this->data)) {
             // die("Aluno novo save");
             // Capturo o id da instituicao (se foi chamada desde inscriacao add)
-            $inscricao_selecao_estagio = $this->Session->read('id_instituicao');
+            $inscricao_selecao_estagio = $this->Session->read('instituicao_id');
             // Ainda nao posso apagar
-            // $this->Session->delete('id_instituicao');
+            // $this->Session->delete('instituicao_id');
 
 	    // Capturo se foi chamado desde a solicitacao do termo
             $registro_termo = $this->Session->read('termo');
@@ -149,9 +149,9 @@ class AlunonovosController extends AppController {
                 $this->Session->setFlash("Atualizado");
 
                 // Capturo o id da instituicao (se foi chamada desde inscriacao add)
-                $inscricao_selecao_estagio = $this->Session->read('id_instituicao');
+                $inscricao_selecao_estagio = $this->Session->read('instituicao_id');
                 // Ainda nao posso apagar
-                // $this->Session->delete('id_instituicao');
+                // $this->Session->delete('instituicao_id');
                 // Capturo se foi chamado desde a solicitacao do termo
                 $registro_termo = $this->Session->read('termo');
                 $this->Session->delete('termo');
@@ -189,12 +189,13 @@ class AlunonovosController extends AppController {
         }
 
         $aluno = $this->Alunonovo->find('first', 
-                array('conditions' => array('Alunonovo.id' => $id)));
+                array('conditions' => array('Alunonovo.registro' => $id)));
         // pr($aluno);
         // Onde fizeram inscricoes
         $this->loadModel('Inscricao');
-        $inscricoes = $this->Inscricao->findAllByIdAluno($aluno['Alunonovo']['registro']);
-
+        $inscricoes = $this->Inscricao->findAllByAlunoId($aluno['Alunonovo']['registro']);
+        // pr($inscricoes);
+        // die();
         $this->set('alunos', $aluno);
         $this->set('inscricoes', $inscricoes);
     }
@@ -207,7 +208,7 @@ class AlunonovosController extends AppController {
 
         $this->loadModel('Inscricao');
         $inscricao = $this->Inscricao->find('all', array(
-            'conditions' => array('Inscricao.id_aluno' => $registro['Alunonovo']['registro']),
+            'conditions' => array('Inscricao.aluno_id' => $registro['Alunonovo']['registro']),
             'fields' => 'id'));
         // pr($inscricao);
         // die();

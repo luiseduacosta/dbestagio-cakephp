@@ -153,7 +153,7 @@ class ProfessorsController extends AppController {
                     // echo $k . " " . $professor . " -> " . " " . $periodo . " " . $p++ . "<br>";
                     $pauta[$k]['id'] = $k;
                     $pauta[$k]['professor'] = $professor;
-                    $pauta[$k]['professor_id'] = $professor_id;
+                    $pauta[$k]['docente_id'] = $professor_id;
                     $pauta[$k]['departamento'] = $departamento;
                     $pauta[$k]['estagariariostotal'] = $estagiariostotal;
                     if ($area) {

@@ -47,7 +47,7 @@ $("#ProfessorPeriodo").change(function() {
     <tbody>
 <?php foreach ($professores as $c_professores): ?>
 <tr>
-    <td><?php echo $this->Html->link($c_professores['professor'], '/Estagiarios/index/id_professor:' . $c_professores['professor_id'] . '/periodo:' . $periodo); ?></td>
+    <td><?php echo $this->Html->link($c_professores['professor'], '/Estagiarios/index/docente_id:' . $c_professores['docente_id'] . '/periodo:' . $periodo); ?></td>
     <td><?php echo $c_professores['departamento']; ?></td>
     <td><?php 
     if ($c_professores['area']) :

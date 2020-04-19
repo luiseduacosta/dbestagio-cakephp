@@ -41,7 +41,7 @@ class AreasController extends AppController {
             'fields' => array('Area.id', 'Area.area', 'Professor.id', 'Professor.nome', 'Professor.departamento', 'min(Estagiario.periodo) as Area__virtualMinPeriodo', 'max(Estagiario.periodo) as Area__virtualMaxPeriodo'),
             'limit' => 70,
             'order' => 'Area.area',
-            'group' => array('Estagiario.id_professor', 'Estagiario.id_area'));
+            'group' => array('Estagiario.docente_id', 'Estagiario.id_area'));
 
         $this->set('areas', $this->Paginate($this->Area->Estagiario));
         // $this->set('areas', $areas);

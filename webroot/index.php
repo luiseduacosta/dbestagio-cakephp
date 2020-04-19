@@ -61,8 +61,8 @@ if (!defined('APP_DIR')) {
  * The following line differs from its sibling
  * /lib/Cake/Console/Templates/skel/webroot/index.php
  */
-// define('CAKE_CORE_INCLUDE_PATH', ROOT . DS . 'lib');
-define('CAKE_CORE_INCLUDE_PATH', DS . 'usr' . DS . 'share' . DS . 'php');
+define('CAKE_CORE_INCLUDE_PATH', ROOT);
+// define('CAKE_CORE_INCLUDE_PATH', DS . 'home' . DS . 'luis' . DS . 'html' . DS . 'Cake');
 // print "CAKE_CORE_INCLUDE_PATH " . CAKE_CORE_INCLUDE_PATH . "<BR>";
 
 /**
@@ -95,7 +95,6 @@ if (PHP_SAPI === 'cli-server') {
 	}
 	$_SERVER['PHP_SELF'] = '/' . basename(__FILE__);
 }
-// print "Luis";
 
 if (!defined('CAKE_CORE_INCLUDE_PATH')) {
 	if (function_exists('ini_set')) {
@@ -107,8 +106,6 @@ if (!defined('CAKE_CORE_INCLUDE_PATH')) {
 } elseif (!include CAKE_CORE_INCLUDE_PATH . DS . 'Cake' . DS . 'bootstrap.php') {
 	$failed = true;
 }
-
-// die("luis");
 
 if (!empty($failed)) {
 	trigger_error("CakePHP core could not be found. Check the value of CAKE_CORE_INCLUDE_PATH in APP/webroot/index.php. It should point to the directory containing your " . DS . "cake core directory and your " . DS . "vendors root directory.", E_USER_ERROR);

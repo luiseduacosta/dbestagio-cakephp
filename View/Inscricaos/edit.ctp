@@ -4,7 +4,7 @@
 
 echo $this->Form->create('Inscricao');
 echo $this->Form->input('id_aluno', array('type'=>'hidden'));
-echo $this->Form->input('id_instituicao', array('type'=>'hidden'));
+echo $this->Form->input('instituicao_id', array('type'=>'hidden'));
 echo $this->Form->input('Mural.instituicao', array('type'=>'hidden'));
 echo $this->Form->input('data', array('dateFormat'=>'DMY', 'type'=>'hidden'));
 echo $this->Form->input('periodo', array('type'=>'hidden'));

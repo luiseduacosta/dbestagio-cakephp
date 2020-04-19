@@ -34,7 +34,9 @@
         echo $this->Html->meta('icon');
 
         echo $this->Html->css('cake.generic');
-
+        echo $this->Html->css('abas');
+        echo $this->Html->script('jquery'); // Include jQuery library
+        
         echo $scripts_for_layout;
         ?>
     </head>
@@ -60,6 +62,8 @@
                     <?php echo " | "; ?>
                     <?php echo $this->Html->link("Avaliação discente", "/alunos/avaliacaosolicita"); ?>
                     <?php echo " | "; ?>
+                    <?php echo $this->Html->tag('blink', $this->Html->link("Folha de atividades", "/alunos/folhadeatividades")); ?>
+                    <?php echo " | "; ?>                
 
                     <?php echo $this->Html->link("Instituições", "/instituicaos/lista", array('escape' => FALSE)); ?>
                     <?php echo " | "; ?>
@@ -98,8 +102,8 @@
                             echo "<span style='color: white; font-weight: bold'>" . $this->Session->read('user') . "</span>" . " ";
                             break;
                     }
-                    if ($this->Session->read('menu_id_supervisor'))
-                        echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/supervisors/view/" . $this->Session->read('menu_id_supervisor')) . "</span>" . " ";
+                    if ($this->Session->read('menu_supervisor_id'))
+                        echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/supervisors/view/" . $this->Session->read('menu_supervisor_id')) . "</span>" . " ";
                     ?>
 
                     <?php echo $this->Html->link('Sair', '/users/logout/'); ?>

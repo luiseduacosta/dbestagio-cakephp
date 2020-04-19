@@ -1,22 +1,22 @@
 ﻿<?php if ($this->Session->read('categoria') === 'administrador'): ?>
 
-    <?php 
+    <?php
     echo $this->Html->link('Excluir mural', '/Murals/delete/' . $mural['Mural']['id'], NULL, 'Tem certeza?');
     echo " | ";
-    echo $this->Html->link('Editar mural','/Murals/edit/' . $mural['Mural']['id']);
+    echo $this->Html->link('Editar mural', '/Murals/edit/' . $mural['Mural']['id']);
     echo " | ";
-    echo $this->Html->link('Listar mural','/Murals/index/');
+    echo $this->Html->link('Listar mural', '/Murals/index/');
     echo " | ";
-    echo $this->Html->link('Listar inscritos','/Inscricaos/index/' . $mural['Mural']['id']);
+    echo $this->Html->link('Listar inscritos', '/Inscricaos/index/' . $mural['Mural']['id']);
     echo "<br />";
     ?>
 
-    <?php 
-    echo $this->Html->link('Imprimir cartaz','/Murals/publicacartaz/' . $mural['Mural']['id']);
+    <?php
+    echo $this->Html->link('Imprimir cartaz', '/Murals/publicacartaz/' . $mural['Mural']['id']);
     echo " | ";
-    echo $this->Html->link('Publicar no Google','/Murals/publicagoogle/' . $mural['Mural']['id']);
+    echo $this->Html->link('Publicar no Google', '/Murals/publicagoogle/' . $mural['Mural']['id']);
     echo " | ";
-    echo $this->Html->link('Enviar inscrições por email','/Inscricaos/emailparainstituicao/' . $mural['Mural']['id']);
+    echo $this->Html->link('Enviar inscrições por email', '/Inscricaos/emailparainstituicao/' . $mural['Mural']['id']);
     ?>
 
 <?php endif; ?>
@@ -39,9 +39,11 @@
             <td>
                 <?php
                 switch ($mural['Mural']['convenio']) {
-                    case 0: $convenio = 'Não'; break;
-                    case 1: $convenio = 'Sim'; break;
-                    }
+                    case 0: $convenio = 'Não';
+                        break;
+                    case 1: $convenio = 'Sim';
+                        break;
+                }
                 echo $convenio;
                 ?>
             </td>
@@ -65,15 +67,18 @@
         <tr>
             <td>Final de semana</td>
             <td>
-            <?php 
-			switch ($mural['Mural']['final_de_semana']) {
-				case 0: $final_de_semana = 'Não'; break;
-				case 1: $final_de_semana = 'Sim'; break;
-				case 2: $final_de_semana = 'Parcialmente'; break;	
-			}
-			echo $final_de_semana; 
-			?>
-			</td>
+                <?php
+                switch ($mural['Mural']['final_de_semana']) {
+                    case 0: $final_de_semana = 'Não';
+                        break;
+                    case 1: $final_de_semana = 'Sim';
+                        break;
+                    case 2: $final_de_semana = 'Parcialmente';
+                        break;
+                }
+                echo $final_de_semana;
+                ?>
+            </td>
         </tr>
 
         <tr>
@@ -99,15 +104,18 @@
         <tr>
             <td>Horário do estágio</td>
             <td>
-            <?php 
-            switch ($mural['Mural']['horario']) {
-				case 'D': $horario = 'Diurno'; break;
-				case 'N': $horario = 'Noturno'; break;
-				case 'A': $horario = 'Ambos'; break;
-			}
-            echo $horario; 
-			?>
-			</td>
+                <?php
+                switch ($mural['Mural']['horario']) {
+                    case 'D': $horario = 'Diurno';
+                        break;
+                    case 'N': $horario = 'Noturno';
+                        break;
+                    case 'A': $horario = 'Ambos';
+                        break;
+                }
+                echo $horario;
+                ?>
+            </td>
         </tr>
 
         <tr>
@@ -128,15 +136,19 @@
         <tr>
             <td>Forma de seleção</td>
             <td>
-            <?php
-            switch ($mural['Mural']['formaSelecao']) {
-				case 0: $formaselecao = 'Entrevista'; break;
-				case 1: $formaselecao = 'CR'; break;
-				case 2: $formaselecao = 'Prova'; break;
-				case 3: $formaselecao = 'Outra'; break; 
-			}
-			echo $formaselecao; 
-            ?>
+                <?php
+                switch ($mural['Mural']['formaSelecao']) {
+                    case 0: $formaselecao = 'Entrevista';
+                        break;
+                    case 1: $formaselecao = 'CR';
+                        break;
+                    case 2: $formaselecao = 'Prova';
+                        break;
+                    case 3: $formaselecao = 'Outra';
+                        break;
+                }
+                echo $formaselecao;
+                ?>
             </td>
         </tr>
 
@@ -166,71 +178,69 @@
         <tr>
             <td>Local de Inscrição</td>
             <td>
-            <?php
-            if (($mural['Mural']['localInscricao']) == 0) {
-                echo "Inscrição no mural da Coordenação de Estágio e Extensão da ESS"; 
-            } elseif (($mural['Mural']['localInscricao']) == 1) {
-                echo "Inscrição diretamente na Instituição";
-            }
-            ?></td>
+<?php
+if (($mural['Mural']['localInscricao']) == 0) {
+    echo "Inscrição no mural da Coordenação de Estágio e Extensão da ESS";
+} elseif (($mural['Mural']['localInscricao']) == 1) {
+    echo "Inscrição diretamente na Instituição e no mural da Coordenação de Estágio e Extensão da ESS";
+}
+?></td>
         </tr>
 
-        
+
         <tr>
             <td>Observações</td>
             <td><?php echo $mural['Mural']['outras']; ?></td>
         </tr>
 
-	<!--
-	Se a inscricao e no proprio mural
-	//-->
-        <?php if ($mural['Mural']['localInscricao'] === '0'): ?>
+        <!--
+        Se a inscricao e na instituição também tem que fazer inscrição no mural
+        //-->
+        <?php if ($mural['Mural']['localInscricao'] === '1'): ?>
 
-        	<!--
-        	Para o administrador as inscrições sempre estão abertas
-        	//-->
-        	<?php if ($this->Session->read('categoria') === 'administrador'): ?>        
-        	<tr>
-            		<td colspan = 2 style="text-align: center">
-            		<?php echo $this->Form->create('Inscricao', array('url'=>'/Inscricaos/add/' . $mural['Mural']['id'])); ?>
-            		<?php echo $this->Form->input('id_instituicao', array('type'=>'hidden', 'value'=>$mural['Mural']['id'])); ?>
-            		<?php echo $this->Form->end('Inscrição'); ?>
-            		</td>
-        	</tr>
-        	<?php else: ?>
-        
-        		<!--
-        		Para os outros usuários as inscrições dependem da data de encerramento
-        		//-->
+            <tr>
+                <td colspan = 2>
+                    <p style="text-align: center; color: red">Não esqueça de também fazer inscrição diretamente na instituição. Ambas são necessárias!</p>
+                </td>
+            </tr>
 
-			<?php if (date('Y-m-d') < $mural['Mural']['dataInscricao']): ?> 
-        		<tr>
-        			<td colspan = 2 style="text-align: center">
+        <?php endif; ?>        
 
-        			<?php echo $this->Form->create('Inscricao', array('url'=>'/Inscricaos/add/' . $mural['Mural']['id'])); ?>
-        			<?php echo $this->Form->input('id_instituicao', array('type'=>'hidden', 'value'=>$mural['Mural']['id'])); ?>
-        			<?php echo $this->Form->end('Inscrição'); ?>
-        			</td>
-        		</tr>
-        		<?php else: ?>
-        		<tr>
-        			<td colspan = 2>
-                		<p style="text-align: center; color: red">Inscrições encerradas!</p>
-            			</td>
-        		</tr>
-        		<?php endif; ?>
-		
-		<?php endif; ?>
-	
-	<?php else: ?>
+        <!--
+        Para o administrador as inscrições sempre estão abertas
+        //-->
+<?php if ($this->Session->read('categoria') === 'administrador'): ?>        
+            <tr>
+                <td colspan = 2 style="text-align: center">
+    <?php echo $this->Form->create('Inscricao', array('url' => '/Inscricaos/add/' . $mural['Mural']['id'])); ?>
+    <?php echo $this->Form->input('instituicao_id', array('type' => 'hidden', 'value' => $mural['Mural']['id'])); ?>
+    <?php echo $this->Form->end('Inscrição'); ?>
+                </td>
+            </tr>
+<?php else: ?>
 
-		<tr>
-			<td colspan = 2>
-			<p style="text-align: center; color: red">Inscrição diretamente na instituição</p>
-			</td>
-		</tr>
+            <!--
+            Para os outros usuários as inscrições dependem da data de encerramento
+            //-->
 
-	<?php endif; ?>        
+    <?php if (date('Y-m-d') < $mural['Mural']['dataInscricao']): ?> 
+                <tr>
+                    <td colspan = 2 style="text-align: center">
+
+        <?php echo $this->Form->create('Inscricao', array('url' => '/Inscricaos/add/' . $mural['Mural']['id'])); ?>
+        <?php echo $this->Form->input('instituicao_id', array('type' => 'hidden', 'value' => $mural['Mural']['id'])); ?>
+        <?php echo $this->Form->end('Inscrição'); ?>
+                    </td>
+                </tr>
+    <?php else: ?>
+                <tr>
+                    <td colspan = 2>
+                        <p style="text-align: center; color: red">Inscrições encerradas!</p>
+                    </td>
+                </tr>
+    <?php endif; ?>
+
+<?php endif; ?>
 
     </tbody>
 </table>

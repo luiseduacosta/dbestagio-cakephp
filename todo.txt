@@ -1,5 +1,12 @@
 Feito
 =====
+
+20/12/2018. Criar uma função para padronizar os nomes dos alunos: Primeira letra de cada palavra maiuscula e o resto minúscula. Feito no Model na função beforeValidate.
+
+20/12/2018. Na área das instituições criar a tabela visitas para registrar as visitas institucionais. Ao mesmo tempo na tabela Instituições colocar um novo campo para registrar a data da última visita.
+
+20/12/2018. Há um problema na consulta que faz a tabela do mural. Depandendo da versão do MySQL dá erro. Tem a ver com a questão do GROPU BY.
+
 Possibilitar inserir/atualizar/deletar Supervisor nas Instituições (feito)
 
 Verificar que não existam dois cress iguais no inserção de um novo registro (feito)
@@ -63,12 +70,6 @@ Escrebe um cookie: em Inscricaos/add
 Há outros dois cookies que são gravados a partir de /Instituicao/seleciona_supervisor e que são aproveitados em /Inscricoes/termoimprime
 
 Colocar barra de navegação nos View
-
-20/12/2018. Criar uma função para padronizar os nomes dos alunos: Primeira letra de cada palavra maiuscula e o resto minúscula.
-
-20/12/2018. Há um problema na consulta que faz a tabela do mural. Depandendo da versão do MySQL dá erro. Tem a ver com a questão do GROPU BY.
-
-20/12/2018. Na área das instituições criar a tabela visitas para registrar as visitas institucionais. Ao mesmo tempo na tabela Instituições colocar um novo campo para registrar a data da última visita.
 
 Dica
 ====
