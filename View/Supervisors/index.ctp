@@ -111,9 +111,9 @@ $("#SupervisorPeriodo").change(function() {
                 <td>
                 <?php 
                 if ($c_supervisor['Supervisor']['nome']):
-                    echo $this->Html->link($c_supervisor['Supervisor']['virtualestagiarios'], '/Estagiarios/index/id_supervisor:' . $c_supervisor['Supervisor']['id']); 
+                    echo $this->Html->link($c_supervisor['Supervisor']['virtualestagiarios'], '/Estagiarios/index/supervisor_id:' . $c_supervisor['Supervisor']['id']); 
                 else:
-                    echo $this->Html->link($c_supervisor['Supervisor']['virtualestagiarios'], '/Estagiarios/index/id_supervisor:' . 'IS NULL');
+                    echo $this->Html->link($c_supervisor['Supervisor']['virtualestagiarios'], '/Estagiarios/index/supervisor_id:' . 'IS NULL');
                 endif;
                 ?>
                 </td>
@@ -121,9 +121,9 @@ $("#SupervisorPeriodo").change(function() {
                 <td>
                 <?php 
                 if ($c_supervisor['Supervisor']['nome']):
-                    echo $this->Html->link($c_supervisor['Supervisor']['virtualestudantes'], '/Estagiarios/index/id_supervisor:' . $c_supervisor['Supervisor']['id']);
+                    echo $this->Html->link($c_supervisor['Supervisor']['virtualestudantes'], '/Estagiarios/index/supervisor_id:' . $c_supervisor['Supervisor']['id']);
                 else:
-                    echo $this->Html->link($c_supervisor['Supervisor']['virtualestudantes'], '/Estagiarios/index/id_supervisor:' . 'IS NULL');
+                    echo $this->Html->link($c_supervisor['Supervisor']['virtualestudantes'], '/Estagiarios/index/supervisor_id:' . 'IS NULL');
                 endif;                
                 ?>
                 </td>
@@ -131,9 +131,9 @@ $("#SupervisorPeriodo").change(function() {
                 <td>
                 <?php 
                 if ($c_supervisor['Supervisor']['nome']):                
-                    echo $this->Html->link($c_supervisor['Supervisor']['virtualperiodos'], '/Estagiarios/index/id_supervisor:' . $c_supervisor['Supervisor']['id']); 
+                    echo $this->Html->link($c_supervisor['Supervisor']['virtualperiodos'], '/Estagiarios/index/supervisor_id:' . $c_supervisor['Supervisor']['id']); 
                 else:
-                    echo $this->Html->link($c_supervisor['Supervisor']['virtualperiodos'], '/Estagiarios/index/id_supervisor:' . 'IS NULL');
+                    echo $this->Html->link($c_supervisor['Supervisor']['virtualperiodos'], '/Estagiarios/index/supervisor_id:' . 'IS NULL');
                 endif;                
                 ?>
                 </td>

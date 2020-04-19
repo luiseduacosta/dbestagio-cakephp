@@ -55,7 +55,7 @@ class SupervisorsController extends AppController {
                     'limit' => 10,
                     'fields' => array('Supervisor.id', 'Supervisor.cress', 'Supervisor.nome', 'count("Estagiario.registro") as "Supervisor__virtualestagiarios"', 'count(Distinct Estagiario.registro) as `Supervisor__virtualestudantes`', 'count(Distinct Estagiario.periodo) as "Supervisor__virtualperiodos"', 'max(periodo) as "Supervisor__virtualmaxperiodo"'),
                     'conditions' => array('Estagiario.periodo' => $periodo),
-                    'group' => array('Estagiario.id_supervisor'),
+                    'group' => array('Estagiario.supervisor_id'),
                     'order' => array(
                         'Supervisor.nome' => 'asc'))
             );
@@ -64,7 +64,7 @@ class SupervisorsController extends AppController {
                 'Estagiario' => array(
                     'limit' => 10,
                     'fields' => array('Supervisor.id', 'Supervisor.cress', 'Supervisor.nome', 'count("Estagiario.registro") as "Supervisor__virtualestagiarios"', 'count(Distinct Estagiario.registro) as `Supervisor__virtualestudantes`', 'count(Distinct Estagiario.periodo) as "Supervisor__virtualperiodos"', 'max(periodo) as "Supervisor__virtualmaxperiodo"'),
-                    'group' => array('Estagiario.id_supervisor'),
+                    'group' => array('Estagiario.supervisor_id'),
                     'order' => array(
                         'Supervisor.nome' => 'asc'))
             );
@@ -191,7 +191,7 @@ class SupervisorsController extends AppController {
             // die();
             if ($this->Supervisor->InstSuper->save($this->data)) {
                 $this->Session->setFlash('Dados inseridos');
-                $this->redirect('/Supervisors/view/' . $this->data['InstSuper']['id_supervisor']);
+                $this->redirect('/Supervisors/view/' . $this->data['InstSuper']['supervisor_id']);
             }
         }
     }
@@ -204,7 +204,7 @@ class SupervisorsController extends AppController {
         $this->Supervisor->InstSuper->delete($id);
 
         $this->Session->setFlash("Instituição excluída do supervisor");
-        $this->redirect('/Supervisors/view/' . $id_superinstituicao['InstSuper']['id_supervisor']);
+        $this->redirect('/Supervisors/view/' . $id_superinstituicao['InstSuper']['supervisor_id']);
     }
 
     public function repetidos() {
@@ -222,16 +222,16 @@ class SupervisorsController extends AppController {
 
         $semalunos = $this->Supervisor->find('all', array(
             'limit' => 100,
-            'fields' => array('Supervisor.id', 'Supervisor.cress', 'Supervisor.nome', 'Estagiario.id_supervisor'),
+            'fields' => array('Supervisor.id', 'Supervisor.cress', 'Supervisor.nome', 'Estagiario.supervisor_id'),
             'joins' => array(
                 array(
                     'table' => 'estagiarios',
                     'alias' => 'Estagiario',
                     'type' => 'LEFT',
-                    'conditions' => 'Supervisor.id = Estagiario.id_supervisor'
+                    'conditions' => 'Supervisor.id = Estagiario.supervisor_id'
                 )
             ),
-            'conditions' => array('Estagiario.id_supervisor IS NULL'),
+            'conditions' => array('Estagiario.supervisor_id IS NULL'),
             'order' => 'Supervisor.nome'
                 ));
 

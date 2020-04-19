@@ -14,7 +14,7 @@
 
     <tr>
         <td width='25%'>Nome</td>
-        <td width='75%'><?php echo $this->Html->link($professor['Professor']['nome'], '/Estagiarios/index/id_professor:' . $professor['Professor']['id']); ?></td>
+        <td width='75%'><?php echo $this->Html->link($professor['Professor']['nome'], '/Estagiarios/index/docente_id:' . $professor['Professor']['id']); ?></td>
     </tr>
 
 
@@ -38,7 +38,7 @@
         <td>
 <?php
 if ($professor['Professor']['curriculolattes']) {
-    echo $this->Html->link('Lattes', $professor['Professor']['curriculolattes']);
+    echo $this->Html->link('Lattes', 'http://lattes.cnpq.br/'. $professor['Professor']['curriculolattes']);
 } else {
     echo "Sem dados";
 }

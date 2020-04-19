@@ -16,7 +16,7 @@ class Mural extends AppModel {
     public $hasMany = array(
         'Inscricao' => array(
             'className' => 'Inscricao',
-            'foreignKey' => 'id_instituicao'
+            'foreignKey' => 'mural_estagio_id'
         )
     );
     public $belongsTo = array(
@@ -30,7 +30,7 @@ class Mural extends AppModel {
         ),
         'Professor' => array(
             'className' => 'Professor',
-            'foreignKey' => 'id_professor'
+            'foreignKey' => 'docente_id'
         ),
     );
     public $validate = array(

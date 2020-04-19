@@ -135,10 +135,10 @@ $(document).ready(function(){
 </fieldset>
 
 <?php
-if (isset($id_instituicao)) {
-    echo $this->Form->input('id_instituicao', array('type'=>'hidden', 'value'=>$id_instituicao));
+if (isset($instituicao_id)) {
+    echo $this->Form->input('instituicao_id', array('type'=>'hidden', 'value'=>$instituicao_id));
 } else {
-    echo $this->Form->input('id_instituicao', array('type'=>'hidden'));
+    echo $this->Form->input('instituicao_id', array('type'=>'hidden'));
 }
 ?>
 

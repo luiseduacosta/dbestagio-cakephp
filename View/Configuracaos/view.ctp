@@ -7,6 +7,15 @@
 <?php echo $this->Html->link('Usuários','/users/listausuarios/'); ?>
 <?php echo " | "; ?>
 
+<?php echo $this->Html->link('Planilha seguro','/alunos/planilhaseguro/'); ?>
+<?php echo " | "; ?>
+
+<?php echo $this->Html->link('Planilha CRESS','/alunos/planilhacress/'); ?>
+<?php echo " | "; ?>
+
+<?php echo $this->Html->link('Carga horária','/alunos/cargahoraria/'); ?>
+<?php echo " | "; ?>
+
 <?php echo $this->Html->link('Planejamento','/configuraplanejamentos/index/'); ?>
 
 <h1>Configuração</h1>

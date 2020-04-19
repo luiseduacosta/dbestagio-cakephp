@@ -13,7 +13,7 @@ class Instituicao extends AppModel {
     public $hasMany = array(
         'Estagiario' => array(
             'className' => 'Estagiario',
-            'foreignKey' => 'id_instituicao',
+            'foreignKey' => 'instituicao_id',
             'joinTable' => 'estagiarios'
         ),
         'Mural' => array(
@@ -35,8 +35,8 @@ class Instituicao extends AppModel {
         'Supervisor' => array(
             'className' => 'Supervisor',
             'joinTable' => 'inst_super',
-            'foreignKey' => 'id_instituicao',
-            'associationForeignKey' => 'id_supervisor',
+            'foreignKey' => 'instituicao_id',
+            'associationForeignKey' => 'supervisor_id',
             'unique' => true,
             'fields' => '',
             'order' => 'Supervisor.nome'

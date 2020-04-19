@@ -20,14 +20,11 @@ $(document).ready(function(){
 
 <?php
 
-echo $this->Form->create('Inscricao', array('url'=>'add/' . $id_instituicao));
+echo $this->Form->create('Inscricao');
 $numero = $this->Session->read('numero');
-if ($numero) {
-	echo $this->Form->input('id_aluno', array('label'=>'Registro (DRE)', 'size'=>9, 'maxlenght'=>9, 'default'=>$this->Session->read('numero')));
-} else {
-	echo $this->Form->input('id_aluno', array('label'=>'Registro (DRE)', 'size'=>9, 'maxlenght'=>9, 'dafault'=>NULL));
-}
-echo $this->Form->input('id_instituicao', array('type'=>'hidden', 'value'=>$id_instituicao));
-echo $this->Form->end('Confirma');
+echo $this->Form->input('aluno_id', array('type' => 'text', 'label'=>'Registro (DRE)', 'size'=> 9, 'maxlenght'=> 9, 'value' => $this->Session->read('numero')));
+echo $this->Form->input('mural_estagio_id', array('type'=>'hidden', 'value'=>$instituicao_id));
+echo $this->Form->submit('Confirma');
+echo $this->Form->end();
 
 ?>

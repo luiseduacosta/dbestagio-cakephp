@@ -10,7 +10,7 @@ class Professor extends AppModel {
     public $hasMany = array(
         'Estagiario' => array(
             'className' => 'Estagiario',
-            'foreignKey' => 'id_professor',
+            'foreignKey' => 'docente_id',
     ));
 
     public function beforeValidate($options = array()) {

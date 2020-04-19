@@ -68,23 +68,35 @@ class MuralsController extends AppController {
             'order' => array('Mural.dataInscricao DESC')));
         // pr($mural);
         // die();
-        // Capturo os inscritos para cada oferta de vaga de estágio
+        // Capturo os inscritos para cada oferta de vaga de estágio        
         $this->loadModel('Estagiario');
         $i = 0;
         $total_estagiarios = NULL;
         foreach ($mural as $c_mural) {
             $inscricoes = sizeof($c_mural['Inscricao']);
-            // $estagio = $c_mural['Mural']['id_estagio'];
-            // $instituicao = $c_mural['Instituicao']['instituicao'];
+            $estagio = $c_mural['Mural']['id_estagio'];
+            // die();
+            $q_inscricoes = $this->Mural->find('first', array(
+            'conditions' => array('Mural.periodo' => $periodo, 'Mural.id' => $c_mural['Mural']['id']),
+            'order' => array('Mural.dataInscricao DESC'))); 
+            // pr($q_inscricoes['Inscricao']);
+            // die();
+            
             // Calculo a quantidade de estagiarios desse mural
+            // echo $c_mural["Mural"]["id_estagio"];
+            // echo " ";
+            // echo $c_mural["Mural"]["periodo"];
             $estagiarios = $this->Estagiario->find('all', array(
-                'conditions' => array('Estagiario.id_instituicao = ' . "'" . $c_mural["Mural"]["id_estagio"] . "'",
-                    'Estagiario.periodo = ' . "'" . $c_mural["Mural"]["periodo"] . "'")
+                'conditions' => array(
+                    'Estagiario.instituicao_id' => $c_mural["Mural"]["id_estagio"], 
+                    'Estagiario.periodo' => $c_mural["Mural"]["periodo"])
                     )
             );
             // pr($estagiarios);
+            // die('estagiarios');
+            
             $mural[$i]['Mural']['estagiarios'] = sizeof($estagiarios);
-            $mural[$i]['Mural']['inscricoes'] = $inscricoes;
+            $mural[$i]['Mural']['inscricoes'] = sizeof($q_inscricoes['Inscricao']);
 
             $total_estagiarios = $total_estagiarios + sizeof($estagiarios);
 
@@ -93,9 +105,9 @@ class MuralsController extends AppController {
 
         /* Conta o total de alunos inscritos (sem repeticoes) */
         $total_alunos = $this->Mural->Inscricao->find('count', array(
-            'fields' => array('Inscricao.id_aluno', 'Aluno.registro', 'Alunonovo.registro'),
-            'group' => 'Inscricao.id_aluno',
-            'order' => array('Inscricao.id_aluno'),
+            'fields' => array('Inscricao.aluno_id', 'Aluno.registro', 'Alunonovo.registro'),
+            'group' => 'Inscricao.aluno_id',
+            'order' => array('Inscricao.aluno_id'),
             'conditions' => array('Inscricao.periodo' => $periodo))
         );
         // pr($total_alunos);
@@ -141,6 +153,8 @@ class MuralsController extends AppController {
             'conditions' => 'Mural.periodo = ' . "'" . $periodo . "'")
         );
         $total_vagas = $vagas[0][0]['total_vagas'];
+        // pr($total_vagas);
+        // die('Total');
         /* Finaliza conta das vagas */
 
         $this->set('todos_periodos', $todos_periodos);
@@ -155,6 +169,8 @@ class MuralsController extends AppController {
 
     public function add() {
 
+        // pr($this->data);
+        
         if (!empty($this->data)) {
             // Instituicao
             $this->loadModel('Instituicao');
@@ -164,8 +180,12 @@ class MuralsController extends AppController {
             ));
             // pr($instituicao['Instituicao']);
             if ($instituicao)
-                $this->request->data['Mural']['instituicao'] = $instituicao['Instituicao']['instituicao'];
-            // pr($this->data);
+                // pr($instituicao['Instituicao']['instituicao']);
+                if (strlen($instituicao['Instituicao']['instituicao']) > 99):
+                    $instituicao['Instituicao']['instituicao'] = substr($instituicao['Instituicao']['instituicao'], 0, 99);
+                endif;
+                echo $this->request->data['Mural']['instituicao'] = $instituicao['Instituicao']['instituicao'];
+                pr($this->data);
             // die();
             if ($this->Mural->save($this->data)) {
                 $this->Session->setFlash('Mural inserido');

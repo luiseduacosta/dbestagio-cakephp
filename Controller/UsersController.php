@@ -97,7 +97,7 @@ class UsersController extends AppController {
                         $this->loadModel('Supervisor');
                         $supervisor = $this->Supervisor->findByCress($usuario['User']['numero']);
                         if ($supervisor) {
-                            $this->Session->write("menu_id_supervisor", $supervisor['Supervisor']['id']);
+                            $this->Session->write("menu_supervisor_id", $supervisor['Supervisor']['id']);
                             $this->redirect('/Supervisors/view/' . $supervisor['Supervisor']['id']);
                         } else {
                             $this->Session->setFlash('Supervisor sem cadastrado: entrar em contato com a Coordenação de Estágio & Extensão');
@@ -315,7 +315,7 @@ class UsersController extends AppController {
                 case 4: // Supervisor
                     $this->loadModel('Supervisor');
                     $supervisor_id = $this->Supervisor->findByCress($this->data['User']['numero']);
-                    $this->Session->write("menu_id_supervisor", $supervisor['Supervisor']['id']);
+                    $this->Session->write("menu_supervisor_id", $supervisor['Supervisor']['id']);
                     $this->redirect('/Supervisors/view/' . $supervisor_id['Supervisor']['id']);
                     break;
             }
@@ -350,7 +350,7 @@ class UsersController extends AppController {
         $direcao = isset($parametros['direcao']) ? $parametros['direcao'] : 'ascendente';
         $linhas = isset($parametros['linhas']) ? $parametros['linhas'] : 15;
         $pagina = isset($parametros['pagina']) ? $parametros['pagina'] : 1;
-        $q_paginas = isset($parametros['q_paginas']) ? $parametros['q_paginas'] : NULL;        
+        $q_paginas = isset($parametros['q_paginas']) ? $parametros['q_paginas'] : NULL;
         // pr('param: ' . $pagina);
         // die();
 
@@ -493,27 +493,139 @@ class UsersController extends AppController {
         $usuario_id = $this->User->find('first', array('conditions' => array('User.numero' => $id)));
         // pr($usuario_id);
         // die();
-        
+
         $this->loadModel('Aluno');
         $aluno = $this->Aluno->find('first', array('conditions' => array('Aluno.registro' => $id)));
         $this->loadModel('Alunonovo');
-        $alunonovo = $this->Alunonovo->find('first', array('conditions' => array('Alunonovo.registro' => $id)));        
+        $alunonovo = $this->Alunonovo->find('first', array('conditions' => array('Alunonovo.registro' => $id)));
         $this->loadModel('Professor');
-        $professor = $this->Professor->find('first', array('conditions' => array('Professor.siape' => $id)));        
+        $professor = $this->Professor->find('first', array('conditions' => array('Professor.siape' => $id)));
         $this->loadModel('Supervisor');
-        $supervisor = $this->Supervisor->find('first', array('conditions' => array('Supervisor.cress' => $id)));        
+        $supervisor = $this->Supervisor->find('first', array('conditions' => array('Supervisor.cress' => $id)));
 
         if ($aluno or $alunonovo or $professor or $supervisor) {
-            $this->Session->setFlash('Usuário existe como aluno, alunonovo, professor ou supervisor' );
+            $this->Session->setFlash('Usuário existe como aluno, alunonovo, professor ou supervisor');
             $this->redirect('/users/listausuarios');
         } else {
             $this->User->delete($usuario_id['User']['id']);
             $this->Session->setFlash('Registro excluído');
             $this->redirect('/users/listausuarios/');
-            
         }
+    }
+
+    public function view($id = NULL) {
+
+        $usuario = $this->User->find('first', array(
+            'conditions' => array('User.numero' => $id)
+        ));
+
+        // pr($usuario);
+
+        if ($usuario['Role']['id'] == 2) {
+            // echo "Estudante";
+            $this->loadModel("Aluno");
+            $aluno = $this->Aluno->find('first', array(
+                'conditions' => array('Aluno.registro' => $id)
+            ));
+            // pr($aluno);
+            if (!$aluno) {
+                $this->loadModel("Alunonovo");
+                $alunonovo = $this->Alunonovo->find('first', array(
+                    'conditions' => array('Alunonovo.registro' => $id)
+                ));
+                // pr($alunonovo);
+            }
+
+            if (isset($aluno) && !(empty($aluno))):
+            // pr($aluno);
+            elseif (isset($alunonovo) && !(empty($alunonovo))):
+            // pr($alunonovo);
+            endif;
+            // die();
+        } elseif ($usuario['Role']['id'] == 3) {
+            // echo "Professor";
+            $this->loadModel('Professor');
+            $professor = $this->Professor->find('first', array(
+                'conditions' => array('Professor.siape' => $id)
+            ));
+        } elseif ($usuario['Role']['id'] == 4) {
+            // echo "Supervisor";
+            $this->loadModel('Supervisor');
+            $supervisor = $this->Supervisor->find('first', array(
+                'conditions' => array('Supervisor.cress' => $id)
+            ));
         }
 
+        $this->set('usuario', $usuario);
+        if (isset($aluno) && !(empty($aluno))):
+            $this->set('aluno', $aluno);
+        elseif (isset($alunonovo) && !(empty($alunonovo))):
+            $this->set('alunonovo', $alunonovo);
+        elseif (isset($professor) && !(empty($professor))):
+            $this->set('professor', $professor);
+        elseif (isset($supervisor) && !(empty($supervisor))):
+            $this->set('supervisor', $supervisor);
+        endif;
+    }
+
+    public function edit($id = NULL) {
+
+        $this->User->id = $id;
+
+        if (empty($this->data)) {
+            $this->data = $this->User->read();
+        } else {
+            pr($this->data);
+            $this->User->save($this->data);
+            // print_r($this->data);
+            $this->Session->setFlash("Atualizado");
+
+            $this->redirect('/users/view/' . $this->data['User']['numero']);
+        }
+    }
+
+    public function alternarusuario() {
+
+        //  pr($this->data);
+        $categoria = $this->Session->read('id_categoria');
+        //  pr($categoria);
+        if ($categoria == 1):
+            echo "Administrador";
+
+            if (empty($this->data)) {
+                $this->data = $this->User->read();
+            } else {
+                pr($this->data);
+                if ($this->data['User']['role'] == 2) {
+                    // $this->Session->setFlash('Bem-vindo ' . $usuario['Role']['categoria'] . ': ' . $this->Session->read('user'));
+                    $this->loadModel('Aluno');
+                    $aluno_id = $this->Aluno->findByRegistro($this->data['User']['numero']);
+                    if ($aluno_id) {
+                        $this->Session->write('menu_aluno', 'estagiario');
+                        $this->Session->write('menu_id_aluno', $aluno_id['Aluno']['id']);
+                        $this->redirect('/Alunos/view/' . $aluno_id['Aluno']['id']);
+                        
+                    } else {
+                        $this->loadModel('Alunonovo');
+                        $aluno_id = $this->Alunonovo->findByRegistro($this->data['User']['numero']);
+                        if ($aluno_id) {
+                            $this->Session->write('menu_aluno', 'alunonovo');
+                            $this->Session->write('menu_id_aluno', $aluno_id['Alunonovo']['id']);
+                            $this->redirect('/Alunonovos/view/' . $aluno_id['Alunonovo']['id']);
+                        } else {
+                            $this->Session->write('menu_aluno', 'semcadastro');
+                            $this->Session->write('menu_id_aluno', 0);
+                            // $this->Session->setFlash('Estudante novo sem cadastro');
+                            // Tem que impedir que estudante nao cadastro possa continuar
+                            $this->redirect('/Alunonovos/add/');
+                        }
+                    }
+                }
+                //  pr($this->data);
+                // $this->Session->write();
+            }
+        endif;
+    }
 
     public function padroniza() {
 

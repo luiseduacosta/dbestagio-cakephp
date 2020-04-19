@@ -15,7 +15,7 @@ echo $this->Html->link('Listar mural', '/murals/index'); ?>
     if (isset($instituicao)): 
 ?>
 <h1><?php echo $this->Html->link($instituicao . ': ', '/murals/view/' . $mural_id); echo " Vagas: " . $vagas ?></h1>
-    <?php echo $this->Html->link($instituicao . ': ', '/estagiarios/index/id_instituicao:' . $id_instituicao . '/periodo:' . $periodo); ; echo " Estagiarios: " . $estagiarios; ?>
+    <?php echo $this->Html->link($instituicao . ': ', '/estagiarios/index/instituicao_id:' . $instituicao_id . '/periodo:' . $periodo); ; echo " Estagiarios: " . $estagiarios; ?>
 <?php 
     endif; 
 ?>

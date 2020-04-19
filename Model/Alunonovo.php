@@ -6,11 +6,23 @@ class Alunonovo extends AppModel {
     public $useTable = 'alunosNovos';
     public $primaryKey = 'id';
     public $displayField = 'nome';
+    public $hasMany = array(
+        'Inscricao' => array(
+            'className' => 'Inscricao',
+            'foreignKey' => FALSE,
+            'conditions' => 'Alunonovo.registro = Inscricao.aluno_id'
+        ),
+        'Estagiario' => array(
+            'className' => 'Estagiario',
+            'foreignKey' => FALSE,
+            'conditions' => 'Alunonovo.registro = Estagiario.registro'
+        ),
+    );
 
     public function alunonovorfao() {
 
         // return($this->query("select Alunonovo.id, Alunonovo.registro, Alunonovo.nome, Alunonovo.celular, Alunonovo.email, Inscricao.id, Inscricao.id_aluno from alunosNovos AS Alunonovo left join mural_inscricao AS Inscricao on Alunonovo.registro = Inscricao.id_aluno where Inscricao.id_aluno IS NULL group by Alunonovo.registro order by Alunonovo.nome"));
-        return($this->query("select Alunonovo.id, Alunonovo.registro, Alunonovo.nome, Alunonovo.celular, Alunonovo.email, Inscricao.id, Inscricao.id_aluno from alunosNovos AS Alunonovo left join mural_inscricao AS Inscricao on Alunonovo.registro = Inscricao.id_aluno where Inscricao.id_aluno IS NULL order by Alunonovo.nome"));
+        return($this->query("select Alunonovo.id, Alunonovo.registro, Alunonovo.nome, Alunonovo.celular, Alunonovo.email, Inscricao.id, Inscricao.aluno_id from alunosNovos AS Alunonovo left join mural_inscricao AS Inscricao on Alunonovo.registro = Inscricao.aluno_id where Inscricao.aluno_id IS NULL order by Alunonovo.nome"));
     }
 
     public function beforeValidate($options = array()) {

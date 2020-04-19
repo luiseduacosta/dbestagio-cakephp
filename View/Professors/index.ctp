@@ -72,7 +72,7 @@
                 <td>
                     <?php
                     if ($c_professor['Professor']['curriculolattes']) {
-                        echo $this->Html->link('Lattes', $c_professor['Professor']['curriculolattes']);
+                        echo $this->Html->link('Lattes', 'http://lattes.cnpq.br/'. $c_professor['Professor']['curriculolattes']);
                     } else {
                         echo "Sem lattes";
                     }

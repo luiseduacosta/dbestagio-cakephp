@@ -40,7 +40,7 @@ $(document).ready(function(){
 
 <?php echo $this->Form->input('horario', array('label'=>'Horário da OTP', 'type'=>'select', 'options'=>array('D'=>'Diurno', 'N'=>'Noturno', 'A'=>'Ambos'))); ?>
 
-<?php echo $this->Form->input('id_professor', array('label'=>'Professor', 'type'=>'select', 'options'=>$professores)); ?>
+<?php echo $this->Form->input('docente_id', array('label'=>'Professor', 'type'=>'select', 'options'=>$professores)); ?>
 
 <?php echo $this->Form->input('dataSelecao', array('label'=>'Data da seleção', 'dateFormat'=>'DMY', 'minYear'=>'2000', 'empty'=>TRUE)); ?>
 

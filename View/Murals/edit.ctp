@@ -71,7 +71,7 @@ if (empty($professores)) $professores = "Sem dados";
         </tr>
 
         <tr>
-            <td><?php echo $this->Form->input('id_professor', array('label'=>'Professor', 'type'=>'select', 'options'=>array($professores))); ?></td>
+            <td><?php echo $this->Form->input('docente_id', array('label'=>'Professor', 'type'=>'select', 'options'=>array($professores))); ?></td>
         </tr>
 
         <tr>

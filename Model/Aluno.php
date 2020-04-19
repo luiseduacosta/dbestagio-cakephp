@@ -12,7 +12,7 @@ class Aluno extends AppModel {
     public $hasMany = array(
         'Estagiario' => array(
             'className' => 'Estagiario',
-            'foreignKey' => 'id_aluno', // nao eh o registro
+            'foreignKey' => 'registro', // nao eh o registro. Teria que ser aluno_registro
         ),
     );
 
