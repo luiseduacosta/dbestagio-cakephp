@@ -120,7 +120,6 @@ class AlunonovosController extends AppController {
     /*
      * id eh o id do alunonovo
      */
-
     public function edit($id = NULL) {
 
         // Somente o próprio pode editar

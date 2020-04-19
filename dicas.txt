@@ -3,8 +3,8 @@ Dica
 $log = $this->Votacao->getDataSource()->getLog(false, false);
 debug($log);
 
-Paginação
-=========
+Paginação própria
+=================
 
 No controller são três métodos:
 1) Criar a matriz ou array a partir da(s) tabela(s) utilizando um foreach. 
@@ -23,4 +23,3 @@ $array paginado (p. ex. $p_array)
 $pagina com o valor de cada página do array_slice
 $q_paginas com o valor do total das páginas calculado pela divisão sizeof($array) entre a quantidade de registros por página.
 A quantidade de registros por página também poderia ser enviada e recebida ($q_registros). Na view poderia haver um formulário para que o usuário selecione a quantidade registros que quer visualizar em cada página.
-  
