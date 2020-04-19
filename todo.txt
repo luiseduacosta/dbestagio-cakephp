@@ -34,7 +34,7 @@ Solicitar termo de compromisso
 
 Professores:
 Atualizar dados pessoais
-Lanzar nota de estágio
+Lançar nota de estágio
 Atualizar dados das instituições
 Cadastrar instituições novas
 Atualizar turma de OTP
@@ -47,7 +47,7 @@ Atualizar turma de estágio
 Cadastrar oferta de estágio
 Cadastrar instituições novas
 
-Bugs ou apromoramentos
+Bugs ou aprimoramentos
 ======================
 Mudar o menu de busca dos estudantes assim: Nome:, DRE, Email e CPF
 
@@ -55,12 +55,12 @@ Padronizar os menus assim:
 a) Index: Inserir e Busca
 b) View: Editar, Excluir e Listar (volta para Index)
 
-Sessoes:
-Escrebo um cookie? em Inscricaos/termocompromisso se o aluno não é estagiario e não está em alunonovo e encaminho para Alunonovos/add.
+Sessões:
+Escrevo um cookie? em Inscricaos/termocompromisso se o aluno não é estagiário e não está em alunonovo e encaminho para Alunonovos/add.
     uma vez cadastrado como alunonovo é redirecionado para Inscricaos/termocompromisso. Posso apagar o cookie em Alunonovo/add
 
-Escrebe um cookie: em Inscricaos/add
-    se o aluno é estagiario para redirecionar para /Alunos/edit
+Escreve um cookie: em Inscricaos/add
+    se o aluno é estagiário para redirecionar para /Alunos/edit
         uma vez atualizado vai para /Inscricaos/inscricao e apaga o cookie
     se o aluno esta cadastrado como alunonovo para /Alunosnovos/edit
         uma vez atualizado vai para /Inscricaos/inscricao e apaga
@@ -75,4 +75,5 @@ Dica
 ====
 $log = $this->Votacao->getDataSource()->getLog(false, false);
 debug($log);
-  
+
+É possível estabelecer um tamanho de campo no view da seguinte forma: 'style'=>'width: 25em'

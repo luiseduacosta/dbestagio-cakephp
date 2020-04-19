@@ -34,7 +34,7 @@ if (!defined('DS')) {
  */
 if (!defined('ROOT')) {
 	define('ROOT', dirname(dirname(dirname(__FILE__))));
-	// print "ROOT " . ROOT . "<BR>";
+	print "ROOT " . ROOT . "<BR>";
 	// die();
 }
 
