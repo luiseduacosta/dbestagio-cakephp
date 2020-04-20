@@ -787,7 +787,7 @@ class AlunosController extends AppController {
         $i = 0;
         foreach ($alunos as $c_aluno):
             // pr($c_aluno);
-//            if (sizeof($c_aluno['Estagiario']) >= 4):
+            // if (sizeof($c_aluno['Estagiario']) >= 4):
             // pr(sizeof($c_aluno['Estagiario']));
             $cargahorariatotal[$i]['id'] = $c_aluno['Aluno']['id'];
             $cargahorariatotal[$i]['registro'] = $c_aluno['Aluno']['registro'];

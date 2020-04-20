@@ -1,1 +1,1 @@
-/home/luis/html/dbestagio-cakephp/webroot/js/jquery-1.9.1.min.js
+/home/luis/workspace/mycake/webroot/js/jquery-1.4.4.min.js
