@@ -16,6 +16,3 @@ class AreaInstituicao extends AppModel {
 			)
 	);
 
-}
-
-?>
