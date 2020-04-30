@@ -10,8 +10,8 @@
 <?php echo $this->Html->link('Busca por CPF','/alunos/busca_cpf'); ?>
 </p>
 
-<?php 
-// pr($alunos); 
+<?php
+// pr($alunos);
 // die();
 ?>
 <?php if (isset($alunos)): ?>
@@ -36,7 +36,7 @@
 
 <h1>Busca por nome</h1>
 
-    <?php echo $this->Form->create('Aluno', array('controller'=>'Alunos','action'=>'busca')); ?>
+    <?php echo $this->Form->create('Aluno', array('controller'=>'Alunos','url'=>'busca')); ?>
     <?php echo $this->Form->input('nome',array('label'=>'Digite o nome do aluno')); ?>
     <?php echo $this->Form->end('Confirma'); ?>
 

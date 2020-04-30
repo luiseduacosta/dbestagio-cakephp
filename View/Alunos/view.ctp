@@ -11,7 +11,7 @@
 
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
     <?php echo " | "; ?>
-    <?php echo $this->Html->link('Usuários', '/Users/listausuarios'); ?>
+    <?php echo $this->Html->link('Usuários', '/Userestagios/listausuarios'); ?>
 <?php endif; ?>
 
 <?php if ($this->Session->read('categoria') != 'estudante'): ?>
@@ -95,7 +95,7 @@ if (is_null($alunos['nascimento'])) {
         <th>CH</th>
     </tr>
 
-    <?php foreach ($c_estagios as $aluno_estagio): ?> 
+    <?php foreach ($c_estagios as $aluno_estagio): ?>
 
         <tr>
 
@@ -112,10 +112,10 @@ if (is_null($alunos['nascimento'])) {
             <td style='text-align:center'><?php echo $aluno_estagio['nivel']; ?></td>
             <td style='text-align:center'><?php echo $aluno_estagio['turno']; ?></td>
             <td style='text-align:center'><?php echo $aluno_estagio['tc']; ?></td>
-            <td><?php echo $this->Html->link($aluno_estagio['instituicao'], '/Instituicaos/view/' . $aluno_estagio['instituicao_id']); ?></td>
-            <td><?php echo $this->Html->link($aluno_estagio['supervisor'], '/Supervisors/view/' . $aluno_estagio['supervisor_id']); ?></td>
-            <td><?php echo $this->Html->link($aluno_estagio['professor'], '/Professors/view/' . $aluno_estagio['docente_id']); ?></td>
-            <td><?php echo $this->Html->link($aluno_estagio['area'], '/Areas/view/' . $aluno_estagio['id_area']); ?></td>
+            <td><?php echo $this->Html->link($aluno_estagio['instituicao'], '/Instituicoes/view/' . $aluno_estagio['instituicao_id']); ?></td>
+            <td><?php echo $this->Html->link($aluno_estagio['supervisor'], '/Supervisores/view/' . $aluno_estagio['supervisor_id']); ?></td>
+            <td><?php echo $this->Html->link($aluno_estagio['professor'], '/Professores/view/' . $aluno_estagio['docente_id']); ?></td>
+            <td><?php echo $this->Html->link($aluno_estagio['areaestagio'], '/Areaestagios/view/' . $aluno_estagio['areaestagio_id']); ?></td>
             <td style='text-align:center'><?php echo $aluno_estagio['nota']; ?></td>
             <td style='text-align:center'><?php echo $aluno_estagio['ch']; ?></td>
 
@@ -127,7 +127,7 @@ if (is_null($alunos['nascimento'])) {
     </tr>
 
     <?php if (isset($nao_obrigatorio) && !(empty($nao_obrigatorio))): ?>
-        <?php foreach ($nao_obrigatorio as $aluno_nao_estagio): ?> 
+        <?php foreach ($nao_obrigatorio as $aluno_nao_estagio): ?>
             <tr>
                 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
                     <td>
@@ -142,7 +142,7 @@ if (is_null($alunos['nascimento'])) {
                 <td style='text-align:center'><?php echo "Não obrigatório"; ?></td>
                 <td style='text-align:center'><?php echo $aluno_nao_estagio['turno']; ?></td>
                 <td style='text-align:center'><?php echo $aluno_nao_estagio['tc']; ?></td>
-                <td><?php echo $this->Html->link($aluno_nao_estagio['instituicao'], '/Instituicaos/view/' . $aluno_nao_estagio['instituicao_id']); ?></td>
+                <td><?php echo $this->Html->link($aluno_nao_estagio['instituicao'], '/Instituicoes/view/' . $aluno_nao_estagio['instituicao_id']); ?></td>
                 <td><?php echo $this->Html->link($aluno_nao_estagio['supervisor'], '/Supervisors/view/' . $aluno_nao_estagio['supervisor_id']); ?></td>
                 <td><?php echo $this->Html->link($aluno_nao_estagio['professor'], '/Professors/view/' . $aluno_estagio['docente_id']); ?></td>
                 <td><?php echo $this->Html->link($aluno_nao_estagio['area'], '/Areas/view/' . $aluno_nao_estagio['id_area']); ?></td>

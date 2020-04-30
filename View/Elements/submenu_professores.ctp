@@ -1,21 +1,21 @@
 <div class="submenusuperior">
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
     <?php
-    echo $this->Html->link('Inserir', '/Professors/add/');
+    echo $this->Html->link('Inserir', '/Professores/add/');
     echo " | ";
-    // echo $this->Html->link('Buscar (não implementado)', '/Professors/busca/');
+    // echo $this->Html->link('Buscar (não implementado)', '/Professores/busca/');
     echo " | ";
-    echo $this->Html->link('Áreas', '/Areas/index/');
+    echo $this->Html->link('Áreas', '/Areaestagios/index/');
     echo " | ";
-    echo $this->Html->link('Pauta', '/Professors/pauta/');
+    echo $this->Html->link('Pauta', '/Professores/pauta/');
     ?>
 <?php else: ?>
     <?php
-    // echo $this->Html->link('Buscar (não implementado)', '/Professors/busca/');
+    // echo $this->Html->link('Buscar (não implementado)', '/Professores/busca/');
     echo " | ";
-    echo $this->Html->link('Áreas', '/Areas/index/');
+    echo $this->Html->link('Áreas', '/Areaestagios/index/');
     echo " | ";
-    echo $this->Html->link('Pauta', '/Professors/pauta/');    
+    echo $this->Html->link('Pauta', '/Professores/pauta/');
     ?>
-<?php endif; ?>    
+<?php endif; ?>
 </div>

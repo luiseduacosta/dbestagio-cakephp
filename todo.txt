@@ -56,20 +56,24 @@ a) Index: Inserir e Busca
 b) View: Editar, Excluir e Listar (volta para Index)
 
 Sessões:
-Escrevo um cookie? em Inscricaos/termocompromisso se o aluno não é estagiário e não está em alunonovo e encaminho para Alunonovos/add.
-    uma vez cadastrado como alunonovo é redirecionado para Inscricaos/termocompromisso. Posso apagar o cookie em Alunonovo/add
+Escrevo um cookie? em Inscricoes/termocompromisso se o aluno não é estagiário e não está em alunonovo e encaminho para Alunonovos/add.
+    uma vez cadastrado como Estudante é redirecionado para Inscricoes/termocompromisso. Posso apagar o cookie em Alunonovo/add
 
-Escreve um cookie: em Inscricaos/add
+Escreve um cookie: em Inscricoes/add
     se o aluno é estagiário para redirecionar para /Alunos/edit
-        uma vez atualizado vai para /Inscricaos/inscricao e apaga o cookie
-    se o aluno esta cadastrado como alunonovo para /Alunosnovos/edit
-        uma vez atualizado vai para /Inscricaos/inscricao e apaga
-    se o aluno não está cadastrado para /Alunosnovos/add
-        uma vez cadastrado como alunonovo vai para /Inscricaos/inscricao e apaga
+        uma vez atualizado vai para /Inscricoes/inscricao e apaga o cookie
+    se o aluno esta cadastrado como Estudante para /Estudantes/edit
+        uma vez atualizado vai para /Inscricoes/inscricao e apaga
+    se o aluno não está cadastrado para /Estudantes/add
+        uma vez cadastrado como estudante vai para /Inscricoes/inscricao e apaga
 
 Há outros dois cookies que são gravados a partir de /Instituicao/seleciona_supervisor e que são aproveitados em /Inscricoes/termoimprime
 
 Colocar barra de navegação nos View
+
+Mudanças nos nomes das tabelas
+users = userestagios
+alunoNovo = estudantes
 
 Dica
 ====
