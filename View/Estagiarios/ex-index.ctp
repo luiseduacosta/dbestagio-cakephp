@@ -108,7 +108,7 @@ $("#EstagiarioIdSupervisor").change(function() {
 </div>
 
 <div align='center'>
-    
+
 <?php ($periodo == 0 ? $periodo = "Todos" : $periodo = $periodo); ?>
 <h1>Estagiarios período: <?php echo $periodo; ?></h1>
 
@@ -145,16 +145,16 @@ $("#EstagiarioIdSupervisor").change(function() {
 <tr>
 <?php if ($this->Session->read('categoria') != 'estudante'): ?>
     <td style='text-align:center'><?php echo $this->Html->link($aluno['Estagiario']['registro'],"/alunos/view/". $aluno['Aluno']['id']); ?></td>
-<?php endif; ?>    
+<?php endif; ?>
 <td style='text-align:left'><?php echo $aluno['Aluno']['nome']; ?></td>
 <td style='text-align:center'><?php echo $aluno['Estagiario']['periodo']; ?></td>
 <td style='text-align:center'><?php echo $aluno['Estagiario']['nivel']; ?></td>
 <td style='text-align:center'><?php echo $aluno['Estagiario']['turno']; ?></td>
 <td style='text-align:center'><?php echo $aluno['Estagiario']['tc']; ?></td>
 <?php if ($this->Session->read('categoria') != 'estudante'): ?>
-    <td style='text-align:left'><?php echo $this->Html->link($aluno['Instituicao']['instituicao'],"/instituicaos/view/". $aluno['Estagiario']['instituicao_id']); ?></td>
-    <td style='text-align:left'><?php echo $this->Html->link($aluno['Supervisor']['nome'],"/supervisors/view/". $aluno['Estagiario']['supervisor_id']); ?></td>
-    <td style='text-align:left'><?php echo $this->Html->link($aluno['Professor']['nome'],"/professors/view/". $aluno['Estagiario']['docente_id']); ?></td>
+    <td style='text-align:left'><?php echo $this->Html->link($aluno['Instituicao']['instituicao'],"/Instituicoes/view/". $aluno['Estagiario']['instituicao_id']); ?></td>
+    <td style='text-align:left'><?php echo $this->Html->link($aluno['Supervisor']['nome'],"/Supervisors/view/". $aluno['Estagiario']['supervisor_id']); ?></td>
+    <td style='text-align:left'><?php echo $this->Html->link($aluno['Professor']['nome'],"/Professors/view/". $aluno['Estagiario']['docente_id']); ?></td>
     <td style='text-align:left'><?php echo $this->Html->link($aluno['Area']['area'], "/Areas/view/" . $aluno['Area']['id']); ?></td>
 <?php else: ?>
     <td style='text-align:left'><?php echo $aluno['Instituicao']['instituicao']; ?></td>
@@ -171,7 +171,7 @@ $("#EstagiarioIdSupervisor").change(function() {
 </table>
 
 <?php echo $this->Paginator->counter(array(
-'format' => 'Página %page% de %pages%, 
+'format' => 'Página %page% de %pages%,
 exibindo %current% registros do %count% total,
 começando no registro %start%, finalizando no %end%'
 )); ?>

@@ -7,15 +7,15 @@ class Aluno extends AppModel {
 
     public $name = 'Aluno';
     public $useTable = 'alunos';
-    public $primaryKey = 'id';  // ha outro campo registro
+    public $primaryKey = 'id';  // há outro campo id
     public $displayField = 'nome';
     public $hasMany = array(
         'Estagiario' => array(
             'className' => 'Estagiario',
-            'foreignKey' => 'registro', // nao eh o registro. Teria que ser aluno_registro
+            'foreignKey' => 'aluno_id' 
         ),
     );
-
+    
     public function beforeValidate($options = array()) {
         
         $this->data['Aluno']['email'] = strtolower($this->data['Aluno']['email']);

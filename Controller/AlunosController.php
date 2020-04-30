@@ -25,7 +25,7 @@ class AlunosController extends AppController {
             // $this->Session->setFlash("Professor/Supervisor");
         } else {
             $this->Session->setFlash("Não autorizado");
-            $this->redirect('/users/login/');
+            $this->redirect('/Userestagios/login/');
         }
         // die(pr($this->Session->read('user')));
     }
@@ -93,8 +93,8 @@ class AlunosController extends AppController {
                 $c_estagios[$i]['professor'] = $c_instituicao['Professor']['nome'];
                 $c_estagios[$i]['supervisor_id'] = $c_instituicao['Supervisor']['id'];
                 $c_estagios[$i]['supervisor'] = $c_instituicao['Supervisor']['nome'];
-                $c_estagios[$i]['id_area'] = $c_instituicao['Area']['id'];
-                $c_estagios[$i]['area'] = $c_instituicao['Area']['area'];
+                $c_estagios[$i]['areaestagio_id'] = $c_instituicao['Areaestagio']['id'];
+                $c_estagios[$i]['areaestagio'] = $c_instituicao['Areaestagio']['area'];
                 $c_estagios[$i]['nota'] = $c_instituicao['Estagiario']['nota'];
                 $c_estagios[$i]['ch'] = $c_instituicao['Estagiario']['ch'];
                 $criterio[$i] = $c_estagios[$i][$ordem];
@@ -219,9 +219,9 @@ class AlunosController extends AppController {
                 // $this->Session->delete('termo');
 
                 if ($inscricao_selecao_estagio) {
-                    $this->redirect('/Inscricaos/inscricao/' . $this->data['Aluno']['registro']);
+                    $this->redirect('/Inscricoes/inscricao/' . $this->data['Aluno']['registro']);
                 } elseif ($registro_termo) {
-                    $this->redirect('/Inscricaos/termocompromisso/' . $registro_termo);
+                    $this->redirect('/Inscricoes/termocompromisso/' . $registro_termo);
                 } else {
                     $this->redirect('/Alunos/view/' . $id);
                 }
@@ -263,13 +263,13 @@ class AlunosController extends AppController {
             // die();
             // Nenhum resultado
             if (empty($alunos)) {
-                $this->loadModel('Alunonovo');
-                $condicao = array('Alunonovo.nome like' => '%' . $this->data['Aluno']['nome'] . '%');
-                $alunonovos = $this->Alunonovo->find('all', array('conditions' => $condicao));
+                $this->loadModel('Estudante');
+                $condicao = array('Estudante.nome like' => '%' . $this->data['Aluno']['nome'] . '%');
+                $alunonovos = $this->Estudanate->find('all', array('conditions' => $condicao));
                 if (empty($alunonovos)) {
                     $this->Session->setFlash("Não foram encontrados registros");
                 } else {
-                    $this->set('alunos', $this->paginate('Alunonovo', $condicao));
+                    $this->set('alunos', $this->paginate('Estudante', $condicao));
                     $this->set('nome', $this->data['Aluno']['nome']);
                 }
             } else {
@@ -285,8 +285,8 @@ class AlunosController extends AppController {
             $alunos = $this->Aluno->findAllByRegistro($this->data['Aluno']['registro']);
             if (empty($alunos)) {
                 // Teria que buscar na tabela alunos_novos
-                $this->loadModel('Alunonovo');
-                $alunonovos = $this->Alunonovo->findAllByRegistro($this->data['Aluno']['registro']);
+                $this->loadModel('Estudante');
+                $alunonovos = $this->Estudante->findAllByRegistro($this->data['Aluno']['registro']);
                 // pr($alunonovos);
                 if (empty($alunonovos)) {
                     $this->Session->setFlash("Não foram encontrados registros do aluno");
@@ -374,9 +374,9 @@ class AlunosController extends AppController {
             }
 
             // Logo busco entre os alunos novos
-            $this->loadModel('Alunonovo');
-            $alunonovo = $this->Alunonovo->find('first', array(
-                'conditions' => array('Alunonovo.registro' => $id)
+            $this->loadModel('Estudante');
+            $alunonovo = $this->Estudante->find('first', array(
+                'conditions' => array('Estudante.registro' => $id)
             ));
             // pr($alunonovo);
             $this->set('alunonovo', $alunonovo);
@@ -408,7 +408,7 @@ class AlunosController extends AppController {
                     $this->redirect('/Alunos/avaliacaoedita/supervisor_id:' . $aluno['Supervisor']['id'] . '/registro:' . $this->data['Aluno']['registro']);
                 } else {
                     $this->Session->setFlash("Não foi indicado supervisor da instituicao. Retorna para solicitar termo de compromisso");
-                    $this->redirect('/Inscricaos/termocompromisso/' . $aluno['Aluno']['registro']);
+                    $this->redirect('/Inscricoes/termocompromisso/' . $aluno['Aluno']['registro']);
                 }
             } else {
                 $this->Session->setFlash("Não há estágios cadastrados para este estudante");

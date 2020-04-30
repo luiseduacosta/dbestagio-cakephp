@@ -11,16 +11,16 @@ class Estagiario extends AppModel {
     public $useTable = "estagiarios";
     public $order = array("Estagiario.periodo" => "ASC");
     public $belongsTo = array(
+        'Estudante' => array(
+            'className' => 'Estudante',
+            'foreignKey' => false,
+            'conditions' => 'Estagiario.registro = Estudante.registro',
+            'joinTable' => 'estudantes'
+        ),
         'Aluno' => array(
             'className' => 'Aluno',
             'foreignKey' => 'aluno_id',
             'joinTable' => 'alunos'
-        ),
-        'Estudante' => array(
-            'className' => 'Alunonovo',
-            'foreignKey' => false,
-            'conditions' => 'Estagiario.registro = Estudante.registro',
-            'joinTable' => 'alunosNovos'
         ),
         'Instituicao' => array(
             'className' => 'Instituicao',
@@ -38,58 +38,58 @@ class Estagiario extends AppModel {
             'foreignKey' => 'supervisor_id',
             'joinTable' => 'supervisores'
         ),
-        'Area' => array(
-            'className' => 'Area',
-            'foreignKey' => 'id_area',
-            'joinTable' => 'areas_estagio'
+        'Areaestagio' => array(
+            'className' => 'Areaestagio',
+            'foreignKey' => 'areaestagio_id',
+            'joinTable' => 'areaestagios'
         )
     );
     public $validate = array(
         'instituicao_id' => array(
             'rule' => array('comparison', 'not equal', 0),
-            'required' => TRUE,
-            'allowEmpty' => FALSE,
+            'required' => true,
+            'allowEmpty' => false,
             'message' => 'Selecionar instituição de estágio'
         ),
         'periodo' => array(
             'rule' => '/^\d{4}-\d{1}$/i',
-            'required' => TRUE,
-            'allowEmpty' => TRUE,
+            'required' => true,
+            'allowEmpty' => true,
             'on' => 'create',
             'message' => 'Digitar o periodo de estágio'
         ),
         'nivel' => array(
             'rule' => array('inList', array('1', '2', '3', '4', '9')),
-            'required' => TRUE,
-            'allowEmpty' => FALSE,
+            'required' => true,
+            'allowEmpty' => false,
             'on' => 'create',
-            'message' => 'Selecionar nível de estágio. Para estágio não obrigatório selecionar 9'
+            'message' => 'Selecionar nível de estágio. Para estágio não obrigatório selecionar 9.'
         ),
         'turno' => array(
             'rule' => array('inList', array('D', 'N', 'I')),
-            'required' => TRUE,
-            'allowEmpty' => FALSE,
+            'required' => true,
+            'allowEmpty' => false,
             'on' => 'create',
-            'message' => 'Selecionar turno de estágio'
+            'message' => 'Selecionar turno de estágio. I para indeterminado.'
         ),
         'tc_solicitacao' => array(
             'rule' => 'date',
-            'required' => FALSE,
-            'allowEmpty' => TRUE,
+            'required' => false,
+            'allowEmpty' => true,
             'on' => 'create',
             'message' => 'Data da solicitação do Termo'
         ),
         'nota' => array(
             'rule' => array('range', 0, 10),
-            'requiered' => TRUE,
-            'allowEmpty' => TRUE,
+            'requiered' => true,
+            'allowEmpty' => true,
             'on' => 'create',
             'message' => 'Valor entre 0 e 10 com as casas decimais separadas com um ponto'
         ),
         'ch' => array(
             'rule' => 'numeric',
-            'requiered' => TRUE,
-            'allowEmpty' => TRUE,
+            'requiered' => true,
+            'allowEmpty' => true,
             'on' => 'create',
             'message' => 'Somente números inteiros'
         )
@@ -97,15 +97,12 @@ class Estagiario extends AppModel {
 
     public function alunorfao() {
 
-        // return($this->query('select Aluno.id, Aluno.registro, Aluno.nome, Aluno.celular, Aluno.email, Estagiario.id, Estagiario.registro, Estagiario.nivel, Estagiario.periodo from alunos AS Aluno left join estagiarios AS Estagiario on Aluno.id = Estagiario.id_aluno where Estagiario.id IS NULL group by Aluno.nome order by Estagiario.registro + Estagiario.nivel'));
+        // return($this->query('select Aluno.id, Aluno.registro, Aluno.nome, Aluno.celular, Aluno.email, Estagiario.id, Estagiario.registro, Estagiario.nivel, Estagiario.periodo from alunos AS Aluno left join estagiarios AS Estagiario on Aluno.id = Estagiario.aluno_id where Estagiario.id IS NULL group by Aluno.nome order by Estagiario.registro + Estagiario.nivel'));
         return($this->query('select Aluno.id, Aluno.registro, Aluno.nome, Aluno.celular, Aluno.email, Estagiario.id, Estagiario.registro, Estagiario.nivel, Estagiario.periodo from alunos AS Aluno left join estagiarios AS Estagiario on Aluno.id = Estagiario.aluno_id where Estagiario.id IS NULL order by Estagiario.registro + Estagiario.nivel'));
     }
 
     public function supervisor_aluno() {
-
         return ($this->query('select Aluno.id, Aluno.nome, Estagiario.registro, Aluno.celular, Aluno.email, Estagiario.id, Estagiario.periodo, Supervisor.id, Supervisor.nome, Supervisor.cress, Supervisor.telefone, Supervisor.celular, Supervisor.email, Instituicao.id, Instituicao.instituicao from estagiarios AS Estagiario left join alunos AS Aluno on Estagiario.aluno_id = Aluno.id left join supervisores AS Supervisor on Estagiario.supervisor_id = Supervisor.id left join estagio as Instituicao on Estagiario.instituicao_id = Instituicao.id'));
     }
 
 }
-
-?>

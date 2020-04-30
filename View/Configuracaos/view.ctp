@@ -4,7 +4,7 @@
 <?php // echo $this->Html->link('Usuários','/aros/listausuarios/'); ?>
 <?php // echo " | "; ?>
 
-<?php echo $this->Html->link('Usuários','/users/listausuarios/'); ?>
+<?php echo $this->Html->link('Usuários','/Userestagios/listausuarios/'); ?>
 <?php echo " | "; ?>
 
 <?php echo $this->Html->link('Planilha seguro','/alunos/planilhaseguro/'); ?>

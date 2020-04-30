@@ -8,7 +8,7 @@ echo $this->Html->scriptBlock('
 $(document).ready(function(){
 $("#EstagiarioIdInstituicao").change(function() {
 	var instituicao_id = $(this).val();
-	 $("#EstagiarioIdSupervisor").load("/mural/Instituicaos/seleciona_supervisor/"+instituicao_id, {id: $(this).val(), ajax: "true"});
+	 $("#EstagiarioIdSupervisor").load("/mural/Instituicoes/seleciona_supervisor/"+instituicao_id, {id: $(this).val(), ajax: "true"});
          /* alert(instituicao_id); */
 	})
  });
