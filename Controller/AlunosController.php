@@ -52,7 +52,7 @@ class AlunosController extends AppController {
             // die(pr($this->Session->read('numero')));
             $verifica = $this->Aluno->findByRegistro($this->Session->read('numero'));
             if ($id != $verifica['Aluno']['id']) {
-                $this->Session->setFlash("Acesso não autorizado");
+                $this->Session->setFlash(__("Acesso não autorizado"));
                 $this->redirect("/Murals/index");
                 die("Não autorizado");
             }
@@ -204,7 +204,7 @@ class AlunosController extends AppController {
 
             $duplicada = $this->Aluno->findByRegistro($this->data['Aluno']['registro']);
             if ($duplicada)
-                $this->Session->setFlash("Este número de aluno já está cadastrado");
+                $this->Session->setFlash(__("Este número de aluno já está cadastrado"));
 
             if ($this->Aluno->save($this->data)) {
                 // print_r($this->data);
@@ -234,7 +234,7 @@ class AlunosController extends AppController {
         // Se tem pelo menos um estagio nao excluir
         $estagiario = $this->Aluno->Estagiario->findById_aluno($id);
         if ($estagiario) {
-            $this->Session->setFlash('Aluno com estágios não foi excluido. Exclua os estágios primeiro.');
+            $this->Session->setFlash(__('Aluno com estágios não pode ser excluido. Exclua os estágios primeiro.'));
             $this->redirect(array('url' => 'view/' . $id));
         } else {
             $this->Aluno->delete($id);
@@ -267,7 +267,7 @@ class AlunosController extends AppController {
                 $condicao = array('Estudante.nome like' => '%' . $this->data['Aluno']['nome'] . '%');
                 $alunonovos = $this->Estudanate->find('all', array('conditions' => $condicao));
                 if (empty($alunonovos)) {
-                    $this->Session->setFlash("Não foram encontrados registros");
+                    $this->Session->setFlash(__("Não foram encontrados registros"));
                 } else {
                     $this->set('alunos', $this->paginate('Estudante', $condicao));
                     $this->set('nome', $this->data['Aluno']['nome']);
@@ -289,7 +289,7 @@ class AlunosController extends AppController {
                 $alunonovos = $this->Estudante->findAllByRegistro($this->data['Aluno']['registro']);
                 // pr($alunonovos);
                 if (empty($alunonovos)) {
-                    $this->Session->setFlash("Não foram encontrados registros do aluno");
+                    $this->Session->setFlash(__("Não foram encontrados registros do aluno"));
                     $this->redirect('/Alunos/busca');
                 } else {
                     $this->set('alunos', $alunonovos);
@@ -313,7 +313,7 @@ class AlunosController extends AppController {
             // pr($alunos);
             // die("Sem registro");
             if (empty($alunos)) {
-                $this->Session->setFlash("Não foram encontrados registros do email aluno");
+                $this->Session->setFlash(__("Não foram encontrados registros do email aluno"));
                 // Teria que buscar na tabela alunos_novos
                 // $alunos_novos = $this->Aluno_novo->findAllByRegistro($this->data['Aluno']['registro']);
                 // if (empty($alunos_novos)
@@ -334,7 +334,7 @@ class AlunosController extends AppController {
             // pr($alunos);
             // die("Sem registro");
             if (empty($alunos)) {
-                $this->Session->setFlash("Não foram encontrados registros do CPF");
+                $this->Session->setFlash(__("Não foram encontrados registros do CPF"));
                 // Teria que buscar na tabela alunos_novos
                 // $alunos_novos = $this->Aluno_novo->findAllByRegistro($this->data['Aluno']['registro']);
                 // if (empty($alunos_novos)
@@ -356,7 +356,7 @@ class AlunosController extends AppController {
             // pr($this->data);
 
             if ($this->Aluno->save($this->data)) {
-                $this->Session->setFlash('Dados do aluno inseridos!');
+                $this->Session->setFlash(__('Dados do aluno inseridos!'));
                 $this->Aluno->getLastInsertId();
                 $this->redirect('/Estagiarios/add/' . $this->Aluno->getLastInsertId());
             }
@@ -369,7 +369,7 @@ class AlunosController extends AppController {
                 'conditions' => array('Aluno.registro' => $id)
             ));
             if (!empty($alunocadastrado)) {
-                $this->Session->setFlash("Aluno já cadastrado");
+                $this->Session->setFlash(__("Aluno já cadastrado"));
                 $this->redirect('/Alunos/view/' . $alunocadastrado['Aluno']['id']);
             }
 
@@ -403,15 +403,15 @@ class AlunosController extends AppController {
             // die("avaliacao");
             if ($aluno) {
                 if (!empty($aluno['Supervisor']['id'])) {
-                    $this->Session->setFlash("Verificar e completar dados do supervisor da instituicao.");
+                    $this->Session->setFlash(__("Verificar e completar dados do supervisor da instituicao."));
                     // $this->redirect('/Alunos/avaliacaoverifica/' . $aluno['Supervisor']['id'] . '/' . $this->data['Aluno']['registro']);
                     $this->redirect('/Alunos/avaliacaoedita/supervisor_id:' . $aluno['Supervisor']['id'] . '/registro:' . $this->data['Aluno']['registro']);
                 } else {
-                    $this->Session->setFlash("Não foi indicado supervisor da instituicao. Retorna para solicitar termo de compromisso");
+                    $this->Session->setFlash(__("Não foi indicado supervisor da instituicao. Retorna para solicitar termo de compromisso"));
                     $this->redirect('/Inscricoes/termocompromisso/' . $aluno['Aluno']['registro']);
                 }
             } else {
-                $this->Session->setFlash("Não há estágios cadastrados para este estudante");
+                $this->Session->setFlash(__("Não há estágios cadastrados para este estudante"));
             }
         }
     }
@@ -482,7 +482,7 @@ class AlunosController extends AppController {
                 $this->layout = "pdf";
                 $this->render();
             else:
-                $this->Session->setFlash("Não há estágios cadastrados para este estudante");
+                $this->Session->setFlash(__("Não há estágios cadastrados para este estudante"));
                 $this->redirect('folhadeatividades');
             endif;
         }
@@ -524,25 +524,25 @@ class AlunosController extends AppController {
             // die("avaliacaoedita");
 
             if (!$this->data['Supervisor']['cress']) {
-                $this->Session->setFlash("O número de CRESS é obrigatório");
+                $this->Session->setFlash(__("O número de CRESS é obrigatório"));
                 $this->redirect('/Alunos/avaliacaosolicita/supervisor_id:' . $supervisor_id . '/registro:' . $registro);
                 die("O número de Cress é obrigatório");
             }
 
             if (!$this->data['Supervisor']['nome']) {
-                $this->Session->setFlash("O nome do supervisor é obrigatório");
+                $this->Session->setFlash(__("O nome do supervisor é obrigatório"));
                 $this->redirect('/Alunos/avaliacaoedita/supervisor_id:' . $supervisor_id . '/registro:' . $registro);
                 die("O nome do supervisor é obrigatório");
             }
 
             if ((!$this->data['Supervisor']['celular']) && (!$this->data['Supervisor']['telefone'])) {
-                $this->Session->setFlash("O número de telefone ou celular é obrigatório");
+                $this->Session->setFlash(__("O número de telefone ou celular é obrigatório"));
                 $this->redirect('/Alunos/avaliacaoedita/supervisor_id:' . $supervisor_id . '/registro:' . $registro);
                 die("O número de telefone ou celular é obrigatório");
             }
 
             if (!$this->data['Supervisor']['email']) {
-                $this->Session->setFlash("O endereço de email é obrigatório");
+                $this->Session->setFlash(__("O endereço de email é obrigatório"));
                 $this->redirect('/Alunos/avaliacaoedita/supervisor_id:' . $supervisor_id . '/registro:' . $registro);
                 die("O email é obrigatório");
             }
@@ -550,7 +550,7 @@ class AlunosController extends AppController {
             if ($this->Supervisor->save($this->data)) {
                 // die();
                 // pr($this->data);
-                $this->Session->setFlash("Atualizado");
+                $this->Session->setFlash(__("Atualizado"));
                 $this->redirect('/Alunos/avaliacaoimprime/registro:' . $registro);
             }
         }
