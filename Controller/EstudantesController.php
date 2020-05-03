@@ -189,16 +189,17 @@ class EstudantesController extends AppController {
             'conditions' => array('Estudante.registro' => $id)
                 )
         );
-
+        // pr($aluno);
+        // die('aluno1');
         /* Tenta buscar pelo id e não pelo registro */    
         if (empty($aluno))
             $aluno = $this->Estudante->find('first', array(
                 'conditions' => array('Estudante.id' => $id)
                     )
             );
-
         // pr($aluno);
-        // die('aluno');
+        // die('aluno2');
+
         // Onde fizeram inscricoes
         if (!empty($aluno['Estudante']['registro'])) {
             // die($aluno['Estudante']['registro']);
