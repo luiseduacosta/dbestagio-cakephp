@@ -4,8 +4,7 @@ class EstagiariosController extends AppController {
 
     public $name = 'Estagiarios';
     public $components = array('Auth');
-    // var $scaffold;
-    // var $helpers = array('Javascript');
+ 
     public $paginate = array(
         'limit' => 10,
         'order' => array(

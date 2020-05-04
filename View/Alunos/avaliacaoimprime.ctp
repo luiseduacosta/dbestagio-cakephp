@@ -53,8 +53,8 @@ Avaliação final do supervisor de campo do desempenho discente
 
 <div style="text-align:justify">
 <p style="line-height:100%">
-Nome do Aluno: $estudante<br>
-Supervisor de Campo: $supervisor 
+Nome do Aluno(a): $estudante<br>
+Supervisor(a) de Campo: $supervisor 
 CRESS: $cress <br>
 E-mail: $email 
 Telefone: $telefone Celular: $celular<br>
@@ -62,16 +62,16 @@ Campo de Estágio: $instituicao<br>
 Endereço Institucional: $endereco_inst<br>
 Período de realização do estágio: $periodo<br>
 Nível de Estágio: $nivel<br>
-Supervisor Acadêmico: $professor<br>
+Supervisor(a) Acadêmico(a): $professor<br>
 
 <br>
-<b>Leia atentamente cada item e marque um X na posição que melhor descreva os resultados alcançados com a inserção do aluno no campo de estágio.</b>
+<b>Leia atentamente cada item e marque um X na posição que melhor descreva os resultados alcançados com a inserção do(a) aluno(a) no campo de estágio.</b>
 <br>
         
 <table border="1">
                 <tr>
-                    <td style="width: 70%">
-                        Inserção e desenvolvimento do Aluno no Espaço Sócio institucional / ocupacional
+                    <td style="width: 72%">
+                        Inserção e desenvolvimento do(a) Aluno(a) no Espaço Sócio institucional/ocupacional
                     </td>
                     <td style="width: 7%">
                         Ruim 
@@ -82,7 +82,7 @@ Supervisor Acadêmico: $professor<br>
                     <td style="width: 7%">
                         Bom 
                     </td>
-                    <td style="width: 9%">
+                    <td style="width: 8%">
                         Excelente
                     </td>
                 </tr>
@@ -90,7 +90,7 @@ Supervisor Acadêmico: $professor<br>
         
                 <tr>
                     <td>
-                        1 - ASSIDUIDADE: É freqüênte, ausentando-se apenas com conhecimento e acordado com o supervisor de campo e ou acadêmico, seja por motivo de saúde, seja por situações estabelecidas na Lei 11788/2008, entre outras.
+                        1 - ASSIDUIDADE: É freqüênte, ausentando-se apenas com conhecimento e acordado com o(a) supervisor(a) de campo e ou acadêmico(a), seja por motivo de saúde, seja por situações estabelecidas na Lei 11788/2008, entre outras.
                     </td>
                     <td>
                     </td>
@@ -132,7 +132,7 @@ Supervisor Acadêmico: $professor<br>
 
                 <tr>
                     <td>
-                        4 - Na relação com o usuário: compromisso ético-político no atendimento direto ao usuário.
+                        4 - Na relação com o(a) usuário(a): compromisso ético-político no atendimento direto ao usuário(a).
                     </td>
                     <td>
                     </td>
@@ -146,7 +146,7 @@ Supervisor Acadêmico: $professor<br>
 
                 <tr>
                     <td>
-                        5 - Na relação com outros profissionais: Integração e articulação à equipe da área de estágio, cooperação e habilidade de trabalhar em equipe multiprofissional.
+                        5 - Na relação com outro(a)s profissionais: Integração e articulação à equipe da área de estágio, cooperação e habilidade de trabalhar em equipe multiprofissional.
                     </td>
                     <td>
                     </td>
@@ -188,7 +188,7 @@ Supervisor Acadêmico: $professor<br>
 
                 <tr>
                     <td>
-                        8 - Avaliação do desempenho do estagiário na elaboração de relatórios, pesquisas, projetos de pesquisa e intervenção, etc.
+                        8 - Avaliação do desempenho do(a) estagiário(a) na elaboração de relatórios, pesquisas, projetos de pesquisa e intervenção, etc.
                     </td>
                     <td>
                     </td>
@@ -207,67 +207,67 @@ Supervisor Acadêmico: $professor<br>
 (   ) sim   (   ) não. Fundamente se achar necessário: 
 <br>
 <br>
-______________________________________________________________________________________________________________
+__________________________________________________________________________________________________________________
 <br>
 <br>
-______________________________________________________________________________________________________________
+__________________________________________________________________________________________________________________
 <br>
 <br>
-10) O desempenho das atividades desenvolvidas pelo estagiário e o processo de supervisão foram afetados pelas  condições de trabalho do campo de estágio?
-<br>
-(   ) sim   (   ) não. Justifique a resposta se achar necessário. 
-<br>
-<br>
-______________________________________________________________________________________________________________
-<br>
-<br>
-______________________________________________________________________________________________________________
-<br>
-<br>
-11) Quanto à integração Universidade / campo de estágio: Há discussão conjunta do trabalho entre os 3 segmentos: aluno, professor e supervisor?
+10) O desempenho das atividades desenvolvidas pelo(a) estagiário(a) e o processo de supervisão foram afetados pelas  condições de trabalho do campo de estágio?
 <br>
 (   ) sim   (   ) não. Justifique a resposta se achar necessário. 
 <br>
 <br>
-______________________________________________________________________________________________________________
+__________________________________________________________________________________________________________________
 <br>
 <br>
-______________________________________________________________________________________________________________
+__________________________________________________________________________________________________________________
 <br>
 <br>
-Se a resposta foi não. Como poderia ser desenvolvida?__________________________________________________________________
+11) Quanto à integração Universidade / campo de estágio: Há discussão conjunta do trabalho entre os 3 segmentos: aluno(a), professor(a) e supervisor(a)?
+<br>
+(   ) sim   (   ) não. Justifique a resposta se achar necessário. 
 <br>
 <br>
-______________________________________________________________________________________________________________
+__________________________________________________________________________________________________________________
 <br>
 <br>
-______________________________________________________________________________________________________________
+__________________________________________________________________________________________________________________
 <br>
 <br>
-12) Há questões que você considera que devam ser mais enfatizadas na disciplina de OTP
+Se a resposta foi não. Como poderia ser desenvolvida _________________________________________________________
+<br>
+<br>
+__________________________________________________________________________________________________________________
+<br>
+<br>
+__________________________________________________________________________________________________________________
+<br>
+<br>
+12) Há questões que você considera que devam ser mais enfatizadas na disciplina de OTP?
 <br>
 (   ) sim   (   ) não. Quais?
 <br>
 <br>
-______________________________________________________________________________________________________________
+__________________________________________________________________________________________________________________
 <br>
 <br>
-______________________________________________________________________________________________________________
+__________________________________________________________________________________________________________________
 <br>
 <br>
 Sugestões e observações:
 <br>
 <br>
-______________________________________________________________________________________________________________
+__________________________________________________________________________________________________________________
 <br>
 <br>
-______________________________________________________________________________________________________________
+__________________________________________________________________________________________________________________
 <br>
 <br>
-______________________________________________________________________________________________________________
+__________________________________________________________________________________________________________________
 <br>
 <br>
-______________________________________________________________________________________________________________
+__________________________________________________________________________________________________________________
 <br>
 <br>
 </p>

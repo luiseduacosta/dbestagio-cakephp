@@ -53,6 +53,7 @@ class EstudantesController extends AppController {
      */
 
     public function add($id = null) {
+
         $this->set('registro', $id);
         // die("Alunonovo add: " . $id);
         /* Vejo se foi chamado desde cadastro
@@ -76,7 +77,7 @@ class EstudantesController extends AppController {
             $cadastro = $this->Session->read('cadastro');
 
             $registro = $this->data['Estudante']['registro'];
-            $this->Session->setFlash("Cadastro realizado: " . $registro);
+            $this->Session->setFlash(__("Cadastro realizado: " . $registro));
             // $this->redirect("/Inscricoes/solicitatermo/" . $registro);
             // die(" Verificacao da rotina " . $registro);
 
@@ -112,19 +113,15 @@ class EstudantesController extends AppController {
      * Além de ser chamada por ela propria
      * esta funcao eh chamada desde inscricao para selecao de estagio
      * e tambem desde termo de compromisso
-     */
-
-    /*
      * id eh o id do alunonovo
      */
-
     public function edit($id = null) {
 
         // Somente o próprio pode editar
         if ($this->Session->read('numero')) {
             $verifica = $this->Estudante->findByRegistro($this->Session->read('numero'));
             if ($id != $verifica['Estudante']['id']) {
-                $this->Session->setFlash("Acesso não autorizado");
+                $this->Session->setFlash(__("Acesso não autorizado"));
                 $this->redirect("/Murals/index");
                 die("Não autorizado");
             }

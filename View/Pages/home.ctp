@@ -24,7 +24,7 @@
 ?>
 
 <?php
-header('location: murals/');
+header('location: mural/');
 ?>
 
 <div align="center">
