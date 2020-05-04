@@ -255,6 +255,7 @@ class InscricoesController extends AppController {
      * O Id e o numero de registro
      *
      */
+
     public function inscricao($id = NULL) {
 
         // echo "Id: " . $id . "<br>";
@@ -427,35 +428,49 @@ class InscricoesController extends AppController {
         $this->loadModel("Configuracao");
         $configuracao = $this->Configuracao->findById('1');
         $periodo = $configuracao['Configuracao']['termo_compromisso_periodo'];
-
-        // die("termocompromisso ");
+        // die("configuração");
         // Busca em estagiarios o ultimo estagio do aluno
-        // die("termocompromisso");
-        $estagiario = $this->Inscricao->Estagiario->find('first', array(
-            'conditions' => array('Estagiario.registro' => $id),
-            'fields' => array('Estagiario.id', 'Estagiario.periodo', 'Estagiario.turno', 'Estagiario.aluno_id', 'Estagiario.registro', 'Estagiario.nivel', 'Estagiario.instituicao_id', 'Estagiario.supervisor_id', 'Estagiario.docente_id', 'Aluno.id', 'Aluno.registro', 'Aluno.nome'),
-            'order' => array('periodo' => 'DESC')
-                )
-        );
-// $log = $this->inscricao->Estagiario->getDataSource()->getLog(false, false);
-// debug($log);
+        // $estagiario = $this->Inscricao->alunosestudantesmural($id);
+        // $log = $this->Inscricao->getDataSource()->getLog(false, false);
+        // debug($log);
         // pr($estagiario);
         // die("termocompromisso");
+        /*
+          $estagiario = $this->Inscricao->Estagiario->find('first', array(
+          'conditions' => array('Estagiario.registro' => $id),
+          'fields' => array('Estagiario.id', 'Estagiario.periodo', 'Estagiario.turno', 'Estagiario.aluno_id', 'Estagiario.registro', 'Estagiario.nivel', 'Estagiario.instituicao_id', 'Estagiario.supervisor_id', 'Estagiario.docente_id', 'Aluno.id', 'Aluno.registro', 'Aluno.nome'),
+          'order' => array('periodo' => 'DESC')
+          )
+          );
+         *
+         */
+        $this->loadModel('Estudante');
+        $estagiario = $this->Estudante->query('SELECT * FROM  estudantes AS Estudante '
+                . ' LEFT JOIN estagiarios AS Estagiario ON Estudante.registro = Estagiario.registro '
+                . ' WHERE Estudante.registro = ' . $id
+                . ' ORDER BY Estagiario.periodo DESC'
+                . ' LIMIT 1');
+
+        // $log = $this->Inscricao->Estagiario->getDataSource()->getLog(false, false);
+        // debug($log);
+        // pr($estagiario);
+        // die("estagiaior");
         // Se o aluno estagiario eh estagiario
-        if ($estagiario) {
+        if ($estagiario[0]) {
             // echo "Aluno estagiario" . "<br />";
             // pr($estagiario);
-            $periodo_ultimo = $estagiario['Estagiario']['periodo'];
-            $nivel_ultimo = $estagiario['Estagiario']['nivel'];
-            $turno_ultimo = $estagiario['Estagiario']['turno'];
-            $instituicao_atual = $estagiario['Estagiario']['instituicao_id'];
-            $supervisor_atual = $estagiario['Estagiario']['supervisor_id'];
-            $professor_atual = $estagiario['Estagiario']['docente_id'];
-            $aluno_nome = $estagiario['Aluno']['nome'];
+            $periodo_ultimo = $estagiario[0]['Estagiario']['periodo'];
+            $nivel_ultimo = $estagiario[0]['Estagiario']['nivel'];
+            $turno_ultimo = $estagiario[0]['Estagiario']['turno'];
+            $instituicao_atual = $estagiario[0]['Estagiario']['instituicao_id'];
+            $supervisor_atual = $estagiario[0]['Estagiario']['supervisor_id'];
+            $professor_atual = $estagiario[0]['Estagiario']['docente_id'];
+            $aluno_nome = $estagiario[0]['Estudante']['nome'];
             // pr($nivel_ultimo);
+            // echo "Período de estágio -> " . $periodo_ultimo . " Período atual -> " . $periodo . "<br />";
+            // die('Período');
             // Se eh o periodo anterior adianta em uma unidade o nivel
-            if ($periodo_ultimo < $periodo) {
-                if ($nivel_ultimo < 4)
+            if ($nivel_ultimo < 4) {
                     $nivel_ultimo++;
             }
 
@@ -472,16 +487,18 @@ class InscricoesController extends AppController {
             // Nivel eh I
             $nivel_ultimo = 1;
             $this->loadModel('Estudante');
-            $alunonovo = $this->Estudante->findByRegistro($id);
+            $alunonovo = $this->Estudante->find('first', [
+                'conditions' => ['Estudante.registro' => $id]
+                    ]);
             // die($alunonovo);
             // die("Alunonovo " . $alunonovo);
             // Aluno novo nao cadastrado: vai para cadastro e retorna
             if (!($alunonovo)) {
-                $this->Session->setFlash("Aluno não cadastrado");
+                $this->Session->setFlash(__("Estudante sem cadastro"));
                 $this->Session->write('termo', $id);
                 // die("Aluno novo nao cadastrado: " . $id);
                 $this->redirect('/Estudantes/add/' . $id);
-                die("Redireciona para cadastro de alunos novos ");
+                die("Redireciona para cadastro de Estudante ");
             } else {
                 $this->set('aluno', $alunonovo['Estudante']['nome']);
             }
@@ -493,31 +510,29 @@ class InscricoesController extends AppController {
 
         // Pego as instituicoes
         $this->loadModel('Instituicao');
-        $instituicoes = $this->Instituicao->find('list', array(
+        $instituicoes = $this->Instituicao->find('list', [
             'order' => 'Instituicao.instituicao',
-            'fields' => array('Instituicao.id', 'Instituicao.instituicao')
-                )
+            'fields' => ['Instituicao.id', 'Instituicao.instituicao']
+            ]
         );
-        $instituicoes[0] = "- Selecione -";
-        asort($instituicoes);
         // pr($instituicoes);
         // Pego os supervisores da instituicao atual
         if (isset($instituicao_atual)) {
-            $supervisores = $this->Instituicao->find('first', array(
-                'conditions' => array('Instituicao.id = ' . "'" . $instituicao_atual . "'")
-                    )
+            $supervisores = $this->Instituicao->find('first', [
+                'contain' => ['Supervisor'],
+                'conditions' => ['Instituicao.id' => $instituicao_atual]
+                    ]
             );
             // pr($supervisores);
+            // die('supervisores');
             foreach ($supervisores['Supervisor'] as $c_supervisor) {
                 $super_atuais[$c_supervisor['id']] = $c_supervisor['nome'];
                 // pr($c_supervisor['nome']);
             }
-            $super_atuais[0] = "- Selecione supervisor -";
             asort($super_atuais);
             // pr($super_atuais);
-        } else {
-            $super_atuais[0] = "- Selecioe supervisor -";
-        }
+            // die('super_atuais');
+         }
 
         // Envio os dados
         $this->set('id', $id);

@@ -54,7 +54,7 @@ class AlunosController extends AppController {
             if ($id != $verifica['Aluno']['id']) {
                 $this->Session->setFlash(__("Acesso não autorizado"));
                 $this->redirect("/Murals/index");
-                die("Não autorizado");
+                die("Aceso não autorizado");
             }
         }
 
@@ -303,7 +303,6 @@ class AlunosController extends AppController {
     /*
      * id eh o numero de registro
      */
-
     public function busca_email() {
 
         if (!empty($this->data)) {
@@ -373,7 +372,7 @@ class AlunosController extends AppController {
                 $this->redirect('/Alunos/view/' . $alunocadastrado['Aluno']['id']);
             }
 
-            // Logo busco entre os alunos novos
+            // Logo busco entre os Estudantes
             $this->loadModel('Estudante');
             $alunonovo = $this->Estudante->find('first', array(
                 'conditions' => array('Estudante.registro' => $id)
@@ -407,7 +406,7 @@ class AlunosController extends AppController {
                     // $this->redirect('/Alunos/avaliacaoverifica/' . $aluno['Supervisor']['id'] . '/' . $this->data['Aluno']['registro']);
                     $this->redirect('/Alunos/avaliacaoedita/supervisor_id:' . $aluno['Supervisor']['id'] . '/registro:' . $this->data['Aluno']['registro']);
                 } else {
-                    $this->Session->setFlash(__("Não foi indicado supervisor da instituicao. Retorna para solicitar termo de compromisso"));
+                    $this->Session->setFlash(__("Não foi indicado o supervisor da instituicao. Retorna para solicitar termo de compromisso"));
                     $this->redirect('/Inscricoes/termocompromisso/' . $aluno['Aluno']['registro']);
                 }
             } else {
@@ -459,11 +458,13 @@ class AlunosController extends AppController {
             $this->redirect('folhasolicita');
         } else {
             // pr($dre);
+            // die('dre');
             $estagiario = $this->Aluno->Estagiario->find('first', array(
                 'conditions' => array('Estagiario.registro' => $dre),
                 'order' => array('Estagiario.nivel DESC')
             ));
             // pr($estagiario);
+            // die('estagiario');
             $this->Session->delete('numero');
 
             if (!empty($estagiario)):
@@ -473,7 +474,7 @@ class AlunosController extends AppController {
                 $this->set('periodo', $periodo = $estagiario['Estagiario']['periodo']);
                 $this->set('supervisor', $supervisor = $estagiario['Supervisor']['nome']);
                 $this->set('cress', $cress = $estagiario['Supervisor']['cress']);
-                $this->set('celular', $celular = $estagiario['Supervisor']['celular']);
+                $this->set('celular', $celular = '(' . $estagiario['Supervisor']['codigo_cel'] .')' . $estagiario['Supervisor']['celular']);
                 $this->set('instituicao', $instituicao = $estagiario['Instituicao']['instituicao']);
                 $this->set('professor', $professor = $estagiario['Professor']['nome']);
 

@@ -34,7 +34,7 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 // set font
 $pdf->SetFont('helvetica', '', 12);
 
-$data = date('d') . " do mês " . date('m') . " de " . date('Y');
+$data = date('d') . " do mês " . date('M') . " de " . date('Y');
 
 if (empty($telefone))
     $telefone = "s/d";
@@ -49,20 +49,20 @@ $texto = <<<EOD
 <h2 style="text-align:center; font-size: 96%; line-height:95%">
 Escola de Serviço Social<br>
 Coordenação de Estágio & Extensão<br>
-Folha de ativiades do estagiário<br> 
+Folha de ativiades do(a) estagiário(a)<br> 
 Mês: __________ Ano: __________
 </h2>
 
 <div style="text-align:justify; font-size: 92%">
 <p style="line-height:100%">
-Nome do estudante: $estudante DRE: $registro<br>
+Nome do(a) estudante: $estudante DRE: $registro<br>
 Período de realização do estágio: $periodo<br>
 Nível de estágio: $nivel<br>
 Supervisor de campo: $supervisor 
 CRESS: $cress 
 Celular: $celular<br>
 Campo de estágio: $instituicao<br>
-Supervisor acadêmico: $professor<br>
+Supervisor(a) acadêmico(a): $professor<br>
 </div>
 
 <br>
@@ -357,8 +357,8 @@ Rio de Janeiro, $data
 <table>
 
 <tr>
-    <td>Supervisor: _______________________ </td>
-    <td>Estagiário: _________________________</td>
+    <td>Supervisor(a): _______________________ </td>
+    <td>Estagiário(a): _________________________</td>
 </tr>
 <tr>    
    <td align='center'>$supervisor</td>

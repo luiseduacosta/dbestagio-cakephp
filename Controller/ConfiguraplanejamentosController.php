@@ -3,7 +3,6 @@
 class ConfiguraplanejamentosController extends AppController {
 
     public $name = "Configuraplanejamentos";
-
     public $components = array('Auth');
 
     public function beforeFilter() {

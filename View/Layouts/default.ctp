@@ -36,7 +36,7 @@
         echo $this->Html->css('cake.generic');
         echo $this->Html->css('abas');
         echo $this->Html->script('jquery'); // Include jQuery library
-
+        echo $this->Js->writeBuffer();
         echo $scripts_for_layout;
         ?>
     </head>
@@ -62,7 +62,7 @@
                     <?php echo " | "; ?>
                     <?php echo $this->Html->link("Avaliação discente", "/Alunos/avaliacaosolicita"); ?>
                     <?php echo " | "; ?>
-                    <?php echo $this->Html->tag('blink', $this->Html->link("Folha de atividades", "/Alunos/folhadeatividades")); ?>
+                    <?php echo $this->Html->link("Folha de atividades", "/Alunos/folhadeatividades"); ?>
                     <?php echo " | "; ?>
 
                     <?php echo $this->Html->link("Instituições", "/Instituicoes/lista", array('escape' => FALSE)); ?>
@@ -93,17 +93,17 @@
                     <?php
                     switch ($this->Session->read('menu_aluno')) {
                         case 'estagiario':
-                            echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/alunos/view/" . $this->Session->read('menu_id_aluno')) . "</span>" . " ";
+                            echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Alunos/view/" . $this->Session->read('menu_id_aluno')) . "</span>" . " ";
                             break;
                         case 'alunonovo':
-                            echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/alunonovos/view/" . $this->Session->read('menu_id_aluno')) . "</span>" . " ";
+                            echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Estudantes/view/" . $this->Session->read('menu_id_aluno')) . "</span>" . " ";
                             break;
                         case 'semcadastro':
                             echo "<span style='color: white; font-weight: bold'>" . $this->Session->read('user') . "</span>" . " ";
                             break;
                     }
                     if ($this->Session->read('menu_supervisor_id'))
-                        echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/supervisors/view/" . $this->Session->read('menu_supervisor_id')) . "</span>" . " ";
+                        echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Supervisores/view/" . $this->Session->read('menu_supervisor_id')) . "</span>" . " ";
                     ?>
 
                     <?php echo $this->Html->link('Sair', '/Userestagios/logout/'); ?>

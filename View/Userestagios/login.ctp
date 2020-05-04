@@ -23,13 +23,13 @@ echo $this->Form->create('Userestagio', array('url' =>'login'));
             Para fazer inscrição para seleção de estágio, assim como também para solicitar o termo de compromisso, é necessário estar <?php echo $this->Html->link('cadastrado', '/Userestagios/cadastro/'); ?> como usuária(o) do sistema.
             <br />
             <br />
-            As(os) estudantes cadastrados poderão, além de fazer inscrição para seleção de estágio, solicitar <?php echo $this->Html->link('termo de compromisso', '/inscricoes/termosolicita/'); ?>, formulário de <?php echo $this->Html->link('avaliação discente', '/alunos/avaliacaosolicita/'); ?> de parte do supervisor, atualizar a informação sobre seus dados pessoais, assim como também, atualizar informação sobre as instituições campos de estágio da ESS/UFRJ.
+            As(os) estudantes cadastrados poderão, além de fazer inscrição para seleção de estágio, solicitar <?php echo $this->Html->link('termo de compromisso', '/Inscricoes/termosolicita/'); ?>, formulário de <?php echo $this->Html->link('avaliação discente', '/Alunos/avaliacaosolicita/'); ?> de parte do supervisor, atualizar a informação sobre seus dados pessoais, assim como também, atualizar informação sobre as instituições campos de estágio da ESS/UFRJ.
             <br />
             <br />
             Supervisores e professores também podem realizar cadastro, e contribuir para atualizar dados das instituições, assim como manter atualizada a informação sobre seus dados profissionais.
             <br />
             <br />
-            <blink>Agora também está disponível para <i>download</i> a <strong>Folha de atividades!</blink></span>
+            Agora também está disponível para <i>download</i> a <?= $this->Html->link('Folha de atividades', '/Alunos/folhadeatividades/') ?>.
             <br />
             <br />
             <p style="text-align: right">Coordenação de Estágio & Extensão</p>

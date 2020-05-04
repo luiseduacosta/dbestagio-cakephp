@@ -43,7 +43,7 @@ class UserestagiosController extends AppController {
                 switch ($usuario['Userestagio']['categoria']) {
                     case 1: // Administrador
                         $this->Session->setFlash('Bem-vindo ' . $usuario['Role']['categoria'] . ': ' . $this->Session->read('user'));
-                        $this->redirect('/estagiarios/index/');
+                        $this->redirect('/Estagiarios/index/');
                         break;
 
                     // Categoria 2 eh estudante
@@ -125,7 +125,8 @@ class UserestagiosController extends AppController {
         $this->Session->delete('menu_aluno');
         $this->Session->delete('menu_id_aluno');
         $this->Session->setFlash('Até mais!');
-        $this->redirect($this->Auth->logout());
+        // die('logout');
+        $this->redirect('/Userestagios/login');
     }
 
     public function cadastro() {

@@ -294,63 +294,35 @@ class InstituicoesController extends AppController {
 
     public function seleciona_supervisor($id = null) {
 
-        // Configure::write('debug', 2);
-        if ($id != 0) {
-            $supervisores = $this->Instituicao->find(
-                    'all',
-                    array(
-                        'conditions' => array('Instituicao.id = ' . $id)
-                    )
-            );
-
-            if ($supervisores) {
-                $i = 0;
-                foreach ($supervisores as $c_supervisor) {
+        $instituicao_id = $this->request->data['Inscricao']['instituicao_id'];
+        // pr($instituicao_id);
+        // die('instituicao_id');
+        if ($instituicao_id != 0) {
+            $supervisoresinstituicao = $this->Instituicao->query('SELECT Supervisor.id, Supervisor.nome FROM estagio AS Instituicao '
+                    . 'LEFT JOIN instituicao_supervisor AS InstituicaoSupervisor ON Instituicao.id = InstituicaoSupervisor.instituicao_id '
+                    . 'LEFT JOIN supervisores AS Supervisor ON InstituicaoSupervisor.supervisor_id = Supervisor.id '
+                    . 'WHERE Instituicao.id = ' . $instituicao_id);
+            // pr($supervisoresinstituicao);
+            // die('supervisoresinstituicao');
+            if ($supervisoresinstituicao) {
+                $super = null;
+                foreach ($supervisoresinstituicao as $c_supervisor) {
                     // pr($c_supervisor['Supervisor']);
-                    foreach ($c_supervisor['Supervisor'] as $cada_supervisor) {
-                        $super[$i]['nome'] = $cada_supervisor['nome'];
-                        $super[$i]['id'] = $cada_supervisor['id'];
-                        $i++;
-                    }
-                    // die();
+                    $supervisores[$c_supervisor['Supervisor']['id']] = $c_supervisor['Supervisor']['id'];
+                    $supervisores[$c_supervisor['Supervisor']['id']] = $c_supervisor['Supervisor']['nome'];
                 }
-
-                // Pode ser que nao tenha supervisores
-                if (isset($super)) {
-                    asort($super);
-                    $this->set('supervisores', $super);
-                }
-                // pr($super);
-                $this->set('id', $id);
-            } else {
-                $this->Sesion->setFlash("Sem supervisores cadastrados");
+                // pr($supervisores);
+                // die('supervisores');
             }
-
-            /*
-             * Poderia tambem capturar o professor e a area da instituicao
-             * Para isto consulto a tabela estagiarios
-             * A area e o professor poderiam ser passados atraves de um cooke
-             */
-            $this->loadModel('Estagiario');
-            $prof_area = $this->Estagiario->find('first', array(
-                'conditions' => array('Estagiario.instituicao_id =' . $id),
-                'fields' => array('Estagiario.supervisor_id', 'Estagiario.docente_id', 'Estagiario.id_area', 'Estagiario.periodo'),
-                'order' => array('Estagiario.periodo DESC')
-            ));
-            // pr($prof_area);
-
-            $id_area = $prof_area['Estagiario']['id_area'];
-            $id_prof = $prof_area['Estagiario']['docente_id'];
-
-            // $id_area = $this->Estagiario->find('all');
-            $this->Session->delete('id_area', $id_area);
-            $this->Session->delete('id_prof', $id_prof);
-            $this->Session->write('id_area', $id_area);
-            $this->Session->write('id_prof', $id_prof);
-        } else {
-            $this->Sesion->setFlash("Selecione uma instituição");
-            $this->redirect('/Inscricoes/termocompromisso/' . $id);
         }
+        $supervisores[0] = '- Seleciona supervisor -';
+        asort($supervisores);
+        $this->set('supervisores', $supervisores);
+        $this->layout = 'ajax';
+        // printf($supervisores);
+        // pr($supervisores);
+        // die("super");
+        // return $super;
     }
 
     public function natureza() {
