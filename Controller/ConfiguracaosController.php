@@ -2,46 +2,46 @@
 
 class ConfiguracaosController extends AppController {
 
-	public $name = "Configuracaos";
+    public $name = "Configuracaos";
     public $components = array('Auth');
 
-	// var $scaffold;
+    // var $scaffold;
 
-	public function beforeFilter() {
+    public function beforeFilter() {
 
-		parent::beforeFilter();
-		// Admin
-		if ($this->Session->read('id_categoria') === '1') {
-			$this->Auth->allow();
-			$this->Session->setFlash("Administrador");
-		} else {
-			$this->Session->setFlash("Administração: Não autorizado");
-		}
-		// die(pr($this->Session->read('user')));
-	}
+        parent::beforeFilter();
+        // Admin
+        if ($this->Session->read('id_categoria') === '1') {
+            $this->Auth->allow();
+            $this->Session->setFlash("Administrador");
+        } else {
+            $this->Session->setFlash("Administração: Não autorizado");
+        }
+        // die(pr($this->Session->read('user')));
+    }
 
-	public function view($id = NULL) {
+    public function view($id = NULL) {
 
-		$configuracao = $this->Configuracao->find('first');
-		// pr($configuracao);
+        $configuracao = $this->Configuracao->find('first');
+        // pr($configuracao);
 
-		$this->set('configuracao', $configuracao);
-	}
+        $this->set('configuracao', $configuracao);
+    }
 
-	public function edit($id = NULL) {
+    public function edit($id = NULL) {
 
-		$this->Configuracao->id = $id;
+        $this->Configuracao->id = $id;
 
-		if (empty($this->data)) {
-			$this->data = $this->Configuracao->read();
-		} else {
-			if ($this->Configuracao->save($this->data)) {
-				// print_r($this->data);
-				$this->Session->setFlash("Atualizado");
-				$this->redirect('/Configuracaos/view/' . $id);
-			}
-		}
-	}
+        if (empty($this->data)) {
+            $this->data = $this->Configuracao->read();
+        } else {
+            if ($this->Configuracao->save($this->data)) {
+                // print_r($this->data);
+                $this->Session->setFlash(__("Atualizado"));
+                $this->redirect('/Configuracaos/view/' . $id);
+            }
+        }
+    }
 
 }
 

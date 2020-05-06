@@ -4,6 +4,10 @@ class MuralestagiosController extends AppController {
 
     public $name = "Muralestagios";
     public $components = array('Email', 'Auth');
+    public $paginate = [
+        'limit' => 25,
+        'order' => ['Muralestagio.instituicao']
+    ];
 
     // var $scaffold;
 

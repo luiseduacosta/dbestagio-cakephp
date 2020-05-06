@@ -10,7 +10,7 @@ class Supervisor extends AppModel {
     public $useTable = 'supervisores';
     public $primaryKey = 'id';
     public $displayField = 'nome';
-
+    public $actsAs = array('Containable');
     public $hasMany = array(
         'Estagiario' => array(
             'className' => 'Estagiario',
@@ -20,9 +20,9 @@ class Supervisor extends AppModel {
     public $hasAndBelongsToMany = array(
         'Instituicao' => array(
             'className' => 'Instituicao',
-            'joinTable' => 'inst_super',
-            'foreignKey' => 'instituicao_id',
-            'associationForeignKey' => 'supervisor_id',
+            'joinTable' => 'instituicao_supervisor',
+            'foreignKey' => 'supervisor_id',
+            'associationForeignKey' => 'instituicao_id',
             'unique' => TRUE,
             'fields' => '',
             'order' => '',

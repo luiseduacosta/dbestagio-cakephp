@@ -39,24 +39,13 @@ echo "Nível de estágio: " . $nivel . "<br>";
 echo $this->Form->input('periodo', array('type' => 'hidden', 'value' => $periodo));
 echo "Período: " . $periodo . "<br>";
 
-echo $this->Form->input('turno', array('type' => 'hidden', 'value' => $turno));
-if ($turno == 'D') {
-    $turno = 'Diurno';
-} elseif ($turno == 'N') {
-    $turno = 'Noturno';
-} elseif ($turno == 'I') {
-    $turno = 'Indefinido';
-} else {
-    $turno = 'Sem dados';
-}
-
-echo "Turno: " . $turno . "<br>";
+echo $this->Form->input('turno', array('type' => 'hidden', 'value' => $turno, 'default' => 'I'));
 
 echo $this->Form->input('docente_id', array('type' => 'hidden', 'label' => 'Professor', 'value' => $professor_atual));
 
-echo $this->Form->input('instituicao_id', array('type' => 'select', 'label' => 'Instituição (É obrigatório selecionar a instituição)', 'options' => $instituicoes, 'selected' => $instituicao_atual));
+echo $this->Form->input('instituicao_id', array('type' => 'select', 'label' => 'Instituição (É obrigatório selecionar a instituição)', 'options' => $instituicoes, 'selected' => $instituicao_atual, 'empty' => ['0' => 'Selecione instituição']));
 
-echo $this->Form->input('supervisor_id', array('type' => 'select', 'label' => 'Supervisor (Se não souber quem é o supervisor selecione "Sem informação")', 'options' => $supervisores, 'selected' => $supervisor_atual, 'empty' => ['0' => 'Sem informação']));
+echo $this->Form->input('supervisor_id', array('type' => 'select', 'label' => 'Supervisor (Se não souber quem é o supervisor deixe sem selecionar")', 'options' => $supervisores, 'selected' => $supervisor_atual, 'empty' => ['0' => 'Selecione supervisor']));
 
 echo $this->Form->end('Confirmar');
 ?>

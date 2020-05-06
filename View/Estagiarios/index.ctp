@@ -96,7 +96,7 @@ $("#EstagiarioTurno").change(function() {
 
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
 <p>
-    <?php echo $this->Html->link('Alunos', '/alunos/index'); ?>
+    <?php echo $this->Html->link('Estudantes', '/Estudantes/index'); ?>
         <?php echo " | "; ?>
         <?php echo $this->Html->link("Inserir aluno", "/Estagiarios/add_estagiario"); ?>
         <?php echo " | "; ?>
@@ -114,7 +114,7 @@ $("#EstagiarioTurno").change(function() {
 
 <?php if ($this->Session->read('categoria')): ?>
 <p>
-    <?php echo $this->Html->link('Alunos', '/Alunos/index'); ?>
+    <?php echo $this->Html->link('Estudantes', '/Estudantes/index'); ?>
         <?php echo " | "; ?>
         <?php echo $this->Html->link("Busca aluno", "/Alunos/busca"); ?>
 </p>

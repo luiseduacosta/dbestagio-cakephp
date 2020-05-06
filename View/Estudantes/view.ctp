@@ -53,6 +53,7 @@
     <table>
         <caption>Inscrições realizadas</caption>
         <?php foreach ($inscricoes as $c_inscricao): ?>
+        <?php // pr($c_inscricao) ?>
             <tr>
 
                 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
@@ -60,7 +61,8 @@
                     <td><?php echo $this->Html->link($c_inscricao['instituicao'], '/Inscricoes/index/mural_estagio_id:' . $c_inscricao['id']); ?></td>
                     <td><?php echo $c_inscricao['periodo']; ?></td>
                 <?php else: ?>
-                    <td><?php echo $this->Html->link($c_inscricao['institucao'], '/Inscricoes/index/mural_estagio_id:' . $c_inscricao['id']); ?></td>
+                    <td><?php echo $this->Html->link('Inscrição', '/Inscricoes/view/' . $c_inscricao['inscricao_id']); ?></td>                    
+                    <td><?php echo $this->Html->link($c_inscricao['instituicao'], '/Inscricoes/index/mural_estagio_id:' . $c_inscricao['id']); ?></td>
                     <td><?php echo $c_inscricao['periodo']; ?></td>
                 <?php endif; ?>
 

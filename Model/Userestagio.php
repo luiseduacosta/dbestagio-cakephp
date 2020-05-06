@@ -15,22 +15,22 @@ class Userestagio extends AppModel {
             'foreignKey' => 'categoria')
 );
     /*
-    . '        'Aluno' => array(
+    . '     'Aluno' => array(
             'className' => 'Aluno',
             'foreignKey' => FALSE,
-            'conditions' => array('User.numero' => 'Aluno.registro')),
+            'conditions' => array('Userestagio.numero' => 'Aluno.registro')),
         'Alunonovo' => array(
             'className' => 'Alunonovo',
             'foreignKey' => FALSE,
-            'conditions' => array('User.numero' => 'Alunonovo.registro')),
+            'conditions' => array('Userestagio.numero' => 'Alunonovo.registro')),
         'Professor' => array(
             'className' => 'Professor',
             'foreignKey' => FALSE,
-            'conditions' => array('User.numero' => 'Professor.siape')),
+            'conditions' => array('Userestagio.numero' => 'Professor.siape')),
         'Supervisor' => array(
             'className' => 'Supervisor',
             'foreignKey' => FALSE,
-            'conditions' => array('User.numero' => 'Supervisor.cress'))
+            'conditions' => array('Userestagio.numero' => 'Supervisor.cress'))
 
     );
 */
@@ -38,7 +38,7 @@ class Userestagio extends AppModel {
 
         $this->data['Userestagio']['password'] = SHA1($this->data['Userestagio']['password']);
         $this->data['Userestagio']['email'] = strtolower($this->data['Userestagio']['email']);
-        // pr($this->data['User']['email']);
+        // pr($this->data['Userestagio']['email']);
         return true;
     }
 

@@ -4,6 +4,10 @@ class AreaestagiosController extends AppController {
 
     public $name = "Areaestagios";
     public $components = array('Auth');
+    public $paginate = [
+        'limit' => 25,
+        'order' => ['Areaestagio.area']
+    ];
 
     // var $scaffold;
 
@@ -49,18 +53,18 @@ class AreaestagiosController extends AppController {
 
     public function lista() {
 
-	$areas = $this->Areaestagio->find("all", array(
-		"order" => array("Areaestagio.area")));
+        $areas = $this->Areaestagio->find("all", array(
+            "order" => array("Areaestagio.area")));
 
-	$this->set("areas", $areas);
-
+        // $this->set("areas", $areas);
+        $this->set('areas', $this->Paginator->paginate('Areaestagio'));
     }
 
     public function view($id = NULL) {
 
         $area = $this->Areaestagio->find('first', array(
             'conditions' => array('Areaestagio.id' => $id)
-                ));
+        ));
         // pr($supervisor);
 
         $this->set('area', $area);
@@ -95,7 +99,7 @@ class AreaestagiosController extends AppController {
 
         $area = $this->Areaestagio->find('first', array(
             'conditions' => array('Areaestagio.id' => $id)
-                ));
+        ));
 
         // $this->loadModel('Estagiario');
         $estagiarios = $this->Areaestagio->Estagiario->find('first', array(

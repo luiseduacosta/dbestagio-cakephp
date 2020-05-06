@@ -4,6 +4,7 @@ class ProfessoresController extends AppController {
 
     public $name = "Professores";
     public $components = array('Auth');
+
     public $paginate = array(
         'limit' => 10,
         'order' => array('Professor.nome' => 'asc'));

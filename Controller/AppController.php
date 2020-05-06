@@ -33,19 +33,24 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
 
-    public $helpers = array('Form', 'Html', 'Js', 'Time');
-    public $components = array(
+    public $helpers = ['Form', 'Html', 'Js', 'Time'];
+    public $components = [
         'Session',
-        'Acl',
-        'Auth' => array(
-            // O certo eh redirecionar para o perfil do usuario
-            'loginRedirect' => array('controller' => 'murals', 'url' => 'index'),
-            'logoutRedirect' => array('controller' => 'murals', 'url' => 'index')
-        )
-    );
+        'Auth',
+        'Paginator'
+    ];
 
     public function beforeFilter() {
-        $this->Auth->allow('index');
+        
+        $this->Auth->userModel = "Userestagio";
+        $this->Auth->fields = array('username' => 'email', 'password' => 'password');
+        $this->Auth->loginAction = array('controller' => 'Userestagios', 'action' => 'login');
+        $this->Auth->loginRedirect = array('controller' => 'Muralestagios', 'action' => 'index');
+        $this->Auth->logoutRedirect = array('controller' => 'Muralestagios', 'action' => 'index');
+        $this->Auth->loginError = __("Error de identificação. Tente novamente", true);
+        $this->Auth->authError = __("Usuário não autorizado.", true);
+        
+        $this->Auth->allow('index', 'view');
     }
 
 }

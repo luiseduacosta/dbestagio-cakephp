@@ -4,7 +4,7 @@ echo $this->Html->script("jquery", array('inline'=>false));
 echo $this->Html->scriptBlock('
 
     $(document).ready(function() {
-        $("#UserCategoria").change(function() {
+        $("#UserestagioCategoria").change(function() {
 
             var categoria = $(this).val();
 
@@ -27,7 +27,7 @@ echo $this->Html->scriptBlock('
 
 <h1>Cadastro de usuário</h1>
 
-<?php echo $this->Form->create("User"); ?>
+<?php echo $this->Form->create("Userestagio"); ?>
 
 <table>
 
