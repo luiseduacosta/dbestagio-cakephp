@@ -4,6 +4,10 @@ class AreainstituicoesController extends AppController {
 
     public $name = "Areainstituicoes";
     public $components = array('Auth');
+    public $paginate = [
+        'limit' => 25,
+        'order' => ['Areainstituicao.area']
+    ];
 
     // var $scaffold;
 
@@ -37,7 +41,6 @@ class AreainstituicoesController extends AppController {
         $this->Areainstituicao->virtualFields['quantidadearea'] = 'count(Instituicao.areainstituicoes_id)';
 
         $areas = $this->Areainstituicao->find('all', array(
-
             'joins' => array(
                 array(
                     'table' => 'estagio',
@@ -46,7 +49,6 @@ class AreainstituicoesController extends AppController {
                     'conditions' => array('Instituicao.areainstituicoes_id = Areainstituicao.id')
                 )
             ),
-
             'fields' => array('Areainstituicao.id', 'Areainstituicao.area', 'count(Instituicao.areainstituicoes_id) as Areainstituicao__quantidadearea'),
             'group' => array('Areainstituicao.id'),
             'order' => array('Areainstituicao.area')));
@@ -60,7 +62,7 @@ class AreainstituicoesController extends AppController {
 
         $area = $this->Areainstituicao->find('first', array(
             'conditions' => array('Areainstituicao.id' => $id)
-                ));
+        ));
         // pr($supervisor);
 
         $this->set('area', $area);
@@ -96,7 +98,7 @@ class AreainstituicoesController extends AppController {
 
         $area = $this->Areainstituicao->find('first', array(
             'conditions' => array('Areainstituicao.id' => $id)
-                ));
+        ));
 
         // $this->loadModel('Estagiario');
         /*

@@ -47,7 +47,7 @@ class ConfiguraplanejamentosController extends AppController {
         } else {
             if ($this->Configuraplanejamento->save($this->data)) {
                 // print_r($this->data);
-                $this->Session->setFlash("Atualizado");
+                $this->Session->setFlash(__("Atualizado"));
                 $this->redirect('/configuraplanejamentos/view/' . $id);
             }
         }
@@ -67,7 +67,7 @@ class ConfiguraplanejamentosController extends AppController {
 
         if ($this->data) {
             if ($this->Configuraplanejamento->save($this->data)) {
-                $this->Session->setFlash('Dados inseridos');
+                $this->Session->setFlash(__('Dados inseridos'));
                 $this->redirect('/configuraplanejamentos/index');
             }
         }
@@ -77,11 +77,11 @@ class ConfiguraplanejamentosController extends AppController {
 
         $verifica = $this->Configuraplanejamento->Planejamento->find('first', array('conditions' => array('Planejamento.configuraplanejamento_id' => $id)));
         if ($verifica):
-            $this->Session->setFlash('Registro não pode ser excluído porque está associado a uma planilha');
+            $this->Session->setFlash(__('Registro não pode ser excluído porque está associado a uma planilha'));
             $this->redirect('/planejamentos/listar/semestre:' . $id);
         else:
             $this->Configuraplanejamento->delete($id);
-            $this->Session->setFlash("Registro excluído");
+            $this->Session->setFlash(__("Registro excluído"));
             $this->redirect('/configuraplanejamentos/index/');
         endif;
     }

@@ -145,7 +145,7 @@ if (is_null($alunos['nascimento'])) {
                 <td><?php echo $this->Html->link($aluno_nao_estagio['instituicao'], '/Instituicoes/view/' . $aluno_nao_estagio['instituicao_id']); ?></td>
                 <td><?php echo $this->Html->link($aluno_nao_estagio['supervisor'], '/Supervisors/view/' . $aluno_nao_estagio['supervisor_id']); ?></td>
                 <td><?php echo $this->Html->link($aluno_nao_estagio['professor'], '/Professors/view/' . $aluno_estagio['docente_id']); ?></td>
-                <td><?php echo $this->Html->link($aluno_nao_estagio['area'], '/Areas/view/' . $aluno_nao_estagio['id_area']); ?></td>
+                <td><?php echo $this->Html->link($aluno_nao_estagio['area'], '/Areaestagios/view/' . $aluno_nao_estagio['id_area']); ?></td>
                 <td style='text-align:center'><?php echo $aluno_nao_estagio['nota']; ?></td>
                 <td style='text-align:center'><?php echo $aluno_nao_estagio['ch']; ?></td>
 

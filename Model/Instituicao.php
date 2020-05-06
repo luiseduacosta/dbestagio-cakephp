@@ -35,7 +35,7 @@ class Instituicao extends AppModel {
     public $hasAndBelongsToMany = array(
         'Supervisor' => array(
             'className' => 'Supervisor',
-            'joinTable' => 'inst_super',
+            'joinTable' => 'instituicao_supervisor',
             'foreignKey' => 'instituicao_id',
             'associationForeignKey' => 'supervisor_id',
             'unique' => true,

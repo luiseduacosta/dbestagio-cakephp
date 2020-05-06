@@ -23,6 +23,8 @@ b) A sequencia da solicitação ficaria em quatro métodos: (feito)
 
 No modelo Alunonovo poderia verificar o DRE tanto entre os alunosNovos como entre os alunos (feito)
 
+Fazer um algoritmo para limpar as inscrições repetidas.
+
 Informações importantes
 =======================
 Permissões

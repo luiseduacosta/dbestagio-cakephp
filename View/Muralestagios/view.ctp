@@ -1,4 +1,6 @@
-﻿<?php if ($this->Session->read('categoria') === 'administrador'): ?>
+<?= $this->request->session->read('Auth.User') ?>
+<?php die($this->Session->read('Auth.User')); ?>
+<?php if ($this->Session->read('categoria') === 'administrador'): ?>
 
     <?php
     echo $this->Html->link('Excluir mural', '/Muralestagios/delete/' . $mural['Muralestagio']['id'], NULL, 'Tem certeza?');
@@ -178,13 +180,13 @@
         <tr>
             <td>Local de Inscrição</td>
             <td>
-<?php
-if (($mural['Muralestagio']['localInscricao']) == 0) {
-    echo "Inscrição no mural da Coordenação de Estágio e Extensão da ESS";
-} elseif (($mural['Muralestagio']['localInscricao']) == 1) {
-    echo "Inscrição diretamente na Instituição e no mural da Coordenação de Estágio e Extensão da ESS";
-}
-?></td>
+                <?php
+                if (($mural['Muralestagio']['localInscricao']) == 0) {
+                    echo "Inscrição no mural da Coordenação de Estágio e Extensão da ESS";
+                } elseif (($mural['Muralestagio']['localInscricao']) == 1) {
+                    echo "Inscrição diretamente na Instituição e no mural da Coordenação de Estágio e Extensão da ESS";
+                }
+                ?></td>
         </tr>
 
 
@@ -209,38 +211,34 @@ if (($mural['Muralestagio']['localInscricao']) == 0) {
         <!--
         Para o administrador as inscrições sempre estão abertas
         //-->
-<?php if ($this->Session->read('categoria') === 'administrador'): ?>
+        <?php if ($this->Session->read('categoria') === 'administrador'): ?>
             <tr>
                 <td colspan = 2 style="text-align: center">
-    <?php echo $this->Form->create('Inscricao', array('url' => '/Inscricoes/add/' . $mural['Muralestagio']['id'])); ?>
-    <?php echo $this->Form->input('instituicao_id', array('type' => 'hidden', 'value' => $mural['Muralestagio']['id'])); ?>
-    <?php echo $this->Form->end('Inscrição'); ?>
+                    <?= $this->Html->tag('button', $this->Html->link('Inscrição', ['controller' => 'Inscricoes', 'action' => 'add/registro:' . $this->Session->read('numero') . '/mural_estagio_id:' . $mural['Muralestagio']['id']])) ?>
                 </td>
             </tr>
-<?php else: ?>
+
+        <?php elseif ($this->Session->read('categoria') === 'estudante'): ?>
 
             <!--
-            Para os outros usuários as inscrições dependem da data de encerramento
+            Para os estudantes as inscrições dependem da data de encerramento
             //-->
 
-    <?php if (date('Y-m-d') < $mural['Muralestagio']['dataInscricao']): ?>
+            <?php if (date('Y-m-d') < $mural['Muralestagio']['dataInscricao']): ?>
                 <tr>
                     <td colspan = 2 style="text-align: center">
-
-        <?php echo $this->Form->create('Inscricao', array('url' => '/Inscricoes/add/' . $mural['Muralestagio']['id'])); ?>
-        <?php echo $this->Form->input('instituicao_id', array('type' => 'hidden', 'value' => $mural['Muralestagio']['id'])); ?>
-        <?php echo $this->Form->end('Inscrição'); ?>
+                        <?= $this->Html->tag('button', $this->Html->link('Inscrição', ['controller' => 'Inscricoes', 'action' => 'add/registro:' . $this->Session->read('numero') . '/mural_estagio_id:' . $mural['Muralestagio']['id']])) ?>
                     </td>
                 </tr>
-    <?php else: ?>
+            <?php else: ?>
                 <tr>
                     <td colspan = 2>
                         <p style="text-align: center; color: red">Inscrições encerradas!</p>
                     </td>
                 </tr>
-    <?php endif; ?>
+            <?php endif; ?>
 
-<?php endif; ?>
+        <?php endif; ?>
 
     </tbody>
 </table>

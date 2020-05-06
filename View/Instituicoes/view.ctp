@@ -283,7 +283,7 @@ echo $this->Form->end('Confirma');
 
 <?php endif; ?>
 
-<?php if ($instituicao['Estagiario']): ?>
+<?php if (isset($instituicao['Estagiario'])): ?>
 <!--
 <table>
     <caption>Estagiários</caption>

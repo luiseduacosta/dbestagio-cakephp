@@ -67,7 +67,7 @@
 
                     <?php echo $this->Html->link("Instituições", "/Instituicoes/lista", array('escape' => FALSE)); ?>
                     <?php echo " | "; ?>
-                    <?php echo $this->Html->link("Supervisores", "/Supervisores/index"); ?>
+                    <?php echo $this->Html->link("Supervisores", "/Supervisores/index/ordem:nome/periodo:"); ?>
                     <?php echo " | "; ?>
                     <?php echo $this->Html->link("Professores", "/Professores/index"); ?>
                     <?php echo " | "; ?>
@@ -93,10 +93,10 @@
                     <?php
                     switch ($this->Session->read('menu_aluno')) {
                         case 'estagiario':
-                            echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Alunos/view/" . $this->Session->read('menu_id_aluno')) . "</span>" . " ";
+                            echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Estudantes/view/" . $this->Session->read('numero')) . "</span>" . " ";
                             break;
                         case 'alunonovo':
-                            echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Estudantes/view/" . $this->Session->read('menu_id_aluno')) . "</span>" . " ";
+                            echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Estudantes/view/" . $this->Session->read('numero')) . "</span>" . " ";
                             break;
                         case 'semcadastro':
                             echo "<span style='color: white; font-weight: bold'>" . $this->Session->read('user') . "</span>" . " ";

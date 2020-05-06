@@ -4,6 +4,12 @@ class AlunosController extends AppController {
 
     public $name = 'Alunos';
     public $components = array('Auth');
+    public $paginate = [
+        'limit' => 15,
+        'order' => [
+            ['Aluno.nome' => 'asc']
+        ]
+    ];
 
     public function beforeFilter() {
 
@@ -33,7 +39,7 @@ class AlunosController extends AppController {
     public function index() {
 
         $this->paginate = array(
-            'limit' => 10,
+            'limit' => 15,
             'order' => array(
                 'Aluno.nome' => 'asc')
         );
@@ -190,7 +196,7 @@ class AlunosController extends AppController {
         if ($this->Session->read('numero')) {
             $verifica = $this->Aluno->findByRegistro($this->Session->read('numero'));
             if ($id != $verifica['Aluno']['id']) {
-                $this->Session->setFlash("Acesso não autorizado");
+                $this->Session->setFlash(__("Acesso não autorizado"));
                 $this->redirect("/Murals/index");
                 die("Não autorizado");
             }
@@ -208,7 +214,7 @@ class AlunosController extends AppController {
 
             if ($this->Aluno->save($this->data)) {
                 // print_r($this->data);
-                $this->Session->setFlash("Atualizado");
+                $this->Session->setFlash(__("Atualizado"));
 
                 // Verfico se esta fazendo inscricao para selecao de estagio
                 $inscricao_selecao_estagio = $this->Session->read('instituicao_id');
@@ -248,6 +254,8 @@ class AlunosController extends AppController {
         // Para paginar os resultados da busca por nome
         if (isset($nome))
             $this->request->data['Aluno']['nome'] = $nome;
+
+        // $nome = isset($nome) ? $this->request->data : null;
 
         $this->Paginate = array(
             'limit' => 10,
@@ -303,6 +311,7 @@ class AlunosController extends AppController {
     /*
      * id eh o numero de registro
      */
+
     public function busca_email() {
 
         if (!empty($this->data)) {
@@ -444,7 +453,6 @@ class AlunosController extends AppController {
                 $this->data = $this->Aluno->read();
             } else {
                 // pr($this->data());
-                // $this->Session->write('menu_aluno', 'estagiario');
                 $this->Session->write('numero', $this->data['Aluno']['DRE']);
                 $this->redirect('folhadeatividades');
             }
@@ -474,7 +482,7 @@ class AlunosController extends AppController {
                 $this->set('periodo', $periodo = $estagiario['Estagiario']['periodo']);
                 $this->set('supervisor', $supervisor = $estagiario['Supervisor']['nome']);
                 $this->set('cress', $cress = $estagiario['Supervisor']['cress']);
-                $this->set('celular', $celular = '(' . $estagiario['Supervisor']['codigo_cel'] .')' . $estagiario['Supervisor']['celular']);
+                $this->set('celular', $celular = '(' . $estagiario['Supervisor']['codigo_cel'] . ')' . $estagiario['Supervisor']['celular']);
                 $this->set('instituicao', $instituicao = $estagiario['Instituicao']['instituicao']);
                 $this->set('professor', $professor = $estagiario['Professor']['nome']);
 

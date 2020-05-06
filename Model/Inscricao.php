@@ -9,6 +9,7 @@ class Inscricao extends AppModel {
     public $name = 'Inscricao';
     public $useTable = 'muralinscricoes';
     public $primaryKey = 'id';
+    public $displayField = 'aluno_id';
     public $belongsTo = array(
         'Mural' => array(
             'className' => 'Muralestagio',
@@ -17,7 +18,7 @@ class Inscricao extends AppModel {
             /*
               'Aluno' => array(
               'className' => 'Aluno',
-              'foreignKey' => false,
+              'foreignKey' => FALSE,
               'conditions' => ['Inscricao.aluno_id' => 'Aluno.registro']
               ),
               'Estudante' => array(
@@ -34,25 +35,6 @@ class Inscricao extends AppModel {
              */
     );
 
-    public function alunosinscritosaluno_id($id) {
-
-        $alunosinscritos = $this->query('select * from muralinscricoes as Inscricao '
-                . 'LEFT JOIN alunos as Aluno ON Inscricao.aluno_id = Aluno.registro '
-                . 'WHERE Inscricao.aluno_id = ' . $id);
-
-        return $alunosinscritos;
-    }
-
-    public function alunosinscritosbyId($id) {
-
-        $alunosinscritosbyId = $this->query('select * from muralinscricoes as Inscricao '
-                . 'LEFT JOIN alunos as Aluno ON Inscricao.aluno_id = Aluno.registro '
-                . 'WHERE Inscricao.id = ' . $id);
-
-        return $alunosinscritosbyId;
-    }
-
-    
     /*
      * Alunosestudantesinscritos Method (para método view)
      * 
@@ -60,11 +42,11 @@ class Inscricao extends AppModel {
      * 
      * @return $alunosestudantesinscritos para seleção de estágio no mural
      */
+
     public function alunosestudantesinscritos($id) {
 
         $alunosestudanatesinscritos = $this->query(
                 'select * from muralinscricoes as Inscricao '
-                . 'LEFT JOIN alunos as Aluno ON Inscricao.aluno_id = Aluno.registro '
                 . 'LEFT JOIN estudantes as Estudante ON Inscricao.aluno_id = Estudante.registro '
                 . 'LEFT JOIN muralestagios as Muralestagio ON Inscricao.mural_estagio_id = Muralestagio.id '
                 . 'LEFT JOIN estagiarios as Estagiario ON Inscricao.aluno_id = Estagiario.registro '
@@ -73,7 +55,7 @@ class Inscricao extends AppModel {
 
         return $alunosestudanatesinscritos;
     }
-    
+
     /*
      * Alunosestudantesmural Method (para método index)
      * 
@@ -81,46 +63,79 @@ class Inscricao extends AppModel {
      * 
      * @return $alunosestudantesinscritos para seleção de estágio no muralestagio $id
      */
-    public function alunosestudantesmural($id) {
 
-        $alunosestudanatesinscritos = $this->query(
-                'select * from muralinscricoes as Inscricao '
-                . 'LEFT JOIN alunos as Aluno ON Inscricao.aluno_id = Aluno.registro '
-                . 'LEFT JOIN estudantes as Estudante ON Inscricao.aluno_id = Estudante.registro '
-                . 'LEFT JOIN muralestagios as Muralestagio ON Inscricao.mural_estagio_id = Muralestagio.id '
-                . 'LEFT JOIN estagiarios as Estagiario ON Inscricao.aluno_id = Estagiario.registro '
-                . 'WHERE Muralestagio.id = ' . $id);
-
-        return $alunosestudanatesinscritos;
-    }
 
     /*
-     * @param $periodo $id
+     * @param $periodo $id (mural_estagio_id)
      * 
      * @return alunosestudantesinscritosperiodoid retorna os inscritos para uma seleção de estagio e um período
      */
+
     public function alunosestudantesperiodoid($periodo, $id) {
 
         $alunosestudanatesinscritosperiodoid = $this->query(
                 'select * from muralinscricoes as Inscricao '
-                . 'LEFT JOIN alunos as Aluno ON Inscricao.aluno_id = Aluno.registro '
-                . 'LEFT JOIN estudantes as Estudante ON Inscricao.aluno_id = Estudante.registro '
-                . 'LEFT JOIN muralestagios as Muralestagio ON Inscricao.mural_estagio_id = Muralestagio.id '
-                . 'LEFT JOIN estagiarios as Estagiario ON Inscricao.aluno_id = Estagiario.registro '
+                . 'INNER JOIN estudantes as Estudante ON Inscricao.aluno_id = Estudante.registro '
+                . 'INNER JOIN muralestagios as Muralestagio ON Inscricao.mural_estagio_id = Muralestagio.id '
+                . 'INNER JOIN estagiarios as Estagiario ON Inscricao.aluno_id = Estagiario.registro '
                 . 'WHERE Inscricao.periodo = "' . $periodo . '" && Inscricao.mural_estagio_id = ' . $id);
 
         return $alunosestudanatesinscritosperiodoid;
     }
 
+    /*
+     * @param $periodo $id (aluno_id)
+     * 
+     * @return alunosestudantesinscritosperiodoid retorna os inscritos para uma seleção de estagio e um período
+     */
+
+    public function alunosestudantesperiodoregistro($periodo, $id) {
+
+        $alunosestudanatesinscritosperiodoregistro = $this->query(
+                'select * from muralinscricoes as Inscricao '
+                . 'INNER JOIN estudantes as Estudante ON Inscricao.aluno_id = Estudante.registro '
+                . 'INNER JOIN muralestagios as Muralestagio ON Inscricao.mural_estagio_id = Muralestagio.id '
+                . 'INNER JOIN estagiarios as Estagiario ON Inscricao.aluno_id = Estagiario.registro '
+                . 'WHERE Inscricao.periodo = "' . $periodo . '" && Inscricao.aluno_id = ' . $id);
+
+        return $alunosestudanatesinscritosperiodoregistro;
+    }
+
+    /*
+     * Método chamado na classe inscricoes pelo método index
+     * @PARAMETRO $id index da tabela muralestagios
+     * 
+     * @RETURN @alunosestudantesinscritos matriz com os estudantes inscritos para esse mural
+     */
+
+    public function alunosestudantesmural($id) {
+
+        $alunosestudanatesinscritos = $this->query(
+                'SELECT * FROM muralinscricoes AS Inscricao '
+                . ' INNER JOIN estudantes as Estudante ON Inscricao.aluno_id = Estudante.registro '
+                . ' INNER JOIN muralestagios as Muralestagio ON Inscricao.mural_estagio_id = Muralestagio.id '
+                . ' WHERE Muralestagio.id = ' . $id
+                . ' ORDER BY Estudante.nome');
+
+        return $alunosestudanatesinscritos;
+    }
+
+    /*
+     * Método chamado na classe inscricoes pelo método index
+     * 
+     * @PARAMETRO $periodo Período da seleção para estágio
+     * 
+     * @RETURN $alunosestudanatesinscritosperiodo matriz ordenada com os estudantes inscritos para seleção de estágio no periódo
+     */
+
     public function alunosestudantesperiodo($periodo) {
 
         $alunosestudanatesinscritosperiodo = $this->query(
                 'select * from muralinscricoes as Inscricao '
-                . 'LEFT JOIN alunos as Aluno ON Inscricao.aluno_id = Aluno.registro '
-                . 'LEFT JOIN estudantes as Estudante ON Inscricao.aluno_id = Estudante.registro '
-                . 'LEFT JOIN muralestagios as Muralestagio ON Inscricao.mural_estagio_id = Muralestagio.id '
-                . 'LEFT JOIN estagiarios as Estagiario ON Inscricao.aluno_id = Estagiario.registro '
-                . 'WHERE Inscricao.periodo = "' . $periodo . '"');
+                . 'INNER JOIN estudantes as Estudante ON Inscricao.aluno_id = Estudante.registro '
+                . 'INNER JOIN muralestagios as Muralestagio ON Inscricao.mural_estagio_id = Muralestagio.id '
+                . 'WHERE Inscricao.periodo = "' . $periodo . '"'
+                . ' ORDER BY Estudante.nome');
 
         return $alunosestudanatesinscritosperiodo;
     }

@@ -37,10 +37,6 @@ class VisitasController extends AppController {
 
     public function index() {
 
-        // $visitas = $this->Visita->find('all');
-        // pr($visitas);
-        // die();
-
         $this->Paginator->settings = array('order' => 'Visita.data');
         $data = $this->Paginator->paginate('Visita');
         $this->set('visitas', $data);
@@ -78,7 +74,7 @@ class VisitasController extends AppController {
 
         if ($this->data) {
             if ($this->Visita->save($this->data)) {
-                $this->Session->setFlash('Dados da visita institucional inseridos!');
+                $this->Session->setFlash(__('Dados da visita institucional inseridos!'));
                 // $this->Visita->getLastInsertId();
                 $this->redirect('/Visitas/view/' . $this->Visita->getLastInsertId());
             }
@@ -96,7 +92,7 @@ class VisitasController extends AppController {
         } else {
             if ($this->Visita->save($this->data)) {
                 // print_r($this->data);
-                $this->Session->setFlash("Atualizado");
+                $this->Session->setFlash(__("Atualizado"));
                 $this->redirect('/visitas/view/' . $id);
             }
         }

@@ -26,7 +26,7 @@ foreach ($usuarios as $c_usuarios) {
     ?>
 
 <tr>
-<td><?php echo $this->Html->link($c_usuarios['User']['id'], '/Userestagios/delete/' . $c_usuarios['Userestagio']['id'], null, 'Tem certeza?'); ?></td>
+<td><?php echo $this->Html->link($c_usuarios['Userestagio']['id'], '/Userestagios/delete/' . $c_usuarios['Userestagio']['id'], null, 'Tem certeza?'); ?></td>
 <td><?php echo $c_usuarios['Userestagio']['numero']; ?></td>
 <td><?php echo $c_usuarios['Userestagio']['email']; ?></td>
 <td><?php echo $c_usuarios['Role']['categoria']; ?></td>

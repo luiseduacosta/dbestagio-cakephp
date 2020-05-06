@@ -8,7 +8,7 @@ class EstagiariosController extends AppController {
     public $paginate = array(
         'limit' => 10,
         'order' => array(
-            'Aluno.nome' => 'asc')
+            'Estagiario.nome' => 'asc')
     );
 
     public function beforeFilter() {

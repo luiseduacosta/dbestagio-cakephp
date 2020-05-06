@@ -1,5 +1,6 @@
 <?php
 // pr($supervisores);
+// pr($periodo);
 // die();
 ?>
 
@@ -63,29 +64,27 @@ $("#SupervisorPeriodo").change(function() {
 
     <tbody>
         <?php foreach ($supervisores as $c_supervisor): ?>
-
-            <?php if ($c_supervisor['periodo'] === $periodo): ?>
+            <?php // pr($c_supervisor['Estagiario'][0]['periodo']); ?>
+            <?php if ($c_supervisor['Estagiario']): ?>
 
                 <?php // echo $c_supervisor['Estagiario'][count($c_supervisor['Estagiario'])-1]['periodo'] ?>
                 <tr>
 
                     <?php if ($this->Session->read('categoria') === 'administrador'): ?>
                         <td>
-                            <?php echo $c_supervisor['cress']; ?>
+                            <?php echo $c_supervisor['Supervisor']['cress']; ?>
                         </td>
                     <?php endif; ?>
 
                     <td>
                         <?php
-                        if ($c_supervisor['nome']):
-                            echo $this->Html->link($c_supervisor['nome'], '/Supervisores/view/' . $c_supervisor['id']);
+                        if ($c_supervisor['Supervisor']['nome']):
+                            echo $this->Html->link($c_supervisor['Supervisor']['nome'], '/Supervisores/view/' . $c_supervisor['Supervisor']['id']);
                         else:
                             echo "Sem dados";
                         endif;
                         ?>
                     </td>
-                    <td><?= $c_supervisor['q_estagiarios'] ?></td>
-                    <td><?= $c_supervisor['periodo'] ?></td>                    
                 </tr>
                 <?php // pr($c_supervisor) ?>
                 <?php // die('c_supervisor') ?>

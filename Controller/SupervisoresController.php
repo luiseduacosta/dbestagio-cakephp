@@ -4,11 +4,18 @@ class SupervisoresController extends AppController {
 
     public $name = 'Supervisores';
     public $components = array('Auth');
+    public $paginate = [
+        'contain' => [
+            'Estagiario' => ['fields' => ['Estagiario.registro', 'Estagiario.periodo']],
+            'Instituicao' => ['fields' => ['Instituicao.instituicao']],
+        ],
+        'limit' => 25,
+        'fields' => ['Supervisor.id', 'Supervisor.cress', 'Supervisor.nome'],
+        'order' => ['Supervisor.nome' => 'asc']
+    ];
 
     public function beforeFilter() {
-
         // pr($this->Session->read('id_categoria'));
-
         parent::beforeFilter();
         // Admin
         if ($this->Session->read('id_categoria') === '1') {
@@ -33,109 +40,209 @@ class SupervisoresController extends AppController {
     }
 
     public function index() {
-
         $parametros = $this->params['named'];
         $periodo = isset($parametros['periodo']) ? $parametros['periodo'] : NULL;
+        $ordem = isset($parametros['ordem']) ? $parametros['ordem'] : NULL;
+        // pr($periodo);
+        if (!isset($ordem) or empty($ordem)) {
+            $ordem = 'nome';
+        }
+        /*
+          $this->Supervisor->virtualFields['virtualestagiarios'] = 'count(Estagiario.registro)';
+          $this->Supervisor->virtualFields['virtualestudantes'] = 'count(Distinct Estagiario.registro)';
+          $this->Supervisor->virtualFields['virtualperiodos'] = 'count(Distinct Estagiario.periodo)';
+          $this->Supervisor->virtualFields['virtualmaxperiodo'] = 'max(periodo)';
+         */
+        /* Para caixa de seleção dos períodos */
+        $todosPeriodos = $this->Supervisor->Estagiario->find('list', [
+            'fields' => ['Estagiario.periodo', 'Estagiario.periodo'],
+            'group' => ['Estagiario.periodo'],
+            'order' => ['Estagiario.periodo']
+        ]);
 
-        $this->Supervisor->virtualFields['virtualestagiarios'] = 'count(Estagiario.registro)';
-        $this->Supervisor->virtualFields['virtualestudantes'] = 'count(Distinct Estagiario.registro)';
-        $this->Supervisor->virtualFields['virtualperiodos'] = 'count(Distinct Estagiario.periodo)';
-        $this->Supervisor->virtualFields['virtualmaxperiodo'] = 'max(periodo)';
+        $supervisores = $this->Supervisor->find('all', [
+            'contain' => [
+                'Estagiario' => ['fields' => ['Estagiario.registro', 'Estagiario.periodo']],
+                'Instituicao' => ['fields' => ['Instituicao.instituicao']]
+            ],
+            'order' => ['Supervisor.nome' => 'asc']
+        ]);
 
-        /* Para caixa de seleção */
-        $todosPeriodos = $this->Supervisor->Estagiario->find('list', array(
-            'fields' => array('Estagiario.periodo', 'Estagiario.periodo'),
-            'group' => array('Estagiario.periodo'),
-            'order' => array('Estagiario.periodo')
-                ));
-
-        if ($periodo):
-            $this->paginate = array(
-                'Estagiario' => array(
-                    'limit' => 10,
-                    'fields' => array('Supervisor.id', 'Supervisor.cress', 'Supervisor.nome', 'count("Estagiario.registro") as "Supervisor__virtualestagiarios"', 'count(Distinct Estagiario.registro) as `Supervisor__virtualestudantes`', 'count(Distinct Estagiario.periodo) as "Supervisor__virtualperiodos"', 'max(periodo) as "Supervisor__virtualmaxperiodo"'),
-                    'conditions' => array('Estagiario.periodo' => $periodo),
-                    'group' => array('Estagiario.supervisor_id'),
-                    'order' => array(
-                        'Supervisor.nome' => 'asc'))
-            );
-        else:
-            $this->paginate = array(
-                'Estagiario' => array(
-                    'limit' => 10,
-                    'fields' => array('Supervisor.id', 'Supervisor.cress', 'Supervisor.nome', 'count("Estagiario.registro") as "Supervisor__virtualestagiarios"', 'count(Distinct Estagiario.registro) as `Supervisor__virtualestudantes`', 'count(Distinct Estagiario.periodo) as "Supervisor__virtualperiodos"', 'max(periodo) as "Supervisor__virtualmaxperiodo"'),
-                    'group' => array('Estagiario.supervisor_id'),
-                    'order' => array(
-                        'Supervisor.nome' => 'asc'))
-            );
-        endif;
-
+        // pr($supervisores);
+        // die('supervisores');
+        $i = 0;
+        foreach ($supervisores as $c_supervisor) {
+            // pr(count($c_supervisor['Estagiario']));
+            $supervisor[$i]['id'] = $c_supervisor['Supervisor']['id'];
+            $supervisor[$i]['cress'] = $c_supervisor['Supervisor']['cress'];
+            $supervisor[$i]['nome'] = $c_supervisor['Supervisor']['nome'];
+            $supervisor[$i]['q_estagiarios'] = count($c_supervisor['Estagiario']);
+            if (count($c_supervisor['Estagiario']) > 1) {
+                $supervisor[$i]['periodo'] = $c_supervisor['Estagiario'][count($c_supervisor['Estagiario']) - 1]['periodo'];
+            } elseif (count($c_supervisor['Estagiario']) === 1) {
+                $supervisor[$i]['periodo'] = $c_supervisor['Estagiario'][0]['periodo'];
+            } else {
+                $supervisor[$i]['periodo'] = null;
+            }
+            $i++;
+        }
+        $coluna = array_column($supervisor, $ordem);
+        array_multisort($coluna, $supervisor);
+        // pr($supervisor);
+        // die('supervisor');
         $this->set('todosPeriodos', $todosPeriodos);
         $this->set('periodo', $periodo);
-        $this->set('supervisores', $this->Paginate($this->Supervisor->Estagiario));
+        // $this->set('supervisores', $this->Paginator->paginate('Supervisor'));
+        $this->set('supervisores', $supervisor);
+    }
+
+    public function index1() {
+        $parametros = $this->params['named'];
+        $periodo = isset($parametros['periodo']) ? $parametros['periodo'] : NULL;
+        $ordem = isset($parametros['ordem']) ? $parametros['ordem'] : NULL;
+        // pr($periodo);
+        if (!isset($ordem) or empty($ordem)) {
+            $ordem = 'nome';
+        }
+
+        if (!isset($periodo) or empty($periodo)) {
+            $periodo = '2015-1';
+        }
+        /*
+          $this->Supervisor->virtualFields['virtualestagiarios'] = 'count(Estagiario.registro)';
+          $this->Supervisor->virtualFields['virtualestudantes'] = 'count(Distinct Estagiario.registro)';
+          $this->Supervisor->virtualFields['virtualperiodos'] = 'count(Distinct Estagiario.periodo)';
+          $this->Supervisor->virtualFields['virtualmaxperiodo'] = 'max(periodo)';
+         */
+        /* Para caixa de seleção dos períodos */
+        $todosPeriodos = $this->Supervisor->Estagiario->find('list', [
+            'fields' => ['Estagiario.periodo', 'Estagiario.periodo'],
+            'group' => ['Estagiario.periodo'],
+            'order' => ['Estagiario.periodo']
+        ]);
+
+        if ($periodo) {
+            $supervisores = $this->Supervisor->Estagiario->find('all', [
+                'fields' => ['Supervisor.id', 'Supervisor.nome', 'Supervisor.cress', 'Estagiario.id', 'Estagiario.registro', 'Estagiario.periodo', 'Instituicao.id', 'Instituicao.instituicao'],
+                'conditions' => ['Estagiario.periodo' => $periodo],
+                'group' => ['Supervisor.nome'],
+                'order' => ['Supervisor.nome']
+            ]);
+        }
+        // pr($supervisores);
+        // die('supervisores');
+/*
+        $i = 0;
+        foreach ($supervisores as $c_supervisor) {
+            // pr($c_supervisor['Estagiario']);
+            $supervisor[$i]['id'] = $c_supervisor['Supervisor']['id'];
+            $supervisor[$i]['cress'] = $c_supervisor['Supervisor']['cress'];
+            $supervisor[$i]['nome'] = $c_supervisor['Supervisor']['nome'];
+            if ($c_supervisor['Supervisor']['id']) {
+                $q_estagiario = $this->Supervisor->Estagiario->find('all', [
+                    'conditions' => ['Supervisor.id' => $c_supervisor['Supervisor']['id'], 'Estagiario.periodo' => $periodo],
+                    'fields' => ['count("Estagiario.id") AS q_estagiario']
+                ]);
+                // pr($q_estagiario);
+                // die('q_estagiario');
+            }
+
+            // echo $q_estagiarios = $supervisor[$i]['q_estagiarios'];
+
+            $supervisor[$i]['instituicao_id'] = $c_supervisor['Instituicao']['id'];
+            $supervisor[$i]['instituicao'] = $c_supervisor['Instituicao']['instituicao'];
+            $i++;
+        }
+        $coluna = array_column($supervisor, $ordem);
+        array_multisort($coluna, $supervisor);
+        // pr($supervisor);
+        // die('supervisor');
+ * 
+ */
+        $this->set('todosPeriodos', $todosPeriodos);
+        $this->set('periodo', $periodo);
+        $this->set('supervisores', $this->Paginator->paginate('Supervisor'));
+        // $this->set('supervisores', $supervisor);
     }
 
     public function view($id = NULL) {
-
-        $supervisor = $this->Supervisor->find('first', array(
-            'conditions' => array('Supervisor.id' => $id)
-                ));
-
+        $parametros = $this->params['named'];
+        $cress = isset($parametros['cress']) ? $parametros['cress'] : null;
+        // pr($cress);
+        // pr('id: ' . $id);
+        // die('parametros');
+        if ($id) {
+            $supervisor = $this->Supervisor->find('first', array(
+                'conditions' => array('Supervisor.id' => $id)
+            ));
+        } else {
+            $supervisor = $this->Supervisor->find('all', array(
+                'conditions' => array('Supervisor.cress' => $cress)
+            ));
+        }
+        // pr($supervisor);
+        // die('supervisor');
         /* Para o select de inserir uma nova instituicao */
         $this->loadModel('Instituicao');
         $instituicoes = $this->Instituicao->find('list', array('order' => 'Instituicao.instituicao'));
         $instituicoes[0] = '- Selecione -';
         asort($instituicoes);
         $this->set('instituicoes', $instituicoes);
-
-        // pr($supervisor);
-
-        $proximo = $this->Supervisor->find('neighbors', array(
-            'field' => 'nome', 'value' => $supervisor['Supervisor']['nome']));
-
-        $this->set('registro_next', $proximo['next']['Supervisor']['id']);
-        $this->set('registro_prev', $proximo['prev']['Supervisor']['id']);
-
+        // pr(count($supervisor));
+        // die();
+        /*
+         * Supervisor superior a 1 quer dizer repetido por isso não faz os links
+         */
+        if (count($supervisor) === 1) {
+            $proximo = $this->Supervisor->find('neighbors', array(
+                'field' => 'nome', 'value' => $supervisor['Supervisor']['nome']));
+            $this->set('registro_next', $proximo['next']['Supervisor']['id']);
+            $this->set('registro_prev', $proximo['prev']['Supervisor']['id']);
+        }
         $this->set('supervisor', $supervisor);
     }
 
     public function add() {
-
         $this->loadModel('Instituicao');
         $instituicoes = $this->Instituicao->find('list', array('order' => 'Instituicao.instituicao'));
         $instituicoes[0] = '- Seleciona -';
         asort($instituicoes);
         $this->set('instituicoes', $instituicoes);
-
         if ($this->data) {
-            // pr($this->data);
-            // die();
-            if ($this->Supervisor->save($this->data)) {
-                $this->Session->setFlash('Dados inseridos');
-                $this->redirect('/Supervisors/view/' . $this->Supervisor->getLastInsertId());
+            /*
+             * Verifica que não esteja repetido o Cress
+             */
+            $verifica = $this->Supervisor->find('first', [
+                'conditions' => ['Supervisor.cress' => $this->data['Supervisor']['cress']]
+            ]);
+            if ($verifica) {
+                $this->Session->setFlash(__('Supervisor já cadastrado'));
+                $this->redirect('/Supervisores/view/' . $verifica['Supervisor']['id']);
+            } else {
+                // pr($this->data);
+                // die();
+                if ($this->Supervisor->save($this->data)) {
+                    $this->Session->setFlash(__('Dados inseridos'));
+                    $this->redirect('/Supervisores/view/' . $this->Supervisor->id);
+                }
             }
         }
     }
 
     public function busca($id = NULL) {
-
         if ($id)
             $this->request->data['Supervisor']['nome'] = $id;
-
         $this->paginate = array(
             'limit' => 10,
             'order' => array(
                 'Supervisor.nome' => 'asc')
         );
-
-        if ($this->data['Supervisor']['nome']) {
-
-            $condicao = array('Supervisor.nome like' => '%' . $this->data['Supervisor']['nome'] . '%');
+        if ($this->request->data['Supervisor']['nome']) {
+            $condicao = array('Supervisor.nome like' => '%' . $this->request->data['Supervisor']['nome'] . '%');
             $supervisores = $this->Supervisor->find('all', array('conditions' => $condicao));
-
             // Nenhum resultado
             if (empty($supervisores)) {
-                $this->Session->setFlash("Não foram encontrados registros");
+                $this->Session->setFlash(__("Não foram encontrados registros"));
             } else {
                 $this->set('supervisores', $this->Paginate($condicao));
                 $this->set('busca', $this->data['Supervisor']['nome']);
@@ -144,9 +251,7 @@ class SupervisoresController extends AppController {
     }
 
     public function edit($id = NULL) {
-
         $this->Supervisor->id = $id;
-
         if (empty($this->data)) {
             $this->data = $this->Supervisor->read();
         } else {
@@ -154,72 +259,63 @@ class SupervisoresController extends AppController {
                 // print($id);
                 // die();
                 // print_r($this->data);
-                $this->Session->setFlash("Atualizado");
+                $this->Session->setFlash(__("Atualizado"));
                 $this->redirect('/Supervisores/view/' . $id);
             }
         }
     }
 
     public function delete($id = NULL) {
-
         $supervisores = $this->Supervisor->find('first', array(
             'conditions' => array('Supervisor.id' => $id)
-                ));
-
+        ));
         // pr($supervisores);
         // die();
-
         if ($supervisores['Estagiario']) {
-            $this->Session->setFlash('Há estagiários vinculados a este supervisor');
+            $this->Session->setFlash(__('Há estagiários vinculados a este supervisor'));
             $this->redirect('/Supervisores/view/' . $id);
             exit;
         } elseif ($supervisores['Instituicao']) {
-            $this->Session->setFlash('Há instituições vinculadas a este supervisor');
+            $this->Session->setFlash(__('Há instituições vinculadas a este supervisor'));
             $this->redirect('/Supervisores/view/' . $id);
             exit;
         } else {
             $this->Supervisor->delete($id);
-            $this->Session->setFlash("Supervisor excluido");
+            $this->Session->setFlash(__("Supervisor excluido"));
             $this->redirect('/Supervisores/index/');
         }
     }
 
     public function addinstituicao() {
-
-        if ($this->data) {
+        if ($this->request->data) {
             // pr($this->data);
             // die();
-            if ($this->Supervisor->InstSuper->save($this->data)) {
-                $this->Session->setFlash('Dados inseridos');
-                $this->redirect('/Supervisores/view/' . $this->data['InstSuper']['supervisor_id']);
+            if ($this->Supervisor->InstituicaoSupervisor->save($this->request->data)) {
+                $this->Session->setFlash(__('Dados inseridos'));
+                $this->redirect('/Supervisores/view/' . $this->request->data['InstituicaoSupervisor']['supervisor_id']);
             }
         }
     }
 
     public function deleteassociacao($id = NULL) {
-
-        $id_superinstituicao = $this->Supervisor->InstSuper->find('first', array('conditions' => 'InstSuper.id= ' . $id));
+        $id_superinstituicao = $this->Supervisor->InstituicaoSupervisor->find('first', array('conditions' => 'InstituicaoSupervisor.id= ' . $id));
         // pr($id_superinstituicao);
         // die();
-        $this->Supervisor->InstSuper->delete($id);
-
-        $this->Session->setFlash("Instituição excluída do supervisor");
-        $this->redirect('/Supervisores/view/' . $id_superinstituicao['InstSuper']['supervisor_id']);
+        $this->Supervisor->InstituicaoSupervisor->delete($id);
+        $this->Session->setFlash(__("Instituição excluída do supervisor"));
+        $this->redirect('/Supervisores/view/' . $id_superinstituicao['InstituicaoSupervisor']['supervisor_id']);
     }
 
     public function repetidos() {
-
         $repetidos = $this->Supervisor->find('all', array(
             'fields' => array('id', 'cress', 'nome', 'count(cress) as quantidade'),
             'group' => 'cress having quantidade > 1',
             'order' => 'nome')
         );
-
         $this->set('repetidos', $repetidos);
     }
 
     public function semalunos() {
-
         $semalunos = $this->Supervisor->find('all', array(
             'limit' => 100,
             'fields' => array('Supervisor.id', 'Supervisor.cress', 'Supervisor.nome', 'Estagiario.supervisor_id'),
@@ -233,10 +329,8 @@ class SupervisoresController extends AppController {
             ),
             'conditions' => array('Estagiario.supervisor_id IS NULL'),
             'order' => 'Supervisor.nome'
-                ));
-
+        ));
         // pr($semalunos);
-
         $this->set('semalunos', $semalunos);
     }
 

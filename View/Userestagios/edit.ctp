@@ -1,6 +1,6 @@
 <?php
 
-echo $this->Form->create('User');
+echo $this->Form->create('Userestagio');
 echo $this->Form->input('email');
 echo $this->Form->input('categoria', array('label' => 'Categoria: 2: Aluno, 3: Professor, 4: Supervisor'));
 

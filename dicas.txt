@@ -1,7 +1,18 @@
-Dica
-====
+Dicas
+=====
 $log = $this->Votacao->getDataSource()->getLog(false, false);
 debug($log);
+
+/* A variável ordem é a coluna que vai ser utilizada como critério de ordenação */
+array_multisort (array_column($array, $ordem), SORT_ASC, $array);
+
+/* Capturar o último parámetro de uma url e trocar por outro valor */
+var url = "http://something.com:6688/remote/17/26/172"
+url = url.replace(/\/[^\/]*$/, '/175')
+
+/* Outra forma */
+/* split the String by split("/") then change the last part and rejoin by join("/"): */
+var url = window.location.pathname.split("/").slice(0,-1).join("/")+"/periodo:"+periodo;
 
 Paginação própria
 =================

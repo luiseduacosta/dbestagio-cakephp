@@ -4,6 +4,10 @@ class InstituicoesController extends AppController {
 
     public $name = "Instituicoes";
     public $components = array('Auth');
+    public $paginate = [
+        'limit' => 25,
+        'order' => ['Instituicao.instituicao']
+    ];
 
     public function beforeFilter() {
         parent::beforeFilter();
@@ -13,14 +17,14 @@ class InstituicoesController extends AppController {
             // $this->Session->setFlash("Administrador");
             // Estudantes
         } elseif ($this->Session->read('id_categoria') === '2') {
-            $this->Auth->allow('index', 'view', 'busca');
+            $this->Auth->allow('index', 'view', 'busca', 'seleciona_supervisor');
             // $this->Session->setFlash("Estudante");
         } elseif ($this->Session->read('id_categoria') === '3') {
-            $this->Auth->allow('add', 'edit', 'addassociacao', 'deleteassociacao', 'index', 'view', 'busca');
+            $this->Auth->allow('add', 'edit', 'addassociacao', 'deleteassociacao', 'index', 'view', 'busca', 'seleciona_supervisor');
             // $this->Session->setFlash("Professor");
             // Professores, Supervisores
         } elseif ($this->Session->read('id_cateogria') === '4') {
-            $this->Auth->allow('add', 'edit', 'addassociacao', 'deleteassociacao', 'index', 'view', 'busca');
+            $this->Auth->allow('add', 'edit', 'addassociacao', 'deleteassociacao', 'index', 'view', 'busca', 'seleciona_supervisor');
             // $this->Session->setFlash("Professor/Supervisor");
         } else {
             $this->Session->setFlash("Não autorizado");
@@ -227,17 +231,17 @@ class InstituicoesController extends AppController {
         if ($murais) {
             // die(pr($murais[0]['id']));
 
-            $this->Session->setFlash('Há murais vinculados com esta instituição');
-            $this->redirect('/Murals/view/' . $murais[0]['id']);
+            $this->Session->setFlash(__('Há murais vinculados com esta instituição'));
+            $this->redirect('/Muralestagios/view/' . $murais[0]['id']);
         } elseif ($supervisores) {
-            $this->Session->setFlash('Há supervisores vinculados com esta instituição');
+            $this->Session->setFlash(__('Há supervisores vinculados com esta instituição'));
             $this->redirect('/Instituicoes/view/' . $id);
         } elseif ($alunos) {
-            $this->Session->setFlash('Há alunos estagiários vinculados com esta instituição');
+            $this->Session->setFlash(__('Há alunos estagiários vinculados com esta instituição'));
             $this->redirect('/Instituicoes/view/' . $id);
         } else {
             $this->Instituicao->delete($id);
-            $this->Session->setFlash('Registro excluído');
+            $this->Session->setFlash(__('Registro excluído'));
             $this->redirect('/Instituicoes/index/');
         }
     }
@@ -257,8 +261,8 @@ class InstituicoesController extends AppController {
         if ($this->data) {
             // pr($this->data);
             // die();
-            if ($this->Instituicao->InstSuper->save($this->data)) {
-                $this->Session->setFlash('Dados inseridos');
+            if ($this->Instituicao->InstituicaoSupervisor->save($this->data)) {
+                $this->Session->setFlash(__('Dados inseridos'));
                 $this->redirect('/Instituicoes/view/' . $this->data['InstSuper']['instituicao_id']);
             }
         }
@@ -280,7 +284,7 @@ class InstituicoesController extends AppController {
 
             // Nenhum resultado
             if (empty($instituicoes)) {
-                $this->Session->setFlash("Não foram encontrados registros");
+                $this->Session->setFlash(__("Não foram encontrados registros"));
             } else {
                 $this->set('instituicoes', $this->Paginate($condicao));
                 $this->set('busca', $this->data['Instituicao']['instituicao']);
@@ -289,7 +293,7 @@ class InstituicoesController extends AppController {
     }
 
     /*
-     * Seleciona supervisor em funcao da selecao da instituicao
+     * Seleciona supervisor em funcao da selecao da instituicao de estagio
      */
 
     public function seleciona_supervisor($id = null) {
