@@ -1,8 +1,7 @@
 <?php
 // pr($mural);
-
-echo $this->Html->script("jquery", array('inline' => false));
-echo $this->Html->scriptBlock('
+?>
+<script>
 
 $(document).ready(function() {
 
@@ -22,9 +21,7 @@ $("#MuralestagioPeriodo").change(function() {
 
 })
 
-', array("inline" => false)
-);
-?>
+</script>
 
 <br>
 <?php if (($this->Session->read('categoria') === 'administrador') || ($this->Session->read('categoria') === 'supervisor')): ?>
@@ -89,7 +86,7 @@ $("#MuralestagioPeriodo").change(function() {
                         <?php endif; ?>
                     </td>
                     <td style="text-align: center">
-                        <?php if ($data['inscritos'] != 0): ?>                        
+                        <?php if ($data['inscritos'] != 0): ?>
                             <?php echo $this->Html->link($data['inscritos'], '/Inscricoes/index/' . $data['id']); ?>
                         <?php endif; ?>
                     </td>

@@ -3,26 +3,22 @@
 // die();
 ?>
 
-<?php
-?>
+<script>
 
-<?php
-echo $this->Html->script("jquery", array('inline' => false));
-echo $this->Html->scriptBlock('
+    $(document).ready(function () {
 
-$(document).ready(function() {
-
-$("#SupervisorPeriodo").change(function() {
-	var periodo = $(this).val();
-        var url = window.location.pathname.split("/").slice(0,-1).join("/")+"/periodo:"+periodo;
-        /* alert(url); */
-        window.location=url;
+        $("#SupervisorPeriodo").change(function () {
+            var periodo = $(this).val();
+            var link = "<?= $this->Html->url(["controller" => "Supervisores", "action" => "index1/periodo:"]); ?>";
+            var link = link + periodo;
+            /* alert(link); */
+            $(location).attr('href', link);
+            /* window.location=url; */
+        })
     })
-})
 
-', array("inline" => false)
-);
-?>
+</script>
+
 
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
     <?php
@@ -53,18 +49,18 @@ $("#SupervisorPeriodo").change(function() {
     <thead>
         <tr>
             <?php if ($this->Session->read('categoria') === 'administrador'): ?>
-                <th width='10%'><?= $this->Html->link('CRESS', '/Supervisores/index/ordem:cress/periodo:' . $periodo) ?></th>
+                <th width='10%'><?= $this->Html->link('CRESS', '/Supervisores/index/ordem:cress') ?></th>
             <?php endif; ?>
-            <th width='50%'><?= $this->Html->link('Nome', '/Supervisores/index/ordem:nome/periodo:' . $periodo) ?></th>
-            <th><?= $this->Html->link('Estagiários', '/Supervisores/index/ordem:q_estagiarios/periodo:' . $periodo) ?></th>
-            <th><?= $this->Html->link('Período', '/Supervisores/index/ordem:periodo/periodo:' . $periodo) ?></th>
+            <th width='50%'><?= $this->Html->link('Nome', '/Supervisores/index/ordem:nome') ?></th>
+            <th><?= $this->Html->link('Quantidade de períodos', '/Supervisores/index/ordem:q_periodos') ?></th>
+            <th><?= $this->Html->link('Quantidade de estudantes', '/Supervisores/index/ordem:q_estudantes') ?></th>
+            <th><?= $this->Html->link('Quantidade de estagiários', '/Supervisores/index/ordem:q_estagiarios') ?></th>
+            <th><?= $this->Html->link('Último período', '/Supervisores/index/ordem:periodo') ?></th>
         </tr>
     </thead>
 
     <tbody>
         <?php foreach ($supervisores as $c_supervisor): ?>
-
-            <?php if ($c_supervisor['periodo'] === $periodo): ?>
 
                 <?php // echo $c_supervisor['Estagiario'][count($c_supervisor['Estagiario'])-1]['periodo'] ?>
                 <tr>
@@ -84,12 +80,13 @@ $("#SupervisorPeriodo").change(function() {
                         endif;
                         ?>
                     </td>
-                    <td><?= $c_supervisor['q_estagiarios'] ?></td>
-                    <td><?= $c_supervisor['periodo'] ?></td>                    
+                    <td><?= $c_supervisor['q_periodos'] ?></td>
+                    <td><?= $c_supervisor['q_estudantes'] ?></td>                    
+                    <td><?= $this->Html->link($c_supervisor['q_estagiarios'], '/Estagiarios/index/supervisor_id:' . $c_supervisor['id'] . '/periodo:' . 0) ?></td>
+                    <td><?= $c_supervisor['periodo'] ?></td>
                 </tr>
                 <?php // pr($c_supervisor) ?>
                 <?php // die('c_supervisor') ?>
-            <?php endif; ?>
         <?php endforeach; ?>
     </tbody>
 
@@ -102,6 +99,6 @@ $("#SupervisorPeriodo").change(function() {
   exibindo %current% registros do %count% total,
   começando no registro %start%, finalizando no %end%'
   ));
- * 
+ *
  */
 ?>

@@ -56,7 +56,7 @@ class MuralestagiosController extends AppController {
 
         }
         $this->Session->write('mural_periodo', $periodo);
-        
+
         // Capturo todos os periodos para fazer o select
         $todos_periodos = $this->Muralestagio->find('list', array(
             'fields' => array('Muralestagio.periodo', 'Muralestagio.periodo'),
@@ -64,7 +64,7 @@ class MuralestagiosController extends AppController {
             'order' => array('Muralestagio.periodo DESC')));
         // pr($todos_periodos);
         // die();
-    
+
         /* Capturo todas as ofertas do periodo */
         $mural = $this->Muralestagio->find('all', array(
             'conditions' => array('Muralestagio.periodo' => $periodo),
@@ -102,7 +102,7 @@ class MuralestagiosController extends AppController {
             $muralporperiodo[$i]['horarioselecao'] = $c_mural['Muralestagio']['horarioSelecao'];
             $muralporperiodo[$i]['emailenviado'] = $c_mural['Muralestagio']['datafax'];
             $muralporperiodo[$i]['localdeinscricao'] = $c_mural['Muralestagio']['localInscricao'];
-            
+
             $inscricoes = sizeof($c_mural['Inscricao']);
             $estagio = $c_mural['Muralestagio']['id_estagio'];
             // die();
@@ -219,7 +219,11 @@ class MuralestagiosController extends AppController {
     public function view($id = null) {
 
         $this->Muralestagio->id = $id;
-        $this->set('mural', $this->Muralestagio->read());
+        // pr($this->Muralestagio->read());
+        $mural = $this->Muralestagio->find('first', ['conditions' => ['Muralestagio.id' => $id]]);
+        // pr($mural);
+        // die('mural');
+        $this->set('mural', $mural);
     }
 
     public function edit($id = NULL) {
