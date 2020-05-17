@@ -67,7 +67,7 @@
 
                     <?php echo $this->Html->link("Instituições", "/Instituicoes/lista", array('escape' => FALSE)); ?>
                     <?php echo " | "; ?>
-                    <?php echo $this->Html->link("Supervisores", "/Supervisores/index/ordem:nome/periodo:"); ?>
+                    <?php echo $this->Html->link("Supervisores", "/Supervisores/index/ordem:nome"); ?>
                     <?php echo " | "; ?>
                     <?php echo $this->Html->link("Professores", "/Professores/index"); ?>
                     <?php echo " | "; ?>

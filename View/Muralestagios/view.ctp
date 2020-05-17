@@ -1,5 +1,4 @@
-<?= $this->request->session->read('Auth.User') ?>
-<?php die($this->Session->read('Auth.User')); ?>
+<?php // pr($mural); ?>
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
 
     <?php

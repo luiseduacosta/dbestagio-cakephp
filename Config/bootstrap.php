@@ -185,8 +185,8 @@ Inflector::rules('singular', array('irregular' => array('inscricoes' => 'inscric
 Inflector::rules('plural', array('irregular' => array('instituicao' => 'instituicoes')));
 Inflector::rules('singular', array('irregular' => array('instituicoes' => 'instituicao')));
 
-Inflector::rules('plural', array('irregular' => array('mural' => 'murais')));
-Inflector::rules('singular', array('irregular' => array('murais' => 'mural')));
+Inflector::rules('plural', array('irregular' => array('muralestagio' => 'muralestagios')));
+Inflector::rules('singular', array('irregular' => array('muralestagios' => 'muralestagio')));
 
 Inflector::rules('plural', array('irregular' => array('supervisor' => 'supervisores')));
 Inflector::rules('singular', array('irregular' => array('supervisores' => 'supervisor')));
