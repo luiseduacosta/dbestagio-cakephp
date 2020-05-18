@@ -35,7 +35,8 @@
 
         echo $this->Html->css('cake.generic');
         echo $this->Html->css('abas');
-        
+        echo $this->Html->script('jquery'); // Include jQuery library
+
         echo $scripts_for_layout;
         ?>
     </head>
@@ -49,36 +50,36 @@
             <div id='menu'>
                 <?php echo $this->Html->link("ESS", "http://www.ess.ufrj.br"); ?>
                 <?php echo " | "; ?>
-                <?php echo $this->Html->link("Login", array('controller'=> 'users', 'action'=> 'login', 'full_base'=>true)); ?>
+                <?php echo $this->Html->link("Login", array('controller' => 'Userestagios', 'action'=> 'login', 'full_base'=>true)); ?>
                 <?php echo " | "; ?>
-                <?php echo $this->Html->link("Mural", "/murals/"); ?>
-                <?php echo " | "; ?> 
+                <?php echo $this->Html->link("Mural", array('controller' => 'Muralestagios', 'action' => 'index')); ?>
+                <?php echo " | "; ?>
 
                 <?php if ($this->Session->read('categoria')): ?>
-                    <?php echo $this->Html->link("Estagiários", "/estagiarios/index"); ?>
+                    <?php echo $this->Html->link("Estagiários", "/Estagiarios/index"); ?>
                     <?php echo " | "; ?>
-                    <?php echo $this->Html->link("Termo de compromisso", "/inscricaos/termosolicita"); ?>
+                    <?php echo $this->Html->link("Termo de compromisso", "/Inscricoes/termosolicita"); ?>
                     <?php echo " | "; ?>
-                    <?php echo $this->Html->link("Avaliação discente", "/alunos/avaliacaosolicita"); ?>
+                    <?php echo $this->Html->link("Avaliação discente", "/Alunos/avaliacaosolicita"); ?>
                     <?php echo " | "; ?>
-                    <?php echo $this->Html->tag('blink', $this->Html->link("Folha de atividades", "/alunos/folhadeatividades")); ?>
-                    <?php echo " | "; ?>                
-
-                    <?php echo $this->Html->link("Instituições", "/instituicaos/lista", array('escape' => FALSE)); ?>
-                    <?php echo " | "; ?>
-                    <?php echo $this->Html->link("Supervisores", "/supervisors/index"); ?>
-                    <?php echo " | "; ?>
-                    <?php echo $this->Html->link("Professores", "/professors/index"); ?>
+                    <?php echo $this->Html->tag('blink', $this->Html->link("Folha de atividades", "/Alunos/folhadeatividades")); ?>
                     <?php echo " | "; ?>
 
-                <?php endif; ?> 
-                
+                    <?php echo $this->Html->link("Instituições", "/Instituicoes/lista", array('escape' => FALSE)); ?>
+                    <?php echo " | "; ?>
+                    <?php echo $this->Html->link("Supervisores", "/Supervisores/index"); ?>
+                    <?php echo " | "; ?>
+                    <?php echo $this->Html->link("Professores", "/Professores/index"); ?>
+                    <?php echo " | "; ?>
+
+                <?php endif; ?>
+
                 <?php // echo $this->Html->link('Manual', 'http://www.ess.ufrj.br'); ?>
                 <?php // echo " | "; ?>
 		<?php echo $this->Html->link('Grupo Google', 'https://groups.google.com/forum/#!forum/estagio_ess'); ?>
 		<?php echo " | "; ?>
                 <?php echo $this->Html->link('Fale conosco', 'mailto: estagio@ess.ufrj.br'); ?>
-                
+
                 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
                     <?php echo " | "; ?>
                     <?php echo $this->Html->link("Administração", "/configuracaos/view/1"); ?>
@@ -101,11 +102,11 @@
                             echo "<span style='color: white; font-weight: bold'>" . $this->Session->read('user') . "</span>" . " ";
                             break;
                     }
-                    if ($this->Session->read('menu_id_supervisor'))
-                        echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/supervisors/view/" . $this->Session->read('menu_id_supervisor')) . "</span>" . " ";
+                    if ($this->Session->read('menu_supervisor_id'))
+                        echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/supervisors/view/" . $this->Session->read('menu_supervisor_id')) . "</span>" . " ";
                     ?>
 
-                    <?php echo $this->Html->link('Sair', '/users/logout/'); ?>
+                    <?php echo $this->Html->link('Sair', '/Userestagios/logout/'); ?>
                 <?php endif; ?>
 
             </div>

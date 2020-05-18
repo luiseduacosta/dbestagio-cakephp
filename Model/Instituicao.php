@@ -10,14 +10,15 @@ class Instituicao extends AppModel {
     public $useTable = "estagio";
     public $primaryKey = "id";
     public $displayField = "instituicao";
+    public $actsAs = array('Containable');
     public $hasMany = array(
         'Estagiario' => array(
             'className' => 'Estagiario',
-            'foreignKey' => 'id_instituicao',
+            'foreignKey' => 'instituicao_id',
             'joinTable' => 'estagiarios'
         ),
         'Mural' => array(
-            'className' => 'Mural',
+            'className' => 'Muralestagio',
             'foreignKey' => 'id_estagio'
         ),
         'Visita' => array(
@@ -28,15 +29,15 @@ class Instituicao extends AppModel {
     public $belongsTo = array(
         'Areainstituicao' => array(
             'className' => 'Areainstituicao',
-            'foreignKey' => 'area_instituicoes_id'
+            'foreignKey' => 'areainstituicoes_id'
         )
     );
     public $hasAndBelongsToMany = array(
         'Supervisor' => array(
             'className' => 'Supervisor',
             'joinTable' => 'inst_super',
-            'foreignKey' => 'id_instituicao',
-            'associationForeignKey' => 'id_supervisor',
+            'foreignKey' => 'instituicao_id',
+            'associationForeignKey' => 'supervisor_id',
             'unique' => true,
             'fields' => '',
             'order' => 'Supervisor.nome'

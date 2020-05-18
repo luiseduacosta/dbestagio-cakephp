@@ -16,22 +16,22 @@ $("#EstagiarioIdArea").change(function() {
     	/* alert(id_area); */
 	})
 
-$("#EstagiarioIdProfessor").change(function() {
-	var id_professor = $(this).val();
-    	/* alert(id_professor); */
-    	window.location="/estagiarios/index/id_professor:"+id_professor;
+$("#EstagiarioDocenteId").change(function() {
+	var docente_id = $(this).val();
+    	/* alert(docente_id); */
+    	window.location="/estagiarios/index/docente_id:"+docente_id;
 	})
 
 $("#EstagiarioIdInstituicao").change(function() {
-	var id_instituicao = $(this).val();
-    	/* alert(id_instituicao); */
-    	window.location="/estagiarios/index/id_instituicao:"+id_instituicao;
+	var instituicao_id = $(this).val();
+    	/* alert(instituicao_id); */
+    	window.location="/estagiarios/index/instituicao_id:"+instituicao_id;
 	})
 
 $("#EstagiarioIdSupervisor").change(function() {
-	var id_supervisor = $(this).val();
-    	/* alert(id_supervisor); */
-    	window.location="/estagiarios/index/id_supervisor:"+id_supervisor;
+	var supervisor_id = $(this).val();
+    	/* alert(supervisor_id); */
+    	window.location="/estagiarios/index/supervisor_id:"+supervisor_id;
 	})
 
     });
@@ -83,7 +83,7 @@ $("#EstagiarioIdSupervisor").change(function() {
 
 	<td>
 	<?php echo $this->Form->create('Estagiario', array('action'=>'index')); ?>
-	<?php echo $this->Form->input('id_professor', array('label'=>'Professores', 'type'=>'select', 'options'=> $professores, 'selected'=>$id_professor, 'default'=>0)); ?>
+	<?php echo $this->Form->input('docente_id', array('label'=>'Professores', 'type'=>'select', 'options'=> $professores, 'selected'=>$docente_id, 'default'=>0)); ?>
 	<?php echo $this->Form->end(); ?>
 	</td>
 </tr>
@@ -91,7 +91,7 @@ $("#EstagiarioIdSupervisor").change(function() {
 <tr>
 	<td colspan = '3'>
 	<?php echo $this->Form->create('Estagiario', array('action'=>'index')); ?>
-	<?php echo $this->Form->input('id_supervisor', array('label'=>'Supervisores', 'type'=>'select', 'options'=> $supervisores, 'selected'=>$id_supervisor, 'default'=>0)); ?>
+	<?php echo $this->Form->input('supervisor_id', array('label'=>'Supervisores', 'type'=>'select', 'options'=> $supervisores, 'selected'=>$supervisor_id, 'default'=>0)); ?>
 	<?php echo $this->Form->end(); ?>
 	</td>
 </tr>
@@ -99,7 +99,7 @@ $("#EstagiarioIdSupervisor").change(function() {
 <tr>
 	<td colspan = '3'>
 	<?php echo $this->Form->create('Estagiario', array('action'=>'index')); ?>
-	<?php echo $this->Form->input('id_instituicao', array('label'=>'Instituições', 'type'=>'select', 'options'=> $instituicoes, 'selected'=>$id_instituicao, 'default'=>0)); ?>
+	<?php echo $this->Form->input('instituicao_id', array('label'=>'Instituições', 'type'=>'select', 'options'=> $instituicoes, 'selected'=>$instituicao_id, 'default'=>0)); ?>
 	<?php echo $this->Form->end(); ?>
 	</td>
 </tr>
@@ -108,7 +108,7 @@ $("#EstagiarioIdSupervisor").change(function() {
 </div>
 
 <div align='center'>
-    
+
 <?php ($periodo == 0 ? $periodo = "Todos" : $periodo = $periodo); ?>
 <h1>Estagiarios período: <?php echo $periodo; ?></h1>
 
@@ -126,7 +126,7 @@ $("#EstagiarioIdSupervisor").change(function() {
 <tr>
 <?php if ($this->Session->read('categoria') != 'estudante'): ?>
     <th><?php echo $this->Paginator->sort('Estagiario.registro', 'Registro'); ?></th>
-<? endif; ?>
+<?php endif; ?>
 <th><?php echo $this->Paginator->sort('Aluno.nome', 'Nome'); ?></th>
 <th><?php echo $this->Paginator->sort('Estagiario.periodo', 'Periodo'); ?></th>
 <th><?php echo $this->Paginator->sort('Estagiario.nivel', 'Nível'); ?></th>
@@ -139,39 +139,39 @@ $("#EstagiarioIdSupervisor").change(function() {
 <?php if ($this->Session->read('categoria') != 'estudante'): ?>
     <th><?php echo $this->Paginator->sort('Estagiario.nota', 'Nota'); ?></th>
     <th><?php echo $this->Paginator->sort('Estagiario.ch', 'CH'); ?></th>
-<? endif; ?>
+<?php endif; ?>
 </tr>
 <?php foreach ($estagiarios as $aluno):  ?>
 <tr>
 <?php if ($this->Session->read('categoria') != 'estudante'): ?>
     <td style='text-align:center'><?php echo $this->Html->link($aluno['Estagiario']['registro'],"/alunos/view/". $aluno['Aluno']['id']); ?></td>
-<? endif; ?>    
+<?php endif; ?>
 <td style='text-align:left'><?php echo $aluno['Aluno']['nome']; ?></td>
 <td style='text-align:center'><?php echo $aluno['Estagiario']['periodo']; ?></td>
 <td style='text-align:center'><?php echo $aluno['Estagiario']['nivel']; ?></td>
 <td style='text-align:center'><?php echo $aluno['Estagiario']['turno']; ?></td>
 <td style='text-align:center'><?php echo $aluno['Estagiario']['tc']; ?></td>
 <?php if ($this->Session->read('categoria') != 'estudante'): ?>
-    <td style='text-align:left'><?php echo $this->Html->link($aluno['Instituicao']['instituicao'],"/instituicaos/view/". $aluno['Estagiario']['id_instituicao']); ?></td>
-    <td style='text-align:left'><?php echo $this->Html->link($aluno['Supervisor']['nome'],"/supervisors/view/". $aluno['Estagiario']['id_supervisor']); ?></td>
-    <td style='text-align:left'><?php echo $this->Html->link($aluno['Professor']['nome'],"/professors/view/". $aluno['Estagiario']['id_professor']); ?></td>
+    <td style='text-align:left'><?php echo $this->Html->link($aluno['Instituicao']['instituicao'],"/Instituicoes/view/". $aluno['Estagiario']['instituicao_id']); ?></td>
+    <td style='text-align:left'><?php echo $this->Html->link($aluno['Supervisor']['nome'],"/Supervisors/view/". $aluno['Estagiario']['supervisor_id']); ?></td>
+    <td style='text-align:left'><?php echo $this->Html->link($aluno['Professor']['nome'],"/Professors/view/". $aluno['Estagiario']['docente_id']); ?></td>
     <td style='text-align:left'><?php echo $this->Html->link($aluno['Area']['area'], "/Areas/view/" . $aluno['Area']['id']); ?></td>
 <?php else: ?>
     <td style='text-align:left'><?php echo $aluno['Instituicao']['instituicao']; ?></td>
     <td style='text-align:left'><?php echo $aluno['Supervisor']['nome']; ?></td>
     <td style='text-align:left'><?php echo $aluno['Professor']['nome']; ?></td>
     <td style='text-align:left'><?php echo $aluno['Area']['area']; ?></td>
-<? endif; ?>
+<?php endif; ?>
 <?php if ($this->Session->read('categoria') != 'estudante'): ?>
     <td style='text-align:center'><?php echo $aluno['Estagiario']['nota']; ?></td>
     <td style='text-align:center'><?php echo $aluno['Estagiario']['ch']; ?></td>
-<? endif; ?>
+<?php endif; ?>
 </tr>
 <?php endforeach; ?>
 </table>
 
 <?php echo $this->Paginator->counter(array(
-'format' => 'Página %page% de %pages%, 
+'format' => 'Página %page% de %pages%,
 exibindo %current% registros do %count% total,
 começando no registro %start%, finalizando no %end%'
 )); ?>

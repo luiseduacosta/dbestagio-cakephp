@@ -6,7 +6,7 @@ class Visita extends AppModel {
      */
 
     public $name = 'Visita';
-    public $useTable = 'visita';
+    public $useTable = 'visitas';
     public $primaryKey = 'id';
     public $displayField = 'data';
     public $belongsTo = array(

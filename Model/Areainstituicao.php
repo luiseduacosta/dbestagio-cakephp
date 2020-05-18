@@ -1,18 +1,18 @@
 <?php
 
 class Areainstituicao extends AppModel {
+    /* @var Estagiario */
+    /* @var Instituicao */
 
     public $name = 'Areainstituicao';
-    public $useTable = 'area_instituicoes';
+    public $useTable = 'areainstituicoes';
     public $primaryKey = 'id';
     public $displayField = 'area';
     public $hasMany = array(
         'Instituicao' => array(
             'className' => 'Instituicao',
-            'foreignKey' => 'area_instituicoes_id'
+            'foreignKey' => 'areainstituicoes_id'
         )
     );
 
 }
-
-?>

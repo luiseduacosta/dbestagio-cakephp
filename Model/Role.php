@@ -5,8 +5,8 @@ class Role extends AppModel {
     public $name = 'Role';
     public $useTable = 'roles';
 
-    public $hasMany = array('User' => array(
-        'className' => 'User',
+    public $hasMany = array('Userestagio' => array(
+        'className' => 'Userestagio',
         'foreignKey' => 'categoria'));
 }
 

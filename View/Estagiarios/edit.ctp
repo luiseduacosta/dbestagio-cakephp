@@ -7,9 +7,9 @@ echo $this->Html->scriptBlock('
 
 $(document).ready(function(){
 $("#EstagiarioIdInstituicao").change(function() {
-	var id_instituicao = $(this).val();
-	 $("#EstagiarioIdSupervisor").load("/mural/Instituicaos/seleciona_supervisor/"+id_instituicao, {id: $(this).val(), ajax: "true"});
-         /* alert(id_instituicao); */
+	var instituicao_id = $(this).val();
+	 $("#EstagiarioIdSupervisor").load("/mural/Instituicoes/seleciona_supervisor/"+instituicao_id, {id: $(this).val(), ajax: "true"});
+         /* alert(instituicao_id); */
 	})
  });
 
@@ -27,9 +27,9 @@ echo $this->Form->input('Estagiario.nivel', array('label'=>'Nível','options'=>a
 echo $this->Form->input('Estagiario.turno', array('label'=>'Turno', 'options'=>array('D'=>'Diurno', 'N'=>'Noturno', 'I'=>'Indefinido')));
 echo $this->Form->input('Estagiario.tc', array('label'=>'TC (Aluno entrogou o TC assinado na Coordenação de Estágio?', 'options'=>array('0'=>'Não', '1'=>'Sim')));
 echo $this->Form->input('Estagiario.tc_solicitacao', array('type'=>'hidden', 'label'=>'Data de solicitação do TC', 'dateFormat'=>'DMY' ,'empty'=>TRUE));
-echo $this->Form->input('Estagiario.id_instituicao', array('label'=>'Instituição','options'=>$instituicoes));
-echo $this->Form->input('Estagiario.id_supervisor', array('label'=>'Supervisor','options'=>$supervisores));
-echo $this->Form->input('Estagiario.id_professor', array('label'=>'Professor','options'=>$professores));
+echo $this->Form->input('Estagiario.instituicao_id', array('label'=>'Instituição','options'=>$instituicoes));
+echo $this->Form->input('Estagiario.supervisor_id', array('label'=>'Supervisor','options'=>$supervisores));
+echo $this->Form->input('Estagiario.docente_id', array('label'=>'Professor','options'=>$professores));
 echo $this->Form->input('Estagiario.id_area', array('label'=>'Área temática','options'=>$areas));
 echo $this->Form->input('Estagiario.id_aluno', array('type'=>'hidden'));
 echo $this->Form->input('Estagiario.nota', array('label'=>'Nota: separar casas decimais com ponto'));

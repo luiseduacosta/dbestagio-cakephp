@@ -31,7 +31,7 @@ class VisitasController extends AppController {
             // $this->Session->setFlash("Supervisor");
         } else {
             $this->Session->setFlash("Não autorizado");
-            $this->redirect('/users/login/');
+            $this->redirect('/Userestagios/login/');
         }
     }
 
@@ -57,7 +57,7 @@ class VisitasController extends AppController {
             $this->set('instituicao_id', $instituicao_id);
         } else {
             $this->Session->setFlash('Selecione uma instituição');
-            $this->redirect('/instituicaos/lista');
+            $this->redirect('/instituicoes/lista');
         }
         // Mostar as visitas anteriores
         $visitas = $this->Visita->find('all', array(
