@@ -3,9 +3,9 @@
 class ConfiguraplanejamentosController extends AppController {
 
     public $name = "Configuraplanejamentos";
-    
+
     public $components = array('Auth');
-    
+
     public function beforeFilter() {
 
         parent::beforeFilter();
@@ -26,7 +26,7 @@ class ConfiguraplanejamentosController extends AppController {
             // $this->Session->setFlash("Supervisor");
         } else {
             $this->Session->setFlash("Não autorizado");
-            $this->redirect('/users/login/');
+            $this->redirect('/Users/login/');
         }
         // die(pr($this->Session->read('user')));
     }

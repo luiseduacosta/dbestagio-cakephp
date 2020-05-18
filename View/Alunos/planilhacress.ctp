@@ -56,12 +56,12 @@ $("#AlunoPeriodo").change(function() {
 <?php foreach ($cress as $c_cress): ?>
     <?php // pr($c_cress); ?>
         <tr>
-            <td><?php echo $this->Html->link($c_cress['Aluno']['nome'], '/alunos/view/' . $c_cress['Aluno']['id']); ?></td>
-            <td><?php echo $this->Html->link($c_cress['Instituicao']['instituicao'], '/instituicaos/view/' . $c_cress['Instituicao']['id']); ?></td>
+            <td><?php echo $this->Html->link($c_cress['Aluno']['nome'], '/Alunos/view/' . $c_cress['Aluno']['id']); ?></td>
+            <td><?php echo $this->Html->link($c_cress['Instituicao']['instituicao'], '/Instituicoes/view/' . $c_cress['Instituicao']['id']); ?></td>
             <td><?php echo $c_cress['Instituicao']['endereco']; ?></td>
             <td><?php echo $c_cress['Instituicao']['cep']; ?></td>
             <td><?php echo $c_cress['Instituicao']['bairro']; ?></td>
-            <td><?php echo $c_cress['Supervisor']['nome']; ?></td> 
+            <td><?php echo $c_cress['Supervisor']['nome']; ?></td>
             <td><?php echo $c_cress['Supervisor']['cress']; ?></td>
             <td><?php echo $c_cress['Professor']['nome']; ?></td>
         </tr>
