@@ -131,7 +131,7 @@ class SupervisoresController extends AppController {
     }
 
     /*
-      Mostra os superivosres por periodo e quantidde de estudantes no período
+      Mostra os supervisores por periodo e quantidde de estudantes no período
      */
 
     public function index1() {
@@ -189,34 +189,70 @@ class SupervisoresController extends AppController {
             $supervisor[$i]['cress'] = $c_supervisor['Supervisor']['cress'];
             $supervisor[$i]['nome'] = $c_supervisor['Supervisor']['nome'];
             if ($c_supervisor['Supervisor']['id']) {
+                /* Estagiarios do período do supervisor */
                 $estagiarios = $this->Supervisor->Estagiario->find('all', [
                     'conditions' => ['Supervisor.id' => $c_supervisor['Supervisor']['id'], 'Estagiario.periodo' => $periodo],
                     'fields' => ['count("Estagiario.id") AS q_estagiarios']
                 ]);
 // pr($estagiarios);
 // die('estagiarios');
+                /* Todos os estagiarios do supervisor */
+                $estagiariostotaldosupervisor = $this->Supervisor->Estagiario->find('all', [
+                    'conditions' => ['Supervisor.id' => $c_supervisor['Supervisor']['id']],
+                    'fields' => ['count("Estagiario.id") AS q_estagiarios']
+                ]);
+                // pr($estagiariostotaldosupervisor);
+                // die('estagiariostotaldosupervisor');
+
+                /* Todos os periodos de estágio do supervisor */
+                $periodostotaldosupervisor = $this->Supervisor->Estagiario->find('all', [
+                    'conditions' => ['Supervisor.id' => $c_supervisor['Supervisor']['id']],
+                    'fields' => ['Estagiario.periodo']
+                ]);
+                // pr($periodostotaldosupervisor);
+                // die('periodostotaldosupervisor');
+                $periodosdeestagio = null;
+                foreach ($periodostotaldosupervisor as $c_periodo) {
+                    $periodosdeestagio[] = $c_periodo['Estagiario']['periodo'];
+                }
+                // die('periodostotaldosupervisor');
+            }
+            /* Quantidade de períodos do supervisor */
+            if (isset($periodosdeestagio) && $periodosdeestagio) {
+                $periodosunicos = array_unique($periodosdeestagio);
+                $supervisor[$i]['q_periodos'] = count($periodosunicos);
+            } else {
+                $supervisor[$i]['q_periodos'] = null;
             }
             $q_estagiarios = isset($estagiarios[0][0]['q_estagiarios']) ? $estagiarios[0][0]['q_estagiarios'] : null;
             $supervisor[$i]['q_estagiarios'] = $q_estagiarios;
-// echo 'Quantidade ' . $supervisor[$i]['q_estagiarios'] . " " . $q_estagiarios . "<br>";
+
+            $estagiariostotal = isset($estagiariostotaldosupervisor[0][0]['q_estagiarios']) ? $estagiariostotaldosupervisor[0][0]['q_estagiarios'] : null;
+            $supervisor[$i]['q_totaldeestagiarios'] = $estagiariostotal;
+
             $supervisor[$i]['instituicao_id'] = $c_supervisor['Instituicao']['id'];
             $supervisor[$i]['instituicao'] = $c_supervisor['Instituicao']['instituicao'];
             $i++;
         }
 // die();
 // pr($supervisor);
+        /*
+         * Para excluir os supervisores repetidos
+         */
         $repetidounicakey = array_unique($repetido);
-
         foreach ($repetidounicakey as $key):
 // pr($key);
             unset($supervisor[$key]);
         endforeach;
-// pr($supervisor);
+        // pr($supervisor);
 
+        /*
+         * Ordeno o array por uma coluna
+         */
         $coluna = array_column($supervisor, $ordem);
         array_multisort($coluna, $supervisor);
-// pr($supervisor);
-// die('supervisor');
+        // pr($supervisor);
+        // die('supervisor');
 
         $this->set('todosPeriodos', $todosPeriodos);
         $this->set('periodo', $periodo);

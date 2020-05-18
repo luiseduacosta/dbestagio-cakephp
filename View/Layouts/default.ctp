@@ -35,7 +35,7 @@
 
         echo $this->Html->css('cake.generic');
         echo $this->Html->css('abas');
-        echo $this->Html->script('jquery'); // Include jQuery library
+        echo $this->Html->script(['https://code.jquery.com/jquery-3.5.1.min.js']);
         echo $this->Js->writeBuffer();
         echo $scripts_for_layout;
         ?>
@@ -43,14 +43,14 @@
     <body>
         <div id="container">
             <div id="header">
-                <h1><?php echo $this->Html->link(__('Coordenação de Estágio & Extensão - ESS - UFRJ', true), 'http://mural.ess.ufrj.br') ;?>
+                <h1><?php echo $this->Html->link(__('Coordenação de Estágio & Extensão - ESS - UFRJ', true), 'http://mural.ess.ufrj.br'); ?>
                 </h1>
             </div>
 
             <div id='menu'>
                 <?php echo $this->Html->link("ESS", "http://www.ess.ufrj.br"); ?>
                 <?php echo " | "; ?>
-                <?php echo $this->Html->link("Login", array('controller' => 'Userestagios', 'action'=> 'login', 'full_base'=>true)); ?>
+                <?php echo $this->Html->link("Login", array('controller' => 'Userestagios', 'action' => 'login', 'full_base' => true)); ?>
                 <?php echo " | "; ?>
                 <?php echo $this->Html->link("Mural", array('controller' => 'Muralestagios', 'action' => 'index')); ?>
                 <?php echo " | "; ?>
@@ -76,8 +76,8 @@
 
                 <?php // echo $this->Html->link('Manual', 'http://www.ess.ufrj.br'); ?>
                 <?php // echo " | "; ?>
-		<?php echo $this->Html->link('Grupo Google', 'https://groups.google.com/forum/#!forum/estagio_ess'); ?>
-		<?php echo " | "; ?>
+                <?php echo $this->Html->link('Grupo Google', 'https://groups.google.com/forum/#!forum/estagio_ess'); ?>
+                <?php echo " | "; ?>
                 <?php echo $this->Html->link('Fale conosco', 'mailto: estagio@ess.ufrj.br'); ?>
 
                 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
@@ -128,6 +128,6 @@
             </div>
 
         </div>
-<?php echo $this->element('sql_dump'); ?>
+        <?php echo $this->element('sql_dump'); ?>
     </body>
 </html>
