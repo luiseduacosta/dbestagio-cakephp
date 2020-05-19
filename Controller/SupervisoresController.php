@@ -133,7 +133,6 @@ class SupervisoresController extends AppController {
     /*
       Mostra os supervisores por periodo e quantidde de estudantes no período
      */
-
     public function index1() {
         $parametros = $this->params['named'];
         $periodo = isset($parametros['periodo']) ? $parametros['periodo'] : NULL;
@@ -401,27 +400,54 @@ class SupervisoresController extends AppController {
     }
 
     public function repetidos() {
-        $repetidos = $this->Supervisor->find('all', array(
-            'fields' => array('id', 'cress', 'nome', 'count(cress) as quantidade'),
-            'group' => 'cress having quantidade > 1',
-            'order' => 'nome')
-        );
+        $supervisores = $this->Supervisor->find('all', [
+            'fields' => ['Supervisor.id', 'Supervisor.cress', 'count("cress") as q_cress', 'Supervisor.nome'],
+            'order' => ['Supervisor.nome'],
+            'group' => ['Supervisor.cress']
+        ]);
+
+        // pr($supervisores);
+
+        $i = 0;
+        $semcress = null;
+        foreach ($supervisores as $c_supervisor) {
+            // pr($c_supervisor);
+            if ($c_supervisor[0]['q_cress'] > 1) {
+                // echo $c_supervisor[0]['q_cress'];
+                // pr($c_supervisor['Supervisor']);
+                if ($c_supervisor['Supervisor']['cress'] == 0 || empty($c_supervisor['Supervisor']['cress'])) {
+                    // $semcress[$i]['nome'] = null;
+                    $semcress = $semcress + $c_supervisor[0]['q_cress'];
+                } else {
+                    $repetidos[$i]['id'] = $c_supervisor['Supervisor']['id'];
+                    $repetidos[$i]['nome'] = $c_supervisor['Supervisor']['nome'];
+                    $repetidos[$i]['cress'] = $c_supervisor['Supervisor']['cress'];
+                    $repetidos[$i]['q_cress'] = $c_supervisor[0]['q_cress'];
+                }
+            }
+            $i++;
+        }
+        // pr($semcress);
+        array_multisort(array_column($repetidos, 'nome'), $repetidos);
+        // pr($repetidos);
+        // die('repetidos');
+        $this->set('semcress', $semcress);
         $this->set('repetidos', $repetidos);
     }
 
     public function semalunos() {
         $semalunos = $this->Supervisor->find('all', array(
             'limit' => 100,
-            'fields' => array('Supervisor.id', 'Supervisor.cress', 'Supervisor.nome', 'Estagiario.supervisor_id'),
-            'joins' => array(
-                array(
+            'fields' => ['Supervisor.id', 'Supervisor.cress', 'Supervisor.nome', 'Estagiario.supervisor_id'],
+            'joins' => [
+                [
                     'table' => 'estagiarios',
                     'alias' => 'Estagiario',
                     'type' => 'LEFT',
-                    'conditions' => 'Supervisor.id = Estagiario.supervisor_id'
-                )
-            ),
-            'conditions' => array('Estagiario.supervisor_id IS NULL'),
+                    'conditions' => ['Supervisor.id' => 'Estagiario.supervisor_id']
+                ]
+                    ],
+            'conditions' => ['Estagiario.supervisor_id IS NULL'],
             'order' => 'Supervisor.nome'
         ));
 // pr($semalunos);

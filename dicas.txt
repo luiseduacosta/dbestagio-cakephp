@@ -14,6 +14,12 @@ url = url.replace(/\/[^\/]*$/, '/175')
 /* split the String by split("/") then change the last part and rejoin by join("/"): */
 var url = window.location.pathname.split("/").slice(0,-1).join("/")+"/periodo:"+periodo;
 
+/* No javascript de seleção de opções é possível colocar código PHP para indicar o destino do location */
+var link = "<?= $this->Html->url(["controller" => "Supervisores", "action" => "index/periodo:"]); ?>";
+
+/* No mysql é necessário excluir do mysql.ini esta expressão para que as consultas GRUP BY funcionen */
+ONLY_FULL_GROUP_BY
+
 Paginação própria
 =================
 
