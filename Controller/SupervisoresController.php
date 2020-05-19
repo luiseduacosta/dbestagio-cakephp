@@ -401,8 +401,8 @@ class SupervisoresController extends AppController {
 
     public function repetidos() {
         $supervisores = $this->Supervisor->find('all', [
-            'fields' => ['Supervisor.id', 'Supervisor.cress', 'count("cress") as q_cress', 'Supervisor.nome'],
-            'order' => ['Supervisor.nome'],
+            'recursive' => -1, // não trazer as tabelas associadas
+            'fields' => ['Supervisor.cress', 'count("cress") as q_cress'],
             'group' => ['Supervisor.cress']
         ]);
 
@@ -419,14 +419,20 @@ class SupervisoresController extends AppController {
                     // $semcress[$i]['nome'] = null;
                     $semcress = $semcress + $c_supervisor[0]['q_cress'];
                 } else {
-                    $repetidos[$i]['id'] = $c_supervisor['Supervisor']['id'];
-                    $repetidos[$i]['nome'] = $c_supervisor['Supervisor']['nome'];
+                    $supervisornome = $this->Supervisor->find('first', [
+                        'recursive' => -1,
+                        'conditions' => ['Supervisor.cress' => $c_supervisor['Supervisor']['cress']]
+                        ]);
+                    // pr($supervisornome);    
+                    $repetidos[$i]['id'] = $supervisornome['Supervisor']['id'];
+                    $repetidos[$i]['nome'] = $supervisornome['Supervisor']['nome'];
                     $repetidos[$i]['cress'] = $c_supervisor['Supervisor']['cress'];
                     $repetidos[$i]['q_cress'] = $c_supervisor[0]['q_cress'];
                 }
             }
             $i++;
         }
+        // die('supervisornome');
         // pr($semcress);
         array_multisort(array_column($repetidos, 'nome'), $repetidos);
         // pr($repetidos);
