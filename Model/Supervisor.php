@@ -16,7 +16,6 @@ class Supervisor extends AppModel {
             'className' => 'Estagiario',
             'foreignKey' => 'supervisor_id')
     );
-
     public $hasAndBelongsToMany = array(
         'Instituicao' => array(
             'className' => 'Instituicao',
@@ -28,14 +27,8 @@ class Supervisor extends AppModel {
             'order' => '',
         )
     );
-/*
-    public $virtualFields = array(
-      'virtualestagiarios' => 'count("Estagiario.registro")',
-      'virtualestudantes' => 'count("Distintc Estagiario.registro")',
-      'virtualperiodos' => 'count("Distintc Estagiario.periodo")'
-    );
-*/
-        public function beforeValidate($options = array()) {
+
+    public function beforeValidate($options = array()) {
 
         $this->data['Supervisor']['nome'] = ucwords(strtolower($this->data['Supervisor']['nome']));
         $this->data['Supervisor']['email'] = strtolower($this->data['Supervisor']['email']);
@@ -107,7 +100,7 @@ class Supervisor extends AppModel {
 
         $cpf = NULL;
         if (!empty($value)) {
-            $cpf = $this->query('select cpf from supervisores as Supervisor where cpf = ' . "'" . $value . "'" . ' limit 1');
+            $cpf = $this->query('Select cpf from supervisores as Supervisor where cpf = ' . "'" . $value . "'" . ' limit 1');
         }
         // pr($cpf);
         // die();

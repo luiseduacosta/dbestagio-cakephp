@@ -1,6 +1,7 @@
 <?php
 // pr($supervisores);
 // die();
+echo $this->element('submenu_supervisores');
 ?>
 
 <script>
@@ -18,25 +19,6 @@
     })
 
 </script>
-
-
-<?php if ($this->Session->read('categoria') === 'administrador'): ?>
-    <?php
-    echo $this->Html->link('Inserir', '/Supervisores/add/');
-    echo " | ";
-    echo $this->Html->link('Buscar', '/Supervisores/busca/');
-    echo " || ";
-    echo $this->Html->link('Repetidos', '/Supervisores/repetidos/');
-    echo " | ";
-    echo $this->Html->link('Sem alunos', '/Supervisores/semalunos/');
-    ?>
-    <br />
-<?php else: ?>
-    <?php
-    echo $this->Html->link('Buscar', '/Supervisores/busca/');
-    ?>
-    <br />
-<?php endif; ?>
 
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
     <?php echo $this->Form->create('Supervisor'); ?>
