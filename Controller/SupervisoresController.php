@@ -133,6 +133,7 @@ class SupervisoresController extends AppController {
     /*
       Mostra os supervisores por periodo e quantidde de estudantes no período
      */
+
     public function index1() {
         $parametros = $this->params['named'];
         $periodo = isset($parametros['periodo']) ? $parametros['periodo'] : NULL;
@@ -323,22 +324,37 @@ class SupervisoresController extends AppController {
     }
 
     public function busca($id = NULL) {
-        if ($id)
+
+        if (isset($id))
             $this->request->data['Supervisor']['nome'] = $id;
-        $this->paginate = array(
-            'limit' => 10,
-            'order' => array(
-                'Supervisor.nome' => 'asc')
-        );
-        if ($this->request->data['Supervisor']['nome']) {
-            $condicao = array('Supervisor.nome like' => '%' . $this->request->data['Supervisor']['nome'] . '%');
-            $supervisores = $this->Supervisor->find('all', array('conditions' => $condicao));
-// Nenhum resultado
+
+        // $id = isset($this->request->data['Supervisor']['nome']) ? $this->request->data['Supervisor']['nome'] : null;
+        // pr($id);
+        if (!empty($this->request->data['Supervisor']['nome'])) {
+            $condicao = ['Supervisor.nome like' => '%' . $this->request->data['Supervisor']['nome'] . '%'];
+            $supervisores = $this->Supervisor->find('all', [
+                'recursive' => -1,
+                'conditions' => $condicao,
+                'order' => 'Supervisor.nome']);
+
+            // pr($supervisores);
+            // die('supervisores');
+
+            /* Nenhum resultado */
             if (empty($supervisores)) {
                 $this->Session->setFlash(__("Não foram encontrados registros"));
             } else {
-                $this->set('supervisores', $this->Paginate($condicao));
-                $this->set('busca', $this->data['Supervisor']['nome']);
+                // pr($supervisores);
+                // die('supervisores');
+                $this->Paginator->settings = ['Supervisor' => [
+                        'conditions' => ['Supervisor.nome like' => '%' . $this->request->data['Supervisor']['nome'] . '%'],
+                        'order' => 'Supervisor.nome'
+                    ]
+                ];
+
+                $this->set('supervisores', $this->Paginator->paginate('Supervisor'));
+                // $this->set('supervisores', $this->Paginate('Supervisor', $condicao));
+                $this->set('busca', $this->request->data['Supervisor']['nome']);
             }
         }
     }
@@ -422,8 +438,8 @@ class SupervisoresController extends AppController {
                     $supervisornome = $this->Supervisor->find('first', [
                         'recursive' => -1,
                         'conditions' => ['Supervisor.cress' => $c_supervisor['Supervisor']['cress']]
-                        ]);
-                    // pr($supervisornome);    
+                    ]);
+                    // pr($supervisornome);
                     $repetidos[$i]['id'] = $supervisornome['Supervisor']['id'];
                     $repetidos[$i]['nome'] = $supervisornome['Supervisor']['nome'];
                     $repetidos[$i]['cress'] = $c_supervisor['Supervisor']['cress'];
@@ -442,22 +458,51 @@ class SupervisoresController extends AppController {
     }
 
     public function semalunos() {
-        $semalunos = $this->Supervisor->find('all', array(
-            'limit' => 100,
-            'fields' => ['Supervisor.id', 'Supervisor.cress', 'Supervisor.nome', 'Estagiario.supervisor_id'],
-            'joins' => [
-                [
-                    'table' => 'estagiarios',
-                    'alias' => 'Estagiario',
-                    'type' => 'LEFT',
-                    'conditions' => ['Supervisor.id' => 'Estagiario.supervisor_id']
-                ]
-                    ],
-            'conditions' => ['Estagiario.supervisor_id IS NULL'],
-            'order' => 'Supervisor.nome'
-        ));
-// pr($semalunos);
-        $this->set('semalunos', $semalunos);
+
+        $this->Supervisor->recursive = 1;
+        $semalunos = $this->Supervisor->find('all');
+
+        $i = 0;
+        foreach ($semalunos as $estagiarios) {
+            // pr($estagiarios);
+            if (count($estagiarios['Estagiario']) > 0) {
+                // echo "Estagiarios" . "<br />";
+            } else {
+                // echo 'Sem estagiarios' . "<br />";
+                $semestudantes[]  = $estagiarios['Supervisor'];
+            }
+        }
+        array_multisort(array_column($semestudantes, 'nome'), $semestudantes);
+        // pr($semestudantes);
+        // die('semalunos');
+        $this->set('semalunos', $semestudantes);
+    }
+
+    public function seminstituicao($id = null) {
+
+        $this->Supervisor->recursive = 1;
+        $supervisores = $this->Supervisor->find('all');
+        $i = 0;
+        foreach ($supervisores as $instituicao) {
+            if (count($instituicao['Instituicao']) > 0) {
+                // pr($instituicao['Instituicao'][array_key_last($instituicao['Instituicao'])]['instituicao']);
+            } else {
+                // pr($instituicao['Supervisor']);
+                // pr($instituicao['Estagiario']);
+                // echo "Sem instituição";
+                $seminstituicao[$id]['supervisor_id'] = $instituicao['Supervisor']['id'];
+                $seminstituicao[$id]['nome'] = $instituicao['Supervisor']['nome'];
+                $seminstituicao[$id]['cress'] = $instituicao['Supervisor']['cress'];
+                $seminstituicao[$id]['q_estagiarios'] = count($instituicao['Estagiario']);
+                $id++;
+            }
+        }
+        array_multisort(array_column($seminstituicao, 'nome'), $seminstituicao);
+        // pr($seminstituicao);
+        //$log = $this->Supervisor->getDataSource()->getLog(false, false);
+        // debug($log);
+        // die('supervisores');
+        $this->set('seminstituicao', $seminstituicao);
     }
 
 }

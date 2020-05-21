@@ -1,5 +1,7 @@
 <?php // pr($repetidos);  ?>
 
+<?= $this->element('submenu_supervisores') ?>
+
 <?php if ($repetidos): ?>
 
     <table>
@@ -14,5 +16,5 @@
             <?php endif; ?> 
         <?php endforeach; ?>
     </table>
-<p><?= $this->Html->link('Há ' . $semcress . ' sem número de CRESS.', '/Supervisores/index/ordem:cress') ?></p>
+<p><?= $this->Html->link('Há ' . $semcress . ' supervisores sem número de CRESS.', '/Supervisores/index/ordem:cress') ?></p>
 <?php endif; ?>

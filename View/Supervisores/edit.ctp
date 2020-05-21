@@ -1,5 +1,7 @@
 <?php
 
+echo $this->element('submenu_supervisores');
+
 echo $this->Html->script("jquery", array('inline'=>false));
 echo $this->Html->script("jquery.maskedinput", array('inline'=>false));
 

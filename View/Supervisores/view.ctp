@@ -1,6 +1,8 @@
 <?php // pr($supervisor);   ?>
 <?php // die();         ?>
 
+<?= $this->element('submenu_supervisores') ?>
+
 <?php if (($this->Session->read('categoria') === 'supervisor') and ($this->Session->read('numero') === $supervisor['Supervisor']['cress'])): ?>
     <?php echo $this->Html->link('Meus estudantes', '/estagiarios/index/supervisor_id:' . $supervisor['Supervisor']['id'] . '/periodo:0'); ?>
 <?php endif; ?>
