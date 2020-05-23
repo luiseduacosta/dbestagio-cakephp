@@ -1,5 +1,4 @@
 <?php
-
 // pr($instituicoes);
 // pr($q_paginas);
 // pr($pagina);
@@ -8,38 +7,28 @@
 // die();
 ?>
 
-<?php
-echo $this->Html->script("jquery", array('inline'=>false));
-echo $this->Html->scriptBlock('
+<script>
 
-$(document).ready(function() {
+    $(document).ready(function () {
 
-var url = location.hostname;
-var base_url = window.location.pathname.split("/");
+        var url = "<?= $this->Html->url(["controller" => "Instituicoes", "action" => "lista/linhas:"]); ?>";
 
-$("#InstituicaoLinhas").change(function() {
-	var linhas = $(this).val();
-        /* alert(linhas); */
-        if (url === "localhost") {
-            window.location="/" + base_url[1] + "/Instituicoes/lista/linhas:" +linhas;
-        } else {
-            window.location="/Instituicoes/lista/linhas:" +linhas;
-        }
-})
+        $("#InstituicaoLinhas").change(function () {
+            var linhas = $(this).val();
+            url = url + linhas;
+            /* alert(linhas); */
+            $(location).attr('href', url);
+        })
+    })
 
-})
-
-', array("inline"=>false)
-
-);
-?>
+</script>
 
 <?php echo $this->element('submenu_instituicoes'); ?>
 
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
 
-    <?php echo $this->Form->create('Instituicao', array('controller' => 'Instituicao', 'url'=>'lista')); ?>
-    <?php echo $this->Form->input('linhas', array('type'=>'select', 'label'=>array('text'=>'Linhas por páginas ', 'style'=>'display: inline'), 'options'=> array('15' => '15', '0' => 'Todos'), 'selected' => $linhas, 'empty'=> array('15' => 'Selecione'))); ?>
+    <?php echo $this->Form->create('Instituicao', array('controller' => 'Instituicao', 'url' => 'lista')); ?>
+    <?php echo $this->Form->input('linhas', array('type' => 'select', 'label' => array('text' => 'Linhas por páginas ', 'style' => 'display: inline'), 'options' => array('15' => '15', '0' => 'Todos'), 'selected' => $linhas, 'empty' => array('15' => 'Selecione'))); ?>
     <?php echo $this->Form->end(); ?>
 
 <?php endif; ?>
@@ -47,38 +36,36 @@ $("#InstituicaoLinhas").change(function() {
 <br>
 
 <div align="center">
-<?php
-
+    <?php
 // Menu superior de Navegação //
-if ($linhas != 0):
+    if ($linhas != 0):
 
-    echo "  " . $this->Html->link('<< Início ', 'lista/ordem:' . $ordem . '/pagina:' . 1 . '/direcao:' . $direcao);
+        echo "  " . $this->Html->link('<< Início ', 'lista/ordem:' . $ordem . '/pagina:' . 1 . '/direcao:' . $direcao);
 
-    $retrocederpagina = $pagina - 1;
-    echo "  " . $this->Html->link('<- Retroceder |', 'lista/ordem:' . $ordem . '/pagina:' . $retrocederpagina . '/direcao:' . $direcao);
+        $retrocederpagina = $pagina - 1;
+        echo "  " . $this->Html->link('<- Retroceder |', 'lista/ordem:' . $ordem . '/pagina:' . $retrocederpagina . '/direcao:' . $direcao);
 
-    $avancarpagina = $pagina + 1;
-    if ($avancarpagina > $q_paginas) {
-        $avancarpagina = 0;
-    }
-    echo "  " . $this->Html->link('| Avançar -> ', 'lista/ordem:' . $ordem . '/pagina:' . $avancarpagina . '/direcao:' . $direcao);
-
-    echo "  " . $this->Html->link('Última >> ', 'lista/ordem:' . $ordem . '/pagina:' . $q_paginas . '/direcao:' . $direcao);
-
-    echo "<br>";
-
-    $i = 1;
-    $j = 1;
-    // echo $j . "<br>";
-    for ($k=0; $k < 10; $k++):
-        echo " " . $this->Html->link(($pagina + $k), 'lista/ordem:' . $ordem . '/pagina:' . ($pagina + $k) . '/direcao:' . $direcao);
-        if (($pagina + $k) >= $q_paginas) {
-            break;
+        $avancarpagina = $pagina + 1;
+        if ($avancarpagina > $q_paginas) {
+            $avancarpagina = 0;
         }
-    endfor;
-endif;
+        echo "  " . $this->Html->link('| Avançar -> ', 'lista/ordem:' . $ordem . '/pagina:' . $avancarpagina . '/direcao:' . $direcao);
 
-?>
+        echo "  " . $this->Html->link('Última >> ', 'lista/ordem:' . $ordem . '/pagina:' . $q_paginas . '/direcao:' . $direcao);
+
+        echo "<br>";
+
+        $i = 1;
+        $j = 1;
+        // echo $j . "<br>";
+        for ($k = 0; $k < 10; $k++):
+            echo " " . $this->Html->link(($pagina + $k), 'lista/ordem:' . $ordem . '/pagina:' . ($pagina + $k) . '/direcao:' . $direcao);
+            if (($pagina + $k) >= $q_paginas) {
+                break;
+            }
+        endfor;
+    endif;
+    ?>
 
 </div>
 
@@ -117,29 +104,29 @@ endif;
     </thead>
     <tbody>
         <?php foreach ($instituicoes as $c_instituicao): ?>
-        <?php // pr($c_instituicao); ?>
-        <tr>
-            <td><?php echo $this->Html->link($c_instituicao['instituicao_id'], '/Instituicoes/view/' . $c_instituicao['instituicao_id']); ?></td>
-            <td><?php echo $this->Html->link($c_instituicao['instituicao'], '/Instituicoes/view/' . $c_instituicao['instituicao_id']); ?></td>
-            <td>
-                <?php
+            <?php // pr($c_instituicao);  ?>
+            <tr>
+                <td><?php echo $this->Html->link($c_instituicao['instituicao_id'], '/Instituicoes/view/' . $c_instituicao['instituicao_id']); ?></td>
+                <td><?php echo $this->Html->link($c_instituicao['instituicao'], '/Instituicoes/view/' . $c_instituicao['instituicao_id']); ?></td>
+                <td>
+                    <?php
                     if ($c_instituicao['expira']):
                         echo date('d-m-Y', strtotime($c_instituicao['expira']));
                     endif;
-                ?>
-            </td>
-            <td><?php
-            if ($c_instituicao['visita']):
-                echo $this->Html->link(date('d-m-Y', strtotime($c_instituicao['visita'])), '/Visitas/view/' . $c_instituicao['visita_id']);
-            endif;
-            ?>
-            </td>
-            <td><?php echo $this->Html->link($c_instituicao['ultimoperiodo'], '/Estagiarios/index/instituicao_id:' . $c_instituicao['instituicao_id']); ?></td>
-            <td><?php echo $c_instituicao['estagiarios']; ?></td>
-            <td><?php echo $c_instituicao['supervisores']; ?></td>
-            <td><?php echo $c_instituicao['area']; ?></td>
-            <td><?php echo $c_instituicao['natureza']; ?></td>
-        </tr>
+                    ?>
+                </td>
+                <td><?php
+                    if ($c_instituicao['visita']):
+                        echo $this->Html->link(date('d-m-Y', strtotime($c_instituicao['visita'])), '/Visitas/view/' . $c_instituicao['visita_id']);
+                    endif;
+                    ?>
+                </td>
+                <td><?php echo $this->Html->link($c_instituicao['ultimoperiodo'], '/Estagiarios/index/instituicao_id:' . $c_instituicao['instituicao_id']); ?></td>
+                <td><?php echo $c_instituicao['estagiarios']; ?></td>
+                <td><?php echo $c_instituicao['supervisores']; ?></td>
+                <td><?php echo $c_instituicao['area']; ?></td>
+                <td><?php echo $c_instituicao['natureza']; ?></td>
+            </tr>
         <?php endforeach; ?>
     </tbody>
 </table>

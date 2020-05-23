@@ -266,19 +266,19 @@ class SupervisoresController extends AppController {
 // pr('id: ' . $id);
 // die('parametros');
         if ($id) {
-            $supervisor = $this->Supervisor->find('first', array(
-                'conditions' => array('Supervisor.id' => $id)
-            ));
+            $supervisor = $this->Supervisor->find('first', [
+                'conditions' => ['Supervisor.id' => $id]
+            ]);
         } else {
-            $supervisor = $this->Supervisor->find('all', array(
-                'conditions' => array('Supervisor.cress' => $cress)
-            ));
+            $supervisor = $this->Supervisor->find('all', [
+                'conditions' => ['Supervisor.cress' => $cress]
+            ]);
         }
 // pr($supervisor);
 // die('supervisor');
         /* Para o select de inserir uma nova instituicao */
         $this->loadModel('Instituicao');
-        $instituicoes = $this->Instituicao->find('list', array('order' => 'Instituicao.instituicao'));
+        $instituicoes = $this->Instituicao->find('list', ['order' => 'Instituicao.instituicao']);
         $instituicoes[0] = '- Selecione -';
         asort($instituicoes);
         $this->set('instituicoes', $instituicoes);
@@ -297,17 +297,19 @@ class SupervisoresController extends AppController {
     }
 
     public function add() {
+
         $this->loadModel('Instituicao');
-        $instituicoes = $this->Instituicao->find('list', array('order' => 'Instituicao.instituicao'));
+        $instituicoes = $this->Instituicao->find('list', ['order' => 'Instituicao.instituicao']);
         $instituicoes[0] = '- Seleciona -';
         asort($instituicoes);
         $this->set('instituicoes', $instituicoes);
-        if ($this->data) {
+
+        if ($this->request->data) {
             /*
              * Verifica que não esteja repetido o Cress
              */
             $verifica = $this->Supervisor->find('first', [
-                'conditions' => ['Supervisor.cress' => $this->data['Supervisor']['cress']]
+                'conditions' => ['Supervisor.cress' => $this->request->data['Supervisor']['cress']]
             ]);
             if ($verifica) {
                 $this->Session->setFlash(__('Supervisor já cadastrado'));
@@ -333,7 +335,7 @@ class SupervisoresController extends AppController {
         if (!empty($this->request->data['Supervisor']['nome'])) {
             $condicao = ['Supervisor.nome like' => '%' . $this->request->data['Supervisor']['nome'] . '%'];
             $supervisores = $this->Supervisor->find('all', [
-                'recursive' => -1,
+                'recursive' => -1, // Para excluir as associações
                 'conditions' => $condicao,
                 'order' => 'Supervisor.nome']);
 
@@ -487,8 +489,6 @@ class SupervisoresController extends AppController {
             if (count($instituicao['Instituicao']) > 0) {
                 // pr($instituicao['Instituicao'][array_key_last($instituicao['Instituicao'])]['instituicao']);
             } else {
-                // pr($instituicao['Supervisor']);
-                // pr($instituicao['Estagiario']);
                 // echo "Sem instituição";
                 $seminstituicao[$id]['supervisor_id'] = $instituicao['Supervisor']['id'];
                 $seminstituicao[$id]['nome'] = $instituicao['Supervisor']['nome'];
@@ -498,9 +498,6 @@ class SupervisoresController extends AppController {
             }
         }
         array_multisort(array_column($seminstituicao, 'nome'), $seminstituicao);
-        // pr($seminstituicao);
-        //$log = $this->Supervisor->getDataSource()->getLog(false, false);
-        // debug($log);
         // die('supervisores');
         $this->set('seminstituicao', $seminstituicao);
     }
