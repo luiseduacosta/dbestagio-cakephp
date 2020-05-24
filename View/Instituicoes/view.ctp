@@ -13,7 +13,7 @@
     <tr>
         <td width="15%">Instituição</td>
         <td width="85%">
-        <?php echo $this->Html->link($instituicao['Instituicao']['instituicao'], '/Estagiarios/index/instituicao_id:' . $instituicao['Instituicao']['id']); ?>
+        <?= $this->Html->link($instituicao['Instituicao']['instituicao'], '/Estagiarios/index/instituicao_id:' . $instituicao['Instituicao']['id']); ?>
         </td>
     </tr>
 
@@ -34,7 +34,7 @@
     <tr>
         <td>Página web</td>
         <td>
-        <?php echo $this->Html->link($instituicao['Instituicao']['url'], $instituicao['Instituicao']['url']); ?>
+        <?= $this->Html->link($instituicao['Instituicao']['url'], $instituicao['Instituicao']['url']); ?>
         </td>
     </tr>
 
@@ -208,7 +208,7 @@ if ($instituicao['Supervisor']) {
         $cada_supervisor[$i]['nome'] = $c_supervisor['nome'];
         $cada_supervisor[$i]['id'] = $c_supervisor['id'];
         $cada_supervisor[$i]['cress'] = $c_supervisor['cress'];
-        $cada_supervisor[$i]['id_superinst'] = $c_supervisor['InstSuper']['id'];
+        $cada_supervisor[$i]['id_superinst'] = $c_supervisor['InstituicaoSupervisor']['id'];
         $i++;
     }
     sort($cada_supervisor);
@@ -275,8 +275,8 @@ if ($instituicao['Supervisor']) {
 <?php
 
 echo $this->Form->create('Instituicao', array('controller'=>'Instituicoes', 'url'=>'addassociacao'));
-echo $this->Form->input('InstSuper.instituicao_id', array('type'=>'hidden', 'value'=>$instituicao['Instituicao']['id']));
-echo $this->Form->input('InstSuper.supervisor_id', array('label'=>'Supervisor', 'options'=>$supervisores, 'default'=>0, 'empty'=>'Seleciona'));
+echo $this->Form->input('InstituicaoSupervisor.instituicao_id', array('type'=>'hidden', 'value'=>$instituicao['Instituicao']['id']));
+echo $this->Form->input('InstituicaoSupervisor.supervisor_id', array('label'=>'Supervisor', 'options'=>$supervisores, 'default'=>0, 'empty'=>'Seleciona'));
 echo $this->Form->end('Confirma');
 
 ?>

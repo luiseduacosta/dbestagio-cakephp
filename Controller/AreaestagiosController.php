@@ -38,6 +38,29 @@ class AreaestagiosController extends AppController {
 
     public function index() {
 
+        $areas = $this->Areaestagio->find('all');
+        // pr($areas);
+        // die('areas');
+
+        $this->loadModel('Professor');
+        foreach ($areas as $c_area):
+            pr($c_area['Areaestagio']);
+            pr(count($c_area['Estagiario']));
+            // die();
+            foreach ($c_area['Estagiario'] as $estagiario):
+                // pr($estagiario['docente_id']);
+                $professor = $this->Professor->find('first', [
+                    'fields' => ['Professor.id', 'Professor.nome'],
+                    'conditions' => ['Professor.id' => [$estagiario['docente_id']]
+                    ]
+                ]);
+                echo $professor['Professor']['nome'] . "<br />";
+                // die();
+            endforeach;
+        endforeach;
+        // pr($estagiarios);
+        die('areas');
+
         $this->Areaestagio->virtualFields['virtualMinPeriodo'] = 'min(Estagiario.periodo)';
         $this->Areaestagio->virtualFields['virtualMaxPeriodo'] = 'max(Estagiario.periodo)';
 

@@ -4,7 +4,6 @@ class ProfessoresController extends AppController {
 
     public $name = "Professores";
     public $components = array('Auth');
-
     public $paginate = array(
         'limit' => 10,
         'order' => array('Professor.nome' => 'asc'));
@@ -36,11 +35,12 @@ class ProfessoresController extends AppController {
 
     public function index() {
 
-        $professores = $this->Professor->find('all');
-        // pr($professores);
-        // die();
-        $this->set('professores', $professores);
-        // $this->set('professores', $this->Paginate('Professor'));
+        $this->Professor->recursive = -1;
+        $this->Paginator->settings = ['Professor' => [
+                'order' => ['Professor.nome']
+            ]
+        ];
+        $this->set('professores', $this->paginate('Professor'));
         // die();
     }
 
@@ -121,9 +121,8 @@ class ProfessoresController extends AppController {
             'order' => array('Estagiario.periodo')
         ));
         // pr($todosPeriodo);
-
         // pr($periodo);
-        
+
         if (!$periodo)
             $periodo = end($todosPeriodo);
 
@@ -189,7 +188,7 @@ class ProfessoresController extends AppController {
         if ($pauta):
             $this->set('professores', $pauta);
         else:
-            $this->Session->setFlash("Sem pauta");
+            $this->Session->setFlash(__("Sem pauta"));
         endif;
     }
 

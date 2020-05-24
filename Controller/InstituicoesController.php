@@ -165,9 +165,8 @@ class InstituicoesController extends AppController {
 
         if ($this->data) {
             if ($this->Instituicao->save($this->data)) {
-                $this->Session->setFlash('Dados da instituição inseridos!');
-                $this->Instituicao->getLastInsertId();
-                $this->redirect('/Instituicoes/view/' . $this->Instituicao->getLastInsertId());
+                $this->Session->setFlash(__('Dados da instituição inseridos!'));
+                $this->redirect('/Instituicoes/view/' . $this->Instituicao->Id);
             }
         }
     }
@@ -175,27 +174,36 @@ class InstituicoesController extends AppController {
     public function view($id = null) {
 
         $this->Instituicao->contain('Visita', 'Areainstituicao', 'Supervisor');
-        $instituicao = $this->Instituicao->find('first', array(
-            'conditions' => array('Instituicao.id' => $id),
-            'order' => 'Instituicao.instituicao'));
+        $instituicao = $this->Instituicao->find('first', [
+            'conditions' => ['Instituicao.id' => $id],
+            'order' => 'Instituicao.instituicao']);
         // pr($instituicao);
         // die('instituicao');
 
         /* Para acrescentar um supervisor */
         $this->loadModel('Supervisor');
-        $supervisores = $this->Supervisor->find('list', array(
-            'order' => array('Supervisor.nome')));
+        $supervisores = $this->Supervisor->find('list', [
+            'order' => ['Supervisor.nome']]);
         // pr($supervisores);
         // die('supervisores');
 
         $this->set('supervisores', $supervisores);
 
-        $proximo = $this->Instituicao->find('neighbors', array(
-            'field' => 'instituicao', 'value' => $instituicao['Instituicao']['instituicao']));
-
-        $this->set('registro_next', $proximo['next']['Instituicao']['id']);
-        $this->set('registro_prev', $proximo['prev']['Instituicao']['id']);
-
+        $this->Instituicao->recursive = -1;
+        $proximo = $this->Instituicao->find('neighbors', [
+            'field' => 'instituicao', 'value' => $instituicao['Instituicao']['instituicao']
+        ]);
+        // pr($proximo);
+        if ($proximo['next']) {
+            $this->set('registro_next', $proximo['next']['Instituicao']['id']);
+        } else {
+            $this->set('registro_prev', $proximo['prev']['Instituicao']['id']);
+        }
+        if ($proximo['prev']) {
+            $this->set('registro_prev', $proximo['prev']['Instituicao']['id']);
+        } else {
+            $this->set('registro_prev', $proximo['next']['Instituicao']['id']);            
+        }
         $this->set('instituicao', $instituicao);
     }
 
@@ -247,23 +255,23 @@ class InstituicoesController extends AppController {
     }
 
     public function deleteassociacao($id = null) {
-        $id_superinstituicao = $this->Instituicao->InstSuper->find('first', array('conditions' => 'InstSuper.id = ' . $id));
+        $id_superinstituicao = $this->Instituicao->InstituicaoSupervisor->find('first', array('conditions' => 'InstituicaoSupervisor.id = ' . $id));
         // pr($id_superinstituicao);
         // die();
 
-        $this->Instituicao->InstSuper->delete($id);
+        $this->Instituicao->InstituicaoSupervisor->delete($id);
 
-        $this->Session->setFlash("Supervisor excluido da instituição");
-        $this->redirect('/Instituicoes/view/' . $id_superinstituicao['InstSuper']['instituicao_id']);
+        $this->Session->setFlash(__("Supervisor excluido da instituição"));
+        $this->redirect('/Instituicoes/view/' . $id_superinstituicao['InstituicaoSupervisor']['instituicao_id']);
     }
 
     public function addassociacao() {
         if ($this->data) {
-            // pr($this->data);
+            // pr($this->request->data);
             // die();
             if ($this->Instituicao->InstituicaoSupervisor->save($this->data)) {
                 $this->Session->setFlash(__('Dados inseridos'));
-                $this->redirect('/Instituicoes/view/' . $this->data['InstSuper']['instituicao_id']);
+                $this->redirect('/Instituicoes/view/' . $this->data['InstituicaoSupervisor']['instituicao_id']);
             }
         }
     }
@@ -402,10 +410,11 @@ class InstituicoesController extends AppController {
 
         // pr($natureza);
         // die('natureza');
-        
+
         /* Para ordenar por periodos */
-        /* Nao implementado */
-        $todosperiodos = $this->Instituicao->Estagiario->find('all', [
+        $this->loadModel('Estagiario');
+        $this->Estagiario->recursive = -1;
+        $todosperiodos = $this->Estagiario->find('all', [
             'fields' => ['DISTINCT Estagiario.periodo']
                 ]
         );
@@ -415,7 +424,7 @@ class InstituicoesController extends AppController {
             $periodos[$c_periodo['Estagiario']['periodo']] = $c_periodo['Estagiario']['periodo'];
         }
         // pr($periodos);
-        // die();
+        // die('periodos');
 
         if ($periodo == null):
             $periodoatual = end($todosperiodos);
@@ -426,7 +435,7 @@ class InstituicoesController extends AppController {
         if ($natureza):
             // pr($natureza);
             // die('natureza');
-            if ($natureza == 'null'): 
+            if ($natureza == 'null'):
                 $natureza = '';
             endif;
             $this->Instituicao->recursive = 1;
@@ -434,9 +443,203 @@ class InstituicoesController extends AppController {
                 'conditions' => ['Instituicao.natureza' => $natureza],
                 'order' => 'Instituicao.instituicao'
             ]);
-            // $log = $this->Instituicao->getDataSource()->getLog(false, false);
-            // debug($log);
+        // $log = $this->Instituicao->getDataSource()->getLog(false, false);
+        // debug($log);
+        // die();
+        else:
+            // die('sem natureza');
+            $g_instituicoes = $this->Instituicao->find('all', [
+                ['order' => 'Instituicao.instituicao']
+            ]);
+        endif;
+        // $log = $this->Instituicao->getDataSource()->getLog(false, false);
+        // debug($log);
+        // pr($g_instituicoes);
+        // die('g_instituicoes');
+
+        $i = 0;
+        foreach ($g_instituicoes as $c_instituicao):
+            // pr($c_instituicao['Instituicao']['natureza']);
+            // pr($c_instituicao['Instituicao']['id']);
+            // die('c_instituicao');
+            $ultimoperiodo = null;
+            $z = 0;
+            $instituicao_periodo = null;
+            foreach ($c_instituicao['Estagiario'] as $c_periodo):
+                $instituicao_periodo[$z] = $c_periodo['periodo'];
+                // pr($c_periodo['periodo']);
+                $z++;
+            endforeach;
+            // pr($instituicao_periodo);
+            if ($instituicao_periodo) {
+                $ultimoperiodo = max($instituicao_periodo);
+                // pr($ultimoperiodo);
+            }
+            // pr($c_instituicao['Visita']);
+            // die('c_instituicao');
+            $visitas = sizeof($c_instituicao['Visita']);
+            if ($visitas > 0):
+                $ultimavisita_id = $c_instituicao['Visita'][array_key_last($c_instituicao['Visita'])]['id'];
+                $ultimavisita_data = $c_instituicao['Visita'][array_key_last($c_instituicao['Visita'])]['data'];
+            elseif (sizeof($c_instituicao['Visita']) == 0):
+                $ultimavisita_id = null;
+                $ultimavisita_data = null;
+            endif;
+            // pr($ultimavisita_id);
+            // die('ultimavisita_data');
+            $estagiarios = sizeof($c_instituicao['Estagiario']);
+            $supervisores = sizeof($c_instituicao['Supervisor']);
+
+            $m_instituicao[$i]['instituicao_id'] = isset($c_instituicao['Instituicao']['id']) ? $c_instituicao['Instituicao']['id'] : null;
+            $m_instituicao[$i]['instituicao'] = isset($c_instituicao['Instituicao']['instituicao']) ? $c_instituicao['Instituicao']['instituicao'] : null;
+            $m_instituicao[$i]['expira'] = isset($c_instituicao['Instituicao']['expira']) ? $c_instituicao['Instituicao']['expira'] : null;
+            $m_instituicao[$i]['visita_id'] = isset($ultimavisita_id) ? $ultimavisita_id : null;
+            $m_instituicao[$i]['visita'] = isset($ultimavisita_data) ? $ultimavisita_data : null;
+            $m_instituicao[$i]['ultimoperiodo'] = isset($ultimoperiodo) ? $ultimoperiodo : null;
+            $m_instituicao[$i]['estagiarios'] = isset($estagiarios) ? $estagiarios : null;
+            $m_instituicao[$i]['supervisores'] = isset($supervisores) ? $supervisores : null;
+            $m_instituicao[$i]['area'] = isset($c_instituicao['Areainstituicao']['area']) ? $c_instituicao['Areainstituicao']['area'] : null;
+            $m_instituicao[$i]['natureza'] = isset($c_instituicao['Instituicao']['natureza']) ? $c_instituicao['Instituicao']['natureza'] : null;
+
+            $i++;
+        endforeach;
+
+        $criterio = array_column($m_instituicao, $ordem);
+        // Ordeno o array por diferentes criterios ou chaves
+        // pr($ordem);
+        // pr($criterio);
+        // pr($m_instituicao);
+        // die('criterio');
+        if ($mudadirecao) {
+            $direcao = $mudadirecao;
+            // pr('2 ' . $direcao);
+            if ($direcao == 'ascendente'):
+                $direcao = 'descendente';
+                array_multisort($criterio, SORT_DESC, $m_instituicao);
+            elseif ($direcao == 'descendente'):
+                $direcao = 'ascendente';
+                array_multisort($criterio, SORT_ASC, $m_instituicao);
+            else:
+                $direcao = 'ascendente';
+                array_multisort($criterio, SORT_ASC, $m_instituicao);
+            endif;
+        } else {
+            if ($direcao == 'ascendente'):
+                array_multisort($criterio, SORT_ASC, $m_instituicao);
+            elseif ($direcao == 'descendente'):
+                array_multisort($criterio, SORT_DESC, $m_instituicao);
+            else:
+                $direcao = 'ascendente';
+                array_multisort($criterio, SORT_ASC, $m_instituicao);
+            endif;
             // die();
+        }
+        // pr('Direcao: ' . $direcao);
+        /* Paginação */
+        if ($pagina) {
+            $this->Session->write('pagina', $pagina);
+        } else {
+            $pagina = $this->Session->read('pagina');
+            if (!$pagina) {
+                $pagina = 1;
+            }
+        }
+
+        /* Linhas por página */        
+        if ($linhas == null) {
+            $linhas = $this->Session->read('linhas');
+            if (!$linhas) {
+                $linhas = 15;
+                $this->Session->write('linhas', $linhas);
+            }
+        }
+        // pr($linhas);
+        // die();
+        if ($linhas == 0) { // Sem paginação
+            $q_paginas = 1;
+        } else {
+            $registros = sizeof($m_instituicao);
+            // echo "Calculo quantos registros: " . $registros . "<br>";
+            $q_paginas = $registros / $linhas;
+            // echo "Quantas páginas " . ceil($q_paginas) . "<br>";
+            // die();
+            $c_pagina[] = null;
+            $pagina_inicial = 0;
+            $pagina_final = 0;
+            for ($i = 0; $i < ceil($q_paginas); $i++):
+                $pagina_inicial = $pagina_inicial + $pagina_final;
+                $pagina_final = $linhas;
+                $c_pagina[] = array_slice($m_instituicao, $pagina_inicial, $pagina_final);
+            endfor;
+        }
+        // die();
+        // $this->set('periodoatual', reset($periodos));
+        // $this->set('periodos', $periodos);
+        $this->set('linhas', $linhas);
+        $this->set('direcao', $direcao);
+        $this->set('ordem', $ordem);
+        $this->set('pagina', $pagina);
+        // echo $linhas . " " .  $pagina . '<br>';
+        if ($linhas == 0) {
+            $this->set('instituicoes', $m_instituicao);
+        } else {
+            $this->set('q_paginas', ceil($q_paginas));
+            $this->set('paginas', $c_pagina);
+            $this->set('instituicoes', $c_pagina[$pagina]);
+        }
+        // die();
+    }
+
+    public function index1() {
+
+        $parametros = $this->params['named'];
+        // pr($parametros);
+        $linhas = isset($parametros['linhas']) ? $parametros['linhas'] : null;
+        $periodo = isset($parametros['periodo']) ? $parametros['periodo'] : null;
+        $ordem = isset($parametros['ordem']) ? $parametros['ordem'] : 'instituicao';
+        $pagina = isset($parametros['pagina']) ? $parametros['pagina'] : null;
+        $direcao = isset($parametros['direcao']) ? $parametros['direcao'] : null;
+        $mudadirecao = isset($parametros['mudadirecao']) ? $parametros['mudadirecao'] : null;
+        $natureza = isset($parametros['natureza']) ? $parametros['natureza'] : null;
+
+        // pr($natureza);
+        // die('natureza');
+
+        /* Para ordenar por periodos */
+        $this->loadModel('Estagiario');
+        $this->Estagiario->recursive = -1;
+        $todosperiodos = $this->Estagiario->find('all', [
+            'fields' => ['DISTINCT Estagiario.periodo']
+                ]
+        );
+        // pr($todosperiodos);
+        // die();
+        foreach ($todosperiodos as $c_periodo) {
+            $periodos[$c_periodo['Estagiario']['periodo']] = $c_periodo['Estagiario']['periodo'];
+        }
+        // pr($periodos);
+        // die('periodos');
+
+        if ($periodo == null):
+            $periodoatual = end($todosperiodos);
+            $periodo = $periodoatual['Estagiario']['periodo'];
+        endif;
+
+        // Matriz com os dados para ordenar e paginar //
+        if ($natureza):
+            // pr($natureza);
+            // die('natureza');
+            if ($natureza == 'null'):
+                $natureza = '';
+            endif;
+            $this->Instituicao->recursive = 1;
+            $g_instituicoes = $this->Instituicao->find('all', [
+                'conditions' => ['Instituicao.natureza' => $natureza],
+                'order' => 'Instituicao.instituicao'
+            ]);
+        // $log = $this->Instituicao->getDataSource()->getLog(false, false);
+        // debug($log);
+        // die();
         else:
             // die('sem natureza');
             $g_instituicoes = $this->Instituicao->find('all', [
@@ -483,19 +686,17 @@ class InstituicoesController extends AppController {
 
             $m_instituicao[$i]['instituicao_id'] = $c_instituicao['Instituicao']['id'];
             $m_instituicao[$i]['instituicao'] = $c_instituicao['Instituicao']['instituicao'];
-            $m_instituicao[$i]['expira'] = $c_instituicao['Instituicao']['expira'];
-            $m_instituicao[$i]['visita_id'] = $ultimavisita_id;
-            $m_instituicao[$i]['visita'] = $ultimavisita_data;
-            $m_instituicao[$i]['ultimoperiodo'] = $ultimoperiodo;
-            $m_instituicao[$i]['estagiarios'] = $estagiarios;
-            $m_instituicao[$i]['supervisores'] = $supervisores;
-            $m_instituicao[$i]['area'] = $c_instituicao['Areainstituicao']['area'];
-            $m_instituicao[$i]['natureza'] = $c_instituicao['Instituicao']['natureza'];
-            $criterio[] = $m_instituicao[$i][$ordem];
+            $m_instituicao[$i]['cnpj'] = $c_instituicao['Instituicao']['cnpj'];
+            $m_instituicao[$i]['email'] = $c_instituicao['Instituicao']['email'];
+            $m_instituicao[$i]['url'] = $c_instituicao['Instituicao']['url'];
+            $m_instituicao[$i]['telefone'] = $c_instituicao['Instituicao']['telefone'];
+            $m_instituicao[$i]['beneficio'] = $c_instituicao['Instituicao']['beneficio'];
+            $m_instituicao[$i]['avaliacao'] = $c_instituicao['Instituicao']['avaliacao'];
 
             $i++;
         endforeach;
 
+        $criterio = array_column($m_instituicao, $ordem);
         // Ordeno o array por diferentes criterios ou chaves
         // pr($ordem);
         // pr('muda ' . $mudadirecao);
@@ -525,7 +726,7 @@ class InstituicoesController extends AppController {
             // die();
         }
         // pr('Direcao: ' . $direcao);
-        // Paginação //
+        /* Paginação */
         if ($pagina) {
             $this->Session->write('pagina', $pagina);
         } else {
@@ -535,6 +736,7 @@ class InstituicoesController extends AppController {
             }
         }
 
+        /* Linhas por página */        
         if ($linhas == null) {
             $linhas = $this->Session->read('linhas');
             if (!$linhas) {
@@ -579,4 +781,5 @@ class InstituicoesController extends AppController {
         // die();
     }
 
+    
 }
