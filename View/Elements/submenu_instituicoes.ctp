@@ -11,6 +11,8 @@
     echo " | ";
     echo $this->Html->link('Lista','/Instituicoes/lista/');
     echo " | ";
+    echo $this->Html->link('Outra lista','/Instituicoes/index1/');
+    echo " | ";    
     echo $this->Html->link('Visitas','/Visitas/index/');
     ?>
 <?php else: ?>

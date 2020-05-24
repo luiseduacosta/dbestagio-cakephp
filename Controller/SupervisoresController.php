@@ -1,4 +1,4 @@
-<?php
+<?php //
 
 class SupervisoresController extends AppController {
 
@@ -133,7 +133,6 @@ class SupervisoresController extends AppController {
     /*
       Mostra os supervisores por periodo e quantidde de estudantes no período
      */
-
     public function index1() {
         $parametros = $this->params['named'];
         $periodo = isset($parametros['periodo']) ? $parametros['periodo'] : NULL;
@@ -353,9 +352,7 @@ class SupervisoresController extends AppController {
                         'order' => 'Supervisor.nome'
                     ]
                 ];
-
                 $this->set('supervisores', $this->Paginator->paginate('Supervisor'));
-                // $this->set('supervisores', $this->Paginate('Supervisor', $condicao));
                 $this->set('busca', $this->request->data['Supervisor']['nome']);
             }
         }

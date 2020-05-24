@@ -2,23 +2,20 @@
 
 <?php echo $this->element('submenu_professores'); ?>
 
-<?php
-echo $this->Html->script("jquery", array('inline' => false));
-echo $this->Html->scriptBlock('
+<script>
 
 $(document).ready(function() {
+
+var url = "<?= $this->Html->url(['controller' => 'Professores', 'action' => 'pauta/periodo:']) ?>";
 
 $("#ProfessorPeriodo").change(function() {
 	var periodo = $(this).val();
         /* alert(periodo); */ 
-        window.location="/mural/Professores/pauta/periodo:"+periodo;
+        window.location= url+periodo;
 	})
 
 })
-
-', array("inline" => false)
-);
-?>
+</script>
 
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
     <?php echo $this->Form->create('Professor', array('controller' => 'Professor', 'url' => 'pauta')); ?>

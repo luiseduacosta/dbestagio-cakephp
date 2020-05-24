@@ -273,8 +273,8 @@
 
         <?php
         echo $this->Form->create('Supervisor', array('controller' => 'Supervisores', 'url' => 'addinstituicao'));
-        echo $this->Form->input('InstSuper.instituicao_id', array('label' => 'Instituição', 'options' => $instituicoes, 'default' => 0));
-        echo $this->Form->input('InstSuper.supervisor_id', array('type' => 'hidden', 'value' => $supervisor['Supervisor']['id']));
+        echo $this->Form->input('InstituicaoSupervisor.instituicao_id', array('label' => 'Instituição', 'options' => $instituicoes, 'default' => 0));
+        echo $this->Form->input('InstituicaoSupervisor.supervisor_id', array('type' => 'hidden', 'value' => $supervisor['Supervisor']['id']));
         echo $this->Form->end('Confirma');
         ?>
 
