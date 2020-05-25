@@ -1,6 +1,6 @@
 <?php
 
-echo $this->Form->Create('AreaInstituicao');
+echo $this->Form->Create('Areainstituicao');
 echo $this->Form->Input('area');
 echo $this->Form->End('Confirma');
 
