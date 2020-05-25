@@ -23,7 +23,7 @@
 
 </script>
 
-<?php echo $this->element('submenu_instituicoes'); ?>
+<?= $this->element('submenu_instituicoes'); ?>
 
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
 

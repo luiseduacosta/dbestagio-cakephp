@@ -1,5 +1,7 @@
 <?php ?>
 
+<?= $this->element('submenu_instituicoes'); ?>
+
 <table>
     <caption>Natureza das instituições</caption>
     <tr>
