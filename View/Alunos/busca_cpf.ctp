@@ -23,8 +23,8 @@
 
 <h1>Busca por CPF</h1>
 
-    <?php echo $this->Form->create('Aluno', array('controller'=>'Alunos','action'=>'busca_cpf')); ?>
-    <?php echo $this->Form->input('cpf', array('label'=>'Digite o CPF', 'maxsize'=>12, 'size'=>12)); ?>
+    <?php echo $this->Form->create('Aluno'); ?>
+    <?php echo $this->Form->input('cpf', array('label'=>'Digite o CPF', 'maxsize' => 12, 'size' => 12)); ?>
     <?php echo $this->Form->end('Confirma'); ?>
 
 <?php endif; ?>

@@ -2,7 +2,7 @@
 //============================================================+
 // File name   : example_064.php
 // Begin       : 2010-10-13
-// Last Update : 2010-10-15
+// Last Update : 2013-05-14
 //
 // Description : Example 064 for TCPDF class
 //               No-write page regions
@@ -11,10 +11,7 @@
 //
 // (c) Copyright:
 //               Nicola Asuni
-//               Tecnick.com s.r.l.
-//               Via Della Pace, 11
-//               09044 Quartucciu (CA)
-//               ITALY
+//               Tecnick.com LTD
 //               www.tecnick.com
 //               info@tecnick.com
 //============================================================+
@@ -24,14 +21,11 @@
  * @package com.tecnick.tcpdf
  * @abstract TCPDF - Example: No-write page regions
  * @author Nicola Asuni
- * @copyright 2064-2009 Nicola Asuni - Tecnick.com S.r.l (www.tecnick.com) Via Della Pace, 11 - 09044 - Quartucciu (CA) - ITALY - www.tecnick.com - info@tecnick.com
- * @link http://tcpdf.org
- * @license http://www.gnu.org/copyleft/lesser.html LGPL
  * @since 2010-10-14
  */
 
-require_once('../config/lang/eng.php');
-require_once('../tcpdf.php');
+// Include the main TCPDF library (search for installation path).
+require_once('tcpdf_include.php');
 
 // create new PDF document
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -53,19 +47,22 @@ $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 // set default monospaced font
 $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
-//set margins
+// set margins
 $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
 $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
-//set auto page breaks
+// set auto page breaks
 $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
-//set image scale factor
+// set image scale factor
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
-//set some language-dependent strings
-$pdf->setLanguageArray($l);
+// set some language-dependent strings (optional)
+if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+	require_once(dirname(__FILE__).'/lang/eng.php');
+	$pdf->setLanguageArray($l);
+}
 
 // ---------------------------------------------------------
 
@@ -74,19 +71,19 @@ $pdf->SetFont('helvetica', '', 8);
 
 
 // define some html content for testing
-$txt = '<p style="text-align:justify;color:blue;font-size:12pt;"><span style="color:red;font-size:14pt;font-weight:bold;">TEST PAGE REGIONS:</span> <span style="color:green;">A no-write region is a portion of the page with a rectangular or trapezium shape that will not be covered when writing text or html code. A region is always aligned on the left or right side of the page ad is defined using a vertical segment. You can set multiple regions for the same page. You can combine several adjacent regions to aproximate curved shapes.</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sed imperdiet lectus. Phasellus quis velit velit, non condimentum quam. Sed neque urna, ultrices ac volutpat vel, laoreet vitae augue. Sed vel velit erat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras eget velit nulla, eu sagittis elit. Nunc ac arcu est, in lobortis tellus. Praesent condimentum rhoncus sodales. In hac habitasse platea dictumst. Proin porta eros pharetra enim tincidunt dignissim nec vel dolor. Cras sapien elit, ornare ac dignissim eu, ultricies ac eros. Maecenas augue magna, ultrices a congue in, mollis eu nulla. Nunc venenatis massa at est eleifend faucibus. Vivamus sed risus lectus, nec interdum nunc.
-		Fusce et felis vitae diam lobortis sollicitudin. Aenean tincidunt accumsan nisi, id vehicula quam laoreet elementum. Phasellus egestas interdum erat, et viverra ipsum ultricies ac. Praesent sagittis augue at augue volutpat eleifend. Cras nec orci neque. Mauris bibendum posuere blandit. Donec feugiat mollis dui sit amet pellentesque. Sed a enim justo. Donec tincidunt, nisl eget elementum aliquam, odio ipsum ultrices quam, eu porttitor ligula urna at lorem. Donec varius, eros et convallis laoreet, ligula tellus consequat felis, ut ornare metus tellus sodales velit. Duis sed diam ante. Ut rutrum malesuada massa, vitae consectetur ipsum rhoncus sed. Suspendisse potenti. Pellentesque a congue massa.
-		Integer non sem eget neque mattis accumsan. Maecenas eu nisl mauris, sit amet interdum ipsum. In pharetra erat vel lectus venenatis elementum. Nulla non elit ligula, sit amet mollis urna. Morbi ut gravida est. Mauris tincidunt sem et turpis molestie malesuada. Curabitur vel nulla risus, sed mollis erat. Suspendisse vehicula accumsan purus nec varius. Donec fermentum lorem id felis sodales dictum. Quisque et dolor ipsum. Nam luctus consectetur dui vitae fermentum. Curabitur sodales consequat augue, id ultricies augue tempor ac. Aliquam ac magna id ipsum vehicula bibendum. Sed elementum congue tristique. <img src="../images/image_demo.jpg" width="5mm" height="5mm" /> Phasellus vel lorem eu lectus porta sodales. Etiam neque tortor, sagittis id pharetra quis, laoreet vel arcu.
-		Cras quam mi, ornare laoreet laoreet vel, vehicula at lacus. Maecenas a lacus accumsan augue convallis sagittis sed quis odio. Morbi sit amet turpis diam, dictum convallis urna. Cras eget interdum augue. Cras eu nisi sit amet dolor faucibus porttitor. Suspendisse potenti. Nunc vitae dolor risus, at cursus libero. Suspendisse bibendum tellus non nibh hendrerit tristique. Mauris eget orci elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta libero non ante laoreet semper. Proin volutpat sodales mi, ac fermentum erat sagittis in. Vivamus at viverra felis. Ut pretium facilisis ante et pharetra.
-		Nulla facilisi. Cras varius quam eget libero aliquam vitae tincidunt leo rutrum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Pellentesque a nisl massa, quis pretium urna. Proin vel porttitor tortor. Cras rhoncus congue velit in bibendum. Donec pharetra semper augue id lacinia. Quisque magna quam, hendrerit eu aliquam et, pellentesque ut tellus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas nulla quam, rutrum eu feugiat at, elementum eu libero. Maecenas ullamcorper leo et turpis rutrum ac laoreet eros faucibus. Phasellus condimentum lorem quis neque imperdiet quis molestie enim iaculis. Phasellus risus est, vestibulum ut convallis ultrices, dignissim nec erat. Etiam congue lobortis laoreet. Nulla ut neque sed velit dapibus semper. Quisque nec dolor id nibh eleifend iaculis. Vivamus vitae fermentum odio. Etiam malesuada quam in nulla aliquam sed convallis dui feugiat.</p>';
+$txt = '<p style="text-align:justify;color:blue;font-size:12pt;"><span style="color:red;font-size:14pt;font-weight:bold;">TEST PAGE REGIONS:</span> <span style="color:green;">A no-write region is a portion of the page with a rectangular or trapezium shape that will not be covered when writing text or html code. A region is always aligned on the left or right side of the page ad is defined using a vertical segment. You can set multiple regions for the same page. You can combine several adjacent regions to approximate curved shapes.</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sed imperdiet lectus. Phasellus quis velit velit, non condimentum quam. Sed neque urna, ultrices ac volutpat vel, laoreet vitae augue. Sed vel velit erat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras eget velit nulla, eu sagittis elit. Nunc ac arcu est, in lobortis tellus. Praesent condimentum rhoncus sodales. In hac habitasse platea dictumst. Proin porta eros pharetra enim tincidunt dignissim nec vel dolor. Cras sapien elit, ornare ac dignissim eu, ultricies ac eros. Maecenas augue magna, ultrices a congue in, mollis eu nulla. Nunc venenatis massa at est eleifend faucibus. Vivamus sed risus lectus, nec interdum nunc.
+Fusce et felis vitae diam lobortis sollicitudin. Aenean tincidunt accumsan nisi, id vehicula quam laoreet elementum. Phasellus egestas interdum erat, et viverra ipsum ultricies ac. Praesent sagittis augue at augue volutpat eleifend. Cras nec orci neque. Mauris bibendum posuere blandit. Donec feugiat mollis dui sit amet pellentesque. Sed a enim justo. Donec tincidunt, nisl eget elementum aliquam, odio ipsum ultrices quam, eu porttitor ligula urna at lorem. Donec varius, eros et convallis laoreet, ligula tellus consequat felis, ut ornare metus tellus sodales velit. Duis sed diam ante. Ut rutrum malesuada massa, vitae consectetur ipsum rhoncus sed. Suspendisse potenti. Pellentesque a congue massa.
+Integer non sem eget neque mattis accumsan. Maecenas eu nisl mauris, sit amet interdum ipsum. In pharetra erat vel lectus venenatis elementum. Nulla non elit ligula, sit amet mollis urna. Morbi ut gravida est. Mauris tincidunt sem et turpis molestie malesuada. Curabitur vel nulla risus, sed mollis erat. Suspendisse vehicula accumsan purus nec varius. Donec fermentum lorem id felis sodales dictum. Quisque et dolor ipsum. Nam luctus consectetur dui vitae fermentum. Curabitur sodales consequat augue, id ultricies augue tempor ac. Aliquam ac magna id ipsum vehicula bibendum. Sed elementum congue tristique. <img src="images/image_demo.jpg" width="5mm" height="5mm" /> Phasellus vel lorem eu lectus porta sodales. Etiam neque tortor, sagittis id pharetra quis, laoreet vel arcu.
+Cras quam mi, ornare laoreet laoreet vel, vehicula at lacus. Maecenas a lacus accumsan augue convallis sagittis sed quis odio. Morbi sit amet turpis diam, dictum convallis urna. Cras eget interdum augue. Cras eu nisi sit amet dolor faucibus porttitor. Suspendisse potenti. Nunc vitae dolor risus, at cursus libero. Suspendisse bibendum tellus non nibh hendrerit tristique. Mauris eget orci elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta libero non ante laoreet semper. Proin volutpat sodales mi, ac fermentum erat sagittis in. Vivamus at viverra felis. Ut pretium facilisis ante et pharetra.
+Nulla facilisi. Cras varius quam eget libero aliquam vitae tincidunt leo rutrum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Pellentesque a nisl massa, quis pretium urna. Proin vel porttitor tortor. Cras rhoncus congue velit in bibendum. Donec pharetra semper augue id lacinia. Quisque magna quam, hendrerit eu aliquam et, pellentesque ut tellus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas nulla quam, rutrum eu feugiat at, elementum eu libero. Maecenas ullamcorper leo et turpis rutrum ac laoreet eros faucibus. Phasellus condimentum lorem quis neque imperdiet quis molestie enim iaculis. Phasellus risus est, vestibulum ut convallis ultrices, dignissim nec erat. Etiam congue lobortis laoreet. Nulla ut neque sed velit dapibus semper. Quisque nec dolor id nibh eleifend iaculis. Vivamus vitae fermentum odio. Etiam malesuada quam in nulla aliquam sed convallis dui feugiat.</p>';
 
 
 // add a page
 $pdf->AddPage();
 
 // print some graphic content
-$pdf->Image('../images/image_demo.jpg', 155,  30, 40, 40, 'JPG', '', '', true);
-$pdf->Image('../images/image_demo.jpg',  15, 230, 40, 40, 'JPG', '', '', true);
+$pdf->Image('images/image_demo.jpg', 155,  30, 40, 40, 'JPG', '', '', true);
+$pdf->Image('images/image_demo.jpg',  15, 230, 40, 40, 'JPG', '', '', true);
 
 // define some graphic styles
 $styleA = array('width' => 0.254, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255, 0, 0));
@@ -124,17 +121,17 @@ $pdf->SetXY(15, 30);
 
 // define no-write page regions to avoid text overlapping images
 /*
- 'page' => page number or empy for current page
-'xt' => X top
-'yt' => Y top
-'yb' => Y bottom
-'side' => page side ('L' = left or 'R' = right)
+	'page' => page number or empy for current page
+	'xt' => X top
+	'yt' => Y top
+	'yb' => Y bottom
+	'side' => page side ('L' = left or 'R' = right)
 */
 $regions = array(
-		array('page' => '', 'xt' => 153, 'yt' =>  30, 'xb' => 153, 'yb' =>  70, 'side' => 'R'),
-		array('page' => '', 'xt' =>  60, 'yt' =>  90, 'xb' =>  70, 'yb' => 140, 'side' => 'L'),
-		array('page' => '', 'xt' => 143, 'yt' => 130, 'xb' => 153, 'yb' => 180, 'side' => 'R'),
-		array('page' => '', 'xt' =>  58, 'yt' => 230, 'xb' =>  58, 'yb' => 270, 'side' => 'L')
+array('page' => '', 'xt' => 153, 'yt' =>  30, 'xb' => 153, 'yb' =>  70, 'side' => 'R'),
+array('page' => '', 'xt' =>  60, 'yt' =>  90, 'xb' =>  70, 'yb' => 140, 'side' => 'L'),
+array('page' => '', 'xt' => 143, 'yt' => 130, 'xb' => 153, 'yb' => 180, 'side' => 'R'),
+array('page' => '', 'xt' =>  58, 'yt' => 230, 'xb' =>  58, 'yb' => 270, 'side' => 'L')
 );
 
 // set page regions, check also getPageRegions(), addPageRegion() and removePageRegion()
@@ -148,14 +145,14 @@ $pdf->writeHTML($txt, true, false, true, false, '');
 
 // set a circular no-write region on the second page
 $regions = array(
-		array('page' => 2, 'xt' => 195, 'yt' => 110, 'xb' => 179.693, 'yb' =>  113.045, 'side' => 'R'),
-		array('page' => 2, 'xt' => 179.693, 'yt' => 113.045, 'xb' => 166.716, 'yb' => 121.716, 'side' => 'R'),
-		array('page' => 2, 'xt' => 166.716, 'yt' => 121.716, 'xb' => 158.045, 'yb' => 134.693, 'side' => 'R'),
-		array('page' => 2, 'xt' => 158.045, 'yt' => 134.693, 'xb' => 155, 'yb' => 150, 'side' => 'R'),
-		array('page' => 2, 'xt' => 155, 'yt' => 150, 'xb' => 158.045, 'yb' => 165.307, 'side' => 'R'),
-		array('page' => 2, 'xt' => 158.045, 'yt' => 165.307, 'xb' => 166.716, 'yb' => 178.284, 'side' => 'R'),
-		array('page' => 2, 'xt' => 166.716, 'yt' => 178.284, 'xb' => 179.693, 'yb' => 186.955, 'side' => 'R'),
-		array('page' => 2, 'xt' => 179.693, 'yt' => 186.955, 'xb' => 195, 'yb' => 190, 'side' => 'R')
+array('page' => 2, 'xt' => 195, 'yt' => 110, 'xb' => 179.693, 'yb' =>  113.045, 'side' => 'R'),
+array('page' => 2, 'xt' => 179.693, 'yt' => 113.045, 'xb' => 166.716, 'yb' => 121.716, 'side' => 'R'),
+array('page' => 2, 'xt' => 166.716, 'yt' => 121.716, 'xb' => 158.045, 'yb' => 134.693, 'side' => 'R'),
+array('page' => 2, 'xt' => 158.045, 'yt' => 134.693, 'xb' => 155, 'yb' => 150, 'side' => 'R'),
+array('page' => 2, 'xt' => 155, 'yt' => 150, 'xb' => 158.045, 'yb' => 165.307, 'side' => 'R'),
+array('page' => 2, 'xt' => 158.045, 'yt' => 165.307, 'xb' => 166.716, 'yb' => 178.284, 'side' => 'R'),
+array('page' => 2, 'xt' => 166.716, 'yt' => 178.284, 'xb' => 179.693, 'yb' => 186.955, 'side' => 'R'),
+array('page' => 2, 'xt' => 179.693, 'yt' => 186.955, 'xb' => 195, 'yb' => 190, 'side' => 'R')
 );
 $pdf->setPageRegions($regions);
 

@@ -401,10 +401,10 @@ class EstagiariosController extends AppController {
         if ($id) {
 
             // Para capturar o nome do aluno
-            $this->set('id_aluno', $id);
+            $this->set('aluno_id', $id);
 
             $estagiarios = $this->Estagiario->find('all', array(
-                'conditions' => array('Estagiario.id_aluno' => $id)
+                'conditions' => array('Estagiario.aluno_id' => $id)
             ));
             // pr($estagiarios);
             // Não sei se isto eh necessario aqui
@@ -483,8 +483,8 @@ class EstagiariosController extends AppController {
         $this->set('professores', $professores);
 
         /* Select das areas tematicas */
-        $this->loadModel('Area');
-        $areas = $this->Area->find('list', array(
+        $this->loadModel('Areaestagio');
+        $areas = $this->Areaestagio->find('list', array(
             'order' => 'area'));
         // $areas[0] = '- Seleciona -';
         // asort($areas);
@@ -495,15 +495,15 @@ class EstagiariosController extends AppController {
         if (isset($estagiario_sem_estagio)) {
             $this->set('estagiario_sem_estagio', $estagiario_sem_estagio);
         }
-        if ($this->data) {
+        if ($this->request->data) {
             /*
-              $aluno = $this->Aluno->findById($this->data['Estagiario']['id_aluno']);
+              $aluno = $this->Aluno->findById($this->data['Estagiario']['aluno_id']);
               $this->data['Estagiario']['registro'] = $aluno['Aluno']['registro'];
              */
             if ($this->Estagiario->save($this->data, array('validates' => TRUE))) {
 
-                $this->Session->setFlash('Registro de estágio inserido!');
-                $this->redirect('/Alunos/view/' . $this->data['Estagiario']['id_aluno']);
+                $this->Session->setFlash(__('Registro de estágio inserido!'));
+                $this->redirect('/Alunos/view/' . $this->data['Estagiario']['aluno_id']);
             }
         }
     }
@@ -511,17 +511,17 @@ class EstagiariosController extends AppController {
     public function add_estagiario() {
 
         // Configure::write('debug', '2');
-        if (!empty($this->data)) {
+        if (!empty($this->request->data)) {
 
             // Tiro os carateres de sublinhado
-            $sanitarize_registro = (int) trim($this->data['Estagiario']['registro']);
+            $sanitarize_registro = (int) trim($this->request->data['Estagiario']['registro']);
             // pr(strlen($sanitarize_registro));
             if (strlen($sanitarize_registro) < 9) {
-                $this->Session->setFlash('Número inválido');
+                $this->Session->setFlash(__('Número inválido'));
                 $this->redirect('/Estagiarios/add_estagiario');
             }
 
-            $registro = $this->data['Estagiario']['registro'];
+            $registro = $this->request->data['Estagiario']['registro'];
             // pr($registro);
             // Captura o periodo de estagio
             $this->loadModel("Configuracao");
@@ -531,15 +531,14 @@ class EstagiariosController extends AppController {
             // Com o periodo e o registro consulto a tabela de estagiarios
             $periodo_estagio = $this->Estagiario->find('first', array(
                 'conditions' => array('Estagiario.registro' => $registro),
-                'fields' => array('Estagiario.id', 'Estagiario.id_aluno', 'Estagiario.registro')));
+                'fields' => array('Estagiario.id', 'Estagiario.aluno_id', 'Estagiario.registro')));
 
             if (empty($periodo_estagio)) {
                 // echo "Aluno  novo sem estágio";
-                $this->Session->setFlash("Aluno novo sem cadastro");
-                $this->redirect('/alunos/add/' . $registro);
+                $this->Session->setFlash(__("Aluno novo sem cadastro"));
+                $this->redirect('/Alunos/add/' . $registro);
             } else {
-
-                $this->redirect('/alunos/view/' . $periodo_estagio['Estagiario']['id_aluno']);
+                $this->redirect('/Alunos/view/' . $periodo_estagio['Estagiario']['aluno_id']);
             }
         }
     }

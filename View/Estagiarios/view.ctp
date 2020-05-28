@@ -5,7 +5,7 @@
     <tbody>
 
         <tr>
-            <td><?php echo 'Id: ' . $estagio['Estagiario']['id_aluno']; ?></td>
+            <td><?php echo 'Id: ' . $estagio['Estagiario']['aluno_id']; ?></td>
             <td><?php echo $estagio['Estagiario']['registro']; ?></td>
         </tr>
 
@@ -90,7 +90,7 @@
 <p>
 
 <?php echo $this->Html->link('Editar', '/Estagiarios/edit/' . $estagio['Estagiario']['id']); ?> |
-<?php echo $this->Html->link('Inserir estágio', '/Estagiarios/add/' . $estagio['Estagiario']['id_aluno']); ?> | 
+<?php echo $this->Html->link('Inserir estágio', '/Estagiarios/add/' . $estagio['Estagiario']['aluno_id']); ?> | 
 <?php echo $this->Html->link('Listar', '/Estagiarios/index/' . $estagio['Estagiario']['periodo']); ?>
 
 </p>

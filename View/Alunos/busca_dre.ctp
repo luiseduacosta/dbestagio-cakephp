@@ -17,9 +17,9 @@
 
     <?php foreach ($alunos as $c_alunos): ?>
     <?php if (isset($c_alunos['Aluno']['nome'])): ?>
-        <?php echo $this->Html->link($c_alunos['Aluno']['nome'],'/alunos/view/'.$c_alunos['Aluno']['id']) . '<br>'; ?>
+        <?php echo $this->Html->link($c_alunos['Aluno']['nome'],'/Alunos/view/'.$c_alunos['Aluno']['id']) . '<br>'; ?>
     <?php else: ?>
-        <?php echo $this->Html->link($c_alunos['Alunonovo']['nome'],'/alunonovos/view/'.$c_alunos['Alunonovo']['id']) . '<br>'; ?>
+        <?php echo $this->Html->link($c_alunos['Alunonovo']['nome'],'/Alunonovos/view/'.$c_alunos['Alunonovo']['id']) . '<br>'; ?>
     <?php endif; ?>    
     <?php endforeach; ?>
 
@@ -27,8 +27,8 @@
 
 <h1>Busca por DRE</h1>
 
-    <?php echo $this->Form->create('Aluno', array('controller'=>'Alunos','action'=>'busca_dre')); ?>
-    <?php echo $this->Form->input('registro', array('label'=>'Digite o DRE do aluno', 'maxsize'=>9)); ?>
+    <?php echo $this->Form->create('Aluno'); ?>
+    <?php echo $this->Form->input('registro', array('label' => 'Digite o DRE do aluno', 'maxsize' => 9)); ?>
     <?php echo $this->Form->end('Confirma'); ?>
 
 <?php endif; ?>

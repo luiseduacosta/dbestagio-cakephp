@@ -1,7 +1,5 @@
 <?php
-
-echo $this->Html->script("jquery", array('inline' => false));
-echo $this->Html->script("jquery.maskedinput", array('inline' => false));
+echo $this->Html->script("jquery.maskedinput-1.3.1", array('inline' => false));
 ?>
 
 <script>

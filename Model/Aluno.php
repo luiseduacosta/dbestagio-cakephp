@@ -133,18 +133,21 @@ class Aluno extends AppModel {
     public function registro_verifica($check) {
 
         $value = array_values($check);
-        $value = $value[0];
-
-        if (strlen($value) < 9) {
+        // pr($value);
+        $valuefirst = $value[0];
+        // pr($valuefirst);
+        // die('valuefirst');
+        
+        if (strlen($valuefirst) < 9) {
             return FALSE;
         }
 
-        if (!empty($value)) {
+        if (!empty($valuefirst)) {
             // echo "Modelo - Consulta";
-            $registro = $this->find('first', array('conditions' => 'Aluno.registro = ' . $value));
+            $registro = $this->find('first', ['conditions' => ['Aluno.registro' => $valuefirst]]);
         }
         // pr($registro);
-        // die();
+        // die('registro');
 
         if ($registro) {
             return FALSE;

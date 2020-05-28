@@ -2,7 +2,7 @@
 //============================================================+
 // File name   : example_027.php
 // Begin       : 2008-03-04
-// Last Update : 2010-10-21
+// Last Update : 2013-05-14
 //
 // Description : Example 027 for TCPDF class
 //               1D Barcodes
@@ -11,10 +11,7 @@
 //
 // (c) Copyright:
 //               Nicola Asuni
-//               Tecnick.com s.r.l.
-//               Via Della Pace, 11
-//               09044 Quartucciu (CA)
-//               ITALY
+//               Tecnick.com LTD
 //               www.tecnick.com
 //               info@tecnick.com
 //============================================================+
@@ -24,14 +21,11 @@
  * @package com.tecnick.tcpdf
  * @abstract TCPDF - Example: 1D Barcodes.
  * @author Nicola Asuni
- * @copyright 2004-2009 Nicola Asuni - Tecnick.com S.r.l (www.tecnick.com) Via Della Pace, 11 - 09044 - Quartucciu (CA) - ITALY - www.tecnick.com - info@tecnick.com
- * @link http://tcpdf.org
- * @license http://www.gnu.org/copyleft/lesser.html LGPL
  * @since 2008-03-04
  */
 
-require_once('../config/lang/eng.php');
-require_once('../tcpdf.php');
+// Include the main TCPDF library (search for installation path).
+require_once('tcpdf_include.php');
 
 // create new PDF document
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -53,19 +47,22 @@ $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 // set default monospaced font
 $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
-//set margins
+// set margins
 $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
 $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
-//set auto page breaks
+// set auto page breaks
 $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
-//set image scale factor
+// set image scale factor
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
-//set some language-dependent strings
-$pdf->setLanguageArray($l);
+// set some language-dependent strings (optional)
+if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+	require_once(dirname(__FILE__).'/lang/eng.php');
+	$pdf->setLanguageArray($l);
+}
 
 // ---------------------------------------------------------
 
@@ -73,27 +70,36 @@ $pdf->setLanguageArray($l);
 $pdf->setBarcode(date('Y-m-d H:i:s'));
 
 // set font
-$pdf->SetFont('helvetica', '', 10);
+$pdf->SetFont('helvetica', '', 11);
 
 // add a page
 $pdf->AddPage();
 
+// print a message
+$txt = "You can also export 1D barcodes in other formats (PNG, SVG, HTML). Check the examples inside the barcodes directory.\n";
+$pdf->MultiCell(70, 50, $txt, 0, 'J', false, 1, 125, 30, true, 0, false, true, 0, 'T', false);
+$pdf->SetY(30);
+
+// -----------------------------------------------------------------------------
+
+$pdf->SetFont('helvetica', '', 10);
+
 // define barcode style
 $style = array(
-		'position' => '',
-		'align' => 'C',
-		'stretch' => false,
-		'fitwidth' => true,
-		'cellfitalign' => '',
-		'border' => true,
-		'hpadding' => 'auto',
-		'vpadding' => 'auto',
-		'fgcolor' => array(0,0,0),
-		'bgcolor' => false, //array(255,255,255),
-		'text' => true,
-		'font' => 'helvetica',
-		'fontsize' => 8,
-		'stretchtext' => 4
+	'position' => '',
+	'align' => 'C',
+	'stretch' => false,
+	'fitwidth' => true,
+	'cellfitalign' => '',
+	'border' => true,
+	'hpadding' => 'auto',
+	'vpadding' => 'auto',
+	'fgcolor' => array(0,0,0),
+	'bgcolor' => false, //array(255,255,255),
+	'text' => true,
+	'font' => 'helvetica',
+	'fontsize' => 8,
+	'stretchtext' => 4
 );
 
 // PRINT VARIOUS 1D BARCODES
@@ -154,6 +160,12 @@ $pdf->write1DBarcode('1234567', 'I25+', '', '', '', 18, 0.4, $style, 'N');
 // add a page ----------
 $pdf->AddPage();
 
+// CODE 128 AUTO
+$pdf->Cell(0, 0, 'CODE 128 AUTO', 0, 1);
+$pdf->write1DBarcode('CODE 128 AUTO', 'C128', '', '', '', 18, 0.4, $style, 'N');
+
+$pdf->Ln();
+
 // CODE 128 A
 $pdf->Cell(0, 0, 'CODE 128 A', 0, 1);
 $pdf->write1DBarcode('CODE 128 A', 'C128A', '', '', '', 18, 0.4, $style, 'N');
@@ -194,20 +206,20 @@ $pdf->Ln();
 $pdf->Cell(0, 0, 'UPC-E', 0, 1);
 $pdf->write1DBarcode('04210000526', 'UPCE', '', '', '', 18, 0.4, $style, 'N');
 
-$pdf->Ln();
+// add a page ----------
+$pdf->AddPage();
 
-// 5-Digits UPC-Based Extention
-$pdf->Cell(0, 0, '5-Digits UPC-Based Extention', 0, 1);
+// 5-Digits UPC-Based Extension
+$pdf->Cell(0, 0, '5-Digits UPC-Based Extension', 0, 1);
 $pdf->write1DBarcode('51234', 'EAN5', '', '', '', 18, 0.4, $style, 'N');
 
 $pdf->Ln();
 
-// 2-Digits UPC-Based Extention
-$pdf->Cell(0, 0, '2-Digits UPC-Based Extention', 0, 1);
+// 2-Digits UPC-Based Extension
+$pdf->Cell(0, 0, '2-Digits UPC-Based Extension', 0, 1);
 $pdf->write1DBarcode('34', 'EAN2', '', '', '', 18, 0.4, $style, 'N');
 
-// add a page ----------
-$pdf->AddPage();
+$pdf->Ln();
 
 // MSI
 $pdf->Cell(0, 0, 'MSI', 0, 1);
@@ -374,21 +386,21 @@ $pdf->write1DBarcode('RIGHT', 'C128A', '', '', '', 15, 0.4, $style, 'N');
 
 // define barcode style
 $style = array(
-		'position' => '',
-		'align' => '',
-		'stretch' => true,
-		'fitwidth' => false,
-		'cellfitalign' => '',
-		'border' => true,
-		'hpadding' => 'auto',
-		'vpadding' => 'auto',
-		'fgcolor' => array(0,0,128),
-		'bgcolor' => array(255,255,128),
-		'text' => true,
-		'label' => 'CUSTOM LABEL',
-		'font' => 'helvetica',
-		'fontsize' => 8,
-		'stretchtext' => 4
+	'position' => '',
+	'align' => '',
+	'stretch' => true,
+	'fitwidth' => false,
+	'cellfitalign' => '',
+	'border' => true,
+	'hpadding' => 'auto',
+	'vpadding' => 'auto',
+	'fgcolor' => array(0,0,128),
+	'bgcolor' => array(255,255,128),
+	'text' => true,
+	'label' => 'CUSTOM LABEL',
+	'font' => 'helvetica',
+	'fontsize' => 8,
+	'stretchtext' => 4
 );
 
 // CODE 39 EXTENDED + CHECKSUM
