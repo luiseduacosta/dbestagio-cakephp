@@ -110,7 +110,7 @@ if ($estagiarios) {
 	echo $this->Form->input('Estagiario.aluno_id', array('type'=>'hidden', 'value'=>$estagiarios[0]['Estagiario']['aluno_id']));
 	echo $this->Form->input('Estagiario.registro', array('type'=>'hidden', 'value'=>$estagiarios[0]['Estagiario']['registro']));
 } else {
-	echo $this->Form->input('Estagiario.id_aluno', array('type'=>'hidden', 'value'=>$estagiario_sem_estagio['Aluno']['id']));
+	echo $this->Form->input('Estagiario.aluno_id', array('type'=>'hidden', 'value'=>$estagiario_sem_estagio['Aluno']['id']));
 	echo $this->Form->input('Estagiario.registro', array('type'=>'hidden', 'value'=>$estagiario_sem_estagio['Aluno']['registro']));
 }
 

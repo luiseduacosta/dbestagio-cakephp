@@ -290,7 +290,7 @@ echo $this->Form->end('Confirma');
 <?php foreach ($instituicao['Estagiario'] as $c_estagiario): ?>
 
 <tr>
-<td><?php echo $this->Html->link($c_estagiario['registro'], '/Estagiarios/view/' . $c_estagiario['id_aluno']); ?></td>
+<td><?php echo $this->Html->link($c_estagiario['registro'], '/Estagiarios/view/' . $c_estagiario['aluno_id']); ?></td>
 <td><?php echo $c_estagiario['supervisor_id']; ?></td>
 <td><?php echo $c_estagiario['periodo']; ?></td>
 </tr>

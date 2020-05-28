@@ -1,13 +1,11 @@
 <?php
 
-echo $this->Html->script("jquery", array('inline'=>false));
-echo $this->Html->script("jquery.maskedinput", array('inline'=>false));
+echo $this->Html->script("jquery.maskedinput-1.3.1", array('inline'=>false));
 
 echo $this->Html->scriptBlock('
 
 $(document).ready(function(){
 
-    $("#EstudanteRegistro").mask("999999999");
     $("#EstudanteCpf").mask("999999999-99");
     $("#EstudanteTelefone").mask("9999.9999");
     $("#EstudanteCelular").mask("99999.9999");
@@ -45,7 +43,8 @@ $(document).ready(function(){
             <?php if ($this->Session->read('categoria') === 'administrador'): ?>
             <tr>
             <td colspan="2">
-                <?php echo $this->Form->input('registro', array('type'=>'text', 'value'=>$registro, 'default'=>$this->Session->read('numero'))); ?>
+                <?php $regisro = isset($registro) ? $registro : null; ?>
+                <?php echo $this->Form->input('registro', array('type'=>'text', 'value'=> $registro, 'default' => $this->Session->read('numero'))); ?>
             </td>
             </tr>
             <?php endif; ?>

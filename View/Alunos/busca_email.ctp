@@ -16,14 +16,14 @@
 <h1>Resultado da busca por Email</h1>
 
     <?php foreach ($alunos as $c_alunos): ?>
-    <?php echo $this->Html->link($c_alunos['Aluno']['nome'],'/alunos/view/'.$c_alunos['Aluno']['id']) . '<br>'; ?>
+    <?php echo $this->Html->link($c_alunos['Aluno']['nome'],'/Alunos/view/'.$c_alunos['Aluno']['id']) . '<br>'; ?>
     <?php endforeach; ?>
 
 <?php else: ?>
 
 <h1>Busca por Email</h1>
 
-    <?php echo $this->Form->create('Aluno', array('controller'=>'Alunos','action'=>'busca_email')); ?>
+    <?php echo $this->Form->create('Aluno'); ?>
     <?php echo $this->Form->input('email', array('label'=>'Digite o email', 'maxsize'=>70, 'size'=>70)); ?>
     <?php echo $this->Form->end('Confirma'); ?>
 

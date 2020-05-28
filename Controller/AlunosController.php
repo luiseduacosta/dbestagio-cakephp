@@ -238,7 +238,7 @@ class AlunosController extends AppController {
     public function delete($id = NULL) {
 
         // Se tem pelo menos um estagio nao excluir
-        $estagiario = $this->Aluno->Estagiario->findById_aluno($id);
+        $estagiario = $this->Aluno->Estagiario->find('first', ['conditions' => ['Estagiario.aluno_id' => $id]]);
         if ($estagiario) {
             $this->Session->setFlash(__('Aluno com estágios não pode ser excluido. Exclua os estágios primeiro.'));
             $this->redirect(array('url' => 'view/' . $id));
@@ -360,19 +360,18 @@ class AlunosController extends AppController {
 
     public function add($id = NULL) {
 
-        if (!empty($this->data)) {
-            // pr($this->data);
+        if (!empty($this->request->data)) {
+            // pr($this->request->data);
 
             if ($this->Aluno->save($this->data)) {
                 $this->Session->setFlash(__('Dados do aluno inseridos!'));
-                $this->Aluno->getLastInsertId();
-                $this->redirect('/Estagiarios/add/' . $this->Aluno->getLastInsertId());
+                $this->redirect('/Estagiarios/add/' . $this->Aluno->Id);
             }
         }
 
         if ($id) {
 
-            // Primeiro verifico se ja nao esta cadastrado
+            // Primeiro verifico se ja nao esta cadastrado entre os Alunos e Estudantes
             $alunocadastrado = $this->Aluno->find('first', array(
                 'conditions' => array('Aluno.registro' => $id)
             ));
@@ -387,11 +386,15 @@ class AlunosController extends AppController {
                 'conditions' => array('Estudante.registro' => $id)
             ));
             // pr($alunonovo);
-            $this->set('alunonovo', $alunonovo);
+            if (empty($alunonovo)) {
+                $this->Session->setFlash(__("Estudante sem cadastrado"));                
+                $this->redirect('/Estudantes/add/' . $id);
+            } else {
+                $this->set('alunonovo', $alunonovo);
+            }
+            $this->set('registro', $id);            
         }
         // die();
-        if ($id)
-            $this->set('registro', $id);
     }
 
     /*

@@ -295,7 +295,7 @@ class InscricoesController extends AppController {
         if ($id) {
             $inscritos = $this->Inscricao->find('all', array(
                 'conditions' => array('Inscricao.instituicao_id' => $id),
-                'fields' => array('Inscricao.id', 'Inscricao.id_aluno', 'Estudante.nome', 'Estudante.celular', 'Estudante.telefone', 'Estudante.email', 'Muralestagio.id', 'Muralestagio.instituicao', 'Muralestagio.email', 'Inscricao.instituicao_id'),
+                'fields' => array('Inscricao.id', 'Inscricao.aluno_id', 'Estudante.nome', 'Estudante.celular', 'Estudante.telefone', 'Estudante.email', 'Muralestagio.id', 'Muralestagio.instituicao', 'Muralestagio.email', 'Inscricao.instituicao_id'),
                 'order' => array('Estudante.nome' => 'asc')
                     )
             );
@@ -305,7 +305,7 @@ class InscricoesController extends AppController {
             foreach ($inscritos as $c_inscritos) {
 
                 $inscritos_ordem[$i]['nome'] = $c_inscritos['Estudante']['nome'];
-                $inscritos_ordem[$i]['id_aluno'] = $c_inscritos['Inscricao']['id_aluno'];
+                $inscritos_ordem[$i]['aluno_id'] = $c_inscritos['Inscricao']['aluno_id'];
                 $inscritos_ordem[$i]['telefone'] = $c_inscritos['Estudante']['telefone'];
                 $inscritos_ordem[$i]['celular'] = $c_inscritos['Estudante']['celular'];
                 $inscritos_ordem[$i]['email'] = $c_inscritos['Estudante']['email'];
@@ -525,6 +525,10 @@ class InscricoesController extends AppController {
             die('Faltou selecionar uma instituição');
         }
 
+        if (empty($this->request->data['Inscricao']['supervisor_id'])) {
+            $this->request->data['Inscricao']['supervisor_id'] = null;
+        }
+
         /*
          *  Se é um estudante que já está em Estagio: inserir novo estagio.
          */
@@ -543,7 +547,7 @@ class InscricoesController extends AppController {
                     'tc_solicitacao' => date('Y-m-d'),
                     'periodo' => $this->request->data['Inscricao']['periodo'],
                     'instituicao_id' => $this->request->data['Inscricao']['instituicao_id'],
-                    'supervisor_id' => $this->request->data['Inscricao']['supervisor_id'],
+                    'supervisor_id' => $this->request->data['Inscricao']['supervisor_id']
             ));
             // pr($dados);
             // die('dados1');
@@ -560,41 +564,21 @@ class InscricoesController extends AppController {
             ));
             // pr($alunonovo);
             // die('alunonovo');
-            /*
-             * Aluno nao estagiário. Cadastrar
-             * Pode ser desnecessário se houver uma única tabela de estudantes
-             * Por precaução continuo com a tabela
-             */
-            $cadastroaluno = ['Aluno' => [
-                    'nome' => $alunonovo['Estudante']['nome'],
-                    'registro' => $alunonovo['Estudante']['registro'],
-                    'codigo_telefone' => $alunonovo['Estudante']['codigo_telefone'],
-                    'telefone' => $alunonovo['Estudante']['telefone'],
-                    'codigo_celular' => $alunonovo['Estudante']['codigo_celular'],
-                    'celular' => $alunonovo['Estudante']['celular'],
-                    'email' => $alunonovo['Estudante']['email'],
-                    'cpf' => $alunonovo['Estudante']['cpf'],
-                    'identidade' => $alunonovo['Estudante']['identidade'],
-                    'orgao' => $alunonovo['Estudante']['orgao'],
-                    'nascimento' => $alunonovo['Estudante']['nascimento'],
-                    'endereco' => $alunonovo['Estudante']['endereco'],
-                    'cep' => $alunonovo['Estudante']['cep'],
-                    'municipio' => $alunonovo['Estudante']['municipio'],
-                    'bairro' => $alunonovo['Estudante']['bairro'],
-                    'observacoes' => $alunonovo['Estudante']['observacoes']
-            ]];
-            // pr($cadastroaluno);
-            // die('cadastroaluno');
-            $this->loadModel('Aluno');
-            if ($this->Aluno->save($cadastroaluno)) {
-                $aluno_id = $this->Aluno->id;
-                $this->Session->setFlash(__('Aluno cadastrado'));
 
+            /* Verifico se está cadastrdado como Aluno */
+            $this->loadModel('Aluno');
+            $aluno = $this->Aluno->find('first', [
+                'conditions' => ['Aluno.registro' => $id]
+            ]);
+            // pr($aluno);
+            // die('aluno');
+            if ($aluno) {
+                echo "Cadastrado com Aluno." . "<br />";
                 /*
                  * Inserir estagiario para este periodo
                  */
                 $dados = array("Estagiario" => array(
-                        'aluno_id' => $aluno_id,
+                        'aluno_id' => $aluno['Aluno']['id'],
                         'registro' => $this->request->data['Inscricao']['aluno_id'],
                         'nivel' => $this->request->data['Inscricao']['nivel'],
                         'turno' => $this->request->data['Inscricao']['turno'],
@@ -602,10 +586,10 @@ class InscricoesController extends AppController {
                         'tc_solicitacao' => date('Y-m-d'),
                         'periodo' => $this->request->data['Inscricao']['periodo'],
                         'instituicao_id' => $this->request->data['Inscricao']['instituicao_id'],
-                        'supervisor_id' => $this->request->data['Inscricao']['supervisor_id'],
+                        'supervisor_id' => $this->request->data['Inscricao']['supervisor_id']
                 ));
-                // pr($dados);
-                // die('dados');
+                pr($dados);
+                die('dados');
                 $this->loadModel('Estagiario');
                 if ($this->Estagiario->save($dados)) {
                     $this->Session->setFlash(__('Estagiario cadastrado'));
@@ -617,9 +601,68 @@ class InscricoesController extends AppController {
                     // debug($log);
                     // die('Error!');
                 }
-                $log = $this->Estagiario->getDataSource()->getLog(false, false);
-                debug($log);
+            } else {
+                /*
+                 * Aluno nao estagiário. Cadastrar
+                 * Pode ser desnecessário se houver uma única tabela de estudantes
+                 * Por precaução continuo com a tabela
+                 */
+                $cadastroaluno = ['Aluno' => [
+                        'nome' => $alunonovo['Estudante']['nome'],
+                        'registro' => $alunonovo['Estudante']['registro'],
+                        'codigo_telefone' => $alunonovo['Estudante']['codigo_telefone'],
+                        'telefone' => $alunonovo['Estudante']['telefone'],
+                        'codigo_celular' => $alunonovo['Estudante']['codigo_celular'],
+                        'celular' => $alunonovo['Estudante']['celular'],
+                        'email' => $alunonovo['Estudante']['email'],
+                        'cpf' => $alunonovo['Estudante']['cpf'],
+                        'identidade' => $alunonovo['Estudante']['identidade'],
+                        'orgao' => $alunonovo['Estudante']['orgao'],
+                        'nascimento' => $alunonovo['Estudante']['nascimento'],
+                        'endereco' => $alunonovo['Estudante']['endereco'],
+                        'cep' => $alunonovo['Estudante']['cep'],
+                        'municipio' => $alunonovo['Estudante']['municipio'],
+                        'bairro' => $alunonovo['Estudante']['bairro'],
+                        'observacoes' => $alunonovo['Estudante']['observacoes']
+                ]];
+                // pr($cadastroaluno);
+                // die('cadastroaluno');
+                $this->loadModel('Aluno');
+                if ($this->Aluno->save($cadastroaluno)) {
+                    $aluno_id = $this->Aluno->id;
+                    $this->Session->setFlash(__('Aluno cadastrado'));
+
+                    /*
+                     * Inserir estagiario para este periodo
+                     */
+                    $dados = array("Estagiario" => array(
+                            'aluno_id' => $aluno_id,
+                            'registro' => $this->request->data['Inscricao']['aluno_id'],
+                            'nivel' => $this->request->data['Inscricao']['nivel'],
+                            'turno' => $this->request->data['Inscricao']['turno'],
+                            'tc' => '1',
+                            'tc_solicitacao' => date('Y-m-d'),
+                            'periodo' => $this->request->data['Inscricao']['periodo'],
+                            'instituicao_id' => $this->request->data['Inscricao']['instituicao_id'],
+                            'supervisor_id' => $this->request->data['Inscricao']['supervisor_id']
+                    ));
+                    // pr($dados);
+                    // die('dados');
+                    $this->loadModel('Estagiario');
+                    if ($this->Estagiario->save($dados)) {
+                        $this->Session->setFlash(__('Estagiario cadastrado'));
+                        $this->redirect('/Inscricoes/termoimprime/' . $this->Estagiario->id);
+                        // die('Sucesso Insert dados!');
+                    } else {
+                        $this->Session->setFlash(__('Error: Estagiário não cadastrado. Tente mais uma vez.'));
+                        // $log = $this->Estagiario->getDataSource()->getLog(false, false);
+                        // debug($log);
+                        // die('Error!');
+                    }
+                }
             }
+            // $log = $this->Estagiario->getDataSource()->getLog(false, false);
+            // debug($log);
             // die('Save aluno');
         }
     }
@@ -627,7 +670,7 @@ class InscricoesController extends AppController {
     /* id eh o numero de estagiario */
 
     public function termoimprime($id = NULL) {
-
+        
         // echo $id;
         // die('id');
         $this->loadModel('Estagiario');
@@ -663,7 +706,7 @@ class InscricoesController extends AppController {
         $this->set('termofinal', $termofinal);
         $this->set('registro', $registro);
         $this->set('supervisor_cress', $supervisor_cress);
-        // die();
+        // die('set');
         $this->response->header(array("Content-type: application/pdf"));
         $this->response->type("pdf");
         $this->layout = "pdf";

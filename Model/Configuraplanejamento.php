@@ -7,15 +7,10 @@
  */
 
 class Configuraplanejamento extends AppModel {
-    /* @var Estagiario */
-    /* @var Instituicao */
 
     public $name = 'Configuraplanejamento';
     public $useTable = 'configuraplanejamentos';
     public $primaryKey = 'id';
-//    public $hasMany = array('Planejamento' => array(
-//            'className' => 'Planejamento',
-//            'foreignKey' => 'configuraplanejamento_id'
-//    ));
+    public $displayField = 'semestre';
 
 }

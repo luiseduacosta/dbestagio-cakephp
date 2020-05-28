@@ -22,7 +22,7 @@ foreach ($inscritos as $c_inscritos) {
 
 $texto .= "
 <tr>
-<td>" .$c_inscritos['id_aluno']. "</td>
+<td>" .$c_inscritos['aluno_id']. "</td>
 <td>" .$c_inscritos['nome'] ."</td>
 <td>" .$c_inscritos['telefone'] ."</td>
 <td>" .$c_inscritos['celular'] ."</td>

@@ -60,7 +60,10 @@ class EstudantesController extends AppController {
 
         $parametros = $this->params['named'];
         $registro = isset($parametros['registro']) ? $parametros['registro'] : NULL;
-
+        // pr($parametros);
+        // pr($id);
+        // die('registro');
+        
         $registrologin = $this->Session->read('numero');
         if ($registro != $registrologin) {
             if ($this->Session->read('id_categoria') === '2') {
@@ -68,6 +71,7 @@ class EstudantesController extends AppController {
                 $this->redirect('/Userestagios/login');
             }
         }
+                
         /*
          * Se o registro está como parámetro então verifico se tem o id do mural_estagio_id
          */
@@ -75,7 +79,7 @@ class EstudantesController extends AppController {
             $mural_estagio_id = $this->Session->read('mural_estagio_id');
         }
 
-        if ($this->Estudante->save($this->data)) {
+        if ($this->Estudante->save($this->request->data)) {
 
             // Capturo o id do mural_estagio_id (se foi chamada desde Inscricoes add)
             $mural_estagio_id = $this->Session->read('mural_estagio_id');
@@ -110,7 +114,7 @@ class EstudantesController extends AppController {
                 // Mostra resultado da insercao
                 $this->Session->write('menu_aluno', 'alunonovo');
                 $this->Session->write('menu_id_aluno', $this->Estudante->id);
-                $this->Session->setFlash('Dados inseridos');
+                $this->Session->setFlash(__('Dados inseridos'));
                 $this->redirect("/Estudantes/view/" . $this->Estudante->id);
             }
         }
@@ -122,7 +126,6 @@ class EstudantesController extends AppController {
      * e tambem desde termo de compromisso
      * id eh o id do alunonovo
      */
-
     public function edit($id = null) {
 
         // pr($id);
