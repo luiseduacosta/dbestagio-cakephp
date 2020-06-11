@@ -69,8 +69,9 @@
 
 </div>
 
-<table>
-    <thead>
+<div class="table-responsive">
+    <table class="table table-striped table-hover table-responsive">
+        <thead class="thead-light">
         <tr>
             <th>
                 <?php echo $this->Html->link('Id', 'index1/ordem:instituicao_id/mudadirecao:' . $direcao . '/ṕagina:' . $pagina . '/linhas:' . $linhas); ?>
@@ -124,4 +125,6 @@
             </tr>
         <?php endforeach; ?>
     </tbody>
+    <tfoot></tfoot>
 </table>
+</div>

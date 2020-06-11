@@ -278,8 +278,6 @@ class SupervisoresController extends AppController {
         /* Para o select de inserir uma nova instituicao */
         $this->loadModel('Instituicao');
         $instituicoes = $this->Instituicao->find('list', ['order' => 'Instituicao.instituicao']);
-        $instituicoes[0] = '- Selecione -';
-        asort($instituicoes);
         $this->set('instituicoes', $instituicoes);
 // pr(count($supervisor));
 // die();

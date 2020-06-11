@@ -44,7 +44,7 @@ class AlunosController extends AppController {
                 'Aluno.nome' => 'asc')
         );
 
-        $this->set('alunos', $this->paginate('Aluno'));
+        $this->set('alunos', $this->Paginator->paginate('Aluno'));
     }
 
     public function view($id = NULL) {
@@ -59,7 +59,7 @@ class AlunosController extends AppController {
             $verifica = $this->Aluno->findByRegistro($this->Session->read('numero'));
             if ($id != $verifica['Aluno']['id']) {
                 $this->Session->setFlash(__("Acesso não autorizado"));
-                $this->redirect("/Murals/index");
+                $this->redirect("/Murais/index");
                 die("Aceso não autorizado");
             }
         }
@@ -121,8 +121,8 @@ class AlunosController extends AppController {
                 $nao_estagios[$y]['professor'] = $c_instituicao['Professor']['nome'];
                 $nao_estagios[$y]['supervisor_id'] = $c_instituicao['Supervisor']['id'];
                 $nao_estagios[$y]['supervisor'] = $c_instituicao['Supervisor']['nome'];
-                $nao_estagios[$y]['id_area'] = $c_instituicao['Area']['id'];
-                $nao_estagios[$y]['area'] = $c_instituicao['Area']['area'];
+                $nao_estagios[$y]['areaestagio_id'] = $c_instituicao['Areaestagio']['id'];
+                $nao_estagios[$y]['areaestagio'] = $c_instituicao['Areaestagio']['area'];
                 $nao_estagios[$y]['nota'] = $c_instituicao['Estagiario']['nota'];
                 $nao_estagios[$y]['ch'] = $c_instituicao['Estagiario']['ch'];
                 $nao_criterio[$y] = $nao_estagios[$y][$ordem];
@@ -796,18 +796,22 @@ class AlunosController extends AppController {
         $alunos = $this->Aluno->find('all');
 
         // pr($alunos);
+        // die('Alunos');
+        
         $i = 0;
         foreach ($alunos as $c_aluno):
             // pr($c_aluno);
+            // die('c_aluno');
             // if (sizeof($c_aluno['Estagiario']) >= 4):
             // pr(sizeof($c_aluno['Estagiario']));
             $cargahorariatotal[$i]['id'] = $c_aluno['Aluno']['id'];
             $cargahorariatotal[$i]['registro'] = $c_aluno['Aluno']['registro'];
             $cargahorariatotal[$i]['q_semestres'] = sizeof($c_aluno['Estagiario']);
-            $carga_estagio = NULL;
+            $carga_estagio['ch'] = NULL;
             $y = 0;
             foreach ($c_aluno['Estagiario'] as $c_estagio):
                 // pr($c_estagio);
+                // die('c_estagio');
                 if ($c_estagio['nivel'] == 1):
                     $cargahorariatotal[$i][$y]['ch'] = $c_estagio['ch'];
                     $cargahorariatotal[$i][$y]['nivel'] = $c_estagio['nivel'];
@@ -822,6 +826,7 @@ class AlunosController extends AppController {
                 // $criterio[$i][$ordem] = NULL;
                 endif;
                 $y++;
+                // die('y');
             endforeach;
             $cargahorariatotal[$i]['ch_total'] = $carga_estagio['ch'];
             $criterio[$i] = $cargahorariatotal[$i][$ordem];

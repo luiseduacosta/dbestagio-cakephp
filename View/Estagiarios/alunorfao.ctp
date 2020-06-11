@@ -1,49 +1,58 @@
-<p>Alunos sem estágios (para excluir)</p>
-
 <?php if (!empty($orfaos)): ?>
 
-<table>
-    
-<?php foreach ($orfaos as $c_orfaos): ?>
+    <div class='container table-responsive'>
+        <p>Estudantes sem estágio</p>
+        <table class='table table-striped table-hover table-responsive'>
+            <caption>Estudantes sem estágio</caption>
+            <thead class="thead-light">
+                <tr>
+                    <th>Id</th>
+                    <th>Registro</th>
+                    <th>Nome</th>
+                    <th>Celular</th>
+                    <th>E-mail</th>
+                    <th>Período</th>
+                </tr>
+            </thead>    
+            <tbody>
+                <?php foreach ($orfaos as $c_orfaos): ?>
 
-    <tr>
+                    <tr>
 
-    <td>
-    <?php echo $c_orfaos['Aluno']['id']; ?>
-    </td>
+                        <td>
+                            <?php echo $c_orfaos['Aluno']['id']; ?>
+                        </td>
 
-    <td>
-    <?php echo $c_orfaos['Aluno']['registro']; ?>
-    </td>
-    
-    <td>
-    <?php echo $this->Html->link($c_orfaos['Aluno']['nome'], '/alunos/view/'. $c_orfaos['Aluno']['id']); ?>
-    </td>
+                        <td>
+                            <?php echo $c_orfaos['Aluno']['registro']; ?>
+                        </td>
 
-    <td>
-    <?php echo $c_orfaos['Aluno']['celular']; ?>
-    </td>    
-    
-    <td>
-    <?php echo $c_orfaos['Aluno']['email']; ?>
-    </td>
+                        <td>
+                            <?php echo $this->Html->link($c_orfaos['Aluno']['nome'], '/Estudantes/view/' . $c_orfaos['Aluno']['registro']); ?>
+                        </td>
 
-    <td>
-    <?php echo $c_orfaos['Estagiario']['periodo']; ?>
-    </td>
-    
-    <td>
-    <?php echo $this->Html->link('X', '/alunos/delete/'. $c_orfaos['Aluno']['id'], NULL, 'Tem certeza?'); ?>
-    </td>
+                        <td>
+                            <?php echo $c_orfaos['Aluno']['celular']; ?>
+                        </td>    
 
-    </tr>
+                        <td>
+                            <?php echo $c_orfaos['Aluno']['email']; ?>
+                        </td>
 
-<?php endforeach; ?>
+                        <td>
+                            <?php echo $c_orfaos['Estagiario']['periodo']; ?>
+                        </td>
 
-</table>
+                    </tr>
+
+                <?php endforeach; ?>
+            </tbody>
+            <tfoot></tfoot>
+        </table>
+    </div>
 
 <?php else: ?>
 
-<p>Não há alunos sem estágio: <?php echo $this->Html->link('retornar', '/estagiarios/index'); ?></p>
+    <p>Não há alunos sem estágio: <?php echo $this->Html->link('retornar', '/estagiarios/index'); ?></p>
 
 <?php endif; ?>

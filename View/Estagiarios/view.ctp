@@ -56,7 +56,7 @@
 
         <tr>
             <td>Área temática</td>
-            <td><?php echo $estagio['Area']['area']; ?></td>
+            <td><?php echo $estagio['Areaestagio']['area']; ?></td>
         </tr>
 
         <tr>

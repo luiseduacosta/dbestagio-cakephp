@@ -1,43 +1,24 @@
-<?php
+<?php // pr($listausuarios);        ?>
+<?php // pr($direcao);        ?>
+<?php // pr($linhas);        ?>
+<?php // pr($ordem);        ?>
+<?php // pr($q_paginas);       ?>
+<?php // pr($pagina);       ?>
 
-// pr($listausuarios);   ?>
-<?php // pr($direcao);   ?>
-<?php // pr($linhas);   ?>
-<?php // pr($ordem);   ?>
-<?php // pr($q_paginas);  ?>
-<?php // pr($pagina);  ?>
+<script>
+    $(document).ready(function () {
 
-<?php
-echo $this->Html->script("jquery", array('inline' => false));
-echo $this->Html->scriptBlock('
+        var url = "<?= $this->Html->url(['controller' => 'Userestagios', 'action' => 'listausuarios/linhas:']) ?>";
+        /* alert(url); */
+        $("#UserestagioLinhas").change(function () {
+            var linhas = $(this).val();
+            /* alert(linhas); */
+            window.location = url + linhas;
+        });
+    });
+</script>
 
-$(document).ready(function() {
-
-var url = location.hostname;
-var base_url = window.location.pathname.split("/");
-
-$("#UserLinhas").change(function() {
-	var linhas = $(this).val();
-        /* alert(linhas); */
-        if (url === "localhost") {
-            window.location="/" + base_url[1] + "/Userestagios/listausuarios/linhas:" +linhas;
-        } else {
-            window.location="/Userestagios/listausuarios/linhas:" +linhas;
-        }
-})
-
-})
-
-', array("inline" => false)
-);
-?>
-
-<?php echo $this->Html->link('Configurações', '/Configuracaos/view/1'); ?>
-<?php echo " | "; ?>
-<?php echo $this->Html->link('Usuários', '/Userestagios/listausuarios/'); ?>
-<?php echo " | "; ?>
-<?php // echo $this->Html->link('Permissões','/aros/indexaros/'); ?>
-
+<?= $this->element('submenu_administracao'); ?>
 
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
 
@@ -80,61 +61,64 @@ $("#UserLinhas").change(function() {
     ?>
 </div>
 
-<table>
-    <thead>
-        <tr>
-            <th>Excluir</th>
-            <th>Editar</th>
-            <th><?php echo $this->Html->link('Número', 'listausuarios/ordem:numero/direcao:' . $direcao); ?></th>
-            <th><?php echo $this->Html->link('Nome', 'listausuarios/ordem:nome/direcao:' . $direcao); ?></th>
-            <th><?php echo $this->Html->link('Email', 'listausuarios/ordem:email/direcao:' . $direcao); ?></th>
-            <th><?php echo $this->Html->link('Categoria', 'listausuarios/ordem:categoria/direcao:' . $direcao); ?></th>
-        </tr>
-    </thead>
+<div class='table-responsive'>
+    <table class="table table-hover table-responsive">
+        <thead class='thead-light'>
+            <tr>
+                <th>Excluir</th>
+                <th>Editar</th>
+                <th><?php echo $this->Html->link('Número', 'listausuarios/ordem:numero/direcao:' . $direcao); ?></th>
+                <th><?php echo $this->Html->link('Nome', 'listausuarios/ordem:nome/direcao:' . $direcao); ?></th>
+                <th><?php echo $this->Html->link('Email', 'listausuarios/ordem:email/direcao:' . $direcao); ?></th>
+                <th><?php echo $this->Html->link('Categoria', 'listausuarios/ordem:categoria/direcao:' . $direcao); ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($listausuarios as $usuario): ?>
 
-    <?php foreach ($listausuarios as $usuario): ?>
+                <tr>
+                    <td>
+                        <?php
+                        if ($usuario['numero'] != 0):
+                            echo $this->Html->link('X', '/Userestagios/delete/' . $usuario['numero'], NULL, 'Tem certeza?');
+                        endif;
+                        ?>
+                    </td>
 
-    <tr>
-        <td>
-                <?php
-                if ($usuario['numero'] != 0):
-                    echo $this->Html->link('X', '/Userestagios/delete/' . $usuario['numero'], NULL, 'Tem certeza?');
-                endif;
-                ?>
-        </td>
+                    <td>
+                        <?php
+                        if ($usuario['numero'] != 0):
+                            echo $this->Html->link('Editar', '/Userestagios/view/' . $usuario['numero']);
+                        endif;
+                        ?>
+                    </td>
 
-        <td>
-                <?php
-                if ($usuario['numero'] != 0):
-                    echo $this->Html->link('Editar', '/Userestagios/view/' . $usuario['numero']);
-                endif;
-                ?>
-        </td>
+                    <td>
+                        <?php if ($usuario['aluno_tipo'] == 0): ?>
+                            <?php echo $this->Html->link($usuario['numero'], '/Alunos/view/' . $usuario['aluno_id']); ?>
+                        <?php elseif ($usuario['aluno_tipo'] == 1): ?>
+                            <?php echo $this->Html->link($usuario['numero'], '/Estudantes/view/' . $usuario['aluno_id']); ?>
+                        <?php elseif ($usuario['aluno_tipo'] == 2): ?>
+                            <?php echo $usuario['numero']; ?>
+                        <?php elseif ($usuario['aluno_tipo'] == 3): ?>
+                            <?php echo $this->Html->link($usuario['numero'], '/Professors/view/' . $usuario['aluno_id']); ?>
+                        <?php elseif ($usuario['aluno_tipo'] == 4): ?>
+                            <?php echo $this->Html->link($usuario['numero'], '/Supervisors/view/' . $usuario['aluno_id']); ?>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php echo $usuario['nome']; ?>
+                    </td>
+                    <td>
+                        <?php echo $usuario['email']; ?>
+                    </td>
+                    <td>
+                        <?php echo $usuario['categoria']; ?>
+                    </td>
+                </tr>
 
-        <td>
-                <?php if ($usuario['aluno_tipo'] == 0): ?>
-                    <?php echo $this->Html->link($usuario['numero'], '/Alunos/view/' . $usuario['aluno_id']); ?>
-                <?php elseif ($usuario['aluno_tipo'] == 1): ?>
-                    <?php echo $this->Html->link($usuario['numero'], '/Estudantes/view/' . $usuario['aluno_id']); ?>
-                <?php elseif ($usuario['aluno_tipo'] == 2): ?>
-                    <?php echo $usuario['numero']; ?>
-                <?php elseif ($usuario['aluno_tipo'] == 3): ?>
-                    <?php echo $this->Html->link($usuario['numero'], '/Professors/view/' . $usuario['aluno_id']); ?>
-                <?php elseif ($usuario['aluno_tipo'] == 4): ?>
-                    <?php echo $this->Html->link($usuario['numero'], '/Supervisors/view/' . $usuario['aluno_id']); ?>
-                <?php endif; ?>
-        </td>
-        <td>
-                <?php echo $usuario['nome']; ?>
-        </td>
-        <td>
-                <?php echo $usuario['email']; ?>
-        </td>
-        <td>
-                <?php echo $usuario['categoria']; ?>
-        </td>
-    </tr>
-
-    <?php endforeach; ?>
-
-</table>
+            <?php endforeach; ?>
+        </tbody>
+        <tfoot></tfoot>
+    </table>
+</div>

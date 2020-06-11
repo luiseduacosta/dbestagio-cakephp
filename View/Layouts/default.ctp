@@ -33,82 +33,103 @@
         <?php
         echo $this->Html->meta('icon');
 
-        echo $this->Html->css('cake.generic');
-        echo $this->Html->css('abas');
-        echo $this->Html->script(['https://code.jquery.com/jquery-3.5.1.min.js']);
-        echo $this->Js->writeBuffer();
-        echo $scripts_for_layout;
+        // echo $this->Html->css('cake.generic');
+        // echo $this->Html->css('meus_estilos');
+        // echo $this->Html->script(['https://code.jquery.com/jquery-3.5.1.min.js']);
+        // echo $this->Js->writeBuffer();
+        // echo $scripts_for_layout;
         ?>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     </head>
     <body>
         <div id="container">
             <div id="header">
-                <h1><?php echo $this->Html->link(__('Coordenação de Estágio & Extensão - ESS - UFRJ', true), 'http://mural.ess.ufrj.br'); ?>
-                </h1>
-            </div>
+                <div class="navbar navbar-expand-sm justify-content-center">
+                    <?= $this->Html->link('Coordenação de Estágio & Extensão - ESS - UFRJ', '/http://mural.ess.ufrj.br'); ?>
+                </div>
 
-            <div id='menu'>
-                <?php echo $this->Html->link("ESS", "http://www.ess.ufrj.br"); ?>
-                <?php echo " | "; ?>
-                <?php echo $this->Html->link("Login", array('controller' => 'Userestagios', 'action' => 'login', 'full_base' => true)); ?>
-                <?php echo " | "; ?>
-                <?php echo $this->Html->link("Mural", array('controller' => 'Muralestagios', 'action' => 'index')); ?>
-                <?php echo " | "; ?>
+                <div class='container'>
+                    <ul class="navbar navbar-header nav-tabs justify-content-end bg-secondary">
+                        <li class="nav-item">
+                            <?php echo $this->Html->link("ESS", "http://www.ess.ufrj.br", ['class' => 'nav-link']); ?>
+                        </li>
+                        <li class="nav-item">
+                            <?php echo $this->Html->link("Login", ['controller' => 'Userestagios', 'action' => 'login'], ['class' => 'nav-link']); ?>
+                        </li>
+                        <li class="nav-item">
+                            <?php echo $this->Html->link("Mural", ['controller' => 'Muralestagios', 'action' => 'index'], ['class' => 'nav-link']); ?>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Documentação</a>
+                            <div class="dropdown-menu">
+                                <?php echo $this->Html->link("Termo de compromisso", "/Inscricoes/termosolicita", ['class' => 'dropdown-item']); ?>
+                                <?php echo $this->Html->link("Avaliação discente", "/Alunos/avaliacaosolicita", ['class' => 'dropdown-item']); ?>
+                                <?php echo $this->Html->link("Folha de atividades", "/Alunos/folhadeatividades", ['class' => 'dropdown-item']); ?>
+                            </div>                    
+                        </li>                    
 
-                <?php if ($this->Session->read('categoria')): ?>
-                    <?php echo $this->Html->link("Estagiários", "/Estagiarios/index"); ?>
-                    <?php echo " | "; ?>
-                    <?php echo $this->Html->link("Termo de compromisso", "/Inscricoes/termosolicita"); ?>
-                    <?php echo " | "; ?>
-                    <?php echo $this->Html->link("Avaliação discente", "/Alunos/avaliacaosolicita"); ?>
-                    <?php echo " | "; ?>
-                    <?php echo $this->Html->link("Folha de atividades", "/Alunos/folhadeatividades"); ?>
-                    <?php echo " | "; ?>
+                        <?php if ($this->Session->read('categoria')): ?>
+                            <li class="nav-item">
+                                <?php echo $this->Html->link("Estagiários", "/Estagiarios/index", ['class' => 'nav-link']); ?>
+                            </li>
+                            <li class="nav-item">
+                                <?php echo $this->Html->link("Instituições", "/Instituicoes/lista", ['escape' => FALSE, 'class' => 'nav-link']); ?>
+                            </li>
+                            <li class="nav-item">
+                                <?php echo $this->Html->link("Supervisores", "/Supervisores/index/ordem:nome", ['class' => 'nav-link']); ?>
+                            </li>
+                            <li class="nav-item">
+                                <?php echo $this->Html->link("Professores", "/Professores/index", ['class' => 'nav-link']); ?>
+                            </li>
+                        <?php endif; ?>
 
-                    <?php echo $this->Html->link("Instituições", "/Instituicoes/lista", array('escape' => FALSE)); ?>
-                    <?php echo " | "; ?>
-                    <?php echo $this->Html->link("Supervisores", "/Supervisores/index/ordem:nome"); ?>
-                    <?php echo " | "; ?>
-                    <?php echo $this->Html->link("Professores", "/Professores/index"); ?>
-                    <?php echo " | "; ?>
+                        <?php if ($this->Session->read('categoria') === 'administrador'): ?>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administração</a>    
+                                <div class="dropdown-menu">
+                                    <?php echo $this->Html->link('Configuração', '/configuracaos/view/1', ['class' => 'dropdown-item']); ?>
+                                    <?php echo $this->Html->link('Usuários', '/Userestagios/listausuarios/', ['class' => 'dropdown-item']); ?>
+                                    <?php echo $this->Html->link('Planilha seguro', '/alunos/planilhaseguro/', ['class' => 'dropdown-item']); ?>
+                                    <?php echo $this->Html->link('Planilha CRESS', '/alunos/planilhacress/', ['class' => 'dropdown-item']); ?>
+                                    <?php echo $this->Html->link('Carga horária', '/alunos/cargahoraria/', ['class' => 'dropdown-item']); ?>
+                                </div>
+                            </li>
+                        <?php endif; ?>
 
-                <?php endif; ?>
+                        <li class="nav-item">
+                            <?php echo $this->Html->link('Grupo Google', 'https://groups.google.com/forum/#!forum/estagio_ess', ['class' => 'nav-link']); ?>
+                        </li>
+                        <li class="nav-item">
+                            <?php echo $this->Html->link('Fale conosco', 'mailto: estagio@ess.ufrj.br', ['class' => 'nav-link']); ?>
+                        </li>
 
-                <?php // echo $this->Html->link('Manual', 'http://www.ess.ufrj.br'); ?>
-                <?php // echo " | "; ?>
-                <?php echo $this->Html->link('Grupo Google', 'https://groups.google.com/forum/#!forum/estagio_ess'); ?>
-                <?php echo " | "; ?>
-                <?php echo $this->Html->link('Fale conosco', 'mailto: estagio@ess.ufrj.br'); ?>
+                        <?php if ($this->Session->read('user')): ?>
+                            <?php echo "<span style='color: white; font-weight: bold; text-transform: capitalize'>" . $this->Session->read('categoria') . "</span>" . ": "; ?>
 
-                <?php if ($this->Session->read('categoria') === 'administrador'): ?>
-                    <?php echo " | "; ?>
-                    <?php echo $this->Html->link("Administração", "/configuracaos/view/1"); ?>
-                <?php endif; ?>
-
-                <br/>
-
-                <?php if ($this->Session->read('user')): ?>
-                    <?php echo "<span style='color: white; font-weight: bold; text-transform: capitalize'>" . $this->Session->read('categoria') . "</span>" . ": "; ?>
-
-                    <?php
-                    switch ($this->Session->read('menu_aluno')) {
-                        case 'estagiario':
-                            echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Estudantes/view/" . $this->Session->read('numero')) . "</span>" . " ";
-                            break;
-                        case 'alunonovo':
-                            echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Estudantes/view/" . $this->Session->read('numero')) . "</span>" . " ";
-                            break;
-                        case 'semcadastro':
-                            echo "<span style='color: white; font-weight: bold'>" . $this->Session->read('user') . "</span>" . " ";
-                            break;
-                    }
-                    if ($this->Session->read('menu_supervisor_id'))
-                        echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Supervisores/view/" . $this->Session->read('menu_supervisor_id')) . "</span>" . " ";
-                    ?>
-
-                    <?php echo $this->Html->link('Sair', '/Userestagios/logout/'); ?>
-                <?php endif; ?>
-
+                            <?php
+                            switch ($this->Session->read('menu_aluno')) {
+                                case 'estagiario':
+                                    echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Estudantes/view/" . $this->Session->read('numero')) . "</span>" . " ";
+                                    break;
+                                case 'alunonovo':
+                                    echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Estudantes/view/" . $this->Session->read('numero')) . "</span>" . " ";
+                                    break;
+                                case 'semcadastro':
+                                    echo "<span style='color: white; font-weight: bold'>" . $this->Session->read('user') . "</span>" . " ";
+                                    break;
+                            }
+                            if ($this->Session->read('menu_supervisor_id'))
+                                echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Supervisores/view/" . $this->Session->read('menu_supervisor_id')) . "</span>" . " ";
+                            ?>
+                            <li class="nav-item">
+                                <?php echo $this->Html->link('Sair', '/Userestagios/logout/', ['class' => 'nav-link']); ?>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
             </div>
 
             <div id="content">

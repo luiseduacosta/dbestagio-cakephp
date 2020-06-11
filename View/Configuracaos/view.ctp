@@ -1,22 +1,4 @@
-<?php echo $this->Html->link('Configurações','/configuracaos/view/1'); ?>
-<?php echo " | "; ?>
-
-<?php // echo $this->Html->link('Usuários','/aros/listausuarios/'); ?>
-<?php // echo " | "; ?>
-
-<?php echo $this->Html->link('Usuários','/Userestagios/listausuarios/'); ?>
-<?php echo " | "; ?>
-
-<?php echo $this->Html->link('Planilha seguro','/alunos/planilhaseguro/'); ?>
-<?php echo " | "; ?>
-
-<?php echo $this->Html->link('Planilha CRESS','/alunos/planilhacress/'); ?>
-<?php echo " | "; ?>
-
-<?php echo $this->Html->link('Carga horária','/alunos/cargahoraria/'); ?>
-<?php echo " | "; ?>
-
-<?php echo $this->Html->link('Planejamento','/configuraplanejamentos/index/'); ?>
+<?= $this->element('submenu_administracao'); ?>
 
 <h1>Configuração</h1>
 

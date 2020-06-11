@@ -1,26 +1,6 @@
-<?php // pr($mural); ?>
-<?php if ($this->Session->read('categoria') === 'administrador'): ?>
+<?php // pr($mural);        ?>
 
-    <?php
-    echo $this->Html->link('Excluir mural', '/Muralestagios/delete/' . $mural['Muralestagio']['id'], NULL, 'Tem certeza?');
-    echo " | ";
-    echo $this->Html->link('Editar mural', '/Muralestagios/edit/' . $mural['Muralestagio']['id']);
-    echo " | ";
-    echo $this->Html->link('Listar mural', '/Muralestagios/index/');
-    echo " | ";
-    echo $this->Html->link('Listar inscritos', '/Inscricoes/index/' . $mural['Muralestagio']['id']);
-    echo "<br />";
-    ?>
-
-    <?php
-    echo $this->Html->link('Imprimir cartaz', '/Muralestagios/publicacartaz/' . $mural['Muralestagio']['id']);
-    echo " | ";
-    echo $this->Html->link('Publicar no Google', '/Muralestagios/publicagoogle/' . $mural['Muralestagio']['id']);
-    echo " | ";
-    echo $this->Html->link('Enviar inscrições por email', '/Inscricoes/emailparainstituicao/' . $mural['Muralestagio']['id']);
-    ?>
-
-<?php endif; ?>
+<?= $this->element('submenu_cadamuralestagio'); ?>
 
 <table>
     <thead>
@@ -213,7 +193,7 @@
         <?php if ($this->Session->read('categoria') === 'administrador'): ?>
             <tr>
                 <td colspan = 2 style="text-align: center">
-                    <?= $this->Html->tag('button', $this->Html->link('Inscrição', ['controller' => 'Inscricoes', 'action' => 'add/registro:' . $this->Session->read('numero') . '/mural_estagio_id:' . $mural['Muralestagio']['id']])) ?>
+                    <a href="<?= $this->Html->url(['controller' => 'Inscricoes', 'action' => 'add/registro:' . $this->Session->read('numero') . '/mural_estagio_id:' . $mural['Muralestagio']['id']]); ?>" class="btn btn-success btn-lg active" role="button" aria-pressed="true">Inscrição</a>
                 </td>
             </tr>
 
@@ -222,20 +202,26 @@
             <!--
             Para os estudantes as inscrições dependem da data de encerramento
             //-->
-
             <?php if (date('Y-m-d') < $mural['Muralestagio']['dataInscricao']): ?>
                 <tr>
                     <td colspan = 2 style="text-align: center">
-                        <?= $this->Html->tag('button', $this->Html->link('Inscrição', ['controller' => 'Inscricoes', 'action' => 'add/registro:' . $this->Session->read('numero') . '/mural_estagio_id:' . $mural['Muralestagio']['id']])) ?>
-                    </td>
+                        <a href="<?= $this->Html->url(['controller' => 'Inscricoes', 'action' => 'add/registro:' . $this->Session->read('numero') . '/mural_estagio_id:' . $mural['Muralestagio']['id']]); ?>" class="btn btn-success btn-lg active" role="button" aria-pressed="true">Inscrição</a>
+                    </td>                  
                 </tr>
             <?php else: ?>
                 <tr>
-                    <td colspan = 2>
-                        <p style="text-align: center; color: red">Inscrições encerradas!</p>
+                    <td colspan = 2 style="text-align: center">
+                        <a href="#" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Inscrições encerradas!</a>
                     </td>
                 </tr>
             <?php endif; ?>
+
+        <?php else: ?>
+            <tr>
+                <td colspan = 2 style="text-align: center">
+                    <a href="#" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Inscrições encerradas!</a>
+                </td>
+            </tr>
 
         <?php endif; ?>
 
