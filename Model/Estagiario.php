@@ -98,7 +98,7 @@ class Estagiario extends AppModel {
     public function alunorfao() {
 
         // return($this->query('select Aluno.id, Aluno.registro, Aluno.nome, Aluno.celular, Aluno.email, Estagiario.id, Estagiario.registro, Estagiario.nivel, Estagiario.periodo from alunos AS Aluno left join estagiarios AS Estagiario on Aluno.id = Estagiario.aluno_id where Estagiario.id IS NULL group by Aluno.nome order by Estagiario.registro + Estagiario.nivel'));
-        return($this->query('select Aluno.id, Aluno.registro, Aluno.nome, Aluno.celular, Aluno.email, Estagiario.id, Estagiario.registro, Estagiario.nivel, Estagiario.periodo from alunos AS Aluno left join estagiarios AS Estagiario on Aluno.id = Estagiario.aluno_id where Estagiario.id IS NULL order by Estagiario.registro + Estagiario.nivel'));
+        return($this->query('select Aluno.id, Aluno.registro, Aluno.nome, Aluno.celular, Aluno.email, Estagiario.id, Estagiario.registro, Estagiario.nivel, Estagiario.periodo from alunos AS Aluno left join estagiarios AS Estagiario on Aluno.id = Estagiario.aluno_id where Estagiario.id IS NULL order by Aluno.nome'));
     }
 
     public function supervisor_aluno() {

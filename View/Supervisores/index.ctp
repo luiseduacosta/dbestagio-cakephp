@@ -26,9 +26,9 @@ echo $this->element('submenu_supervisores');
     <?php echo $this->Form->end(); ?>
 <?php endif; ?>
 
-<table>
-
-    <thead>
+<div class='table-responsive'>
+<table class="table table-striped table-hover table-responsive">
+    <thead class="thead-light">
         <tr>
             <?php if ($this->Session->read('categoria') === 'administrador'): ?>
                 <th width='10%'><?= $this->Html->link('CRESS', '/Supervisores/index/ordem:cress') ?></th>
@@ -71,9 +71,10 @@ echo $this->element('submenu_supervisores');
                 <?php // die('c_supervisor') ?>
         <?php endforeach; ?>
     </tbody>
-
+    <tfoot></tfoot>
 </table>
-
+</div>
+'
 <?php
 /*
   echo $this->Paginator->counter(array(

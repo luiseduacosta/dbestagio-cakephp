@@ -77,20 +77,28 @@ class InscricoesController extends AppController {
             // die('id');
         } else {
             $inscritos = $this->Inscricao->alunosestudantesperiodo($periodo);
+            // pr($inscritos);
+            // die('inscricoes');
         }
         // pr($inscritos);
         // die('inscricoes');
         // Somente se há inscritos e a consulta tem origem numa instituição
         if ($inscritos) {
             // pr($inscritos);
+            // die('inscritos');
             // Junto todo num array para ordernar alfabeticamente
             $i = 0;
             $alunos_estagiarios = 0;
             $alunos_novos = 0;
             foreach ($inscritos as $c_inscritos) {
                 // pr($c_inscritos);
-                // echo $vagas;
-                // die('vagas');
+                // die('c_inscritos');
+                /* Capturo os estudantes que estão repetidos */
+                if (isset($inscritos_ordem)):
+                    if ($inscritos_ordem[array_key_last($inscritos_ordem)]['estudante_id'] == $c_inscritos['Estudante']['id']):
+                        $repetidos[$i] = $i;
+                    endif;
+                endif;
                 $inscritos_ordem[$i]['nome'] = $c_inscritos['Estudante']['nome'];
                 $inscritos_ordem[$i]['estudante_id'] = $c_inscritos['Estudante']['id'];
                 /*  Conta a quantidade de inscrições por estudante no período */
@@ -115,6 +123,8 @@ class InscricoesController extends AppController {
                 $inscritos_ordem[$i]['telefone'] = $c_inscritos['Estudante']['telefone'];
                 $inscritos_ordem[$i]['celular'] = $c_inscritos['Estudante']['celular'];
                 $inscritos_ordem[$i]['email'] = $c_inscritos['Estudante']['email'];
+
+                /* Capturo se é estagiário ou não */
                 $this->loadModel('Estagiario');
                 $estagiario = $this->Estagiario->find('first', [
                     'conditions' => ['Estagiario.registro' => $c_inscritos['Estudante']['registro']]
@@ -130,15 +140,24 @@ class InscricoesController extends AppController {
                 }
                 $i++;
             }
-            array_multisort(array_column($inscritos_ordem, $ordem), SORT_ASC, $inscritos_ordem);
+            // pr($repetidos);
+            // die('repetidos');
+            if (isset($repetidos) and !empty($repetidos)):
+                $inscritos_ordem_unicos = array_diff_key($inscritos_ordem, $repetidos);
+            else:
+                $inscritos_ordem_unicos = $inscritos_ordem;
+            endif;
+            // pr($inscritos_ordem_unicos);
+            // die('inscritos_ordem_unicos');
+            array_multisort(array_column($inscritos_ordem_unicos, $ordem), SORT_ASC, $inscritos_ordem_unicos);
         }
-        // pr($inscritos_ordem);
-        // die('inscricao_ordem');
-        // Descrimino pela variavel Tipo os estagiários: 0 => Sem estágio, 1 => Com estágio
-        // pr(array_count_values(array_column($inscritos_ordem, 'tipo')));
-        $estudantetipos = array_count_values(array_column($inscritos_ordem, 'tipo'));
+        // pr($inscritos_ordem_unicos);
+        // die('inscricao_ordem_unicos');
+        /* Descrimino pela variavel Tipo os estagiários: 0 => Sem estágio, 1 => Com estágio */
+
+        $estudantetipos = array_count_values(array_column($inscritos_ordem_unicos, 'tipo'));
         // echo $estudantestipos[0] . " " . $estudantestipos[1] . "<br />";
-        $estudanteregistros = array_count_values(array_column($inscritos_ordem, 'registro'));
+        $estudanteregistros = array_count_values(array_column($inscritos_ordem_unicos, 'registro'));
         // pr($estudanteregistros);
         // pr($criterio);
         // die('inscritos_ordem');
@@ -154,7 +173,7 @@ class InscricoesController extends AppController {
         if (isset($instituicao)) {
             $this->set('instituicao', $instituicao);
         }
-        $this->set('inscritos', $inscritos_ordem);
+        $this->set('inscritos', $inscritos_ordem_unicos);
     }
 
     public function orfao() {
@@ -670,7 +689,7 @@ class InscricoesController extends AppController {
     /* id eh o numero de estagiario */
 
     public function termoimprime($id = NULL) {
-        
+
         // echo $id;
         // die('id');
         $this->loadModel('Estagiario');

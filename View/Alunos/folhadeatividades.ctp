@@ -23,6 +23,9 @@ $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
 $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
+$pdf->setPrintHeader(false);
+$pdf->setPrintFooter(false);
+
 //set auto page breaks
 $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
@@ -34,7 +37,10 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 // set font
 $pdf->SetFont('helvetica', '', 12);
 
-$data = date('d') . " do mês " . date('M') . " de " . date('Y');
+$dia = strftime('%e', strtotime(date('d')));
+$mes = strftime('%B', strtotime(date('M')));
+$ano = strftime('%Y', strtotime(date('Y')));
+$data = $dia . " de " . $mes . " de " . $ano . ".";
 
 if (empty($telefone))
     $telefone = "s/d";
@@ -47,8 +53,7 @@ $pdf->AddPage();
 $texto = <<<EOD
 
 <h2 style="text-align:center; font-size: 96%; line-height:95%">
-Escola de Serviço Social<br>
-Coordenação de Estágio & Extensão<br>
+<img src="img/logoess_horizontal.svg" alt="minerva ufrj" width="200px" height="50px"><br />
 Folha de ativiades do(a) estagiário(a)<br> 
 Mês: __________ Ano: __________
 </h2>
@@ -68,7 +73,7 @@ Supervisor(a) acadêmico(a): $professor<br>
 <br>
     
 <table border="1" cellspacing = "0" cellpadding = "1">
-                <tr>
+                <tr style="width:110%">
                     <td style="width: 5%; text-align: center">
                         Dia
                     </td>
@@ -339,8 +344,10 @@ Supervisor(a) acadêmico(a): $professor<br>
                 </tr>
         
 </table>
+        
 <br>
-
+<br>
+    
 <table>        
 <tr>
 <td align='left'>
@@ -352,6 +359,7 @@ Rio de Janeiro, $data
 </tr>
 </table>
 
+<br>
 <br>
 
 <table>

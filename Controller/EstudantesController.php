@@ -4,14 +4,12 @@ class EstudantesController extends AppController {
 
     public $name = "Estudantes";
     public $components = ['Auth'];
-
     public $paginate = [
         'limit' => 25,
         'contain' => ['Estudante'],
         'order' => ['Estudante.nome']
-        
     ];
-    
+
     public function beforeFilter() {
         parent::beforeFilter();
         // Para cadastrar usuarios do sistema precisso abrir este metodo
@@ -63,7 +61,7 @@ class EstudantesController extends AppController {
         // pr($parametros);
         // pr($id);
         // die('registro');
-        
+
         $registrologin = $this->Session->read('numero');
         if ($registro != $registrologin) {
             if ($this->Session->read('id_categoria') === '2') {
@@ -71,7 +69,7 @@ class EstudantesController extends AppController {
                 $this->redirect('/Userestagios/login');
             }
         }
-                
+
         /*
          * Se o registro está como parámetro então verifico se tem o id do mural_estagio_id
          */
@@ -126,6 +124,7 @@ class EstudantesController extends AppController {
      * e tambem desde termo de compromisso
      * id eh o id do alunonovo
      */
+
     public function edit($id = null) {
 
         // pr($id);
@@ -334,6 +333,39 @@ class EstudantesController extends AppController {
 
         $this->Session->setFlash("Registro excluído (junto com as inscrições)");
         $this->redirect("/Inscricoes/index/");
+    }
+
+    public function busca($nome = NULL) {
+
+        // Para paginar os resultados da busca por nome
+        if (isset($nome))
+            $this->request->data['Estudante']['nome'] = $nome;
+
+        $nome = isset($nome) ? $this->request->data : null;
+        // echo $nome;
+        // die('nome');
+        
+        $this->Paginate = array(
+            'limit' => 10,
+            'order' => array(
+                'Estudante.nome' => 'asc')
+        );
+
+        if (!empty($this->data['Estudante']['nome'])) {
+
+            $condicao = array('Estudante.nome like' => '%' . $this->data['Estudante']['nome'] . '%');
+            $alunos = $this->Estudante->find('all', array('conditions' => $condicao));
+            // pr($alunos);
+            // die();
+            // Nenhum resultado
+            if (!empty($alunos)) {
+                $this->set('alunos', $this->paginate('Estudante', $condicao));
+                $this->set('nome', $this->data['Estudante']['nome']);
+            } else {
+                $this->Session->setFlash(__('Não foram encontrados estudantes com esse nome'));
+                $this->redirect('/Estudantes/busca/');
+            }
+        }
     }
 
     public function padroniza() {

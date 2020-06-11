@@ -69,64 +69,67 @@
 
 </div>
 
-<table>
-    <thead>
-        <tr>
-            <th>
-                <?php echo $this->Html->link('Id', 'lista/ordem:instituicao_id/mudadirecao:' . $direcao . '/ṕagina:' . $pagina . '/linhas:' . $linhas); ?>
-            </th>
-            <th>
-                <?php echo $this->Html->link('Instituicao', 'lista/ordem:instituicao/mudadirecao:' . $direcao . '/ṕagina:' . $pagina . '/linhas:' . $linhas); ?>
-            </th>
-            <th>
-                <?php echo $this->Html->link('Expira', 'lista/ordem:expira/mudadirecao:' . $direcao . '/ṕagina:' . $pagina . '/linhas:' . $linhas); ?>
-            </th>
-            <th>
-                <?php echo $this->Html->link('Visita', 'lista/ordem:visita/mudadirecao:' . $direcao . '/ṕagina:' . $pagina . '/linhas:' . $linhas); ?>
-            </th>
-            <th>
-                <?php echo $this->Html->link('Último estágio', 'lista/ordem:ultimoperiodo/mudadirecao:' . $direcao . '/ṕagina:' . $pagina . '/linhas:' . $linhas); ?>
-            </th>
-            <th>
-                <?php echo $this->Html->link('Estagiários', 'lista/ordem:estagiarios/mudadirecao:' . $direcao . '/ṕagina:' . $pagina . '/linhas:' . $linhas); ?>
-            </th>
-            <th>
-                <?php echo $this->html->link('Supervisores', 'lista/ordem:supervisores/mudadirecao:' . $direcao . '/ṕagina:' . $pagina . '/linhas:' . $linhas); ?>
-            </th>
-            <th>
-                <?php echo $this->html->link('Área', 'lista/ordem:area/mudadirecao:' . $direcao . '/ṕagina:' . $pagina . '/linhas:' . $linhas); ?>
-            </th>
-            <th>
-                <?php echo $this->html->link('Natureza', 'lista/ordem:natureza/mudadirecao:' . $direcao . '/ṕagina:' . $pagina . '/linhas:' . $linhas); ?>
-            </th>
-
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($instituicoes as $c_instituicao): ?>
-            <?php // pr($c_instituicao);  ?>
+<div class="table-responsive">
+    <table class="table table-striped table-hover table-responsive">
+        <caption>Lista das instituições</caption>
+        <thead class="thead-light">
             <tr>
-                <td><?php echo $this->Html->link($c_instituicao['instituicao_id'], '/Instituicoes/view/' . $c_instituicao['instituicao_id']); ?></td>
-                <td><?php echo $this->Html->link($c_instituicao['instituicao'], '/Instituicoes/view/' . $c_instituicao['instituicao_id']); ?></td>
-                <td>
-                    <?php
-                    if ($c_instituicao['expira']):
-                        echo date('d-m-Y', strtotime($c_instituicao['expira']));
-                    endif;
-                    ?>
-                </td>
-                <td><?php
-                    if ($c_instituicao['visita']):
-                        echo $this->Html->link(date('d-m-Y', strtotime($c_instituicao['visita'])), '/Visitas/view/' . $c_instituicao['visita_id']);
-                    endif;
-                    ?>
-                </td>
-                <td><?php echo $this->Html->link($c_instituicao['ultimoperiodo'], '/Estagiarios/index/instituicao_id:' . $c_instituicao['instituicao_id']); ?></td>
-                <td><?php echo $c_instituicao['estagiarios']; ?></td>
-                <td><?php echo $c_instituicao['supervisores']; ?></td>
-                <td><?php echo $c_instituicao['area']; ?></td>
-                <td><?php echo $c_instituicao['natureza']; ?></td>
+                <th>
+                    <?php echo $this->Html->link('Id', 'lista/ordem:instituicao_id/mudadirecao:' . $direcao . '/ṕagina:' . $pagina . '/linhas:' . $linhas); ?>
+                </th>
+                <th>
+                    <?php echo $this->Html->link('Instituicao', 'lista/ordem:instituicao/mudadirecao:' . $direcao . '/ṕagina:' . $pagina . '/linhas:' . $linhas); ?>
+                </th>
+                <th>
+                    <?php echo $this->Html->link('Expira', 'lista/ordem:expira/mudadirecao:' . $direcao . '/ṕagina:' . $pagina . '/linhas:' . $linhas); ?>
+                </th>
+                <th>
+                    <?php echo $this->Html->link('Visita', 'lista/ordem:visita/mudadirecao:' . $direcao . '/ṕagina:' . $pagina . '/linhas:' . $linhas); ?>
+                </th>
+                <th>
+                    <?php echo $this->Html->link('Último estágio', 'lista/ordem:ultimoperiodo/mudadirecao:' . $direcao . '/ṕagina:' . $pagina . '/linhas:' . $linhas); ?>
+                </th>
+                <th>
+                    <?php echo $this->Html->link('Estagiários', 'lista/ordem:estagiarios/mudadirecao:' . $direcao . '/ṕagina:' . $pagina . '/linhas:' . $linhas); ?>
+                </th>
+                <th>
+                    <?php echo $this->html->link('Supervisores', 'lista/ordem:supervisores/mudadirecao:' . $direcao . '/ṕagina:' . $pagina . '/linhas:' . $linhas); ?>
+                </th>
+                <th>
+                    <?php echo $this->html->link('Área', 'lista/ordem:area/mudadirecao:' . $direcao . '/ṕagina:' . $pagina . '/linhas:' . $linhas); ?>
+                </th>
+                <th>
+                    <?php echo $this->html->link('Natureza', 'lista/ordem:natureza/mudadirecao:' . $direcao . '/ṕagina:' . $pagina . '/linhas:' . $linhas); ?>
+                </th>
+
             </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            <?php foreach ($instituicoes as $c_instituicao): ?>
+                <?php // pr($c_instituicao);  ?>
+                <tr>
+                    <td><?php echo $this->Html->link($c_instituicao['instituicao_id'], '/Instituicoes/view/' . $c_instituicao['instituicao_id']); ?></td>
+                    <td><?php echo $this->Html->link($c_instituicao['instituicao'], '/Instituicoes/view/' . $c_instituicao['instituicao_id']); ?></td>
+                    <td>
+                        <?php
+                        if ($c_instituicao['expira']):
+                            echo date('d-m-Y', strtotime($c_instituicao['expira']));
+                        endif;
+                        ?>
+                    </td>
+                    <td><?php
+                        if ($c_instituicao['visita']):
+                            echo $this->Html->link(date('d-m-Y', strtotime($c_instituicao['visita'])), '/Visitas/view/' . $c_instituicao['visita_id']);
+                        endif;
+                        ?>
+                    </td>
+                    <td><?php echo $this->Html->link($c_instituicao['ultimoperiodo'], '/Estagiarios/index/instituicao_id:' . $c_instituicao['instituicao_id']); ?></td>
+                    <td><?php echo $c_instituicao['estagiarios']; ?></td>
+                    <td><?php echo $c_instituicao['supervisores']; ?></td>
+                    <td><?php echo $c_instituicao['area']; ?></td>
+                    <td><?php echo $c_instituicao['natureza']; ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>

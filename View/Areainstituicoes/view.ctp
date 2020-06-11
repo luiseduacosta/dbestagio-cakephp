@@ -1,8 +1,8 @@
 <h1>Áreas das instituições</h1>
 
-<?php echo $this->Html->link($area['Areainstituicao']['id'], '/Instituicoes/index/area_instituicoes_id:' . $area['Areainstituicao']['id']); ?>
+<?php echo $this->Html->link($area['Areainstituicao']['id'], '/Instituicoes/index/areainstituicoes_id:' . $area['Areainstituicao']['id']); ?>
 <?php echo ' | '; ?>
-<?php echo $this->Html->link($area['Areainstituicao']['area'], '/Instituicoes/index/area_instituicoes_id:' . $area['Areainstituicao']['id']); ?>
+<?php echo $this->Html->link($area['Areainstituicao']['area'], '/Instituicoes/index/areainstituicoes_id:' . $area['Areainstituicao']['id']); ?>
 
 <br />
 

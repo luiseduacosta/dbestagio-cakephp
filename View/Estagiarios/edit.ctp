@@ -32,6 +32,7 @@ echo $this->Form->input('Estagiario.supervisor_id', array('label'=>'Supervisor',
 echo $this->Form->input('Estagiario.docente_id', array('label'=>'Professor','options'=>$professores));
 echo $this->Form->input('Estagiario.areaestagio_id', array('label'=>'Área temática','options'=>$areas));
 echo $this->Form->input('Estagiario.aluno_id', array('type'=>'hidden'));
+echo $this->Form->input('Estagiario.registro', array('type'=>'hidden'));
 echo $this->Form->input('Estagiario.nota', array('label'=>'Nota: separar casas decimais com ponto'));
 echo $this->Form->input('Estagiario.ch', array('label'=>'Carga horária (Digitar números inteiros)'));
 echo $this->Form->input('Estagiario.observacoes', array('label'=>'Observações'));
