@@ -1,12 +1,14 @@
 <?php // pr($mural);        ?>
 
+
 <?= $this->element('submenu_cadamuralestagio'); ?>
 
-<table>
-    <thead>
+<div class='table-responsive'>
+<table class="table table-striped table-hover table-responsive">
+    <thead class="thead-light">
         <tr>
-            <td width="20%"></td>
-            <td width="80%"></td>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
         </tr>
     </thead>
     <tbody>
@@ -226,4 +228,6 @@
         <?php endif; ?>
 
     </tbody>
+    <tfoot></tfoot>
 </table>
+</div>

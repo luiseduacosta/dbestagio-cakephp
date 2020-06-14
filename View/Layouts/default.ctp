@@ -22,10 +22,11 @@
  * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html lang="pt-br">
     <head>
         <?php echo $this->Html->charset(); ?>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>
             <?php __('ESS/UFRJ'); ?>
             <?php echo $title_for_layout; ?>
@@ -34,104 +35,30 @@
         echo $this->Html->meta('icon');
 
         // echo $this->Html->css('cake.generic');
+        // echo $this->Html->css('bootstrap');
+        // echo $this->Html->script(['jquery-3.5.1.slim.min', 'popper.min.js', 'bootstrap.min.js']);
         // echo $this->Html->css('meus_estilos');
-        // echo $this->Html->script(['https://code.jquery.com/jquery-3.5.1.min.js']);
         // echo $this->Js->writeBuffer();
         // echo $scripts_for_layout;
         ?>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
     </head>
     <body>
         <div id="container">
+
             <div id="header">
-                <div class="navbar navbar-expand-sm justify-content-center">
+                <div align="center">
                     <?= $this->Html->link('Coordenação de Estágio & Extensão - ESS - UFRJ', '/http://mural.ess.ufrj.br'); ?>
                 </div>
-
-                <div class='container'>
-                    <ul class="navbar navbar-header nav-tabs justify-content-end bg-secondary">
-                        <li class="nav-item">
-                            <?php echo $this->Html->link("ESS", "http://www.ess.ufrj.br", ['class' => 'nav-link']); ?>
-                        </li>
-                        <li class="nav-item">
-                            <?php echo $this->Html->link("Login", ['controller' => 'Userestagios', 'action' => 'login'], ['class' => 'nav-link']); ?>
-                        </li>
-                        <li class="nav-item">
-                            <?php echo $this->Html->link("Mural", ['controller' => 'Muralestagios', 'action' => 'index'], ['class' => 'nav-link']); ?>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Documentação</a>
-                            <div class="dropdown-menu">
-                                <?php echo $this->Html->link("Termo de compromisso", "/Inscricoes/termosolicita", ['class' => 'dropdown-item']); ?>
-                                <?php echo $this->Html->link("Avaliação discente", "/Alunos/avaliacaosolicita", ['class' => 'dropdown-item']); ?>
-                                <?php echo $this->Html->link("Folha de atividades", "/Alunos/folhadeatividades", ['class' => 'dropdown-item']); ?>
-                            </div>                    
-                        </li>                    
-
-                        <?php if ($this->Session->read('categoria')): ?>
-                            <li class="nav-item">
-                                <?php echo $this->Html->link("Estagiários", "/Estagiarios/index", ['class' => 'nav-link']); ?>
-                            </li>
-                            <li class="nav-item">
-                                <?php echo $this->Html->link("Instituições", "/Instituicoes/lista", ['escape' => FALSE, 'class' => 'nav-link']); ?>
-                            </li>
-                            <li class="nav-item">
-                                <?php echo $this->Html->link("Supervisores", "/Supervisores/index/ordem:nome", ['class' => 'nav-link']); ?>
-                            </li>
-                            <li class="nav-item">
-                                <?php echo $this->Html->link("Professores", "/Professores/index", ['class' => 'nav-link']); ?>
-                            </li>
-                        <?php endif; ?>
-
-                        <?php if ($this->Session->read('categoria') === 'administrador'): ?>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administração</a>    
-                                <div class="dropdown-menu">
-                                    <?php echo $this->Html->link('Configuração', '/configuracaos/view/1', ['class' => 'dropdown-item']); ?>
-                                    <?php echo $this->Html->link('Usuários', '/Userestagios/listausuarios/', ['class' => 'dropdown-item']); ?>
-                                    <?php echo $this->Html->link('Planilha seguro', '/alunos/planilhaseguro/', ['class' => 'dropdown-item']); ?>
-                                    <?php echo $this->Html->link('Planilha CRESS', '/alunos/planilhacress/', ['class' => 'dropdown-item']); ?>
-                                    <?php echo $this->Html->link('Carga horária', '/alunos/cargahoraria/', ['class' => 'dropdown-item']); ?>
-                                </div>
-                            </li>
-                        <?php endif; ?>
-
-                        <li class="nav-item">
-                            <?php echo $this->Html->link('Grupo Google', 'https://groups.google.com/forum/#!forum/estagio_ess', ['class' => 'nav-link']); ?>
-                        </li>
-                        <li class="nav-item">
-                            <?php echo $this->Html->link('Fale conosco', 'mailto: estagio@ess.ufrj.br', ['class' => 'nav-link']); ?>
-                        </li>
-
-                        <?php if ($this->Session->read('user')): ?>
-                            <?php echo "<span style='color: white; font-weight: bold; text-transform: capitalize'>" . $this->Session->read('categoria') . "</span>" . ": "; ?>
-
-                            <?php
-                            switch ($this->Session->read('menu_aluno')) {
-                                case 'estagiario':
-                                    echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Estudantes/view/" . $this->Session->read('numero')) . "</span>" . " ";
-                                    break;
-                                case 'alunonovo':
-                                    echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Estudantes/view/" . $this->Session->read('numero')) . "</span>" . " ";
-                                    break;
-                                case 'semcadastro':
-                                    echo "<span style='color: white; font-weight: bold'>" . $this->Session->read('user') . "</span>" . " ";
-                                    break;
-                            }
-                            if ($this->Session->read('menu_supervisor_id'))
-                                echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Supervisores/view/" . $this->Session->read('menu_supervisor_id')) . "</span>" . " ";
-                            ?>
-                            <li class="nav-item">
-                                <?php echo $this->Html->link('Sair', '/Userestagios/logout/', ['class' => 'nav-link']); ?>
-                            </li>
-                        <?php endif; ?>
-                    </ul>
-                </div>
+                <?= $this->element('submenu_navegacao'); ?>
             </div>
+        </div>
 
+        <div class="container">
             <div id="content">
 
                 <?php echo $this->Session->flash(); ?>
@@ -139,16 +66,21 @@
                 <?php echo $content_for_layout; ?>
 
             </div>
-
-            <div id="footer">
-                <?php
-                echo $this->Html->link(
-                        $this->Html->image('cake.power.gif', array('alt' => __("CakePHP: the rapid development php framework", true), 'border' => "0")), 'http://www.cakephp.org/', array('target' => '_blank', 'escape' => false)
-                );
-                ?>
-            </div>
-
         </div>
-        <?php echo $this->element('sql_dump'); ?>
-    </body>
+        <div id="footer">
+            <?php
+            echo $this->Html->link(
+                    $this->Html->image('cake.power.gif', array('alt' => __("CakePHP: the rapid development php framework", true), 'border' => "0")), 'http://www.cakephp.org/', array('target' => '_blank', 'escape' => false)
+            );
+            ?>
+        </div>
+
+    </div>
+    <?php echo $this->element('sql_dump'); ?>
+    <!--
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js' integrity='sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI' crossorigin='anonymous'></script>
+    //-->
+</body>
 </html>

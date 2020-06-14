@@ -15,7 +15,6 @@
 
 </script>
 
-<br>
 <nav class="nav nav-pills">
     <?php if (($this->Session->read('categoria') === 'administrador') || ($this->Session->read('categoria') === 'supervisor')): ?>
         <?php echo $this->Html->link('Inserir mural', '/Muralestagios/add/', ['class' => 'nav-item nav-link active']); ?>
