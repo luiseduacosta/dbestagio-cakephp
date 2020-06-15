@@ -1,6 +1,7 @@
 <div class="container">
     <div class="row">
         <div class='col-lg-6 order-lg-1 order-2'>
+            <h1>Login</h1>
             <?= $this->Form->create('Userestagio'); ?>
             <div class="form-group">
                 <?= $this->Form->input('email', ['label' => 'Email', 'type' => 'text', 'class' => 'form-control']); ?>
@@ -8,7 +9,8 @@
             <div class="form-group">
                 <?= $this->Form->input('password', ['label' => 'Senha', 'class' => 'form-control']); ?>
             </div>
-            <?= $this->Form->end('Login'); ?>
+            <?= $this->Form->input('Login', ['label' => false, 'type' => 'submit', 'class' => 'btn btn-primary position-static']); ?>
+            <?= $this->Form->end(); ?>
             <div class="nav nav-tabs justify-content-center">
                 <?= $this->Html->link('Esqueceu a senha?', '/users/cadastro/', ['class' => ['nav-item', 'nav-link']]); ?>
                 <?= $this->Html->link('Fazer cadastro', '/users/cadastro/', ['class' => ['nav-item', 'nav-link']]); ?>
