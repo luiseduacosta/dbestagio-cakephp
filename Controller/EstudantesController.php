@@ -344,7 +344,7 @@ class EstudantesController extends AppController {
         $nome = isset($nome) ? $this->request->data : null;
         // echo $nome;
         // die('nome');
-        
+
         $this->Paginate = array(
             'limit' => 10,
             'order' => array(
@@ -364,6 +364,62 @@ class EstudantesController extends AppController {
             } else {
                 $this->Session->setFlash(__('Não foram encontrados estudantes com esse nome'));
                 $this->redirect('/Estudantes/busca/');
+            }
+        }
+    }
+
+    public function busca_dre() {
+
+        if (!empty($this->data['Estudante']['registro'])) {
+            $alunos = $this->Estudante->find('all', [
+                'conditions' => ['Estudante.registro' => $this->data['Estudante']['registro']]
+            ]);
+            // pr($alunos);
+            // die('alunos');
+            if (empty($alunos)) {
+                $this->Session->setFlash(__("Não foram encontrados registros do estudante"));
+                $this->redirect('/Estudantes/busca');
+            } else {
+                $this->set('estudantes', $alunos);
+            }
+        }
+    }
+
+    public function busca_email() {
+
+        if (!empty($this->data)) {
+            // pr($this->data);
+            // die();
+            $alunos = $this->Estudante->find('all', [
+                'conditions' => ['Estudante.email' => $this->data['Estudante']['email']]]);
+            // pr($alunos);
+            // die("Sem registro");
+            if (empty($alunos)) {
+                $this->Session->setFlash(__("Não foram encontrados estudantes com esse email"));
+                $this->redirect('/Estudantes/busca');
+            } else {
+                $this->set('estudantes', $alunos);
+                // $this->set('alunos',$alunos_novos);
+            }
+        }
+    }
+
+    public function busca_cpf() {
+
+        if (!empty($this->data)) {
+            // pr($this->data);
+            // die();
+            $alunos = $this->Estudante->find('all', [
+                'conditions' => ['Estudante.cpf' => $this->data['Estudante']['cpf']]
+            ]);
+            // pr($alunos);
+            // die("Sem registro");
+            if (empty($alunos)) {
+                $this->Session->setFlash(__("Não foram encontrados estudantes com o CPF"));
+                $this->redirect('/Estudantes/busca');
+            } else {
+                $this->set('estudantes', $alunos);
+                // $this->set('alunos',$alunos_novos);
             }
         }
     }

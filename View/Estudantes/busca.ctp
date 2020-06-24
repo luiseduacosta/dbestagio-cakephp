@@ -1,14 +1,4 @@
-<p>
-    <?php echo $this->Html->link('Inserir estudante', '/Estudantes/add'); ?>
-    <?php echo " | "; ?>
-    <?php echo $this->Html->link('Busca por Nome', '/Estudantes/busca'); ?>
-    <?php echo " | "; ?>
-    <?php echo $this->Html->link('Busca por DRE', '/Estudantes/busca_dre'); ?>
-    <?php echo " | "; ?>
-    <?php echo $this->Html->link('Busca por Email', '/Estudantes/busca_email'); ?>
-    <?php echo " | "; ?>
-    <?php echo $this->Html->link('Busca por CPF', '/Estudantes/busca_cpf'); ?>
-</p>
+<?= $this->element('submenu_estudantes'); ?>
 
 <?php
 // pr($alunos);
@@ -16,7 +6,7 @@
 ?>
 <?php if (isset($alunos)): ?>
 
-    <h1>Resultado da busca por nome de estudante</h1>
+    <h5>Resultado da busca por nome de estudante</h5>
 
     <?php $this->Paginator->options(array('url' => array($nome))); ?>
 
@@ -24,20 +14,25 @@
     <?php echo $this->Paginator->numbers(); ?>
     <?php echo $this->Paginator->next(' Posterior >> ', null, null, array('class' => 'disabled')); ?>
 
-    <table>
-        <?php foreach ($alunos as $c_aluno): ?>
-            <tr>
-                <td style='text-align:left'><?php echo $this->Html->link($c_aluno['Estudante']['nome'], '/Estudantes/view/' . $c_aluno['Estudante']['id']); ?></td>
-            </tr>
-        <?php endforeach; ?>
-    </table>
+
+    <?php foreach ($alunos as $c_aluno): ?>
+        <div class="row">        
+            <div class="col">
+                <p style='text-align:left'><?php echo $this->Html->link($c_aluno['Estudante']['nome'], '/Estudantes/view/' . $c_aluno['Estudante']['id']); ?></p>
+            </div>
+        </div>
+    <?php endforeach; ?>
+
 
 <?php else: ?>
 
-    <h1>Busca por nome</h1>
+    <h5>Busca por nome</h5>
 
     <?php echo $this->Form->create('Estudante'); ?>
-    <?php echo $this->Form->input('nome', array('label' => 'Digite o nome do estudante')); ?>
-    <?php echo $this->Form->end('Confirma'); ?>
+    <div class="form-group">
+        <?php echo $this->Form->input('nome', ['label' => 'Digite o nome do estudante', 'class' => 'form-control']); ?>
+    </div>
+    <?php echo $this->Form->input('Confirma', ['label' => false, 'type' => 'submit', 'class' => 'btn btn-primary position-static']); ?>
+    <?php echo $this->Form->end(); ?>
 
 <?php endif; ?>

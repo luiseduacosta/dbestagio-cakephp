@@ -1,5 +1,5 @@
 <div class="container">
-    <h1><?php echo $alunos['Estudante']['nome']; ?></h1>
+    <h5><?php echo $alunos['Estudante']['nome']; ?></h5>
 </div>
 
 <div class='container'>
@@ -60,13 +60,13 @@
 
         <div class="nav nav-tabs" id="menu-interior">
             <?php if ($this->Session->read('categoria') === 'administrador'): ?>
-                <?php echo $this->Html->link('Excluir', '/Estudantes/delete/' . $alunos['Estudante']['id'], ['class' => 'nav-link'], 'Tem certeza?'); ?>
-                <?php echo $this->Html->link('Editar', '/Estudantes/edit/' . $alunos['Estudante']['id'], ['class' => 'nav-link']); ?>
+                <?php echo $this->Html->link('Excluir', '/Estudantes/delete/' . $alunos['Estudante']['id'], ['class' => 'nav-item nav-link'], 'Tem certeza?'); ?>
+                <?php echo $this->Html->link('Editar', '/Estudantes/edit/' . $alunos['Estudante']['id'], ['class' => 'nav-item nav-link']); ?>
             <?php endif; ?>
             <hr/>
             <?php if (($this->Session->read('categoria') === 'estudante') && ($this->Session->read('numero') === $alunos['Estudante']['registro'])): ?>
                 <p>
-                    <?php echo $this->Html->link('Editar', '/Estudantes/edit/' . $alunos['Estudante']['id'], ['class' => 'nav-link']); ?>
+                    <?php echo $this->Html->link('Editar', '/Estudantes/edit/' . $alunos['Estudante']['id'], ['class' => 'nav-item nav-link']); ?>
                 </p>
             <?php endif; ?>
         </div>
@@ -107,7 +107,7 @@
             </table>
         <?php else: ?>
 
-            <h1>Sem inscrições para seleção de estágio!</h1>
+        <h5>Sem inscrições para seleção de estágio!</h5>
 
         <?php endif; ?>
     </div>

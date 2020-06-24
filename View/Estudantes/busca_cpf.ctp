@@ -1,11 +1,15 @@
-<?= $this->element('submenu_alunos'); ?>
+<?= $this->element('submenu_estudantes'); ?>
 
-<?php if (isset($alunos)): ?>
+<?php if (isset($estudantes)): ?>
 
-    <h1>Resultado da busca por CPF</h1>
+    <h5>Resultado da busca por CPF</h5>
 
-    <?php foreach ($alunos as $c_alunos): ?>
-        <?php echo $this->Html->link($c_alunos['Aluno']['nome'], '/alunos/view/' . $c_alunos['Aluno']['id']) . '<br>'; ?>
+    <?php foreach ($estudantes as $c_alunos): ?>
+        <div class="row">
+            <div class="col">
+                <?php echo $this->Html->link($c_alunos['Estudante']['nome'], '/Estudantes/view/' . $c_alunos['Estudante']['id']) . '<br>'; ?>
+            </div>
+        </div>
     <?php endforeach; ?>
 
 <?php else: ?>
@@ -13,7 +17,7 @@
         <h5>Busca por CPF</h5>
         <br>
         <?php
-        echo $this->Form->create("Aluno", ['inputDefaults' => [
+        echo $this->Form->create("Estudante", ['inputDefaults' => [
                 'div' => ['class' => 'form-group row'],
                 'label' => ['class' => 'col-lg-3 col-form-label'],
                 'between' => '<div class = "col-lg-9">',

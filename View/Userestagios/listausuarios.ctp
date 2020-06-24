@@ -95,7 +95,7 @@
 
                     <td>
                         <?php if ($usuario['aluno_tipo'] == 0): ?>
-                            <?php echo $this->Html->link($usuario['numero'], '/Alunos/view/' . $usuario['aluno_id']); ?>
+                            <?php echo $this->Html->link($usuario['numero'], '/Estudantes/view/' . $usuario['aluno_id']); ?>
                         <?php elseif ($usuario['aluno_tipo'] == 1): ?>
                             <?php echo $this->Html->link($usuario['numero'], '/Estudantes/view/' . $usuario['aluno_id']); ?>
                         <?php elseif ($usuario['aluno_tipo'] == 2): ?>

@@ -1,10 +1,7 @@
-<h1>Digite o número de DRE</h1>
+<h5>Digite o número de DRE</h5>
 
-<?php
-
-echo $this->Form->create('Inscricao', array('action'=>'cadastro'));
-echo $this->Form->input('registro');
-echo $this->Form->input('instituicao_id', array('type'=>'hidden', 'value'=>$instituicao_id));
-echo $this->Form->end('Confirma');
-
-?>
+<?php echo $this->Form->create('Inscricao'); ?>
+<?php echo $this->Form->input('registro', ['class' => 'form-control']);  ?>
+<?php echo $this->Form->input('instituicao_id', ['type'=>'hidden', 'value'=>$instituicao_id]); ?> 
+<?php echo $this->Form->submit("Confirma", ['class' => 'btn btn-primary']); ?>
+<?php echo $this->Form->end(); ?>

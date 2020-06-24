@@ -1,1 +1,1 @@
-<h1>Cadastro de estudante para seleção de estágio</h1>
+<h5>Cadastro de estudante para seleção de estágio</h5>

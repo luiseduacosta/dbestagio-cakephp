@@ -1,10 +1,10 @@
 
 <?php if (!empty($orfaos)): ?>
 
-    <div class="centraliza container table-responsive">
-        
-        <p>Estudantes sem inscrições no mural</p>
-        
+    <div class="container table-responsive">
+
+        <h5>Estudantes sem inscrições no mural</h5>
+
         <table class="table table-striped table-hover table-responsive">
             <caption>Estudantes sem instrição no mural</caption>
             <thead class="thead-light">
@@ -47,6 +47,7 @@
             </tbody>
             <tfoot></tfoot>
         </table>
+
     </div>
 <?php else: ?>
 
