@@ -142,11 +142,6 @@ class AlunosController extends AppController {
 
         $this->set('c_estagios', $c_estagios);
 
-        $proximo = $this->Aluno->find('neighbors', array(
-            'field' => 'nome', 'value' => $aluno['nome']));
-
-        $this->set('registro_next', $proximo['next']['Aluno']['id']);
-        $this->set('registro_prev', $proximo['prev']['Aluno']['id']);
         // $this->set('alunos', $this->paginate('Aluno', array('id'=>$id)));
         $this->set('alunos', $aluno);
         $this->set('estagios', $estagios);
@@ -503,8 +498,8 @@ class AlunosController extends AppController {
     public function avaliacaoedita() {
 
         // pr($this->params);
-        $supervisor_id = $this->params['named']['supervisor_id'];
-        $registro = $this->params['named']['registro'];
+        $supervisor_id = isset($this->params['named']['supervisor_id']) ? $this->params['named']['supervisor_id'] : null;
+        $registro = isset($this->params['named']['registro']) ? $this->params['named']['registro'] : null;
 
         // pr($registro);
         $estagiario = $this->Aluno->Estagiario->find('first', array(
@@ -512,6 +507,7 @@ class AlunosController extends AppController {
             'order' => array('Estagiario.nivel DESC')
         ));
         // pr($estagiario);
+        // die();
         if ($estagiario) {
             $this->set('aluno', $estagiario['Aluno']['nome']);
             $this->set('registro', $estagiario['Aluno']['registro']);

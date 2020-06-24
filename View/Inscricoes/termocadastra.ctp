@@ -6,4 +6,4 @@
 
 ?>
 
-<h1>Termo cadastra</h1>
+<h5>Termo cadastra</h5>

@@ -3,12 +3,12 @@
 
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
     <nav class="nav nav-tabs">
-        <?php echo $this->Html->link('Listar', '/Areaestagios/lista/', ['class' => 'nav-link']); ?>
-        <?php echo $this->Html->link('Inserir', '/Areaestagios/add/', ['class' => 'nav-link']); ?>
+        <?php echo $this->Html->link('Listar', '/Areaestagios/lista/', ['class' => 'nav-item nav-link']); ?>
+        <?php echo $this->Html->link('Inserir', '/Areaestagios/add/', ['class' => 'nav-item nav-link']); ?>
     </nav>
 <?php endif; ?>
 
-<h1>Áreas de orientação dos professores da OTP</h1>
+<h5>Áreas de orientação dos professores da OTP</h5>
 <div class='cointainer table-responsive'>
     <table class="table table-striped table-hover table-responsive">
         <caption>Áreas de orientação dos professores da OTP</caption>

@@ -528,24 +528,11 @@ class UserestagiosController extends AppController {
 
         if ($usuario['Role']['id'] == 2) {
             // echo "Estudante";
-            $this->loadModel("Aluno");
-            $aluno = $this->Aluno->find('first', array(
-                'conditions' => array('Aluno.registro' => $id)
+            $this->loadModel("Estudante");
+            $alunonovo = $this->Estudante->find('first', array(
+                'conditions' => array('Estudante.registro' => $id)
             ));
-            // pr($aluno);
-            if (!$aluno) {
-                $this->loadModel("Estudante");
-                $alunonovo = $this->Estudante->find('first', array(
-                    'conditions' => array('Estudante.registro' => $id)
-                ));
-                // pr($alunonovo);
-            }
-
-            if (isset($aluno) && !(empty($aluno))):
-            // pr($aluno);
-            elseif (isset($alunonovo) && !(empty($alunonovo))):
             // pr($alunonovo);
-            endif;
             // die();
         } elseif ($usuario['Role']['id'] == 3) {
             // echo "Professor";

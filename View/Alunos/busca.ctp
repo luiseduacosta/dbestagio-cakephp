@@ -34,8 +34,10 @@
 
     <h1>Busca por nome</h1>
 
-    <?php echo $this->Form->create('Aluno', array('controller' => 'Alunos', 'url' => 'busca')); ?>
-    <?php echo $this->Form->input('nome', array('label' => 'Digite o nome do aluno')); ?>
-    <?php echo $this->Form->end('Confirma'); ?>
+    <?php echo $this->Form->create('Aluno'); ?>
+    <?php echo $this->Form->input('nome', ['label' => 'Digite o nome do estudante', 'class' => 'form-control']); ?>
+    <br>
+    <?php echo $this->Form->input('Confirma', ['label' => false, 'type' => 'submit', 'class' => 'btn btn-primary position-static']); ?>
+    <?php echo $this->Form->end(); ?>
 
 <?php endif; ?>

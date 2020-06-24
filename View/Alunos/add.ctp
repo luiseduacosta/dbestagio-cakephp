@@ -90,8 +90,11 @@ if (!isset($alunonovo['Estudante']['registro']))
     $alunonovo['Estudante']['registro'] = NULL;
 if (!isset($registro))
     $registro = NULL;
-if (!isset($alunonovo['Estudante']['nascimento']))
-    $alunonovo['Estudante']['nascimento'] = NULL;
+if (!isset($alunonovo['Estudante']['nascimento'])):
+    $datanascimento = NULL;
+else:
+    $datanascimento = date('d/m/Y', strtotime($alunonovo['Estudante']['nascimento']));
+endif;
 if (!isset($alunonovo['Estudante']['cpf']))
     $alunonovo['Estudante']['cpf'] = NULL;
 if (!isset($alunonovo['Estudante']['identidade']))
@@ -118,87 +121,81 @@ if (!isset($alunonovo['Estudante']['cep']))
     $alunonovo['Estudante']['cep'] = NULL;
 ?>
 
-<h1>Inserir aluno</h1>
+<h1>Cadastro de estudante</h1>
 
 <?php
 echo $this->Form->create('Aluno');
 ?>
 
-<fieldset>
-    <legend>Dados do aluno</legend>
-    <table border="1">
+<fieldset class="form-group">
+    <legend>Dados do estudante</legend>
 
-        <tr>
-            <td colspan="4">
-                <?php echo $this->Form->input('nome', array('value' => $alunonovo['Estudante']['nome'])); ?>
-            </td>
-        </tr>
-
-        <tr>
-            <td colspan="4">
-                <?php echo $this->Form->input('registro', array('value' => $registro, 'size' => '9', 'maxLenght' => '9')); ?>
-            </td>
-        </tr>
-
-        <tr>
-            <td colspan="2">
-                <?php echo $this->Form->input('nascimento', array('label' => 'Data de nascimento', 'value' => $alunonovo['Estudante']['nascimento'], 'dateFormat' => 'DMY', 'minYear' => '1910', 'empty' => TRUE)); ?>
-            </td>
-            <td colspan="2">
-                <?php echo $this->Form->input('cpf', array('label' => 'CPF', 'value' => $alunonovo['Estudante']['cpf'])); ?>
-            </td>
-        </tr>
-
-        <tr>
-            <td colspan="2">
-                <?php echo $this->Form->input('identidade', array('label' => 'Cartera de identidade', 'value' => $alunonovo['Estudante']['identidade'])); ?>
-            </td>
-            <td colspan="2">
-                <?php echo $this->Form->input('orgao', array('label' => 'Orgão', 'legend' => false, 'value' => $alunonovo['Estudante']['orgao'])); ?>
-            </td>
-        </tr>
-
-        <tr>
-            <td colspan="4">
-                <?php echo $this->Form->input('email', array('value' => $alunonovo['Estudante']['email'])); ?>
-            </td>
-        </tr>
-
-        <tr>
-            <td>
-                <?php echo $this->Form->input('codigo_telefone', array('default' => 21, 'value' => $alunonovo['Estudante']['codigo_telefone'])); ?>
-            </td>
-            <td>
-                <?php echo $this->Form->input('telefone', array('value' => $alunonovo['Estudante']['telefone'])); ?>
-            </td>
-            <td>
-                <?php echo $this->Form->input('codigo_celular', array('default' => 21, 'value' => $alunonovo['Estudante']['codigo_celular'])); ?>
-            </td>
-            <td>
-                <?php echo $this->Form->input('celular', array('value' => $alunonovo['Estudante']['celular'])); ?>
-            </td>
-        </tr>
-
-        <tr>
-            <td colspan="2">
-                <?php echo $this->Form->input('cep', array('value' => $alunonovo['Estudante']['cep'])); ?>
-            </td>
-            <td colspan="2">
-                <?php echo $this->Form->input('endereco', array('label' => 'Endereço', 'value' => $alunonovo['Estudante']['endereco'])); ?>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <?php echo $this->Form->input('bairro', array('value' => $alunonovo['Estudante']['bairro'])); ?>
-            </td>
-            <td colspan="2">
-                <?php echo $this->Form->input('municipio', array('value' => $alunonovo['Estudante']['municipio'], 'default' => 'Rio de Janeiro, RJ')); ?>
-            </td>
-        </tr>
-
-    </table>
+    <div class="form-row">
+        <div class='col-7'>
+            <?php echo $this->Form->input('nome', ['value' => $alunonovo['Estudante']['nome'], 'class' => 'form-control']); ?>
+        </div>
+        <div class='col'>
+            <?php echo $this->Form->input('registro', ['value' => $registro, 'size' => '9', 'maxLenght' => '9', 'class' => 'form-control']); ?>
+        </div>
+    </div>
+    <div class='form-row'>
+        <div class="col">
+            <label for="AlunoNascimento">Data de nascimento</label>
+            <input type="date" name="data[Aluno][nascimento]" id='AlunoNascimento' value="<?= $datanascimento ?>" max="2100-12-31" min="1900-01-01" class="form-control">
+        </div>
+        <div class="col">
+            <?php echo $this->Form->input('cpf', ['label' => 'CPF', 'value' => $alunonovo['Estudante']['cpf'], 'class' => 'form-control']); ?>
+        </div>
+        <div class='col'>
+            <?php echo $this->Form->input('identidade', ['label' => 'Cartera de identidade', 'value' => $alunonovo['Estudante']['identidade'], 'class' => 'form-control']); ?>
+        </div>
+        <div class='col'>
+            <?php echo $this->Form->input('orgao', ['label' => 'Orgão expedidor', 'legend' => false, 'value' => $alunonovo['Estudante']['orgao'], 'class' => 'form-control']); ?>
+        </div>
+    </div>
+    <div class='form-row'>
+        <div class="col">
+            <?php echo $this->Form->input('email', ['value' => $alunonovo['Estudante']['email'], 'class' => 'form-control']); ?>
+        </div>
+    </div>
+    <div class='form-row'>
+        <div class="col">
+            <?php echo $this->Form->input('codigo_telefone', ['default' => 21, 'value' => $alunonovo['Estudante']['codigo_telefone'], 'class' => 'form-control']); ?>
+        </div>
+        <div class="col">
+            <?php echo $this->Form->input('telefone', ['value' => $alunonovo['Estudante']['telefone'], 'class' => 'form-control']); ?>
+        </div>
+        <div class="col">
+            <?php echo $this->Form->input('codigo_celular', ['default' => 21, 'value' => $alunonovo['Estudante']['codigo_celular'], 'class' => 'form-control']); ?>
+        </div>
+        <div class="col">
+            <?php echo $this->Form->input('celular', ['value' => $alunonovo['Estudante']['celular'], 'class' => 'form-control']); ?>
+        </div>
+    </div>
+    <div class='form-row'>
+        <div class="col-2">
+            <?php echo $this->Form->input('cep', ['value' => $alunonovo['Estudante']['cep'], 'class' => 'form-control']); ?>
+        </div>
+        <div class="col">
+            <?php echo $this->Form->input('endereco', ['label' => 'Endereço', 'value' => $alunonovo['Estudante']['endereco'], 'class' => 'form-control']); ?>
+        </div>
+    </div>
+    <div class='form-row'>
+        <div class="col">
+            <?php echo $this->Form->input('bairro', ['value' => $alunonovo['Estudante']['bairro'], 'class' => 'form-control']); ?>
+        </div>
+        <div class="col">
+            <?php echo $this->Form->input('municipio', ['value' => $alunonovo['Estudante']['municipio'], 'default' => 'Rio de Janeiro, RJ', 'class' => 'form-control']); ?>
+        </div>
+    </div>
+    <br/>
+    <div class="form-row">
+        <div class="col">
+            <?php echo $this->Form->input('Confirima', ['type' => 'submit', 'label' => false, 'class' => 'btn btn-primary position-static']); ?>
+        </div>
+    </div>
 </fieldset>
 
 <?php
-echo $this->Form->end('Confirma');
+echo $this->Form->end();
 ?>

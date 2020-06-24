@@ -4,24 +4,24 @@
 
 <?= $this->element('submenu_muralestagios'); ?>
 
-<h1>
+<h5>
     Estudantes inscritos para seleção de estágio em
     <?php
     if (isset($periodo)) {
         echo " " . $periodo;
     };
     ?>
-</h1>
+</h5>
 
 <?php if (isset($instituicao)): ?>
-    <h1>
+    <h5>
         <?= $this->Html->link("Mural: " . $instituicao, '/Muralestagios/view/' . $mural_estagio_id) . ": Vagas: " . $vagas ?>
-    </h1>
-    <h1>
+    </h5>
+    <h5>
         <?= $this->Html->link("Estagiários: " . $instituicao, '/Estagiarios/index/instituicao_id:' . $instituicao_id . '/periodo:' . $periodo) ?>
-    </h1>
+    </h5>
 <?php endif; ?>
-<h1>São <?= $estudantetipos[0] = isset($estudantetipos[0]) ? $estudantetipos[0] : 0 ?> inscrições de estudantes novos e <?= $estudantetipos[1] ?> de estagiários</h1>
+<h5>São <?= $estudantetipos[0] = isset($estudantetipos[0]) ? $estudantetipos[0] : 0 ?> inscrições de estudantes novos e <?= $estudantetipos[1] ?> de estagiários</h5>
 <?php
 if (isset($inscritos)):
     ?>
