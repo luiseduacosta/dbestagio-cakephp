@@ -1,301 +1,360 @@
-<?php
-
-// pr($instituicao);?>
+<?php // pr($instituicao);                  ?>
 
 <?php echo $this->element('submenu_instituicoes'); ?>
 
-<div align="center">
-<?php echo $this->Html->link('Retroceder', array('url'=>'view', $registro_prev)) . " "; ?> |
-<?php echo $this->Html->link('Avançar', array('url'=>'view', $registro_next)); ?>
+<div class='container'>
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="pill" href="#dados_instituicao">Instituição</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="pill" href="#dados_supervisores">Supervisores</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="pill" href="#dados_estagiarios">Estagiários</a>
+        </li>
+    </ul>
 </div>
 
-<table>
-    <tr>
-        <td width="15%">Instituição</td>
-        <td width="85%">
-        <?= $this->Html->link($instituicao['Instituicao']['instituicao'], '/Estagiarios/index/instituicao_id:' . $instituicao['Instituicao']['id']); ?>
-        </td>
-    </tr>
+<div class='tab-content'>
+    <div class="tab-pane container active" id="dados_instituicao">'
 
-    <tr>
-        <td>CNPJ</td>
-        <td>
-        <?php echo $instituicao['Instituicao']['cnpj']; ?>
-        </td>
-    </tr>
+        <div align="center">
+            <?php echo $this->Html->link('Retroceder', array('url' => 'view', $registro_prev)) . " "; ?> |
+            <?php echo $this->Html->link('Avançar', array('url' => 'view', $registro_next)); ?>
+        </div>
+        <br>
+        <div class='row'>
+            <div class='col-3'>
+                <p>Instituição</p>
+            </div>
+            <div class='col'>
+                <p><?= $this->Html->link($instituicao['Instituicao']['instituicao'], '/Estagiarios/index/instituicao_id:' . $instituicao['Instituicao']['id']); ?></p>
+            </div>
+        </div>
 
-    <tr>
-        <td>Email</td>
-        <td>
-        <?php echo $instituicao['Instituicao']['email']; ?>
-        </td>
-    </tr>
+        <div class='row'>
+            <div class='col-3'>
+                <p>CNPJ</p>
+            </div>
+            <div class='col'>
+                <p><?php echo $instituicao['Instituicao']['cnpj']; ?></p>
+            </div>
+        </div>
 
-    <tr>
-        <td>Página web</td>
-        <td>
-        <?= $this->Html->link($instituicao['Instituicao']['url'], $instituicao['Instituicao']['url']); ?>
-        </td>
-    </tr>
+        <div class='row'>
+            <div class='col-3'>
+                <p>Email</p>
+            </div>
+            <div class='col'>
+                <p><?php echo $instituicao['Instituicao']['email']; ?></p>
+            </div>
+        </div>
 
-    <tr>
-        <td>Convênio com a UFRJ</td>
-        <td>
-        <?php
-        if (!empty($instituicao['Instituicao']['convenio'])) {
-            echo $this->Html->link($instituicao['Instituicao']['convenio'], "http://www.pr1.ufrj.br/estagios/info.php?codEmpresa=" . $instituicao['Instituicao']['convenio']);
-        } else {
-            echo "Sem dados";
-        }
-        ?>
-        </td>
-    </tr>
+        <div class='row'>
+            <div class='col-3'>
+                <p>Página web</p>
+            </div>
+            <div class='col'>
+                <p><?= $this->Html->link($instituicao['Instituicao']['url'], $instituicao['Instituicao']['url']); ?></p>
+            </div>
+        </div>
 
-    <tr>
-        <td>Data de expiração do convênio</td>
-        <td>
-        <?php
-        if (!empty($instituicao['Instituicao']['expira'])) {
-            echo $instituicao['Instituicao']['expira'];
-        } else {
-            echo "Sem dados";
-        }
-        ?>
-        </td>
-    </tr>
+        <div class='row'>
+            <div class='col-3'>
+                <p>Convênio com a UFRJ</p>
+            </div>
+            <div class='col'>
+                <p>
+                    <?php
+                    if (!empty($instituicao['Instituicao']['convenio'])) {
+                        echo $this->Html->link($instituicao['Instituicao']['convenio'], "http://www.pr1.ufrj.br/estagios/info.php?codEmpresa=" . $instituicao['Instituicao']['convenio']);
+                    } else {
+                        echo "Sem dados";
+                    }
+                    ?>
+                </p>
+            </div>
+        </div>
 
-    <tr>
-        <td>Seguro</td>
-        <td>
-        <?php echo $instituicao['Instituicao']['seguro']; ?>
-        </td>
-    </tr>
+        <div class='row'>
+            <div class='col-3'>
+                <p>Data de expiração do convênio</p>
+            </div>
+            <div class='col'>
+                <p>
+                    <?php
+                    if (!empty($instituicao['Instituicao']['expira'])) {
+                        echo $instituicao['Instituicao']['expira'];
+                    } else {
+                        echo "Sem dados";
+                    }
+                    ?>
+                </p>
+            </div>
+        </div>
 
-    <tr>
-        <td>Visita</td>
-        <td>
-        <?php
-        /* PHP 7.2 */
-        $visitas = (is_array($instituicao['Visita']) ? sizeof($instituicao['Visita']) : 0);
-        /* PHP 7.2 */
-            if ($visitas > 0):
-                $ultimavisita = end($instituicao['Visita']);
-                if ($ultimavisita['data']):
-                    echo $this->Html->link(date('d-m-Y', strtotime($ultimavisita['data'])), '/visitas/view/' . $ultimavisita['id']);
-                else:
-                    echo "Sem visita";
-                endif;
-            else:
-                echo "Sem visita";
-            endif;
+        <div class='row'>
+            <div class='col-3'>
+                <p>Seguro</p>
+            </div>
+            <div class='col'>
+                <p><?php echo $instituicao['Instituicao']['seguro']; ?></p>
+            </div>
+        </div>
 
-        ?>
-        </td>
-    </tr>
+        <div class='row'>
+            <div class='col-3'>
+                <p>Visita</p>
+            </div>
+            <div class='col'>
+                <p>
+                    <?php
+                    /* PHP 7.2 */
+                    $visitas = (is_array($instituicao['Visita']) ? sizeof($instituicao['Visita']) : 0);
+                    /* PHP 7.2 */
+                    if ($visitas > 0):
+                        $ultimavisita = end($instituicao['Visita']);
+                        if ($ultimavisita['data']):
+                            echo $this->Html->link(date('d-m-Y', strtotime($ultimavisita['data'])), '/visitas/view/' . $ultimavisita['id']);
+                        else:
+                            echo "Sem visita";
+                        endif;
+                    else:
+                        echo "Sem visita";
+                    endif;
+                    ?>
+                </p>
+            </div>
+        </div>
 
-    <tr>
-        <td>Área da instituição</td>
-        <td>
-        <?php echo $instituicao['Areainstituicao']['area']; ?>
-        </td>
-    </tr>
+        <div class='row'>
+            <div class='col-3'>
+                <p>Área da instituição</p>
+            </div>
+            <div class='col'>
+                <p><?php echo $instituicao['Areainstituicao']['area']; ?></p>
+            </div>
+        </div>
 
-    <tr>
-        <td>Natureza</td>
-        <td>
-        <?php echo $instituicao['Instituicao']['natureza']; ?>
-        </td>
-    </tr>
+        <div class='row'>
+            <div class='col-3'>
+                <p>Natureza</p>
+            </div>
+            <div class='col'>
+                <p><?php echo $instituicao['Instituicao']['natureza']; ?></p>
+            </div>
+        </div>
 
-    <tr>
-        <td>Endereço</td>
-        <td>
-        <?php echo $instituicao['Instituicao']['endereco']; ?>
-        </td>
-    </tr>
+        <div class='row'>
+            <div class='col-3'>
+                <p>Endereço</p>
+            </div>
+            <div class='col'>
+                <p><?php echo $instituicao['Instituicao']['endereco']; ?></p>
+            </div>
+        </div>
 
-    <tr>
-        <td>CEP</td>
-        <td>
-        <?php echo $instituicao['Instituicao']['cep']; ?>
-        </td>
-    </tr>
+        <div class='row'>
+            <div class='col-3'>
+                <p>CEP</p>
+            </div>
+            <div class='col'>
+                <p><?php echo $instituicao['Instituicao']['cep']; ?></p>
+            </div>
+        </div>
 
-    <tr>
-        <td>Bairro</td>
-        <td>
-        <?php echo $instituicao['Instituicao']['bairro']; ?>
-        </td>
-    </tr>
+        <div class='row'>
+            <div class='col-3'>
+                <p>Bairro</p>
+            </div>
+            <div class='col'>
+                <p><?php echo $instituicao['Instituicao']['bairro']; ?></p>
+            </div>
+        </div>
 
-    <tr>
-        <td>Município</td>
-        <td>
-        <?php echo $instituicao['Instituicao']['municipio']; ?>
-        </td>
-    </tr>
+        <div class='row'>
+            <div class='col-3'>
+                <p>Município</p>
+            </div>
+            <div class='col'>
+                <p><?php echo $instituicao['Instituicao']['municipio']; ?></p>
+            </div>
+        </div>
 
-    <tr>
-        <td>Telefone</td>
-        <td>
-        <?php echo $instituicao['Instituicao']['telefone']; ?>
-        </td>
-    </tr>
+        <div class='row'>
+            <div class='col-3'>
+                <p>Telefone</p>
+            </div>
+            <div class='col'>
+                <p><?php echo $instituicao['Instituicao']['telefone']; ?></p>
+            </div>
+        </div>
 
-    <tr>
-        <td>Fax</td>
-        <td>
-        <?php echo $instituicao['Instituicao']['fax']; ?>
-        </td>
-    </tr>
+        <div class='row'>
+            <div class='col-3'>
+                <p>Fax</p>
+            </div>
+            <div class='col'>
+                <p><?php echo $instituicao['Instituicao']['fax']; ?></p>
+            </div>
+        </div>
 
-    <tr>
-        <td>Benefícios</td>
-        <td>
-        <?php echo $instituicao['Instituicao']['beneficio']; ?>
-        </td>
-    </tr>
+        <div class='row'>
+            <div class='col-3'>
+                <p>Benefícios</p>
+            </div>
+            <div class='col'>
+                <p><?php echo $instituicao['Instituicao']['beneficio']; ?></p>
+            </div>
+        </div>
 
-    <tr>
-        <td>Final de semana</td>
-        <td>
-        <?php echo $instituicao['Instituicao']['fim_de_semana']; ?>
-        </td>
-    </tr>
+        <div class='row'>
+            <div class='col-3'>
+                <p>Final de semana</p>
+            </div>
+            <div class='col'>
+                <p><?php echo $instituicao['Instituicao']['fim_de_semana']; ?></p>
+            </div>
+        </div>
 
-    <tr>
-        <td>Observações</td>
-        <td>
-        <?php echo $instituicao['Instituicao']['observacoes']; ?>
-        </td>
-    </tr>
+        <div class='row'>
+            <div class='col-3'>
+                <p>Observações</p>
+            </div>
+            <div class='col'>
+                <p><?php echo $instituicao['Instituicao']['observacoes']; ?></p>
+            </div>
+        </div>
 
-</table>
-
-<?php if ($this->Session->read('categoria') === 'administrador'): ?>
-    <?php
-    echo $this->Html->link('Excluir', '/Instituicoes/delete/' . $instituicao['Instituicao']['id'], null, 'Tem certeza?');
-    echo " | ";
-    echo $this->Html->link('Editar', '/Instituicoes/edit/' . $instituicao['Instituicao']['id']);
-    echo " | ";
-    if (sizeof($instituicao['Visita']) == 0) {
-        echo $this->Html->link('Visita', '/Visitas/add/' . $instituicao['Instituicao']['id']);
-        echo " | ";
-    }
-    echo $this->Html->link('Inserir', '/Instituicoes/add/');
-    echo " | ";
-    echo $this->Html->link('Buscar', '/Instituicoes/busca/');
-    echo " | ";
-    echo $this->Html->link('Listar', '/Instituicoes/index/');
-    ?>
-<?php else: ?>
-    <?php
-    echo $this->Html->link('Editar', '/Instituicoes/edit/' . $instituicao['Instituicao']['id']);
-    echo " | ";
-    echo $this->Html->link('Buscar', '/Instituicoes/busca/');
-    echo " | ";
-    echo $this->Html->link('Listar', '/Instituicoes/index/');
-    ?>
-<?php endif; ?>
-
-<?php
-
-// pr($instituicao['Supervisor']);
-
-if ($instituicao['Supervisor']) {
-    $i = 0;
-    foreach ($instituicao['Supervisor'] as $c_supervisor) {
-        $cada_supervisor[$i]['nome'] = $c_supervisor['nome'];
-        $cada_supervisor[$i]['id'] = $c_supervisor['id'];
-        $cada_supervisor[$i]['cress'] = $c_supervisor['cress'];
-        $cada_supervisor[$i]['id_superinst'] = $c_supervisor['InstituicaoSupervisor']['id'];
-        $i++;
-    }
-    sort($cada_supervisor);
-}
-
-?>
-
-<?php if (isset($cada_supervisor)): ?>
-
-<br />
-<hr />
-
-<table>
-    <thead>
-        <tr>
-            <th>
-                CRESS
-            </th>
-            <th>
-                Nome
-            </th>
-            <?php if ($this->Session->read('categoria') === 'administrador'): ?>
-            <th>
-                Ação
-            </th>
-            <?php endif; ?>
-        </tr>
-    </thead>
-    <?php foreach ($cada_supervisor as $c_supervisor): ?>
-    <tbody>
-        <tr>
-            <td>
-            <?php echo $c_supervisor['cress']; ?>
-            </td>
-
-
-            <td>
-            <?php
-            echo $this->Html->link($c_supervisor['nome'], '/Supervisores/view/'. $c_supervisor['id']);
-            ?>
-            </td>
 
         <?php if ($this->Session->read('categoria') === 'administrador'): ?>
-            <td>
-                <?php
-                echo $this->Html->link('Excluir', '/Instituicoes/deleteassociacao/' . $c_supervisor['id_superinst'], null, 'Tem certeza?');
-                ?>
-            </td>
+            <nav class="nav nav-tabs">
+                <?php echo $this->Html->link('Excluir', '/Instituicoes/delete/' . $instituicao['Instituicao']['id'], ['class' => 'nav-list nav-link'], 'Tem certeza?'); ?>
+                <?php echo $this->Html->link('Editar', '/Instituicoes/edit/' . $instituicao['Instituicao']['id'], ['class' => 'nav-list nav-link']); ?>
+            </nav>
         <?php endif; ?>
 
-        </tr>
-    </tbody>
-    <?php endforeach; ?>
-</table>
+    </div>
 
-<?php endif; ?>
+    <div class="tab-pane container fade" id='dados_supervisores'>
 
-<hr />
+        <?php
+// pr($instituicao['Supervisor']);
 
-<?php if ($this->Session->read('categoria') != 'estudante'): ?>
+        if ($instituicao['Supervisor']) {
+            $i = 0;
+            foreach ($instituicao['Supervisor'] as $c_supervisor) {
+                $cada_supervisor[$i]['nome'] = $c_supervisor['nome'];
+                $cada_supervisor[$i]['id'] = $c_supervisor['id'];
+                $cada_supervisor[$i]['cress'] = $c_supervisor['cress'];
+                $cada_supervisor[$i]['id_superinst'] = $c_supervisor['InstituicaoSupervisor']['id'];
+                $i++;
+            }
+            sort($cada_supervisor);
+        }
+        ?>
 
-<h1>Inserir supervisor</h1>
+        <?php if (isset($cada_supervisor)): ?>
 
-<?php
+            <br />
+            <h5>Supervisores</h5>
 
-echo $this->Form->create('Instituicao', array('controller'=>'Instituicoes', 'url'=>'addassociacao'));
-echo $this->Form->input('InstituicaoSupervisor.instituicao_id', array('type'=>'hidden', 'value'=>$instituicao['Instituicao']['id']));
-echo $this->Form->input('InstituicaoSupervisor.supervisor_id', array('label'=>'Supervisor', 'options'=>$supervisores, 'default'=>0, 'empty'=>'Seleciona'));
-echo $this->Form->end('Confirma');
+            <table class='table table-striped table-hover table-responsive'>
+                <caption>Supervisores</caption>
+                <thead class='thead-light'>
+                    <tr>
+                        <th>
+                            CRESS
+                        </th>
+                        <th>
+                            Nome
+                        </th>
+                        <?php if ($this->Session->read('categoria') === 'administrador'): ?>
+                            <th>
+                                Ação
+                            </th>
+                        <?php endif; ?>
+                    </tr>
+                </thead>
+                <?php foreach ($cada_supervisor as $c_supervisor): ?>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <?php echo $c_supervisor['cress']; ?>
+                            </td>
 
-?>
 
-<?php endif; ?>
+                            <td>
+                                <?php
+                                echo $this->Html->link($c_supervisor['nome'], '/Supervisores/view/' . $c_supervisor['id']);
+                                ?>
+                            </td>
 
-<?php if (isset($instituicao['Estagiario'])): ?>
-<!--
-<table>
-    <caption>Estagiários</caption>
-<?php foreach ($instituicao['Estagiario'] as $c_estagiario): ?>
+                            <?php if ($this->Session->read('categoria') === 'administrador'): ?>
+                                <td>
+                                    <?php
+                                    echo $this->Html->link('Excluir', '/Instituicoes/deleteassociacao/' . $c_supervisor['id_superinst'], null, 'Tem certeza?');
+                                    ?>
+                                </td>
+                            <?php endif; ?>
 
-<tr>
-<td><?php echo $this->Html->link($c_estagiario['registro'], '/Estagiarios/view/' . $c_estagiario['aluno_id']); ?></td>
-<td><?php echo $c_estagiario['supervisor_id']; ?></td>
-<td><?php echo $c_estagiario['periodo']; ?></td>
-</tr>
+                        </tr>
+                    </tbody>
+                <?php endforeach; ?>
+                <tfoot>
 
-<?php endforeach; ?>
-</table>
-//-->
-<?php endif; ?>
+                </tfoot>
+            </table>
+
+        <?php endif; ?>
+
+        <hr />
+
+        <?php if ($this->Session->read('categoria') != 'estudante'): ?>
+
+            <h5>Inserir supervisor</h5>
+
+            <?php
+            echo $this->Form->create('Instituicao', array('controller' => 'Instituicoes', 'url' => 'addassociacao'));
+            echo $this->Form->input('InstituicaoSupervisor.instituicao_id', array('type' => 'hidden', 'value' => $instituicao['Instituicao']['id']));
+            echo $this->Form->input('InstituicaoSupervisor.supervisor_id', array('label' => 'Supervisor', 'options' => $supervisores, 'default' => 0, 'empty' => 'Seleciona', 'class' => 'form-control'));
+            ?>
+            <br>
+            <?php
+            echo $this->Form->submit('Confirma', ['class' => 'btn btn-primary']);
+            echo $this->Form->end();
+            ?>
+
+        <?php endif; ?>
+    </div>
+    <?php
+    // pr($estudantes);
+    // die('estudantes');
+    ?>
+    <div class="tab-pane container fade" id="dados_estagiarios">
+
+        <h5>Estagiários</h5>
+
+        <?php if (!empty($estudantes)): ?>
+
+            <?php foreach ($estudantes as $c_estagiario): ?>
+                <div class='row'>
+                    <div class='col-2'>
+                        <p><?php echo $c_estagiario['registro']; ?></p>
+                    </div>
+                    <div class='col-8'>
+                        <p><?php echo $this->Html->link($c_estagiario['nome'], '/Estudantes/view/' . $c_estagiario['registro']); ?></p>
+                    </div>
+                    <div class='col-2'>
+                        <p><?php echo $c_estagiario['periodo']; ?></p>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+
+            <h5>Instituição sem estagiários</h5>
+
+        <?php endif; ?>
+    </div>
+</div>

@@ -254,6 +254,8 @@ class MuralestagiosController extends AppController {
         $areas[0] = "Selecione";
         $this->set('areas', $areas);
 
+        pr($this->data);
+        // die();
         if (empty($this->data)) {
 
             $this->data = $this->Muralestagio->read();
