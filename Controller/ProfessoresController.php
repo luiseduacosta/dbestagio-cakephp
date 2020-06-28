@@ -64,12 +64,6 @@ class ProfessoresController extends AppController {
 
         // pr($professor);
 
-        $proximo = $this->Professor->find('neighbors', array(
-            'field' => 'nome', 'value' => $professor['Professor']['nome']));
-
-        $this->set('registro_next', $proximo['next']['Professor']['id']);
-        $this->set('registro_prev', $proximo['prev']['Professor']['id']);
-
         $this->set('professor', $professor);
     }
 

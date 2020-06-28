@@ -29,7 +29,8 @@
             'class' => 'form-control']
     ]);
     ?>
-    <h1>Cadastro de usuário</h1>
+    
+    <h5>Cadastro de usuário</h5>
 
     <?php echo $this->Form->input('categoria', ['label' => ['text' => 'Segmento', 'class' => 'col-lg-3 col-form-label'], 'options' => ['9' => '- Selecione -', '2' => 'Estudante', '3' => 'Professor', '4' => 'Supervisor'], 'default' => '9']); ?>
     <?php echo $this->Form->input('numero', ['label' => ['text' => 'Número (DRE, SIAPE ou CRESS)', 'class' => 'col-lg-3 col-form-label']]); ?>

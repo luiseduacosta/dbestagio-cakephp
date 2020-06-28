@@ -7,39 +7,146 @@ echo $this->Html->script('jquery.SimpleMask');
 ?>
 
 <script>
-$(document).ready(function(){
+    $(document).ready(function () {
 
-    $("#SupervisorCpf").simpleMask({'mask':['#########-##']});
-    $("#SupervisorTelefone").simpleMask({'mask':['####.####']});
-    $("#SupervisorCelular").simpleMask({'mask':['#####.####']});
-    $("#SupervisorCep").simpleMask({'mask':['#####.####']});
+        $("#SupervisorCpf").simpleMask({'mask': ['#########-##']});
+        $("#SupervisorTelefone").simpleMask({'mask': ['####.####']});
+        $("#SupervisorCelular").simpleMask({'mask': ['#####.####']});
+        $("#SupervisorCep").simpleMask({'mask': ['#####.####']});
 
-});
+    });
 </script>
 
-<?php
+<?= $this->Form->create('Supervisor'); ?>
+<div class="form-group row">
+    <label for="SupervisorRegiao" class="col-sm-2 col-form-label">Região</label>
+    <div class="col-sm-2">
+        <?= $this->Form->input('regiao', ['label' => false, 'default' => 7, 'class' => 'form-control']); ?>
+    </div>
+    <label for="SupervisorCress" class="col-sm-1 col-form-label">CRESS</label>
+    <div class="col-sm-4">
+        <?= $this->Form->input('cress', ['label' => false, 'class' => 'form-control']); ?>
+    </div>
+</div>
 
-echo $this->Form->create('Supervisor');
-echo $this->Form->input('regiao', ['label' => 'Região', 'default'=>7]);
-echo $this->Form->input('cress', ['label' => 'CRESS']);
-echo $this->Form->input('nome');
-echo $this->Form->input('cpf', ['label' => 'CPF']);
-echo $this->Form->input('codigo_tel', array('default'=>21));
-echo $this->Form->input('telefone');
-echo $this->Form->input('codigo_cel', array('default'=>21));
-echo $this->Form->input('celular');
-echo $this->Form->input('email');
-echo $this->Form->input('endereco', ['label' => 'Endereço']);
-echo $this->Form->input('cep', ['label' => 'CEP']);
-echo $this->Form->input('bairro', ['label' => 'Bairro']);
-echo $this->Form->input('municipio', ['label' => 'Município']);
-echo $this->Form->input('escola', ['label' => 'Escola de formação']);
-echo $this->Form->input('ano_formatura', ['label' => 'Ano de formatura']);
-echo $this->Form->input('outros_estudos', ['label' => 'Outros estudos']);
-echo $this->Form->input('area_curso', ['label' => 'Área curso']);
-echo $this->Form->input('ano_curso', ['label' => 'Área do curso']);
-echo $this->Form->input('observacoes', ['label' => 'Observações', 'textarea' => ['rows'=>5, 'cols'=>60]]);
-echo $this->Form->input('Instituicao.id', ['label'=>'Instituição', 'options'=>$instituicoes, 'default'=>0]);
-echo $this->Form->end('Confirma');
+<div class="form-group row">
+    <label for="SupervisorNome" class="col-sm-2 col-form-label">Nome</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('nome', ['label' => false, 'class' => 'form-control']); ?>
+    </div>
+</div>
 
-?>
+<div class="form-group row">
+    <label for="SupervisorCpf" class="col-sm-2 col-form-label">CPF</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('cpf', ['label' => false, 'class' => 'form-control']); ?>
+    </div>
+</div>
+
+<div class='form-group row'>
+    <label for="SupervisorTelefone" class="col-sm-2 col-form-label">Telefone</label>
+    <div class="col-sm-3">
+        <?= $this->Form->input('codigo_tel', array('label' => false, 'default' => 21, 'class' => 'form-control')); ?>
+    </div>
+    <div class="col-sm-5">
+        <?= $this->Form->input('telefone', ['label' => false, 'div' => false, 'class' => 'form-control']); ?>
+    </div>
+</div>
+
+<div class='form-group row'>
+    <label for="SupervisorCelular" class="col-sm-2 col-form-label">Celular</label>
+    <div class="col-sm-3">
+        <?= $this->Form->input('codigo_cel', array('label' => false, 'default' => 21, 'class' => 'form-control')); ?>
+    </div>
+    <div class="col-sm-5">
+        <?= $this->Form->input('celular', ['label' => false, 'class' => 'form-control']); ?>
+    </div>
+</div>
+
+<div class="form-group row">
+    <label for="SupervisorEmail" class="col-sm-2 col-form-label">E-mail</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('email', ['label' => false, 'class' => 'form-control']); ?>
+    </div>
+</div>
+
+<div class="form-group row">
+    <label for="SupervisorCep" class="col-sm-2 col-form-label">CEP</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('cep', ['label' => false, 'class' => 'form-control']); ?>
+    </div>
+</div>
+
+<div class="form-group row">
+    <label for="SupervisorEndereco" class="col-sm-2 col-form-label">Endereço</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('endereco', ['label' => false, 'class' => 'form-control']); ?>
+    </div>
+</div>
+
+<div class="form-group row">
+    <label for="SupervisorBairro" class="col-sm-2 col-form-label">Bairro</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('bairro', ['label' => false, 'class' => 'form-control']); ?>
+    </div>
+</div>
+
+<div class="form-group row">
+    <label for="SupervisorMunicipio" class="col-sm-2 col-form-label">Município</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('municipio', ['label' => false, 'class' => 'form-control']); ?>
+    </div>
+</div>
+
+<div class="form-group row">
+    <label for="SupervisorEscola" class="col-sm-2 col-form-label">Escola</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('escola', ['label' => false, 'class' => 'form-control']); ?>
+    </div>
+</div>
+
+<div class="form-group row">
+    <label for="SupervisorAnoFormatura" class="col-sm-2 col-form-label">Ano da formatura</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('ano_formatura', ['label' => false, 'class' => 'form-control']); ?>
+    </div>
+</div>
+
+<div class="form-group row">
+    <label for="SupervisorOutrosEstudos" class="col-sm-2 col-form-label">Outros estudos</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('outros_estudos', ['label' => false, 'class' => 'form-control']); ?>
+    </div>
+</div>
+
+<div class="form-group row">
+    <label for="SupervisorAreaCurso" class="col-sm-2 col-form-label">Área do curso</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('area_curso', ['label' => false, 'class' => 'form-control']); ?>
+    </div>
+</div>
+
+<div class="form-group row">
+    <label for="SupervisorAnoCurso" class="col-sm-2 col-form-label">Ano do curso</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('ano_curso', ['label' => false, 'class' => 'form-control']); ?>
+    </div>
+</div>
+
+<div class="form-group row">
+    <label for="SupervisorObservacores" class="col-sm-2 col-form-label">Observações</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('observacoes', ['label' => false, 'class' => 'col-lg-2 col-form-label', 'textarea' => ['rows' => 5, 'cols' => 60], 'class' => 'form-control']); ?>
+    </div>
+</div>
+
+<div class="form-group row">
+    <label for="SupervisorInstituicaoId" class="col-sm-2 col-form-label">Instituições</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('Instituicao.id', ['label' => false, 'class' => 'col-lg-2 col-form-label', 'options' => $instituicoes, 'default' => 0, 'class' => 'form-control']); ?>
+    </div>
+</div>
+<br>
+<?= $this->Form->submit('Confirma', ['class' => 'btn btn-primary']); ?>
+
+<?= $this->Form->end(); ?>

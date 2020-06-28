@@ -1,10 +1,10 @@
-<?php // pr($visita);    ?>
+<?php // pr($visita);     ?>
 
 <?php echo $this->element('submenu_visitas'); ?>
 
-<h1>Visita institucional: <?php echo $visita['Instituicao']['instituicao']; ?></h1>
+<h5>Visita institucional: <?php echo $visita['Instituicao']['instituicao']; ?></h5>
 
-<table>
+<table class="table table-striped table-hover table-responsive">
     <tbody>
         <tr>
             <td>Id</td>
@@ -55,9 +55,8 @@
 </table>
 
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
-    <?php
-    echo $this->Html->link('Excluir', '/visitas/excluir/' . $visita['Visita']['id'], NULL, 'Tem certeza?');
-    echo " | ";
-    echo $this->Html->link('Editar', '/visitas/edit/' . $visita['Visita']['id']);
-    ?>
+    <nav class="nav nav-tabs">
+        <?= $this->Html->link('Excluir', '/visitas/excluir/' . $visita['Visita']['id'], ['class' => 'nav-item nav-link'], 'Tem certeza?'); ?>
+        <?= $this->Html->link('Editar', '/visitas/edit/' . $visita['Visita']['id'], ['class' => 'nav-item nav-link']); ?>
+    </nav>
 <?php endif; ?>

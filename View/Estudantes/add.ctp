@@ -158,8 +158,6 @@
         </div>
     </div>
 
-
-
     <?php
     if (isset($instituicao_id)) {
         echo $this->Form->input('instituicao_id', array('type' => 'hidden', 'value' => $instituicao_id));

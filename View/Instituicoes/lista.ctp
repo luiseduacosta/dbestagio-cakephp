@@ -26,9 +26,12 @@
 <?= $this->element('submenu_instituicoes'); ?>
 
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
-
-    <?php echo $this->Form->create('Instituicao', array('controller' => 'Instituicao', 'url' => 'lista')); ?>
-    <?php echo $this->Form->input('linhas', array('type' => 'select', 'label' => array('text' => 'Linhas por páginas ', 'style' => 'display: inline'), 'options' => array('15' => '15', '0' => 'Todos'), 'selected' => $linhas, 'empty' => array('15' => 'Selecione'))); ?>
+    <div class='row'>
+        <div class='col-3'>
+            <?php echo $this->Form->create('Instituicao', array('controller' => 'Instituicao', 'url' => 'lista')); ?>
+            <?php echo $this->Form->input('linhas', array('type' => 'select', 'label' => array('text' => 'Linhas por páginas ', 'style' => 'display: inline'), 'options' => array('15' => '15', '0' => 'Todos'), 'selected' => $linhas, 'empty' => array('15' => 'Selecione'), 'class' => 'form-control')); ?>
+        </div>
+    </div>
     <?php echo $this->Form->end(); ?>
 
 <?php endif; ?>

@@ -90,12 +90,12 @@ class InstituicoesController extends AppController {
         // print_r($parametros);
         $periodo = isset($parametros['periodo']) ? $parametros['periodo'] : null;
         $ordem = isset($parametros['ordem']) ? $parametros['ordem'] : 'instituicao';
-        
+
         $todososperiodos = $this->todososperiodos();
         if (empty($periodo)):
             $periodo = end($todososperiodos);
         endif;
-        
+
         $this->loadModel('Estagiario');
         $this->Estagiario->recursive = -1;
         $instituicoes = $this->Estagiario->find('all', [
@@ -114,10 +114,10 @@ class InstituicoesController extends AppController {
             // pr($instituicao);
             $resultado[$i]['instituicao_id'] = $instituicao['Instituicao']['id'];
             $resultado[$i]['instituicao'] = $instituicao['Instituicao']['instituicao'];
-            $resultado[$i]['expira'] = $instituicao['Instituicao']['expira'];            
-            $resultado[$i]['areainstituicao'] = $instituicao['Instituicao']['area'];             
-            $resultado[$i]['natureza'] = $instituicao['Instituicao']['natureza'];            
-            
+            $resultado[$i]['expira'] = $instituicao['Instituicao']['expira'];
+            $resultado[$i]['areainstituicao'] = $instituicao['Instituicao']['area'];
+            $resultado[$i]['natureza'] = $instituicao['Instituicao']['natureza'];
+
             if ($instituicao['Estagiario']):
                 $resultado[$i]['q_estagiarios'] = count($instituicao['Estagiario']);
             else:
@@ -132,7 +132,7 @@ class InstituicoesController extends AppController {
                 $resultado[$i]['q_murales'] = count($instituicao['Mural']);
                 $resultado[$i]['ultimomural_id'] = $instituicao['Mural'][array_key_last($instituicao['Mural'])]['id'];
             else:
-                $resultado[$i]['q_murales'] = null;                
+                $resultado[$i]['q_murales'] = null;
                 $resultado[$i]['ultimomural_id'] = null;
             endif;
             if ($instituicao['Visita']):
@@ -168,12 +168,37 @@ class InstituicoesController extends AppController {
 
     public function view($id = null) {
 
-        $this->Instituicao->contain('Visita', 'Areainstituicao', 'Supervisor');
+        $this->Instituicao->contain('Visita', 'Areainstituicao', 'Supervisor', 'Estagiario');
         $instituicao = $this->Instituicao->find('first', [
             'conditions' => ['Instituicao.id' => $id],
             'order' => 'Instituicao.instituicao']);
-        // pr($instituicao);
+        // pr($instituicao['Estagiario']);
         // die('instituicao');
+
+        if ($instituicao['Estagiario']):
+            $i = 0;
+            $this->loadModel('Estudante');
+            foreach ($instituicao['Estagiario'] as $estagiarios):
+                // pr($estagiarios['registro']);
+                $estudantes = $this->Estudante->find('first', [
+                    'fields' => ['Estudante.nome', 'Estudante.registro', 'Estudante.id'],
+                    'conditions' => ['Estudante.registro' => $estagiarios['registro']],
+                    'order' => ['Estudante.nome']
+                        ]
+                );
+            // pr($estudantes);
+            // die('estudantes');
+            $estudanteestagiario[$i]['nome'] = $estudantes['Estudante']['nome'];
+            $estudanteestagiario[$i]['registro'] = $estudantes['Estudante']['registro'];
+            $estudanteestagiario[$i]['id'] = $estudantes['Estudante']['id'];            
+            $estudanteestagiario[$i]['periodo'] = $estagiarios['periodo'];
+            $i++;
+            endforeach;
+            // pr($estudanteestagiario);
+            array_multisort(array_column($estudanteestagiario ,'nome'), $estudanteestagiario);
+            // pr($estudanteestagiario);
+            $this->set('estudantes', $estudanteestagiario);
+        endif;
 
         /* Para acrescentar um supervisor */
         $this->loadModel('Supervisor');
@@ -203,6 +228,7 @@ class InstituicoesController extends AppController {
     }
 
     public function edit($id = null) {
+
         $this->Instituicao->id = $id;
 
         $area_instituicao = $this->Instituicao->Areainstituicao->find('list', array(
@@ -275,24 +301,21 @@ class InstituicoesController extends AppController {
         if ($id) {
             $this->request->data['Instituicao']['instituicao'] = $id;
         }
-        $this->paginate = array(
-            'limit' => 10,
-            'order' => array(
-                'Instituicao.instituicao' => 'asc')
-        );
 
-        if ($this->request->data['Instituicao']['instituicao']) {
-            $condicao = array('Instituicao.instituicao like' => '%' . $this->data['Instituicao']['instituicao'] . '%');
-            $instituicoes = $this->Instituicao->find('all', array('conditions' => $condicao));
+        if (isset($this->request->data['Instituicao']['instituicao'])):
+            if ($this->request->data['Instituicao']['instituicao']) {
+                $condicao = array('Instituicao.instituicao like' => '%' . $this->data['Instituicao']['instituicao'] . '%');
+                $instituicoes = $this->Instituicao->find('all', array('conditions' => $condicao, 'order' => 'Instituicao.instituicao'));
 
-            // Nenhum resultado
-            if (empty($instituicoes)) {
-                $this->Session->setFlash(__("Não foram encontrados registros"));
-            } else {
-                $this->set('instituicoes', $this->Paginate($condicao));
-                $this->set('busca', $this->data['Instituicao']['instituicao']);
+                // Nenhum resultado
+                if (empty($instituicoes)) {
+                    $this->Session->setFlash(__("Não foram encontrados registros"));
+                } else {
+                    $this->set('instituicoes', $instituicoes);
+                    $this->set('busca', $this->data['Instituicao']['instituicao']);
+                }
             }
-        }
+        endif;
     }
 
     /*
@@ -775,6 +798,7 @@ class InstituicoesController extends AppController {
         }
         // die();
     }
+
     public function todososperiodos($id = null) {
 
         $todososperiodos = $this->Instituicao->Estagiario->find('list', array(
@@ -785,4 +809,5 @@ class InstituicoesController extends AppController {
         asort($todososperiodos);
         return $todososperiodos;
     }
+
 }

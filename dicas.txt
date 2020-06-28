@@ -40,3 +40,21 @@ $array paginado (p. ex. $p_array)
 $pagina com o valor de cada página do array_slice
 $q_paginas com o valor do total das páginas calculado pela divisão sizeof($array) entre a quantidade de registros por página.
 A quantidade de registros por página também poderia ser enviada e recebida ($q_registros). Na view poderia haver um formulário para que o usuário selecione a quantidade registros que quer visualizar em cada página.
+
+echo $this->Form->input('field', array(
+    'before' => '--before--',
+    'after' => '--after--',
+    'between' => '--between---',
+    'separator' => '--separator--',
+    'options' => array('1', '2'),
+    'type' => 'radio'
+));
+
+echo $this->Form->input('datetest', array(
+    'label' => false, 
+    'type' => 'datetime',
+    'dateFormat' => 'YMD', 
+    'minYear' => date('Y') - 70, 
+    'maxYear' => date('Y') + 10, 
+    'selected' => '2012-02-23')
+);
