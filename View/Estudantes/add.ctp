@@ -109,41 +109,41 @@
             <input type="date" name="data[Estudante][nascimento]" id='EstudanteNascimento' max="2100-12-31" min="1900-01-01" class="form-control">
         </div>
         <div class="col">
-            <?php echo $this->Form->input('cpf', ['placeholder' => '000000000-00', 'class' => 'form-control']); ?>
+            <?php echo $this->Form->input('cpf', ['label' => 'CPF', 'placeholder' => '000000000-00', 'class' => 'form-control']); ?>
         </div>
         <div class="col">
             <?php echo $this->Form->input('identidade', ['class' => 'form-control']); ?>
         </div>
         <div class="col">
-            <?php echo $this->Form->input('orgao', ['class' => 'form-control']); ?>
+            <?php echo $this->Form->input('orgao', ['label' => 'Orgão', 'class' => 'form-control']); ?>
         </div>
     </div>
-    <div class='form-row'>
-        <div class="col">        
+    <div class='form-group row'>
+        <div class="col-sm-2">        
             <?php if ($this->Session->read('numero') || ($this->Session->read('categoria') === 'estudante')): ?>
-                <label for="EstudanteEmail">Email: <?php echo strtolower($this->Session->read('user')); ?></label>
-                <?php echo $this->Form->input('email', ['type' => 'hidden', 'default' => $this->Session->read('user'), 'class' => 'form-control']); ?>
+                <label for="EstudanteEmail">E-mail</label>
+                <?php echo $this->Form->input('email', ['label' => false, 'type' => 'email', 'default' => $this->Session->read('user'), 'class' => 'form-control']); ?>
             <?php else: ?>
                 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
                     <?php echo $this->Form->input('email', ['class' => 'form-control']); ?>
                 <?php endif; ?>
             <?php endif; ?>
         </div>
-        <div class="form-row">
-            <div class='col'></div>
-            <?php echo $this->Form->input('codigo_tel', ['default' => 21, 'class' => 'form-control']); ?>
+        <div class="form-group row">
+            <div class='col-sm-1'></div>
+            <?php echo $this->Form->input('codigo_tel', ['label' => 'DDD' , 'default' => 21, 'class' => 'form-control']); ?>
         </div>
-        <div class='col'>
+        <div class='col-sm-2'>
             <?php echo $this->Form->input('telefone', ['class' => 'form-control']); ?>
         </div>
-        <div class='col'>
-            <?php echo $this->Form->input('codigo_cel', ['default' => 21, 'class' => 'form-control']); ?>
+        <div class='col-sm-1'>
+            <?php echo $this->Form->input('codigo_cel', ['label' => 'DDD' , 'default' => 21, 'class' => 'form-control']); ?>
         </div>
-        <div class='col'>
+        <div class='col-sm-2'>
             <?php echo $this->Form->input('celular', ['class' => 'form-control']); ?>
         </div>
     </div>
-    <div class='form-row'>
+    <div class='form-group row'>
         <div class="col">
             <?php echo $this->Form->input('cep', ['placeholder' => '00000-00', 'class' => 'form-control']); ?>
         </div>

@@ -50,8 +50,18 @@ class ProfessoresController extends AppController {
         // Somente o próprio pode ver
         if ($this->Session->read('numero')) {
             // die(pr($this->Session->read('numero')));
-            $verifica = $this->Professor->findBySiape($this->Session->read('numero'));
-            if ($id != $verifica['Professor']['id']) {
+            $verifica = $this->Professor->find('first', [
+                'conditions' => ['Professor.siape' => $this->Session->read('numero')]
+            ]);
+            // pr($verifica);
+            // die('verifica');
+            if ($verifica) {
+                if ($id != $verifica['Professor']['id']) {
+                    $this->Session->setFlash("Acesso não autorizado");
+                    $this->redirect("/Professores/index");
+                    die("Não autorizado");
+                }
+            } else {
                 $this->Session->setFlash("Acesso não autorizado");
                 $this->redirect("/Professores/index");
                 die("Não autorizado");

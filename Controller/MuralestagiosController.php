@@ -53,7 +53,6 @@ class MuralestagiosController extends AppController {
                 $configuracao = $this->Configuracao->findById('1');
                 $periodo = $configuracao['Configuracao']['mural_periodo_atual'];
             }
-
         }
         $this->Session->write('mural_periodo', $periodo);
 
@@ -115,16 +114,16 @@ class MuralestagiosController extends AppController {
         /* Inscricoes para a vaga de estágio */
         $this->loadModel('Inscricao');
         $inscricoes = $this->Inscricao->find('all', [
-            'fields' => 'Inscricao.aluno_id',
+            'fields' => 'Inscricao.registro',
             'conditions' => ['Inscricao.periodo' => $periodo],
-            'group' => 'Inscricao.aluno_id'
+            'group' => 'Inscricao.registro'
         ]);
         $q_com_estagio = null;
         $q_sem_estagio = null;
         foreach ($inscricoes as $c_inscricao):
             // pr($c_inscricao['Inscricao']['aluno_id']);
             $estagiarios = $this->Estagiario->find('all', [
-                'conditions' => ['Estagiario.registro' => $c_inscricao['Inscricao']['aluno_id']]
+                'conditions' => ['Estagiario.registro' => $c_inscricao['Inscricao']['registro']]
             ]);
             if ($estagiarios):
                 // echo "Estudante com estágio" . "<br />";

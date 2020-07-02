@@ -39,8 +39,10 @@ echo $this->element('submenu_supervisores');
                     <tr>
                         <?php if ($this->Session->read('categoria') === 'administrador'): ?>
                             <th width='10%'><?= $this->Html->link('CRESS', '/Supervisores/index/ordem:cress') ?></th>
+                            <th width='50%'><?= $this->Html->link('Nome', '/Supervisores/index/ordem:nome') ?></th>
                         <?php endif; ?>
-                        <th width='50%'><?= $this->Html->link('Nome', '/Supervisores/index/ordem:nome') ?></th>
+                        <th width='10%'><?= $this->Html->link('CRESS', '/Supervisores/index/ordem:cress') ?></th>
+                        <th width='50%'><?= $this->Html->link('Nome', '/Supervisores/index/ordem:nome') ?></th>                            
                         <th><?= $this->Html->link('Quantidade de períodos', '/Supervisores/index/ordem:q_periodos') ?></th>
                         <th><?= $this->Html->link('Quantidade de estudantes', '/Supervisores/index/ordem:q_estudantes') ?></th>
                         <th><?= $this->Html->link('Quantidade de estagiários', '/Supervisores/index/ordem:q_estagiarios') ?></th>
@@ -56,19 +58,20 @@ echo $this->element('submenu_supervisores');
 
                             <?php if ($this->Session->read('categoria') === 'administrador'): ?>
                                 <td>
-                                    <?php echo $c_supervisor['cress']; ?>
+                                    <?php echo $c_supervisor['cress']; ?>                                   
                                 </td>
+                                <td>
+                                    <?php
+                                    if ($c_supervisor['nome']):
+                                        echo $this->Html->link($c_supervisor['nome'], '/Supervisores/view/' . $c_supervisor['id']);
+                                    else:
+                                        echo "Sem dados";
+                                    endif;
+                                    ?>
+                                </td>                                
                             <?php endif; ?>
-
-                            <td>
-                                <?php
-                                if ($c_supervisor['nome']):
-                                    echo $this->Html->link($c_supervisor['nome'], '/Supervisores/view/' . $c_supervisor['id']);
-                                else:
-                                    echo "Sem dados";
-                                endif;
-                                ?>
-                            </td>
+                            <td><?= $c_supervisor['cress']; ?></td>                                   
+                            <td><?= $c_supervisor['nome']; ?></td>
                             <td><?= $c_supervisor['q_periodos'] ?></td>
                             <td><?= $c_supervisor['q_estudantes'] ?></td>
                             <td><?= $this->Html->link($c_supervisor['q_estagiarios'], '/Estagiarios/index/supervisor_id:' . $c_supervisor['id'] . '/periodo:' . 0) ?></td>

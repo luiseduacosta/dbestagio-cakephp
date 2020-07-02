@@ -17,7 +17,7 @@ class InstituicoesController extends AppController {
             // $this->Session->setFlash("Administrador");
             // Estudantes
         } elseif ($this->Session->read('id_categoria') === '2') {
-            $this->Auth->allow('index', 'view', 'busca', 'seleciona_supervisor');
+            $this->Auth->allow('index', 'lista', 'view', 'busca', 'seleciona_supervisor');
             // $this->Session->setFlash("Estudante");
         } elseif ($this->Session->read('id_categoria') === '3') {
             $this->Auth->allow('add', 'edit', 'addassociacao', 'deleteassociacao', 'index', 'view', 'busca', 'seleciona_supervisor');

@@ -79,72 +79,77 @@ class AlunosController extends AppController {
         // pr($instituicoes);
         // die();
         // Para ordernar o array por nivel de estágio
-        $i = 0;
-        $y = 0;
-        foreach ($instituicoes as $c_instituicao) {
+        if (!empty($instituicoes)) {
+            $i = 0;
+            $y = 0;
+            foreach ($instituicoes as $c_instituicao) {
 
-            // pr($c_instituicao);
+                // pr($c_instituicao);
 
-            if ($c_instituicao['Estagiario']['nivel'] < 9):
+                if ($c_instituicao['Estagiario']['nivel'] < 9):
 
-                $ordem = 'nivel';
-                $c_estagios[$i]['id'] = $c_instituicao['Estagiario']['id'];
-                $c_estagios[$i]['periodo'] = $c_instituicao['Estagiario']['periodo'];
-                $c_estagios[$i]['nivel'] = $c_instituicao['Estagiario']['nivel'];
-                $c_estagios[$i]['turno'] = $c_instituicao['Estagiario']['turno'];
-                $c_estagios[$i]['tc'] = $c_instituicao['Estagiario']['tc'];
-                $c_estagios[$i]['instituicao_id'] = $c_instituicao['Instituicao']['id'];
-                $c_estagios[$i]['instituicao'] = $c_instituicao['Instituicao']['instituicao'];
-                $c_estagios[$i]['docente_id'] = $c_instituicao['Professor']['id'];
-                $c_estagios[$i]['professor'] = $c_instituicao['Professor']['nome'];
-                $c_estagios[$i]['supervisor_id'] = $c_instituicao['Supervisor']['id'];
-                $c_estagios[$i]['supervisor'] = $c_instituicao['Supervisor']['nome'];
-                $c_estagios[$i]['areaestagio_id'] = $c_instituicao['Areaestagio']['id'];
-                $c_estagios[$i]['areaestagio'] = $c_instituicao['Areaestagio']['area'];
-                $c_estagios[$i]['nota'] = $c_instituicao['Estagiario']['nota'];
-                $c_estagios[$i]['ch'] = $c_instituicao['Estagiario']['ch'];
-                $criterio[$i] = $c_estagios[$i][$ordem];
+                    $ordem = 'nivel';
+                    $c_estagios[$i]['id'] = $c_instituicao['Estagiario']['id'];
+                    $c_estagios[$i]['periodo'] = $c_instituicao['Estagiario']['periodo'];
+                    $c_estagios[$i]['nivel'] = $c_instituicao['Estagiario']['nivel'];
+                    $c_estagios[$i]['turno'] = $c_instituicao['Estagiario']['turno'];
+                    $c_estagios[$i]['tc'] = $c_instituicao['Estagiario']['tc'];
+                    $c_estagios[$i]['instituicao_id'] = $c_instituicao['Instituicao']['id'];
+                    $c_estagios[$i]['instituicao'] = $c_instituicao['Instituicao']['instituicao'];
+                    $c_estagios[$i]['docente_id'] = $c_instituicao['Professor']['id'];
+                    $c_estagios[$i]['professor'] = $c_instituicao['Professor']['nome'];
+                    $c_estagios[$i]['supervisor_id'] = $c_instituicao['Supervisor']['id'];
+                    $c_estagios[$i]['supervisor'] = $c_instituicao['Supervisor']['nome'];
+                    $c_estagios[$i]['areaestagio_id'] = $c_instituicao['Areaestagio']['id'];
+                    $c_estagios[$i]['areaestagio'] = $c_instituicao['Areaestagio']['area'];
+                    $c_estagios[$i]['nota'] = $c_instituicao['Estagiario']['nota'];
+                    $c_estagios[$i]['ch'] = $c_instituicao['Estagiario']['ch'];
+                    $criterio[$i] = $c_estagios[$i][$ordem];
 
-                $i++;
+                    $i++;
 
-            elseif ($c_instituicao['Estagiario']['nivel'] == 9):
+                elseif ($c_instituicao['Estagiario']['nivel'] == 9):
 
-                $ordem = 'periodo';
-                $nao_estagios[$y]['id'] = $c_instituicao['Estagiario']['id'];
-                $nao_estagios[$y]['periodo'] = $c_instituicao['Estagiario']['periodo'];
-                $nao_estagios[$y]['nivel'] = $c_instituicao['Estagiario']['nivel'];
-                $nao_estagios[$y]['turno'] = $c_instituicao['Estagiario']['turno'];
-                $nao_estagios[$y]['tc'] = $c_instituicao['Estagiario']['tc'];
-                $nao_estagios[$y]['instituicao_id'] = $c_instituicao['Instituicao']['id'];
-                $nao_estagios[$y]['instituicao'] = $c_instituicao['Instituicao']['instituicao'];
-                $nao_estagios[$y]['docente_id'] = $c_instituicao['Professor']['id'];
-                $nao_estagios[$y]['professor'] = $c_instituicao['Professor']['nome'];
-                $nao_estagios[$y]['supervisor_id'] = $c_instituicao['Supervisor']['id'];
-                $nao_estagios[$y]['supervisor'] = $c_instituicao['Supervisor']['nome'];
-                $nao_estagios[$y]['areaestagio_id'] = $c_instituicao['Areaestagio']['id'];
-                $nao_estagios[$y]['areaestagio'] = $c_instituicao['Areaestagio']['area'];
-                $nao_estagios[$y]['nota'] = $c_instituicao['Estagiario']['nota'];
-                $nao_estagios[$y]['ch'] = $c_instituicao['Estagiario']['ch'];
-                $nao_criterio[$y] = $nao_estagios[$y][$ordem];
+                    $ordem = 'periodo';
+                    $nao_estagios[$y]['id'] = $c_instituicao['Estagiario']['id'];
+                    $nao_estagios[$y]['periodo'] = $c_instituicao['Estagiario']['periodo'];
+                    $nao_estagios[$y]['nivel'] = $c_instituicao['Estagiario']['nivel'];
+                    $nao_estagios[$y]['turno'] = $c_instituicao['Estagiario']['turno'];
+                    $nao_estagios[$y]['tc'] = $c_instituicao['Estagiario']['tc'];
+                    $nao_estagios[$y]['instituicao_id'] = $c_instituicao['Instituicao']['id'];
+                    $nao_estagios[$y]['instituicao'] = $c_instituicao['Instituicao']['instituicao'];
+                    $nao_estagios[$y]['docente_id'] = $c_instituicao['Professor']['id'];
+                    $nao_estagios[$y]['professor'] = $c_instituicao['Professor']['nome'];
+                    $nao_estagios[$y]['supervisor_id'] = $c_instituicao['Supervisor']['id'];
+                    $nao_estagios[$y]['supervisor'] = $c_instituicao['Supervisor']['nome'];
+                    $nao_estagios[$y]['areaestagio_id'] = $c_instituicao['Areaestagio']['id'];
+                    $nao_estagios[$y]['areaestagio'] = $c_instituicao['Areaestagio']['area'];
+                    $nao_estagios[$y]['nota'] = $c_instituicao['Estagiario']['nota'];
+                    $nao_estagios[$y]['ch'] = $c_instituicao['Estagiario']['ch'];
+                    $nao_criterio[$y] = $nao_estagios[$y][$ordem];
 
-                $y++;
+                    $y++;
 
+                endif;
+            }
+
+            array_multisort(array_column($c_estagios, $ordem), SORT_ASC, $c_estagios);
+            if (isset($nao_estagios) && !(empty($nao_estagios))):
+                array_multisort(array_column($nao_estagios, $ordem), SORT_ASC, $nao_estagios);
+                $this->set('nao_obrigatorio', $nao_estagios);
             endif;
+            // pr($c_estagios);
+            // pr($nao_estagios);
+
+            $this->set('c_estagios', $c_estagios);
+
+            // $this->set('alunos', $this->paginate('Aluno', array('id'=>$id)));
+            $this->set('alunos', $aluno);
+            $this->set('estagios', $estagios);
+        } else {
+            $this->Session->setFlash(__("Estudante sem estágios"));
+            $this->redirect("/Estudantes/index");
         }
-
-        array_multisort($criterio, SORT_ASC, $c_estagios);
-        if (isset($nao_estagios) && !(empty($nao_estagios))):
-            array_multisort($nao_criterio, SORT_ASC, $nao_estagios);
-            $this->set('nao_obrigatorio', $nao_estagios);
-        endif;
-        // pr($c_estagios);
-        // pr($nao_estagios);
-
-        $this->set('c_estagios', $c_estagios);
-
-        // $this->set('alunos', $this->paginate('Aluno', array('id'=>$id)));
-        $this->set('alunos', $aluno);
-        $this->set('estagios', $estagios);
     }
 
     public function planilhacress($id = NULL) {
@@ -382,12 +387,12 @@ class AlunosController extends AppController {
             ));
             // pr($alunonovo);
             if (empty($alunonovo)) {
-                $this->Session->setFlash(__("Estudante sem cadastrado"));                
+                $this->Session->setFlash(__("Estudante sem cadastrado"));
                 $this->redirect('/Estudantes/add/' . $id);
             } else {
                 $this->set('alunonovo', $alunonovo);
             }
-            $this->set('registro', $id);            
+            $this->set('registro', $id);
         }
         // die();
     }
@@ -793,7 +798,7 @@ class AlunosController extends AppController {
 
         // pr($alunos);
         // die('Alunos');
-        
+
         $i = 0;
         foreach ($alunos as $c_aluno):
             // pr($c_aluno);

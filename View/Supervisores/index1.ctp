@@ -62,17 +62,18 @@ echo $this->element('submenu_supervisores');
                                 <td>
                                     <?php echo $c_supervisor['cress']; ?>
                                 </td>
+                                <td>
+                                    <?php
+                                    if ($c_supervisor['nome']):
+                                        echo $this->Html->link($c_supervisor['nome'], '/Supervisores/view/' . $c_supervisor['id']);
+                                    else:
+                                        echo "Sem dados";
+                                    endif;
+                                    ?>
+                                </td>
                             <?php endif; ?>
-
-                            <td>
-                                <?php
-                                if ($c_supervisor['nome']):
-                                    echo $this->Html->link($c_supervisor['nome'], '/Supervisores/view/' . $c_supervisor['id']);
-                                else:
-                                    echo "Sem dados";
-                                endif;
-                                ?>
-                            </td>
+                            <td><?php echo $c_supervisor['cress']; ?></td>
+                            <td><?php echo $c_supervisor['nome']; ?></td>
                             <td><?= $this->Html->link($c_supervisor['q_estagiarios'], '/Estagiarios/index/supervisor_id:' . $c_supervisor['id'] . '/periodo:' . $periodo) ?></td>
                             <td>
                                 <?php echo $c_supervisor['q_totaldeestagiarios']; ?>

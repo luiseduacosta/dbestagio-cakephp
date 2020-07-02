@@ -111,7 +111,7 @@
 <div align='center'>
 
     <?php ($periodo == 0 ? $periodo = "Todos" : $periodo = $periodo); ?>
-    <h1>Estagiarios período: <?php echo $periodo; ?></h1>
+    <h5>Estagiarios período: <?php echo $periodo; ?></h5>
 
     <?php echo $this->Paginator->first('<< Primeiro ', null, null, array('class' => 'disabled')); ?>
     <?php echo $this->Paginator->prev('< Anterior ', null, null, array('class' => 'disabled')); ?>
@@ -149,7 +149,7 @@
             <?php foreach ($estagiarios as $aluno): ?>
                 <tr>
                     <?php if ($this->Session->read('categoria') != 'estudante'): ?>
-                        <td style='text-align:center'><?php echo $this->Html->link($aluno['Estagiario']['registro'], "/Estudantes/view/" . $aluno['Aluno']['registro']); ?></td>
+                        <td style='text-align:center'><?php echo $this->Html->link($aluno['Estagiario']['registro'], "/Estudantes/view/registro:" . $aluno['Aluno']['registro']); ?></td>
                     <?php endif; ?>
                     <td style='text-align:left'><?php echo $aluno['Estudante']['nome']; ?></td>
                     <td style='text-align:center'><?php echo $aluno['Estagiario']['periodo']; ?></td>

@@ -37,7 +37,7 @@
     <?php echo $this->Form->input('email', ['label' => ['text' => 'E-mail', 'class' => 'col-lg-3 col-form-label']]); ?>
     <?php echo $this->Form->input('password', ['label' => ['text' => 'Senha', 'class' => 'col-lg-3 col-form-label']]); ?>
     <?php echo $this->Form->input('Confirmar senha', ['label' => ['text' => 'Confirmar senha', 'class' => 'col-lg-3 col-form-label'], 'type' => 'password']); ?>
-    <?php echo $this->Form->input('Enviar', ['label' => false, 'type' => 'submit', 'class' => 'btn btn-primary position-static']); ?>
+    <?php echo $this->Form->input('Confirmar', ['label' => false, 'type' => 'submit', 'class' => 'btn btn-primary position-static']); ?>
     <?php echo $this->Form->end(); ?>
 
 </div>

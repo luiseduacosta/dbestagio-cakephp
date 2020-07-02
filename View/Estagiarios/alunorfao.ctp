@@ -1,5 +1,6 @@
 <?php if (!empty($orfaos)): ?>
-
+<div class='row justify-content-center'>
+    <div class='col-auto'>
     <div class='container table-responsive'>
         <p>Estudantes sem estágio</p>
         <table class='table table-striped table-hover table-responsive'>
@@ -50,7 +51,8 @@
             <tfoot></tfoot>
         </table>
     </div>
-
+    </div>
+</div>
 <?php else: ?>
 
     <p>Não há alunos sem estágio: <?php echo $this->Html->link('retornar', '/estagiarios/index'); ?></p>

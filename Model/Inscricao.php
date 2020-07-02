@@ -9,32 +9,17 @@ class Inscricao extends AppModel {
     public $name = 'Inscricao';
     public $useTable = 'muralinscricoes';
     public $primaryKey = 'id';
-    public $displayField = 'aluno_id';
+    public $displayField = 'registro';
     public $belongsTo = array(
-        'Mural' => array(
+        'Muralestagio' => array(
             'className' => 'Muralestagio',
             'foreignKey' => 'mural_estagio_id',
+        ),
+        'Estudante' => array(
+            'className' => 'Estudante',
+            'foreignKey' => 'estudante_id'
         )
-            /*
-              'Aluno' => array(
-              'className' => 'Aluno',
-              'foreignKey' => FALSE,
-              'conditions' => ['Inscricao.aluno_id' => 'Aluno.registro']
-              ),
-              'Estudante' => array(
-              'className' => 'Estudante',
-              'foreignKey' => FALSE,
-              'conditions' => ['Inscricao.aluno_id' => 'Estudante.registro']
-              ),
-
-              'Estagiario' => array(
-              'className' => 'Estagiario',
-              'foreignKey' => FALSE,
-              'conditions' => array('Inscricao.aluno_id = Estagiario.registro', 'Inscricao.periodo = Estagiario.periodo')
-              )
-             */
     );
-
     /*
      * Alunosestudantesinscritos Method (para método view)
      * 
@@ -47,9 +32,9 @@ class Inscricao extends AppModel {
 
         $alunosestudanatesinscritos = $this->query(
                 'select * from muralinscricoes as Inscricao '
-                . 'LEFT JOIN estudantes as Estudante ON Inscricao.aluno_id = Estudante.registro '
+                . 'LEFT JOIN estudantes as Estudante ON Inscricao.estudante_id = Estudante.id '
                 . 'LEFT JOIN muralestagios as Muralestagio ON Inscricao.mural_estagio_id = Muralestagio.id '
-                . 'LEFT JOIN estagiarios as Estagiario ON Inscricao.aluno_id = Estagiario.registro '
+                . 'LEFT JOIN estagiarios as Estagiario ON Inscricao.estudante_id = Estagiario.estudante_id '
                 . ' WHERE Inscricao.id = ' . $id
                 . ' LIMIT 1');
 
@@ -75,9 +60,9 @@ class Inscricao extends AppModel {
 
         $alunosestudanatesinscritosperiodoid = $this->query(
                 'select * from muralinscricoes as Inscricao '
-                . 'INNER JOIN estudantes as Estudante ON Inscricao.aluno_id = Estudante.registro '
+                . 'INNER JOIN estudantes as Estudante ON Inscricao.estudante_id = Estudante.id '
                 . 'INNER JOIN muralestagios as Muralestagio ON Inscricao.mural_estagio_id = Muralestagio.id '
-                . 'INNER JOIN estagiarios as Estagiario ON Inscricao.aluno_id = Estagiario.registro '
+                . 'INNER JOIN estagiarios as Estagiario ON Inscricao.estudante_id = Estagiario.estudante_id '
                 . 'WHERE Inscricao.periodo = "' . $periodo . '" && Inscricao.mural_estagio_id = ' . $id);
 
         return $alunosestudanatesinscritosperiodoid;
@@ -93,10 +78,10 @@ class Inscricao extends AppModel {
 
         $alunosestudanatesinscritosperiodoregistro = $this->query(
                 'select * from muralinscricoes as Inscricao '
-                . 'INNER JOIN estudantes as Estudante ON Inscricao.aluno_id = Estudante.registro '
+                . 'INNER JOIN estudantes as Estudante ON Inscricao.estudante_id = Estudante.id '
                 . 'INNER JOIN muralestagios as Muralestagio ON Inscricao.mural_estagio_id = Muralestagio.id '
-                . 'INNER JOIN estagiarios as Estagiario ON Inscricao.aluno_id = Estagiario.registro '
-                . 'WHERE Inscricao.periodo = "' . $periodo . '" && Inscricao.aluno_id = ' . $id);
+                . 'INNER JOIN estagiarios as Estagiario ON Inscricao.estudante_id = Estagiario.estudante_id '
+                . 'WHERE Inscricao.periodo = "' . $periodo . '" && Inscricao.registro = ' . $id);
 
         return $alunosestudanatesinscritosperiodoregistro;
     }
@@ -112,7 +97,7 @@ class Inscricao extends AppModel {
 
         $alunosestudanatesinscritos = $this->query(
                 'SELECT * FROM muralinscricoes AS Inscricao '
-                . ' INNER JOIN estudantes as Estudante ON Inscricao.aluno_id = Estudante.registro '
+                . ' INNER JOIN estudantes as Estudante ON Inscricao.estudante_id = Estudante.id '
                 . ' INNER JOIN muralestagios as Muralestagio ON Inscricao.mural_estagio_id = Muralestagio.id '
                 . ' WHERE Muralestagio.id = ' . $id
                 . ' ORDER BY Estudante.nome');
@@ -132,7 +117,7 @@ class Inscricao extends AppModel {
 
         $alunosestudanatesinscritosperiodo = $this->query(
                 'select * from muralinscricoes as Inscricao '
-                . 'INNER JOIN estudantes as Estudante ON Inscricao.aluno_id = Estudante.registro '
+                . 'INNER JOIN estudantes as Estudante ON Inscricao.estudante_id = Estudante.id '
                 . 'INNER JOIN muralestagios as Muralestagio ON Inscricao.mural_estagio_id = Muralestagio.id '
                 . 'WHERE Inscricao.periodo = "' . $periodo . '"'
                 . ' ORDER BY Estudante.nome');
