@@ -1,4 +1,4 @@
-<nav class='navbar navbar-expand-lg navbar-dark bg-dark fixed-top'>
+<nav class='navbar navbar-expand-lg navbar-dark bg-secondary fixed-top'>
     <?php echo $this->Html->link("ESS", "http://www.ess.ufrj.br", ['class' => 'navbar-brand']); ?>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMural">
@@ -32,7 +32,7 @@
                     <?php echo $this->Html->link("Supervisores", "/Supervisores/index/ordem:nome", ['class' => 'nav-link']); ?>
                 </li>
                 <li class="nav-item">
-                    <?php echo $this->Html->link("Professores", "/Professores/index", ['class' => 'nav-link']); ?>
+                    <?php echo $this->Html->link("Professores", "/Professores/index/", ['class' => 'nav-link']); ?>
                 </li>
             <?php endif; ?>
 
@@ -42,31 +42,25 @@
                     <div class="dropdown-menu">
                         <?php echo $this->Html->link('Configuração', '/configuracaos/view/1', ['class' => 'dropdown-item']); ?>
                         <?php echo $this->Html->link('Usuários', '/Userestagios/listausuarios/', ['class' => 'dropdown-item']); ?>
-                        <?php echo $this->Html->link('Planilha seguro', '/alunos/planilhaseguro/', ['class' => 'dropdown-item']); ?>
-                        <?php echo $this->Html->link('Planilha CRESS', '/alunos/planilhacress/', ['class' => 'dropdown-item']); ?>
-                        <?php echo $this->Html->link('Carga horária', '/alunos/cargahoraria/', ['class' => 'dropdown-item']); ?>
+                        <?php echo $this->Html->link('Planilha seguro', '/Estudantes/planilhaseguro/', ['class' => 'dropdown-item']); ?>
+                        <?php echo $this->Html->link('Planilha CRESS', '/Estudantes/planilhacress/', ['class' => 'dropdown-item']); ?>
+                        <?php echo $this->Html->link('Carga horária', '/Estudantes/cargahoraria/', ['class' => 'dropdown-item']); ?>
                     </div>
                 </li>
             <?php endif; ?>
 
-            <li class="nav-item">
+            <li class = "nav-item">
                 <?php echo $this->Html->link('Grupo Google', 'https://groups.google.com/forum/#!forum/estagio_ess', ['class' => 'nav-link']); ?>
             </li>
-            <li class="nav-item">
+            <li class = "nav-item">
                 <?php echo $this->Html->link('Fale conosco', 'mailto: estagio@ess.ufrj.br', ['class' => 'nav-link']); ?>
             </li>
         </ul>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <?php echo $this->Html->link("Login", ['controller' => 'Userestagios', 'action' => 'login'], ['class' => 'nav-link']); ?>
-                <!--
-                <a class="nav-link" href="<?= $this->Html->url(['controller' => 'Userestagios', 'action' => 'login']); ?>">Login <span class="sr-only">(current)</span></a>
-                -->
-            </li>
-
-            <?php if ($this->Session->read('user')): ?>
-                <?php echo "<span style='color: white; font-weight: bold; text-transform: capitalize'>" . $this->Session->read('categoria') . "</span>" . ": "; ?>
-
+        <ul class = "navbar-nav ml-auto">
+            <?php if ($this->Session->read('id_categoria') == '2'): ?>
+                <li class="nav-item">
+                    <?php echo $this->Html->link("Meus dados", "/Estudantes/view/registro:" . $this->Session->read('numero'), ['class' => 'nav-link']); ?>
+                </li>
                 <?php
                 switch ($this->Session->read('menu_aluno')) {
                     case 'estagiario':
@@ -79,12 +73,20 @@
                         // echo "<span style='color: white; font-weight: bold'>" . $this->Session->read('user') . "</span>" . " ";
                         break;
                 }
-                if ($this->Session->read('menu_supervisor_id'))
-                // echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Supervisores/view/" . $this->Session->read('menu_supervisor_id')) . "</span>" . " ";
-                    
-                    ?>
-                <li class="nav-item">
+                if ($this->Session->read('menu_supervisor_id')) {
+                    // echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Supervisores/view/" . $this->Session->read('menu_supervisor_id')) . "</span>" . " ";
+                }
+                ?>
+
+                <li class = "nav-item">
                     <?php echo $this->Html->link('Sair', '/Userestagios/logout/', ['class' => 'nav-link']); ?>
+                </li>
+            <?php else: ?>
+                <li class="nav-item">
+                    <?php echo $this->Html->link("Login", ['controller' => 'Userestagios', 'action' => 'login'], ['class' => 'nav-link']); ?>
+                    <!--
+                    <a class="nav-link" href="<?= $this->Html->url(['controller' => 'Userestagios', 'action' => 'login']); ?>">Login <span class="sr-only">(current)</span></a>
+                    -->
                 </li>
             <?php endif; ?>
         </ul>

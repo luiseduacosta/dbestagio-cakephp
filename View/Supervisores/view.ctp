@@ -1,6 +1,6 @@
-<?php // pr($supervisor[(array_key_first($supervisor))]);                      ?>
-<?php // pr($estagiarios)       ?>
-<?php // die();                                                   ?>
+<?php // pr($supervisor[(array_key_first($supervisor))]);                         ?>
+<?php // pr($estagiarios)          ?>
+<?php // die();                                                      ?>
 
 <?= $this->element('submenu_supervisores') ?>
 
@@ -306,9 +306,9 @@
                         <caption style='caption-side: top;'>Supervisor</caption>
                         <thead class="thead-light">
                             <tr>
-                                <th>Cress</th>
-                                <th>Nome</th>
-                                <th>Estagiários</th>
+                                <th>Estudante</th>
+                                <th>Nível</th>
+                                <th>Período</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -322,6 +322,21 @@
                                     <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>
+                            <?php foreach ($estagiarios as $c_estagiario): ?>
+                                <?php // pr($c_estagiario); ?>
+                                <tr>
+                                    <td>
+                                        <?= $this->Html->link($c_estagiario['nome'], '/Estudantes/view/registro:' . $c_estagiario['registro']) ?>
+                                    </td>
+                                    <td style="text-align: center">
+                                        <?= $c_estagiario['nivel'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $c_estagiario['periodo'] ?>
+                                    </td>
+                                </tr>
+
+                            <?php endforeach; ?>
                         </tbody>
                         <tfoot>
                         </tfoot>
@@ -329,24 +344,5 @@
                 </div>
             </div>
         </div>
-
-        <div align="center">
-            <div class='col-12'>
-
-                <?php foreach ($estagiarios as $c_estagiario): ?>
-                    <?php // pr($c_estagiario); ?>
-                    <div class='row'>
-                        <div class='col'>
-                            <?= $this->Html->link($c_estagiario['nome'], '/Estudantes/view/registro:' . $c_estagiario['registro']) ?>
-                        </div>
-                        <div class='col'>
-                            <?= $c_estagiario['periodo'] ?>
-                        </div>
-                    </div>
-
-                <?php endforeach; ?>
-            </div>
-        </div>
     </div>
-
 </div>

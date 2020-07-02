@@ -46,6 +46,7 @@ class SupervisoresController extends AppController {
      */
 
     public function index() {
+
         $parametros = $this->params['named'];
         $periodo = isset($parametros['periodo']) ? $parametros['periodo'] : NULL;
         $ordem = isset($parametros['ordem']) ? $parametros['ordem'] : NULL;
@@ -263,6 +264,16 @@ class SupervisoresController extends AppController {
 
     public function view($id = NULL) {
 
+        if ($this->Session->read('numero')) {
+            $supervisor = $this->Supervisor->find('first', [
+                'conditions' => ['Supervisor.cress' => $this->Session->read('numero')]
+            ]);
+            if (!$superivosr) {
+                $this->Session->setFlash("Acesso não autorizado");
+                $this->redirect("/Supervisores/index");
+                die("Não autorizado");
+            }
+        }
         $parametros = $this->params['named'];
         $cress = isset($parametros['cress']) ? $parametros['cress'] : null;
         // pr($cress);
@@ -297,6 +308,7 @@ class SupervisoresController extends AppController {
                     $estudante_estagiario[$j]['registro'] = $estagiarios['Estudante']['registro'];
                     $estudante_estagiario[$j]['id'] = $estagiarios['Estudante']['id'];
                     $estudante_estagiario[$j]['periodo'] = $c_estagiario['periodo'];
+                    $estudante_estagiario[$j]['nivel'] = $c_estagiario['nivel'];
                     $j++;
                 }
             }

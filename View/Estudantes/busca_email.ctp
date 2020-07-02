@@ -11,19 +11,12 @@
 <?php else: ?>
 
     <h5>Busca por Email</h5>
-    <br>
     <?php
-    echo $this->Form->create("Estudante", ['inputDefaults' => [
-            'div' => ['class' => 'form-group row'],
-            'label' => ['class' => 'col-lg-3 col-form-label'],
-            'between' => '<div class = "col-lg-9">',
-            'after' => '</div>',
-            'class' => 'form-control']
-    ]);
-    ?>
-    <?php echo $this->Form->input('email', array('label' => 'Digite o email', 'maxsize' => 70, 'size' => 70)); ?>
-    <br>
-    <?php echo $this->Form->input('Confirma', ['label' => false, 'type' => 'submit', 'class' => 'btn btn-primary position-static']); ?>    
+    echo $this->Form->create("Estudante"); ?>
+    <div class="form-group">
+        <?php echo $this->Form->input('email', array('label' => 'Digite o email', 'maxsize' => 70, 'size' => 70, 'class' => 'form-control')); ?>
+    </div>   
+    <?php echo $this->Form->input('Confirma', ['label' => false, 'type' => 'submit', 'class' => 'btn btn-primary position-static']); ?>
     <?php echo $this->Form->end(); ?>
 
 <?php endif; ?>

@@ -12,7 +12,7 @@
 </script>
 <?= $this->element('submenu_alunos'); ?>
 <br>
-<h1>Preencha todos os campos do formulário</h1>
+<h5>Preencha todos os campos do formulário</h5>
 
 <div class='card text-white bg-primary'>
     <div class='card-header'>

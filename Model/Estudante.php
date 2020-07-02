@@ -6,28 +6,22 @@ class Estudante extends AppModel {
     public $useTable = 'estudantes';
     public $primaryKey = 'id';
     public $displayField = 'nome';
- /*
     public $hasMany = array(
-       'Inscricao' =>
-        array(
-            'className' => 'Inscricao',
-            'foreignKey' => false
+        'Estagiario' => array(
+            'className' => 'Estagiario',
+            'foreignKey' => 'estudante_id'
         ),
-       'Inscricao1' =>
+        'Inscricao' =>
         array(
             'className' => 'Inscricao',
-            'foreignKey' => 'aluno_id'
-        ),        
-        'Estagiario' =>
-        array('className' => 'Estagiario',
-            'foreignKey' => 'registro'
+            'foreignKey' => 'estudante_id'
         )
     );
-*/
+
     public function alunonovorfao() {
 
         // return($this->query("select Estudante.id, Estudante.registro, Estudante.nome, Estudante.celular, Estudante.email, Inscricao.id, Inscricao.aluno_id from alunosNovos AS Estudante left join muralinscricao AS Inscricao on Estudante.registro = Inscricao.aluno_id where Inscricao.aluno_id IS NULL group by Estudante.registro order by Estudante.nome"));
-        return($this->query("select Estudante.id, Estudante.registro, Estudante.nome, Estudante.celular, Estudante.email, Inscricao.id, Inscricao.aluno_id from estudantes AS Estudante left join muralinscricoes AS Inscricao on Estudante.registro = Inscricao.aluno_id where Inscricao.aluno_id IS NULL order by Estudante.nome"));
+        return($this->query("select Estudante.id, Estudante.registro, Estudante.nome, Estudante.celular, Estudante.email, Inscricao.id, Inscricao.registro from estudantes AS Estudante left join muralinscricoes AS Inscricao on Estudante.registro = Inscricao.registro where Inscricao.estudante_id IS NULL order by Estudante.nome"));
     }
 
     public function beforeValidate($options = array()) {
@@ -157,15 +151,15 @@ class Estudante extends AppModel {
             // echo "Modelo - Consulta tabela Estudantes ";
             $registro = $this->find('first', array('conditions' => 'Estudante.registro = ' . $value));
         }
-        
+
         /*
          * Não precisa fazer esta consulta
          * 
-        if ($value) {
-            // echo "Modelo - Consulta tabela alunos ";
-            $registro = $this->query('select registro from alunos as Aluno where registro = ' . $value);
-        }
-*/
+          if ($value) {
+          // echo "Modelo - Consulta tabela alunos ";
+          $registro = $this->query('select registro from alunos as Aluno where registro = ' . $value);
+          }
+         */
         // echo "Registro: " . $registro[0];
         // die();
 
