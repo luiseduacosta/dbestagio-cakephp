@@ -10,6 +10,7 @@ class Inscricao extends AppModel {
     public $useTable = 'muralinscricoes';
     public $primaryKey = 'id';
     public $displayField = 'registro';
+    public $actsAs = array('Containable');    
     public $belongsTo = array(
         'Muralestagio' => array(
             'className' => 'Muralestagio',

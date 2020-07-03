@@ -9,6 +9,7 @@ class Aluno extends AppModel {
     public $useTable = 'alunos';
     public $primaryKey = 'id';  // há outro campo id
     public $displayField = 'nome';
+    public $actsAs = array('Containable');
     public $hasMany = array(
         'Estagiario' => array(
             'className' => 'Estagiario',

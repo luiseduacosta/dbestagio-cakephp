@@ -8,6 +8,7 @@ class Areaestagio extends AppModel {
     public $useTable = 'areaestagios';
     public $primaryKey = 'id';
     public $displayField = 'area';
+    public $actsAs = array('Containable');    
     public $hasMany = array(
         'Estagiario' => array(
             'className' => 'Estagiario',

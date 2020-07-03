@@ -6,7 +6,7 @@ class Professor extends AppModel {
     public $useTable = 'docentes';
     public $primaryKey = 'id';
     public $displayField = 'nome';
-    
+    public $actsAs = array('Containable');    
     public $hasMany = array(
         'Estagiario' => array(
             'className' => 'Estagiario',

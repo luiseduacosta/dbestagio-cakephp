@@ -10,12 +10,11 @@ class Estagiario extends AppModel {
     public $name = "Estagiario";
     public $useTable = "estagiarios";
     public $order = array("Estagiario.periodo" => "ASC");
+    public $actsAs = array('Containable');    
     public $belongsTo = array(
         'Estudante' => array(
             'className' => 'Estudante',
-            'foreignKey' => false,
-            'conditions' => 'Estagiario.registro = Estudante.registro',
-            'joinTable' => 'estudantes'
+            'foreignKey' => 'estudante_id'
         ),
         'Aluno' => array(
             'className' => 'Aluno',
