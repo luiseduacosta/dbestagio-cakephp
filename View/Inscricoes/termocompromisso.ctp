@@ -29,7 +29,7 @@ $this->Js->get('#InscricaoInstituicaoId')->event('change',
         <?= "Nome: " . $aluno . "<br>"; ?>
     </div>
     <div class="card-body">
-        <?= "Registro (DRE): " . $id . "<br>"; ?>
+        <?= "Registro (DRE): " . $registro . "<br>"; ?>
         <?= "Nível de estágio: " . $nivel . "<br>"; ?>
         <?= "Período: " . $periodo . "<br>"; ?>
         <?= "Turno: " . $turno . "<br>"; ?> 
@@ -37,9 +37,9 @@ $this->Js->get('#InscricaoInstituicaoId')->event('change',
 </div>
 
 <?php
-echo $this->Form->create('Inscricao', array('url' => 'termocadastra/' . $id));
+echo $this->Form->create('Inscricao', array('url' => 'termocadastra/registro:' . $registro));
 
-echo $this->Form->input('aluno_id', array('type' => 'hidden', 'label' => 'Registro', 'value' => $id));
+echo $this->Form->input('aluno_id', array('type' => 'hidden', 'label' => 'Registro', 'value' => $registro));
 
 echo $this->Form->input('aluno_nome', array('type' => 'hidden', 'value' => $aluno));
 

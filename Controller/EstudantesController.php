@@ -82,11 +82,6 @@ class EstudantesController extends AppController {
             // Capturo o id do mural_estagio_id (se foi chamada desde Inscricoes add)
             $mural_estagio_id = $this->Session->read('mural_estagio_id');
 
-            // Verifico se foi chamado desde a solicitacao do termo
-            $registro_termo = $this->Session->read('termo');
-            // Acho que posso apagar aqui porque nao vai ser chamado novamente
-            $this->Session->delete('termo');
-
             // Vejo se foi chamado desde cadastro
             $cadastro = $this->Session->read('cadastro');
 
@@ -96,11 +91,6 @@ class EstudantesController extends AppController {
                 // Volta para a pagina de Inscricoes
                 // die("inscricao_seleciona_estagio");
                 $this->redirect("/Inscricoes/inscricao/registro:" . $registro . "/mural_estagio_id:" . $mural_estagio_id);
-            } elseif ($registro_termo) {
-                // Volta para a pagina Inscricoes e vai para termocompromisso
-                // die(" registro_termo " . $registro_termo);
-                $this->redirect("/Inscricoes/termocompromisso/" . $registro_termo);
-                die("Redireciona para concluir solicitacao de termo de compromisso");
             } elseif ($cadastro) {
                 // die("cadastro");
                 $this->Session->delete('cadastro');

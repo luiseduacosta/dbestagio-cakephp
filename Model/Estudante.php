@@ -6,6 +6,7 @@ class Estudante extends AppModel {
     public $useTable = 'estudantes';
     public $primaryKey = 'id';
     public $displayField = 'nome';
+    public $actsAs = array('Containable');    
     public $hasMany = array(
         'Estagiario' => array(
             'className' => 'Estagiario',

@@ -12,6 +12,7 @@ class Muralestagio extends AppModel {
     public $useTable = 'muralestagios';
     public $primaryKey = 'id';
     public $displayField = 'instituicao';
+    public $actsAs = array('Containable');    
 
     public $hasMany = array(
         'Inscricao' => array(
