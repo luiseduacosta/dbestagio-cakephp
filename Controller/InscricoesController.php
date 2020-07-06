@@ -6,7 +6,7 @@ class InscricoesController extends AppController {
     public $components = array('Email', 'Auth');
     public $paginate = [
         'limit' => 25,
-        'order' => ['Inscricao.aluno_id']
+        'order' => ['Inscricao.estudante_id']
     ];
 
     public function beforeFilter() {
@@ -67,7 +67,7 @@ class InscricoesController extends AppController {
             // die('id inscritos');
             if ($inscritos) {
                 $vagas = $inscritos['Muralestagio']['vagas'];
-                $instituicao_id = $inscritos['Muralestagio']['id_estagio'];
+                $instituicao_id = $inscritos['Muralestagio']['estagio_id'];
                 $mural_estagio_id = $inscritos['Muralestagio']['id'];
                 $instituicao = $inscritos['Muralestagio']['instituicao'];
                 // die();
@@ -273,7 +273,6 @@ class InscricoesController extends AppController {
         } else {
 
             /* Capturo o periodo para o registro de inscricao */
-            // $this->loadModel('Muralestagio');
             $periodo_mural_estagio = $this->Inscricao->Muralestagio->find('first', [
                 'conditions' => ['Muralestagio.id' => $mural_estagio_id],
                 'fields' => ['Muralestagio.periodo']]);
@@ -467,6 +466,7 @@ class InscricoesController extends AppController {
             // die();
             $periodo_ultimo = $estagiario['Estagiario'][array_key_last($estagiario['Estagiario'])]['periodo'];
             $nivel_ultimo = $estagiario['Estagiario'][array_key_last($estagiario['Estagiario'])]['nivel'];
+            $ajustecurricular2020 = $estagiario['Estagiario'][array_key_last($estagiario['Estagiario'])]['ajustecurricular2020'];
             $turno_ultimo = $estagiario['Estagiario'][array_key_last($estagiario['Estagiario'])]['turno'];
             $instituicao_atual = $estagiario['Estagiario'][array_key_last($estagiario['Estagiario'])]['instituicao_id'];
             $supervisor_atual = $estagiario['Estagiario'][array_key_last($estagiario['Estagiario'])]['supervisor_id'];
@@ -476,14 +476,22 @@ class InscricoesController extends AppController {
             // echo "Período de estágio -> " . $periodo_ultimo . " Período atual -> " . $periodo . "<br />";
             // die('Período');
             // Se eh o periodo anterior adianta em uma unidade o nivel
-            if ($nivel_ultimo < 4) {
-                $nivel_ultimo++;
+            if ($periodo_ultimo == $periodo) {
+                $nivel_ultimo = $nivel_ultimo;
+            } else {
+                if ($ajustecurricular2020 === '0') {
+                    $ultimoestagio = 4;
+                } elseif ($ajustecurricular2020 === '1') {
+                    $ultimoestagio = 3;
+                } else {
+                    $ultimoestagio = 4;
+                }
+                if ($nivel_ultimo < $ultimoestagio) {
+                    $nivel_ultimo++;
+                } else {
+                    $nivel_ultimo = 9; // Estágio não obrigatorio
+                }
             }
-
-            $this->set('aluno', $aluno_nome);
-            $this->set('instituicao_atual', $instituicao_atual);
-            $this->set('supervisor_atual', $supervisor_atual);
-            $this->set('professor_atual', $professor_atual);
         } else {
             // Aluno nao estagiario ingressante
             // Turno incompleto (ou ignorado)
@@ -497,6 +505,12 @@ class InscricoesController extends AppController {
             $this->set('supervisor_atual', 0);
             $this->set('professor_atual', 0);
         }
+        
+        $this->set('aluno', $aluno_nome);
+        $this->set('instituicao_atual', $instituicao_atual);
+        $this->set('supervisor_atual', $supervisor_atual);
+        $this->set('professor_atual', $professor_atual);
+
 
         // Pego as instituicoes
         $this->loadModel('Instituicao');
@@ -564,20 +578,25 @@ class InscricoesController extends AppController {
         }
 
         /* 1o. inserir dados na tabela Aluno. É uma tabela antiga que vai ser eliminada */
-
-        $alunonovo = $this->Inscricao->find('first', [
-            'contain' => ['Estudante'],
-            'conditions' => array('Estudante.registro =' . $registro)
+        $this->loadModel('Estudante');
+        $alunonovo = $this->Estudante->find('first', [
+            'conditions' => ['Estudante.registro' => $registro]
         ]);
         // pr($alunonovo);
         // die('alunonovo');
+        if (empty($alunonovo)) {
+            $this->Session->setFlash(__('Estudante não cadastrado'));
+            $this->redirect('/Estudantes/add/registro:' . $registro);
+            die('alunonovo');
+        }
         /* Verificar antes por se já está na tabela Aluno */
         $this->loadModel('Aluno');
         $verifica = $this->Aluno->find('first', [
             'conditions' => ['Aluno.registro' => $registro]
         ]);
         /* Carrego aqui a varíavel $aluno_id. Se um aluno foi inserido a varíavel vai ter outro valor */
-        $aluno_id = isset($verifica) ? $verifica['Aluno']['id'] : null;
+        // pr(!empty($verifica));
+        $aluno_id = !empty($verifica) ? $verifica['Aluno']['id'] : null;
         // pr($verifica);
         // die('verifica');
         if (empty($verifica)) {
@@ -641,8 +660,8 @@ class InscricoesController extends AppController {
 
     public function termoimprime($id = NULL) {
 
-        $estagiario = $this->Inscricao->find('first', [
-            'contain' => 'Estagiario',
+        $this->loadModel('Estagiario');
+        $estagiario = $this->Estagiario->find('first', [
             'conditions' => ['Estagiario.id' => $id]
         ]);
         // pr($estagiario);

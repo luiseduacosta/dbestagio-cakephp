@@ -23,7 +23,7 @@ class Muralestagio extends AppModel {
     public $belongsTo = array(
         'Instituicao' => array(
             'className' => 'Instituicao',
-            'foreignKey' => 'id_estagio'
+            'foreignKey' => 'estagio_id'
         ),
         'Areaestagio' => array(
             'className' => 'Areaestagio',
@@ -35,7 +35,7 @@ class Muralestagio extends AppModel {
         ),
     );
     public $validate = array(
-        'id_estagio' => array(
+        'estagio_id' => array(
             'rule' => 'notBlank',
             'required' => TRUE,
             'allowEmpty' => FALSE,

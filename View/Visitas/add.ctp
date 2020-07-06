@@ -1,4 +1,4 @@
-<?php // pr($visitas);      ?>
+<?php // pr($visitas);       ?>
 
 <script>
     $(document).ready(function () {
@@ -18,30 +18,35 @@
 <h5>Informe de visita institucional</h5>
 
 <?php if (!empty($visitas)): ?>
-    <div class="table-responsive">
-        <table class="table table-striped table-hover table-responsive">
-            <thead class="thead-light">
-                <tr>
-                    <th>Id</th>
-                    <th>Instituição</th>
-                    <th>Data</th>
-                    <th>Motivo</th>
-                    <th>Responsável</th>
-                    <th>Avaliação</th>
-                </tr>
-            </thead>
-            <?php foreach ($visitas as $c_visita): ?>
-                <?php // pr($c_visita); ?>
-                <tr>
-                    <td><?php echo $c_visita['Visita']['id']; ?></td>
-                    <td><?php echo $c_visita['Instituicao']['instituicao']; ?></td>
-                    <td><?php echo $this->Html->link(date('d-m-Y', strtotime($c_visita['Visita']['data'])), '/Visitas/view/' . $c_visita['Visita']['id']); ?></td>
-                    <td><?php echo $c_visita['Visita']['motivo']; ?></td>
-                    <td><?php echo $c_visita['Visita']['responsavel']; ?></td>
-                    <td><?php echo $c_visita['Visita']['avaliacao']; ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </table>
+    <div class ="row justify-content-center">
+        <div class ="col-auto">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-responsive">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Id</th>
+                            <th>Instituição</th>
+                            <th>Data</th>
+                            <th>Motivo</th>
+                            <th>Responsável</th>
+                            <th>Avaliação</th>
+                        </tr>
+                    </thead>
+                    <?php foreach ($visitas as $c_visita): ?>
+                        <?php // pr($c_visita); ?>
+                        <tr>
+                            <td><?php echo $c_visita['Visita']['id']; ?></td>
+                            <td><?php echo $c_visita['Instituicao']['instituicao']; ?></td>
+                            <td><?php echo $this->Html->link(date('d-m-Y', strtotime($c_visita['Visita']['data'])), '/Visitas/view/' . $c_visita['Visita']['id']); ?></td>
+                            <td><?php echo $c_visita['Visita']['motivo']; ?></td>
+                            <td><?php echo $c_visita['Visita']['responsavel']; ?></td>
+                            <td><?php echo $c_visita['Visita']['avaliacao']; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+            </div>
+
+        </div>
     </div>
 <?php endif; ?>
 

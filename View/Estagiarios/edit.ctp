@@ -17,6 +17,15 @@
 <?= $this->Form->input('Estagiario.registro', array('type' => 'hidden')); ?>
 
 <div class="form-group row">
+    <div class="col-form-label col-sm-3">Ajuste curricular 2020</div>
+    <div class='col-sm-3'>
+        <div class ='form-check'>
+            <?= $this->Form->input('Estagiario.ajustecurricular2020', array('div' => 'col-sm-3', 'type' => 'radio', 'legend' => FALSE, 'label' => ['class' => 'form-check-label col-sm-4'], 'options' => array('0' => 'Não', '1' => 'Sim'), 'class' => 'form-check-input')); ?>
+        </div>
+    </div>
+</div>
+
+<div class="form-group row">
     <?= $this->Form->label('Estagiario.periodo', 'Período', ['class' => 'col-form-label col-sm-3']); ?>
     <div class='col-sm-3'>
         <div class ='form-check'>'

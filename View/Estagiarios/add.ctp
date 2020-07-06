@@ -1,4 +1,6 @@
-<?php // pr($periodos);                                            ?>
+<?php // pr($estagiarios); 
+// die('periodos');
+?>
 
 <script>
     $(document).ready(function () {
@@ -48,6 +50,7 @@
         <tr>
             <th>Excluir</th>
             <th>Editar</th>
+            <th>Ajuste curricular</th>
             <th>Período</th>
             <th>Nível</th>
             <th>Turno</th>
@@ -70,6 +73,7 @@
                 <td>
                     <?php echo $this->Html->link('Editar', '/Estagiarios/view/' . $c_estagio['Estagiario']['id']); ?>
                 </td>
+                <td><?php echo $c_estagio['Estagiario']['ajustecurricular2020'] ?></td>
                 <td><?php echo $c_estagio['Estagiario']['periodo'] ?></td>
                 <td><?php echo $c_estagio['Estagiario']['nivel']; ?></td>
                 <td><?php echo $c_estagio['Estagiario']['turno']; ?></td>
@@ -114,7 +118,14 @@ echo $this->Form->create('Estagiario');
             </div>
         </div>
     </div>
-
+    <div class="form-group row">
+        <div class="col-form-label col-sm-3">Ajuste curricular 2020</div>
+        <div class='col-sm-3'>
+            <div class ='form-check'>
+                <?= $this->Form->input('Estagiario.ajustecurricular2020', array('div' => 'col-sm-3', 'type' => 'radio', 'legend' => FALSE, 'label' => ['class' => 'form-check-label col-sm-4'], 'options' => array('0' => 'Não', '1' => 'Sim'), 'default' => '0', 'class' => 'form-check-input')); ?>
+            </div>
+        </div>
+    </div>
     <div class="form-group row">
         <div class="col-form-label col-sm-3">Nível</div>
         <div class='col-sm-3'>

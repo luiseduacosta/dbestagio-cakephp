@@ -80,7 +80,7 @@ class MuralestagiosController extends AppController {
 
             $estagiarios = $this->Estagiario->find('all', [
                 'fields' => ['Instituicao.instituicao'],
-                'conditions' => ['Estagiario.instituicao_id' => $c_mural['Muralestagio']['id_estagio'],
+                'conditions' => ['Estagiario.instituicao_id' => $c_mural['Muralestagio']['estagio_id'],
                     'Estagiario.periodo' => $periodo]
             ]);
             // $log = $this->Estagiario->getDataSource()->getLog(false, false);
@@ -90,7 +90,7 @@ class MuralestagiosController extends AppController {
             /* Quantidade de inscritos na oferta de vaga da instituciao */
             $muralporperiodo[$i]['id'] = $c_mural['Muralestagio']['id'];
             $muralporperiodo[$i]['instituicao'] = $c_mural['Muralestagio']['instituicao'];
-            $muralporperiodo[$i]['instituicao_id'] = $c_mural['Muralestagio']['id_estagio'];
+            $muralporperiodo[$i]['instituicao_id'] = $c_mural['Muralestagio']['estagio_id'];
             $muralporperiodo[$i]['vagas'] = $c_mural['Muralestagio']['vagas'];
             $muralporperiodo[$i]['estagiarios'] = count($estagiarios);
             $muralporperiodo[$i]['inscritos'] = sizeof($c_mural['Inscricao']);
@@ -103,7 +103,7 @@ class MuralestagiosController extends AppController {
             $muralporperiodo[$i]['localdeinscricao'] = $c_mural['Muralestagio']['localInscricao'];
 
             $inscricoes = sizeof($c_mural['Inscricao']);
-            $estagio = $c_mural['Muralestagio']['id_estagio'];
+            $estagio = $c_mural['Muralestagio']['estagio_id'];
             // die();
 
             $total_vagas = $total_vagas + $c_mural['Muralestagio']['vagas'];
@@ -154,7 +154,7 @@ class MuralestagiosController extends AppController {
             // Instituicao
             $this->loadModel('Instituicao');
             $instituicao = $this->Instituicao->find('first', array(
-                'conditions' => array('Instituicao.id =' . $this->data['Muralestagio']['id_estagio']),
+                'conditions' => array('Instituicao.id =' . $this->data['Muralestagio']['estagio_id']),
                 'fields' => 'Instituicao.instituicao'
             ));
             // pr($instituicao['Instituicao']);
@@ -168,8 +168,8 @@ class MuralestagiosController extends AppController {
             // die();
             if ($this->Muralestagio->save($this->data)) {
                 $this->Session->setFlash('Muralestagio inserido');
-                $id_estagio = $this->Muralestagio->getLastInsertId();
-                $this->redirect('/Muralestagios/view/' . $id_estagio);
+                $estagio_id = $this->Muralestagio->getLastInsertId();
+                $this->redirect('/Muralestagios/view/' . $estagio_id);
             }
         } else {
 

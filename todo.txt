@@ -77,6 +77,14 @@ Mudanças nos nomes das tabelas
 users = userestagios
 alunoNovo = estudantes
 
+=========
+Com a mudança para o novo ajuste curricular a quantidade de níveis de estágios é 3 e não 4.
+Tenho que criar uma variavel na tabela estagiario ajustecurricular2020.
+Se $ajustecurricular2020 for sim (true ou 1) então NIVEIS_DE_ESTAGIO é 3, se for não (false ou 0) então NIVEIS_DE_ESTAGIO é 4.
+Em Estagiarios/add nas linheas 481 até 487 fiz a alteração
+Em Inscricoes/termocompromisso está nas linheas 481 - 488
+=========
+
 Dica
 ====
 $log = $this->Votacao->getDataSource()->getLog(false, false);

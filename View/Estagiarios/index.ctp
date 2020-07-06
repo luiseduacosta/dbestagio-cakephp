@@ -131,6 +131,7 @@
                     <th><?php echo $this->Paginator->sort('Estagiario.registro', 'Registro'); ?></th>
                 <?php endif; ?>
                 <th><?php echo $this->Paginator->sort('Estudante.nome', 'Nome'); ?></th>
+                <th><?php echo $this->Paginator->sort('Estudante.ajustecurricular2020', 'Ajuste 2020'); ?></th>
                 <th><?php echo $this->Paginator->sort('Estagiario.periodo', 'Periodo'); ?></th>
                 <th><?php echo $this->Paginator->sort('Estagiario.nivel', 'Nível'); ?></th>
                 <th><?php echo $this->Paginator->sort('Estagiario.turno', 'Turno'); ?></th>
@@ -152,6 +153,7 @@
                         <td style='text-align:center'><?php echo $this->Html->link($aluno['Estagiario']['registro'], "/Estudantes/view/registro:" . $aluno['Aluno']['registro']); ?></td>
                     <?php endif; ?>
                     <td style='text-align:left'><?php echo $aluno['Estudante']['nome']; ?></td>
+                    <td style='text-align:left'><?php echo $aluno['Estagiario']['ajustecurricular2020']; ?></td>
                     <td style='text-align:center'><?php echo $aluno['Estagiario']['periodo']; ?></td>
                     <?php if ($aluno['Estagiario']['nivel'] == 9): ?>
                         <td style='text-align:center'><?php echo 'Não obrigatório'; ?></td>

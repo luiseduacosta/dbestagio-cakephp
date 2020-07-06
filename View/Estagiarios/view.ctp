@@ -25,6 +25,11 @@
                 </tr>
 
                 <tr>
+                    <td>Ajuste curricular 2020</td>
+                    <td><?php echo $estagio['Estagiario']['ajustecurricular2020']; ?></td>
+                </tr>
+
+                <tr>
                     <td>Período</td>
                     <td><?php echo $estagio['Estagiario']['periodo']; ?></td>
                 </tr>
@@ -127,7 +132,7 @@
                             <th>Excluir</th>
                             <th>Editar</th>
                         <?php endif; ?>
-
+                        <th>Ajuste 2020</th>
                         <th>Período</th>
                         <th>Nível</th>
                         <th>Turno</th>
@@ -156,7 +161,7 @@
                                         <?php echo $this->Html->link('Editar', '/Estagiarios/view/' . $c_aluno_estagio['Estagiario']['id']); ?>
                                     </td>
                                 <?php endif; ?>
-
+                                <td><?php echo $c_aluno_estagio['Estagiario']['ajustecurricular2020'] ?></td>
                                 <td><?php echo $c_aluno_estagio['Estagiario']['periodo'] ?></td>
                                 <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['nivel']; ?></td>
                                 <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['turno']; ?></td>
@@ -180,7 +185,7 @@
                                         <?php echo $this->Html->link('Editar', '/Estagiarios/view/' . $c_aluno_estagio['Estagiario']['id']); ?>
                                     </td>
                                 <?php endif; ?>
-
+                                <td><?php echo $c_aluno_estagio['Estagiario']['ajustecurricular2020'] ?></td>
                                 <td><?php echo $c_aluno_estagio['Estagiario']['periodo'] ?></td>
                                 <td style='text-align:center'><?php echo "Não obrigatório"; ?></td>
                                 <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['turno']; ?></td>

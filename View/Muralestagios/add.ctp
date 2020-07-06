@@ -17,7 +17,7 @@
     <?php echo $this->Form->input('periodo', array('label' => 'Período', 'value' => $periodo, 'class' => 'form-control')); ?>
 </div>
 <div class='col-12'>
-    <?php echo $this->Form->input('id_estagio', array('label' => ['text' => 'Instituição (se a instituição não está cadastrada, tem que cadastrar neste link: ' . $this->Html->link("Instituições", "/Instituicoes/add") . ')', 'class' => 'control-label'], 'type' => 'select', 'options' => $instituicoes, 'class' => 'form-control')); ?>
+    <?php echo $this->Form->input('estagio_id', array('label' => ['text' => 'Instituição (se a instituição não está cadastrada, tem que cadastrar neste link: ' . $this->Html->link("Instituições", "/Instituicoes/add") . ')', 'class' => 'control-label'], 'type' => 'select', 'options' => $instituicoes, 'class' => 'form-control')); ?>
 </div>
 <div class='col-4'>
     <?php echo $this->Form->input('convenio', array('label' => 'Convênio com a UFRJ', 'type' => 'select', 'options' => array('0' => 'Não', '1' => 'Sim'), 'class' => 'form-control')); ?>
