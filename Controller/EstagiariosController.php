@@ -41,6 +41,7 @@ class EstagiariosController extends AppController {
         // pr($parametros);
         // pr($parametros['periodo']);
         $periodo = isset($parametros['periodo']) ? $parametros['periodo'] : NULL;
+        $ajustecurricular2020 = isset($parametros['ajustecurricular2020']) ? $parametros['ajustecurricular2020'] : NULL;        
         $areaestagio_id = isset($parametros['areaestagio_id']) ? $parametros['areaestagio_id'] : NULL;
         $aluno_id = isset($parametros['aluno_id']) ? $parametros['aluno_id'] : NULL;
         $docente_id = isset($parametros['docente_id']) ? $parametros['docente_id'] : NULL;
@@ -217,10 +218,10 @@ class EstagiariosController extends AppController {
         $this->set('turnos', array('turnos' => 'D', 'N'));
 
         if (isset($condicoes)) {
-            // pr($condicoes);
+            pr($condicoes);
             // die();
         }
-
+// die($condicoes);
         if (isset($condicoes)) {
             $this->set('estagiarios', $this->Paginate($condicoes));
         } else {
@@ -311,7 +312,7 @@ class EstagiariosController extends AppController {
             $instituicoes = $this->Instituicao->find('list', array(
                 'order' => 'Instituicao.instituicao'));
             // pr($instituicoes);
-            // die('instituicoes');            
+            // die('instituicoes');
             $this->set('instituicoes', $instituicoes);
 
             /* Supervisores da instituicao para o select */
@@ -413,42 +414,57 @@ class EstagiariosController extends AppController {
         $configuracao = $this->Configuracao->findById('1');
         $periodo_atual = $configuracao['Configuracao']['termo_compromisso_periodo'];
         // pr($periodo_atual);
+        // die();
         $periodos_total[$periodo_atual] = $periodo_atual;
         // pr($periodos_total);
+        // die();
 
-        /*
-         * O id eh o id da tabela do Aluno
-         */
         if ($id) {
             $estagiarios = $this->Estagiario->find('all', array(
-                'conditions' => array('Estagiario.aluno_id' => $id)
+                'conditions' => array('Estagiario.id' => $id),
+                'order' => ['Estagiario.nivel' => 'ASC', 'Estagiario.periodo' => 'ASC']
             ));
         } elseif ($registro) {
-            $estagiarios = $this->Estagiario->find('all', array(
-                'conditions' => array('Estagiario.registro' => $registro)
-            ));
+            $estagiarios = $this->Estagiario->find('all', [
+                'conditions' => ['Estagiario.registro' => $registro],
+                'order' => ['Estagiario.nivel' => 'ASC', 'Estagiario.periodo' => 'ASC']
+            ]);
         }
+        // $log = $this->Estagiario->getDataSource()->getLog(false, false);
+        // debug($log);
         // pr($estagiarios);
         // die('estagiarios');
-        // Não sei se isto eh necessario aqui
-        $nivel_periodo_atual = null;
-        // $periodo_atual = '2019-1';
 
         if ($estagiarios) {
-            // Calculo o nivel de estagio para o proximo periodo
-            foreach ($estagiarios as $c_estagio) {
-                if ($c_estagio['Estagiario']['periodo'] == $periodo_atual) {
-                    // echo "Nivel do periodo atual";
-                    $nivel_periodo_atual = $c_estagio['Estagiario']['nivel'];
+
+            // Se o nivel eh do periodo atual entao nao muda
+            if ($estagiarios[array_key_last($estagiarios)]['Estagiario']['periodo'] == $periodo_atual) {
+                // echo "Atualização do níviel de estágio" . "<br>";
+                $ultimo_nivel = $estagiarios[array_key_last($estagiarios)]['Estagiario']['nivel'];
+            } else {
+                $ultimo_nivel = NULL;
+                // echo 'Mudança de nível de estágio' . "<br>";
+                $ultimo_nivel = $estagiarios[array_key_last($estagiarios)]['Estagiario']['nivel'];
+                // Incremento em 1 para o próximo estágio
+                $ultimo_nivel = $ultimo_nivel + 1;
+                /* Verifico se é ajustecurricular2020 */
+                
+                if ($estagiarios[array_key_last($estagiarios)]['Estagiario']['ajustecurricular2020'] === 0) {
+                    $ultimoestagio = 4;
+                } elseif ($estagiarios[array_key_last($estagiarios)]['Estagiario']['ajustecurricular2020'] === 1) {
+                    $ultimoestagio = 3;
                 } else {
-                    $nivel[$c_estagio['Estagiario']['nivel']] = $c_estagio['Estagiario']['nivel'];
-                    // $nivelnovo[] = $c_estagio['Estagiario']['nivel'];
+                    $ultimoestagio = 4;
+                }
+                // Se eh maior que $ultimoestagio coloco 9 (estágio não obrigatório)
+                if ($ultimo_nivel > $ultimoestagio) {
+                    $ultimo_nivel = 9;
+                } else {    // Se nao existe o nivel entao eh 1
+                    $ultimo_nivel = 1;
                 }
             }
-            // pr($nivel);
-            // pr($nivelnovo);
-            // die('nivel');
-            // Não deveria acontecer, mas se acontecer ...
+            // die('mudança do nível de estágio');
+            /* Isto não pode acontecer nesta consulta? */
         } else {
             // echo "Estudante sem estágio: " . $id;
             $this->loadModel('Estudante');
@@ -458,27 +474,6 @@ class EstagiariosController extends AppController {
             // pr($estagiario_sem_estagio);
             // die($estagiario_sem_estagio);
         }
-
-        // Ordeno os niveis (estagios anteriores ao periodo atual)
-        $ultimo_nivel = NULL;
-        if (isset($nivel)) {
-            asort($nivel);
-            // Passo o valor do ultimo
-            $ultimo_nivel = end($nivel);
-            // Incremento em 1 para o próximo estágio
-            $ultimo_nivel = $ultimo_nivel + 1;
-            // Se eh maior de 4 coloco 9 (estágio não obrigatório)
-            if ($ultimo_nivel > 4) {
-                $ultimo_nivel = 9;
-            }
-            // Se nao existe o nivel entao eh 1
-        } else {
-            $ultimo_nivel = 1;
-        }
-        // Se o nivel eh do periodo atual entao nao muda
-        if ($nivel_periodo_atual)
-            $ultimo_nivel = $nivel_periodo_atual;
-        // pr($ultimo_nivel);
 
         $this->set('estagiarios', $estagiarios);
         $this->set('proximo_nivel', $ultimo_nivel);
@@ -574,6 +569,21 @@ class EstagiariosController extends AppController {
         }
     }
 
+    public function declaracaoestagio($id, $nivel) {
+
+        // $id = 100100101;
+        $estagiorealizado = $this->Estagiario->find('first', [
+            'conditions' => ['Estagiario.id' => $id, 'Estagiario.nivel' => $nivel]
+        ]);
+        // pr($estagiorealizado);
+        // die('estagiario');
+        $this->set('estagiorealizado', $estagiorealizado);
+        $this->response->header(array("Content-type: application/pdf"));
+        $this->response->type("pdf");
+        $this->layout = "pdf";
+        $this->render();
+    }
+
     public function estudantes() {
 
         $estagiarios = $this->Estagiario->find('all', [
@@ -591,17 +601,17 @@ class EstagiariosController extends AppController {
                 $query = "UPDATE estagiarios as Estagiario "
                         . "SET Estagiario.estudante_id = " . $estudante['Estudante']['id']
                         . " WHERE Estagiario.registro = " . $estudante['Estudante']['registro'];
-                pr($query);        
+                pr($query);
                 $this->Estagiario->query($query);
             } else {
-                echo ' Estudante sem estágio '. "<br>";
+                echo ' Estudante sem estágio ' . "<br>";
             }
             // die();
         }
         die();
     }
-    
-    public function alunos () {
+
+    public function alunos() {
 
         $estagiarios = $this->Estagiario->find('all', [
             'fields' => ['Estagiario.registro']
@@ -618,15 +628,16 @@ class EstagiariosController extends AppController {
                 $query = "UPDATE estagiarios as Estagiario "
                         . "SET Estagiario.aluno_id = " . $estudante['Aluno']['id']
                         . " WHERE Estagiario.registro = " . $estudante['Aluno']['registro'];
-                pr($query);        
+                pr($query);
                 $this->Estagiario->query($query);
             } else {
-                echo ' Aluno sem estágio '. "<br>";
+                echo ' Aluno sem estágio ' . "<br>";
             }
             // die();
         }
         die();
     }
+
 }
 
 ?>

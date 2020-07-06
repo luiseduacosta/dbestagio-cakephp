@@ -1,14 +1,13 @@
+<?= $this->element('submenu_estudantes'); ?>
+
 <h5><?php echo $alunos['Estudante']['nome']; ?></h5>
 
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
     <nav class="nav nav-tabs">
-        <?php echo $this->Html->link('Estudantes', array('controller' => 'Estudantes', 'action' => 'index'), ['class' => 'nav-link']); ?>
-        <?php echo $this->Html->link('Buscar', array('controller' => 'Estudantes', 'action' => 'busca'), ['class' => 'nav-link']); ?>
-        <?php echo $this->Html->link('Inscriçõe atuais', array('controller' => 'Inscricoes', 'action' => 'index'), ['class' => 'nav-link']); ?>
-        <?php echo $this->Html->link('Inserior novo estágio', array('controller' => 'Estagiarios', 'action' => 'add/registro:' . $alunos['Estudante']['registro']), ['class' => 'nav-link']); ?>
+        <?php echo $this->Html->link('Inserir novo estágio', '/Estagiarios/add/registro:' . $alunos['Estudante']['registro'], ['class' => 'nav-link']); ?>
     </nav>
 <?php endif; ?>
-
+<br>
 <ul class="nav nav-pills">
     <li class="nav-item">
         <a class="nav-link active" data-toggle="pill" href="#dados-estudante">Dados pessoais</a>
@@ -128,7 +127,8 @@
                         <th>Excluir</th>
                         <th>Editar</th>
                     <?php endif; ?>
-
+                    <th>Declaração</th>
+                    <th>Ajuste 2020</th>
                     <th>Período</th>
                     <th>Nível</th>
                     <th>Turno</th>
@@ -142,62 +142,67 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($estagios as $c_aluno_estagio): ?>
-                    <?php // pr($c_aluno_estagio); ?>
-                    <?php // die(); ?>
-                    <?php if ($c_aluno_estagio['Estagiario']['nivel'] <= '4'): ?>
+                <?php if (isset($estagios)): ?>
+                    <?php foreach ($estagios as $c_aluno_estagio): ?>
+                        <?php // pr($c_aluno_estagio); ?>
+                        <?php // die(); ?>
+                        <?php if ($c_aluno_estagio['Estagiario']['nivel'] <= '4'): ?>
 
-                        <tr>
+                            <tr>
 
-                            <?php if ($this->Session->read('categoria') === 'administrador'): ?>
-                                <td>
-                                    <?php echo $this->Html->link('Excluir', '/Estagiarios/delete/' . $c_aluno_estagio['Estagiario']['id'], NULL, 'Tem certeza?'); ?>
-                                </td>
-                                <td>
-                                    <?php echo $this->Html->link('Editar', '/Estagiarios/view/' . $c_aluno_estagio['Estagiario']['id']); ?>
-                                </td>
-                            <?php endif; ?>
+                                <?php if ($this->Session->read('categoria') === 'administrador'): ?>
+                                    <td>
+                                        <?php echo $this->Html->link('Excluir', '/Estagiarios/delete/' . $c_aluno_estagio['Estagiario']['id'], NULL, 'Tem certeza?'); ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $this->Html->link('Editar', '/Estagiarios/view/' . $c_aluno_estagio['Estagiario']['id']); ?>
+                                    </td>
+                                <?php endif; ?>
+                                <td><?= $this->Html->link('Imprimir declaração', '/Estagiarios/declaracaoestagio/' . $c_aluno_estagio['Estagiario']['id'] . '/' . $c_aluno_estagio['Estagiario']['nivel']); ?></td>
+                                <td><?php echo $c_aluno_estagio['Estagiario']['ajustecurricular2020'] ?></td>
+                                <td><?php echo $c_aluno_estagio['Estagiario']['periodo'] ?></td>
+                                <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['nivel']; ?></td>
+                                <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['turno']; ?></td>
+                                <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['tc']; ?></td>
+                                <td><?php echo $this->Html->link($c_aluno_estagio['Instituicao']['instituicao'], '/Instituicoes/view/' . $c_aluno_estagio['Instituicao']['id']); ?></td>
+                                <td><?php echo $this->Html->link($c_aluno_estagio['Supervisor']['nome'], '/Supervisores/view/' . $c_aluno_estagio['Supervisor']['id']); ?></td>
+                                <td><?php echo $this->Html->link($c_aluno_estagio['Professor']['nome'], '/Professores/view/' . $c_aluno_estagio['Professor']['id']); ?></td>
+                                <td><?php echo $this->Html->link($c_aluno_estagio['Areaestagio']['area'], '/Areaestagios/view/' . $c_aluno_estagio['Areaestagio']['id']); ?></td>
+                                <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['nota']; ?></td>
+                                <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['ch']; ?></td>
 
-                            <td><?php echo $c_aluno_estagio['Estagiario']['periodo'] ?></td>
-                            <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['nivel']; ?></td>
-                            <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['turno']; ?></td>
-                            <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['tc']; ?></td>
-                            <td><?php echo $this->Html->link($c_aluno_estagio['Instituicao']['instituicao'], '/Instituicoes/view/' . $c_aluno_estagio['Instituicao']['id']); ?></td>
-                            <td><?php echo $this->Html->link($c_aluno_estagio['Supervisor']['nome'], '/Supervisores/view/' . $c_aluno_estagio['Supervisor']['id']); ?></td>
-                            <td><?php echo $this->Html->link($c_aluno_estagio['Professor']['nome'], '/Professores/view/' . $c_aluno_estagio['Professor']['id']); ?></td>
-                            <td><?php echo $this->Html->link($c_aluno_estagio['Areaestagio']['area'], '/Areaestagios/view/' . $c_aluno_estagio['Areaestagio']['id']); ?></td>
-                            <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['nota']; ?></td>
-                            <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['ch']; ?></td>
+                            </tr>
 
-                        </tr>
+                        <?php elseif ($c_aluno_estagio['Estagiario']['nivel'] > '4'): ?>
+                            <tr>
+                                <?php if ($this->Session->read('categoria') === 'administrador'): ?>
+                                    <td>
+                                        <?php echo $this->Html->link('Excluir', '/Estagiarios/delete/' . $c_aluno_estagio['Estagiario']['id'], NULL, 'Tem certeza?'); ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $this->Html->link('Editar', '/Estagiarios/view/' . $c_aluno_estagio['Estagiario']['id']); ?>
+                                    </td>
+                                <?php endif; ?>
 
-                    <?php elseif ($c_aluno_estagio['Estagiario']['nivel'] > '4'): ?>
-                        <tr>
-                            <?php if ($this->Session->read('categoria') === 'administrador'): ?>
-                                <td>
-                                    <?php echo $this->Html->link('Excluir', '/Estagiarios/delete/' . $c_aluno_estagio['Estagiario']['id'], NULL, 'Tem certeza?'); ?>
-                                </td>
-                                <td>
-                                    <?php echo $this->Html->link('Editar', '/Estagiarios/view/' . $c_aluno_estagio['Estagiario']['id']); ?>
-                                </td>
-                            <?php endif; ?>
+                                <td><?php echo $c_aluno_estagio['Estagiario']['periodo'] ?></td>
+                                <td style='text-align:center'><?php echo "Não obrigatório"; ?></td>
+                                <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['turno']; ?></td>
+                                <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['tc']; ?></td>
+                                <td><?php echo $this->Html->link($c_aluno_estagio['Instituicao']['instituicao'], '/Instituicoes/view/' . $c_aluno_estagio['Instituicao']['id']); ?></td>
+                                <td><?php echo $this->Html->link($c_aluno_estagio['Supervisor']['nome'], '/Supervisors/view/' . $c_aluno_estagio['Supervisor']['id']); ?></td>
+                                <td><?php echo $this->Html->link($c_aluno_estagio['Professor']['nome'], '/Professors/view/' . $c_aluno_estagio['Professor']['id']); ?></td>
+                                <td><?php echo $this->Html->link($c_aluno_estagio['Areaestagio']['area'], '/Areaestagios/view/' . $c_aluno_estagio['Areaestagio']['id']); ?></td>
+                                <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['nota']; ?></td>
+                                <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['ch']; ?></td>
 
-                            <td><?php echo $c_aluno_estagio['Estagiario']['periodo'] ?></td>
-                            <td style='text-align:center'><?php echo "Não obrigatório"; ?></td>
-                            <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['turno']; ?></td>
-                            <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['tc']; ?></td>
-                            <td><?php echo $this->Html->link($c_aluno_estagio['Instituicao']['instituicao'], '/Instituicoes/view/' . $c_aluno_estagio['Instituicao']['id']); ?></td>
-                            <td><?php echo $this->Html->link($c_aluno_estagio['Supervisor']['nome'], '/Supervisors/view/' . $c_aluno_estagio['Supervisor']['id']); ?></td>
-                            <td><?php echo $this->Html->link($c_aluno_estagio['Professor']['nome'], '/Professors/view/' . $c_aluno_estagio['Professor']['id']); ?></td>
-                            <td><?php echo $this->Html->link($c_aluno_estagio['Areaestagio']['area'], '/Areaestagios/view/' . $c_aluno_estagio['Areaestagio']['id']); ?></td>
-                            <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['nota']; ?></td>
-                            <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['ch']; ?></td>
-
-                        </tr>
-                    <?php else: ?>
-                    <h5>Sem estágios</h5>
-                <?php endif; ?>
-            <?php endforeach; ?>
+                            </tr>
+                        <?php else: ?>
+                        <h5>Sem estágios</h5>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <h5>Sem estágios</h5>
+            <?php endif; ?>
             </tbody>
             <tfoot>
 

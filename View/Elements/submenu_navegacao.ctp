@@ -1,4 +1,4 @@
-<nav class='navbar navbar-expand-lg navbar-dark bg-secondary fixed-top'>
+<nav class='navbar navbar-expand-lg navbar-light bg-light fixed-top'>
     <?php echo $this->Html->link("ESS", "http://www.ess.ufrj.br", ['class' => 'navbar-brand']); ?>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMural">

@@ -1,7 +1,5 @@
 <?php
 
-//
-
 class SupervisoresController extends AppController {
 
     public $name = 'Supervisores';

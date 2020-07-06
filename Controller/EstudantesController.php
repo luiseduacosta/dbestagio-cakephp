@@ -6,7 +6,6 @@ class EstudantesController extends AppController {
     public $components = ['Auth'];
     public $paginate = [
         'limit' => 25,
-        'contain' => ['Estudante'],
         'order' => ['Estudante.nome']
     ];
 
@@ -226,7 +225,7 @@ class EstudantesController extends AppController {
         $registro = isset($parametros['registro']) ? $parametros['registro'] : NULL;
         // pr($registro);
         // die();
-        
+
         /* 1 - Verifica se pode ter acesso ou não a esta função */
         if (($this->Session->read('categoria') === 'estudante') && ($this->Session->read('numero'))) {
 
@@ -254,7 +253,7 @@ class EstudantesController extends AppController {
             }
         }
         // die('acesso');
-        
+
         /* 2 - Capturo os dados pessoais */
         if ($id) {
             $estudante = $this->Estudante->find('first', array(
@@ -283,7 +282,7 @@ class EstudantesController extends AppController {
             // die('c_inscricao');
             $inscricoesnomural[$i]['inscricao_id'] = $c_inscricao['Inscricao']['id'];
             $inscricoesnomural[$i]['id'] = $c_inscricao['Muralestagio']['id'];
-            $inscricoesnomural[$i]['id_estagio'] = $c_inscricao['Muralestagio']['id_estagio'];
+            $inscricoesnomural[$i]['estagio_id'] = $c_inscricao['Muralestagio']['estagio_id'];
             $inscricoesnomural[$i]['instituicao'] = $c_inscricao['Muralestagio']['instituicao'];
             $inscricoesnomural[$i]['periodo'] = $c_inscricao['Muralestagio']['periodo'];
             $i++;
@@ -295,11 +294,18 @@ class EstudantesController extends AppController {
             $this->set('inscricoes', $inscricoesnomural);
         }
 
-        /* 4 - Capturo os estágios */
-        $estagios = $this->Estudante->Estagiario->find('all', [
-            'conditions' => ['Estagiario.estudante_id' => $id]
-                ]
-        );
+        /* 3 - Capturo os estágios */
+        if ($id) {
+            $estagios = $this->Estudante->Estagiario->find('all', [
+                'conditions' => ['Estagiario.estudante_id' => $id]
+                    ]
+            );
+        } elseif ($registro) {
+            $estagios = $this->Estudante->Estagiario->find('all', [
+                'conditions' => ['Estagiario.registro' => $registro]
+                    ]
+            );
+        }
         // pr($estagios);
         // die('Estagios');
         if ($estagios) {

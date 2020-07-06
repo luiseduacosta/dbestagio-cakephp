@@ -19,7 +19,7 @@ class Instituicao extends AppModel {
         ),
         'Mural' => array(
             'className' => 'Muralestagio',
-            'foreignKey' => 'id_estagio'
+            'foreignKey' => 'estagio_id'
         ),
         'Visita' => array(
             'className' => 'Visita',

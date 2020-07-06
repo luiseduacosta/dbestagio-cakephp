@@ -52,7 +52,7 @@ class VisitasController extends AppController {
             // pr($instituicao_id);
             $this->set('instituicao_id', $instituicao_id);
         } else {
-            $this->Session->setFlash('Selecione uma instituição');
+            $this->Session->setFlash(__('Selecione uma instituição'));
             $this->redirect('/instituicoes/lista');
         }
         // Mostar as visitas anteriores
@@ -100,7 +100,7 @@ class VisitasController extends AppController {
 
     public function excluir($id = NULL) {
         $this->Visita->delete($id);
-        $this->Session->setFlash('Visita institucional excluída');
+        $this->Session->setFlash(__('Visita institucional excluída'));
         $this->redirect('/Visitas/index/');
     }
 

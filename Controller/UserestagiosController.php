@@ -27,7 +27,9 @@ class UserestagiosController extends AppController {
         $this->Session->delete('numero');
         $this->Session->delete('id_categoria');
         $this->Session->delete('categoria');
-
+        $this->Session->delete('menu_aluno');
+        $this->Session->delete('menu_id_aluno');
+        $this->Session->delete("menu_supervisor_id");
         // pr($this->data);
         // die();
         if (!empty($this->data)) {
@@ -130,8 +132,10 @@ class UserestagiosController extends AppController {
         $this->Session->delete('user');
         $this->Session->delete('numero');
         $this->Session->delete('categoria');
+        $this->Session->delete('id_categoria');
         $this->Session->delete('menu_aluno');
         $this->Session->delete('menu_id_aluno');
+        $this->Session->delete("menu_supervisor_id");
         $this->Session->setFlash('Até mais!');
         // die('logout');
         $this->redirect('/Userestagios/login/');
@@ -147,12 +151,12 @@ class UserestagiosController extends AppController {
             /*
              * Para recuperar a senha faz um novo cadastro
              */
-            $usuariocadastrado = $this->Userestagio->find('first', array(
-                'conditions' => array(
+            $usuariocadastrado = $this->Userestagio->find('first', [
+                'conditions' => [
                     'Userestagio.categoria' => $this->data['Userestagio']['categoria'],
                     'Userestagio.email' => $this->data['Userestagio']['email'],
-                    'Userestagio.numero' => $this->data['Userestagio']['numero'])
-                    )
+                    'Userestagio.numero' => $this->data['Userestagio']['numero']]
+                    ]
             );
             // pr($usuariocadastrado);
             // die('usuariocadastrado');
@@ -173,7 +177,9 @@ class UserestagiosController extends AppController {
             }
             // die("usuario não cadastrado");
             // Primeiro verifico se o registro ja nao esta cadastrado no userestagio
-            $numero = $this->Userestagio->findByNumero($this->data['Userestagio']['numero']);
+            $numero = $this->Userestagio->find('first', [
+                'conditions' => ['Userestagio.numero' => $this->data['Userestagio']['numero']]
+            ]);
             // pr($numero);
             // die('numero');
 
@@ -339,7 +345,6 @@ class UserestagiosController extends AppController {
 
         $usuarios = $this->Userestagio->find('all');
 
-        $this->loadModel('Aluno');
         $this->loadModel('Estudante');
         $this->loadModel('Professor');
         $this->loadModel('Supervisor');
@@ -357,30 +362,19 @@ class UserestagiosController extends AppController {
                     break;
                 case 2:
                     // Busco entre os estudantes em estágio
-                    $estudante = $this->Aluno->find('first', [
-                        'conditions' => ['Aluno.registro' => [$cadausuario['Userestagio']['numero']]]]);
+                    $estudante = $this->Estudante->find('first', [
+                        'conditions' => ['Estudante.registro' => [$cadausuario['Userestagio']['numero']]]]);
 
                     // pr($estudante);
                     if ($estudante) {
-                        $nome = $estudante['Aluno']['nome'];
-                        $aluno_id = $estudante['Aluno']['id'];
-                        $aluno_tipo = 0; // Aluno estagiario
+                        $nome = $estudante['Estudante']['nome'];
+                        $aluno_id = $estudante['Estudante']['id'];
+                        $aluno_tipo = 1; // Aluno estagiario
                     } else {
-                        // Se não está entre os estudantes em estágio busco entre os novos
-                        // $estudantenovo = NULL;
-                        $estudantenovo = $this->Estudante->find('first', [
-                            'conditions' => ['Estudante.registro' => $cadausuario['Userestagio']['numero']]]);
-
-                        if ($estudantenovo) {
-                            $nome = $estudantenovo['Estudante']['nome'];
-                            $aluno_id = $estudantenovo['Estudante']['id'];
-                            $aluno_tipo = 1; // Aluno novo
-                        } else {
-                            // Se não está entre os novos então é um usuario nao cadastrado
-                            $nome = "Usuário estudante sem cadastro";
-                            $aluno_id = NULL;
-                            $aluno_tipo = 2; // Usuario estudante nao cadastrado
-                        }
+                        // Se não está entre os novos então é um usuario nao cadastrado
+                        $nome = "Usuário estudante sem cadastro";
+                        $aluno_id = NULL;
+                        $aluno_tipo = 2; // Usuario estudante nao cadastrado
                     }
                     break;
                 case 3:
@@ -489,7 +483,7 @@ class UserestagiosController extends AppController {
         $supervisor = $this->Supervisor->find('first', array('conditions' => array('Supervisor.cress' => $id)));
 
         if ($aluno or $alunonovo or $professor or $supervisor) {
-            $this->Session->setFlash(__('Usuário existe como aluno, estudanate, professor ou supervisor'));
+            $this->Session->setFlash(__('Usuário cadastrado como estudanate, professor ou supervisor não pode ser excluído'));
             $this->redirect('/Userestagios/listausuarios');
         } else {
             $this->Userestagio->delete($usuario_id['Userestagio']['id']);

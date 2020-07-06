@@ -196,6 +196,41 @@ class ProfessoresController extends AppController {
         endif;
     }
 
+    public function busca($id = NULL) {
+
+        if (isset($id))
+            $this->request->data['Professor']['nome'] = $id;
+
+        // $id = isset($this->request->data['Supervisor']['nome']) ? $this->request->data['Supervisor']['nome'] : null;
+        // pr($id);
+        if (!empty($this->request->data['Professor']['nome'])) {
+            $condicao = ['Professor.nome like' => '%' . $this->request->data['Professor']['nome'] . '%'];
+            $professores = $this->Professor->find('all', [
+                'recursive' => -1, // Para excluir as associações
+                'conditions' => $condicao,
+                'order' => 'Professor.nome']);
+
+            // pr($professores);
+            // die('professores');
+
+            /* Nenhum resultado */
+            if (empty($professores)) {
+                $this->Session->setFlash(__("Não foram encontrados registros"));
+            } else {
+                // pr($professores);
+                // die('professores');
+                $this->Paginator->settings = ['Professor' => [
+                        'recursive' => -1, // Para excluir as associações
+                        'conditions' => ['Professor.nome like' => '%' . $this->request->data['Professor']['nome'] . '%'],
+                        'order' => 'Professor.nome'
+                    ]
+                ];
+                $this->set('professores', $this->Paginator->paginate('Professor'));
+                $this->set('busca', $this->request->data['Professor']['nome']);
+            }
+        }
+    }
+
 }
 
 ?>

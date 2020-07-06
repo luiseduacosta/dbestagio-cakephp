@@ -1,6 +1,6 @@
 <div class='container'>
     <div class='row'>
-        <div class='col-lg-6'>
+        <div class='col-sm-6'>
             <?= $this->Form->create('Userestagio'); ?>
 
             <div class="form-group">
@@ -10,7 +10,10 @@
                 <?= $this->Form->input('numero', ['label' => 'DRE, SIAPE ou CRESS respectivamente', 'class' => 'form-control']); ?>
             </div>
             <div class="form-group">
-                <?= $this->Form->end('Confirma'); ?>
+                <?= $this->Form->submit('Confirma', ['label' => false, 'class' => 'btn btn-primary']); ?>
+            </div>
+            <div class="form-group">
+                <?= $this->Form->end(); ?>
             </div>
         </div>
     </div>

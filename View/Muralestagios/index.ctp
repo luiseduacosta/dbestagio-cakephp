@@ -15,11 +15,11 @@
 
 </script>
 
+<?= $this->element('submenu_muralestagios'); ?>
+        
 <nav class="nav nav-pills">
     <?php if (($this->Session->read('categoria') === 'administrador') || ($this->Session->read('categoria') === 'supervisor')): ?>
-        <?php echo $this->Html->link('Inserir mural', '/Muralestagios/add/', ['class' => 'nav-item nav-link active']); ?>
-        <?php echo $this->Html->link('Listar alunos', '/Inscricoes/index/', ['class' => 'nav-item nav-link']); ?>
-        <?php echo $this->Html->link('Alunos sem inscrição', '/Inscricoes/orfao/', ['class' => 'nav-item nav-link']); ?>
+
     <?php endif; ?>
 </nav>
 

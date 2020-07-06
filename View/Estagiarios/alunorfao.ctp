@@ -1,3 +1,5 @@
+<?= $this->element('submenu_estagiarios'); ?>
+
 <?php if (!empty($orfaos)): ?>
 <div class='row justify-content-center'>
     <div class='col-auto'>
