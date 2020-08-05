@@ -1,13 +1,15 @@
-<?php // pr($this->data);                ?>
+<?php // pr($this->data);   ?>
+
+<?= $this->Html->script("jquery.mask.min"); ?>
 
 <script>
     $(document).ready(function () {
 
         $("#EstudanteRegistro").mask("999999999");
-        $("#EstudanteCpf").mask("999999999-99");
-        $("#EstudanteTelefone").mask("9999.9999");
-        $("#EstudanteCelular").mask("99999.9999");
-        $("#EstudanteCep").mask("99999-999");
+        $("#EstudanteCpf").mask("999999999-00");
+        $("#EstudanteTelefone").mask("0000.0000");
+        $("#EstudanteCelular").mask("00000.0000");
+        $("#EstudanteCep").mask("00000-000");
 
     });
 
@@ -97,7 +99,7 @@ $datanascimento = date('Y-m-d', strtotime($this->data['Estudante']['nascimento']
 <div class="form-row">
     <div class="col-3">
         <label for="EstudanteNascimento">Data de nascimento</label>
-        <?php echo $this->Form->input('nascimento', ['label' => false, 'type' => 'date', 'dateFormat' => 'DMY', 'minYear' => '1900', 'maxYear' => '2100', 'class' => 'form-group']); ?>
+        <?php echo $this->Form->input('nascimento', ['label' => false, 'type' => 'date', 'dateFormat' => 'DMY', 'minYear' => '1900', 'maxYear' => '2100', 'monthNames' => $meses, 'class' => 'form-group']); ?>
     </div>
     <div class="col-3">    
         <?php echo $this->Form->input('cpf', ['class' => 'form-control']); ?>
@@ -143,9 +145,9 @@ $datanascimento = date('Y-m-d', strtotime($this->data['Estudante']['nascimento']
     </div>
 </div>
 <br>
-<div class="form-row">
-    <div class="col">
-        <?php echo $this->Form->input('Atualizar', ['type' => 'submit', 'label' => false, 'class' => 'btn btn-primary']); ?>
+<div class="row justify-content-center">
+    <div class="col-auto">
+        <?php echo $this->Form->input('Atualizar', ['type' => 'submit', 'label' => false, 'class' => 'btn btn-success']); ?>
+        <?php echo $this->Form->end(); ?>
     </div>
 </div>
-<?php echo $this->Form->end(); ?>

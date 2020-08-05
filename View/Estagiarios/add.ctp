@@ -12,13 +12,13 @@
     });
 </script>
 
-<?= $this->Html->script("jquery.maskedinput", array('inline' => false)); ?>
+<?= $this->Html->script("jquery.mask.min"); ?>
 
 <script>
     $(document).ready(function () {
 
-        $("#EstagiarioNota").mask("99.99");
-        $("#EstagiarioCh").mask("999");
+        $("#EstagiarioNota").mask("00.00");
+        $("#EstagiarioCh").mask("000");
 
     });
 </script>
@@ -29,9 +29,9 @@
     <h5>
         <?php
         if ($estagiarios) {
-            echo $estagiarios[0]['Aluno']['nome'];
+            echo $estagiarios[array_key_first($estagiarios)]['Estudante']['nome'];
         } else {
-            echo $estagiario_sem_estagio['Aluno']['nome'];
+            echo $estagiario_sem_estagio['Estudante']['nome'];
             // echo "Estudante sem estágio";
         }
         ?>
@@ -153,7 +153,7 @@ echo $this->Form->create('Estagiario');
 
     <div class="form-group">
         <?= $this->Form->label('Estagiario.tc_solicitacao', 'Data de solicitação do TC (inserida automáticamente quando o estudante solicita o TC)', ['class' => 'form-label-control']); ?>
-        <?php echo $this->Form->input('Estagiario.tc_solicitacao', array('type' => 'date', 'label' => false, 'dateFormat' => 'DMY', 'empty' => TRUE, 'class' => 'form-horizontal')); ?>
+        <?= $this->Form->input('Estagiario.tc_solicitacao', array('type' => 'date', 'label' => false, 'dateFormat' => 'DMY', 'monthNames' => $meses, 'empty' => TRUE, 'class' => 'form-horizontal')); ?>
     </div>
 
     <?php echo $this->Form->input('Estagiario.instituicao_id', array('label' => 'Instituição', 'options' => $instituicoes, 'default' => 0, 'empty' => [0 => 'Selecione'], 'class' => 'form-control')); ?>
@@ -165,5 +165,5 @@ echo $this->Form->create('Estagiario');
     <?php echo $this->Form->input('Estagiario.observacoes', array('label' => 'Observações', 'class' => 'form-control')); ?>
 </fieldset>
 <br>
-<?php echo $this->Form->submit('Confirma', ['class' => 'btn btn-primary']); ?>
+<?php echo $this->Form->submit('Confirma', ['class' => 'btn btn-success']); ?>
 <?php echo $this->Form->end(); ?>

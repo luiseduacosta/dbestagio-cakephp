@@ -287,7 +287,7 @@
                     <?= $this->Form->input('InstituicaoSupervisor.instituicao_id', array('label' => 'Instituição: ', 'options' => $instituicoes, 'default' => 0, 'empty' => ['0' => 'Selecione'], 'class' => 'form-control')); ?>
                     <?= $this->Form->input('InstituicaoSupervisor.supervisor_id', array('type' => 'hidden', 'value' => $c_supervisor['Supervisor']['id'])); ?>
                     <br>
-                    <?= $this->Form->submit('Confirma', ['class' => 'btn btn-primary']); ?>
+                    <?= $this->Form->submit('Confirma', ['class' => 'btn btn-success']); ?>
                     <?= $this->Form->end(); ?>
 
                 </fieldset>

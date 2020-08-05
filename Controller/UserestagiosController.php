@@ -49,13 +49,13 @@ class UserestagiosController extends AppController {
                     // die();
                     switch ($usuario['Userestagio']['categoria']) {
                         case 1: // Administrador
-                            $this->Session->setFlash('Bem-vindo ' . $usuario['Role']['categoria'] . ': ' . $this->Session->read('user'));
+                            $this->Session->setFlash(__('Bem-vindo ' . $usuario['Role']['categoria'] . ': ' . $this->Session->read('user')), 'flash_notification');
                             $this->redirect('/Estagiarios/index/');
                             break;
 
                         // Categoria 2 eh estudante
                         case 2:
-                            $this->Session->setFlash(__('Bem-vindo ' . $usuario['Role']['categoria'] . ': ' . $this->Session->read('user')));
+                            $this->Session->setFlash(__('Bem-vindo ' . $usuario['Role']['categoria'] . ': ' . $this->Session->read('user')), "flash_notification");
                             $this->loadModel('Estudante');
                             $estudante = $this->Estudante->find('first', [
                                 'conditions' => ['Estudante.registro' => $usuario['Userestagio']['numero']]
@@ -69,7 +69,7 @@ class UserestagiosController extends AppController {
                             } else {
                                 $this->Session->write('menu_aluno', 'semcadastro');
                                 $this->Session->write('menu_id_aluno', 0);
-                                $this->Session->setFlash(__('Estudante não cadastrado'));
+                                $this->Session->setFlash(__('Estudante não cadastrado'), "flash_notification");
                                 // Tem que impedir que estudante nao cadastro possa continuar
                                 // $this->redirect('/Userestagios/login/');
                                 $this->redirect('/Estudantes/add/registro:' . $usuario['Userestagio']['numero']);
@@ -78,7 +78,7 @@ class UserestagiosController extends AppController {
 
                         // Professor
                         case 3:
-                            $this->Session->setFlash(__('Bem-vindo ' . $usuario['Role']['categoria'] . ': ' . $this->Session->read('user')));
+                            $this->Session->setFlash(__('Bem-vindo ' . $usuario['Role']['categoria'] . ': ' . $this->Session->read('user')), "flash_notification");
                             // Verificar se cadastro do professor existe
                             $this->loadModel('Professor');
                             $professor = $this->Professor->findBySiape($usuario['Userestagio']['numero']);
@@ -87,7 +87,7 @@ class UserestagiosController extends AppController {
                             if ($professor) {
                                 $this->redirect('/Professores/view/' . $professor['Professor']['id']);
                             } else {
-                                $this->Session->setFlash(__('Professor sem cadastrado: entrar em contato com a Coordenação de Estágio & Extensão'));
+                                $this->Session->setFlash(__('Professor sem cadastrado: entrar em contato com a Coordenação de Estágio & Extensão'), "flash_notification");
                                 $this->redirect('/Userestagios/login/');
                                 // die("Professor não cadastrado");
                             }
@@ -96,7 +96,7 @@ class UserestagiosController extends AppController {
 
                         // Supervisor
                         case 4:
-                            $this->Session->setFlash(__('Bem-vindo ' . $usuario['Role']['categoria'] . ': ' . $this->Session->read('user')));
+                            $this->Session->setFlash(__('Bem-vindo ' . $usuario['Role']['categoria'] . ': ' . $this->Session->read('user')), "flash_notification");
                             // Verifica se o cadastro do supervisor existe
                             $this->loadModel('Supervisor');
                             $supervisor = $this->Supervisor->findByCress($usuario['Userestagio']['numero']);
@@ -104,23 +104,23 @@ class UserestagiosController extends AppController {
                                 $this->Session->write("menu_supervisor_id", $supervisor['Supervisor']['id']);
                                 $this->redirect('/Supervisores/view/' . $supervisor['Supervisor']['id']);
                             } else {
-                                $this->Session->setFlash(__('Supervisor sem cadastrado: entrar em contato com a Coordenação de Estágio & Extensão'));
+                                $this->Session->setFlash(__('Supervisor sem cadastrado: entrar em contato com a Coordenação de Estágio & Extensão'), "flash_notification");
                                 $this->redirect('/Supervisores/add/');
                             }
                             break;
 
                         default:
-                            $this->Session->setFlash(__('Erro! Categoria de usuário desconhecida: ' . $this->Session->read('user')));
+                            $this->Session->setFlash(__('Erro! Categoria de usuário desconhecida: ' . $this->Session->read('user')), "flash_notification");
                             $this->redirect('/Userestagios/login/');
                             break;
                     }
                 } else {
                     // die(pr($usuario));
-                    $this->Session->setFlash(__('Login/senha errado ou usuário não cadastrado'));
+                    $this->Session->setFlash(__('Login/senha errado ou usuário não cadastrado'), "flash_notification");
                     $this->redirect('/Userestagios/login/');
                 }
             } else {
-                $this->Session->setFlash(__('Usuário não cadastrado!'));
+                $this->Session->setFlash(__('Usuário não cadastrado!'), "flash_notification");
                 $this->redirect('/Userestagios/login');
             }
         }
@@ -136,7 +136,7 @@ class UserestagiosController extends AppController {
         $this->Session->delete('menu_aluno');
         $this->Session->delete('menu_id_aluno');
         $this->Session->delete("menu_supervisor_id");
-        $this->Session->setFlash('Até mais!');
+        $this->Session->setFlash(__('Até mais!'), "flash_notification");
         // die('logout');
         $this->redirect('/Userestagios/login/');
     }
@@ -187,7 +187,7 @@ class UserestagiosController extends AppController {
                 // $numero_user = $this->Userestagio->findByNumero($this->data['Userestagio']['numero']);
                 // pr($email_user);
                 // die();
-                $this->Session->setFlash(__("Número (DRE, CRESS ou SIAPE) já cadastrado"));
+                $this->Session->setFlash(__("Número (DRE, CRESS ou SIAPE) já cadastrado"), "flash_notification");
                 $this->redirect("/Userestagios/login/");
                 die("Numero já cadastrado");
             }
@@ -201,7 +201,7 @@ class UserestagiosController extends AppController {
                 // $email_user = $this->Userestagio->findByEmail($this->data['Userestagio']['email']);
                 // pr($email_user);
                 // die();
-                $this->Session->setFlash(__("Email já cadastrado"));
+                $this->Session->setFlash(__("Email já cadastrado"), "flash_notification");
                 $this->redirect("/Userestagios/login/");
                 die("Email já cadastrado");
             }
@@ -228,7 +228,7 @@ class UserestagiosController extends AppController {
                         $this->Session->write('menu_id_aluno', $estudante['Estudante']['id']);
                         echo "Estudante novo sem login";
                         if ($this->Userestagio->save($this->data)) {
-                            $this->Session->setFlash(__('Bem-vindo! Cadastro realizado'));
+                            $this->Session->setFlash(__('Bem-vindo! Cadastro realizado'), "flash_notification");
                             $this->Session->write('categoria', 'estudante');
                             $this->Session->write('user', strtolower($this->data['Userestagio']['email']));
                             $this->Session->write('numero', $this->data['Userestagio']['numero']);
@@ -240,7 +240,7 @@ class UserestagiosController extends AppController {
                             $this->Session->delete('id_categoria');
                             $this->Session->delete('user');
                             $this->Session->delete('numero');
-                            $this->Session->setFlash(__('Não foi possível completar seu cadastro.'));
+                            $this->Session->setFlash(__('Não foi possível completar seu cadastro.'), "flash_notification");
                             $this->redirect('/Userestagios/cadastro/');
                         }
                     } else {
@@ -251,7 +251,7 @@ class UserestagiosController extends AppController {
                         // Para ir para estudante e poder voltar
                         $this->Session->write('cadastro', strtolower($this->data['Userestagio']['email']));
                         if ($this->Userestagio->save($this->data)) {
-                            $this->Session->setFlash(__('Bem-vindo! Cadastro realizado'));
+                            $this->Session->setFlash(__('Bem-vindo! Cadastro realizado'), "flash_notification");
                             $this->Session->write('categoria', 'estudante');
                             $this->Session->write('id_categoria', '2');
                             $this->Session->write('user', strtolower($this->data['Userestagio']['email']));
@@ -260,12 +260,12 @@ class UserestagiosController extends AppController {
                         } else {
                             // $errors = $this->Userestagio->invalidFields();
                             // pr($errors);
-                            // $this->Session->setFlash(implode(', ', $errors));
+                            // $this->Session->setFlash(__(implode(', ', $errors)), "flash_notification");
                             $this->Session->delete('categoria');
                             $this->Session->delete('id_categoria');
                             $this->Session->delete('user');
                             $this->Session->delete('numero');
-                            $this->Session->setFlash(__('Não foi possível completar seu cadastro.'));
+                            $this->Session->setFlash(__('Não foi possível completar seu cadastro.'), "flash_notification");
                             $this->redirect('/Userestagios/cadastro/');
                         }
                     }
@@ -280,12 +280,12 @@ class UserestagiosController extends AppController {
                     // O professor ja tem que estar cadastrado
                     if ($professor) {
                         $this->Userestagio->save($this->data);
-                        $this->Session->setFlash(__('Bem-vindo! Cadastro realizado'));
+                        $this->Session->setFlash(__('Bem-vindo! Cadastro realizado'), "flash_notification");
                         $this->Session->write('user', strtolower($this->data['Userestagio']['email']));
                         $this->Session->write('numero', $this->data['Userestagio']['numero']);
                         $this->redirect('/Professores/view/' . $professor['Professor']['id']);
                     } else {
-                        $this->Session->setFlash(__("O cadastro do(a) professor(a) é realizado presencialmente na Coordenação da Estágio."));
+                        $this->Session->setFlash(__("O cadastro do(a) professor(a) é realizado presencialmente na Coordenação da Estágio."), "flash_notification");
                         $this->redirect('/Professores/index/');
                     }
                     break;
@@ -298,18 +298,18 @@ class UserestagiosController extends AppController {
                     // O supervisor ja tem que estar cadastrado
                     if ($supervisor) {
                         $this->Userestagio->save($this->data);
-                        $this->Session->setFlash(__('Bem-vindo! Cadastro realizado'));
+                        $this->Session->setFlash(__('Bem-vindo! Cadastro realizado'), "flash_notification");
                         $this->Session->write('user', strtolower($this->data['Userestagio']['email']));
                         $this->Session->write('numero', $this->data['Userestagio']['numero']);
                         $this->redirect('/Supervisores/view/' . $supervisor['Supervisor']['id']);
                     } else {
-                        $this->Session->setFlash(__("Supervisor ainda não cadastrado. Somente podem criar conta os supervisores com CRESS previamente registrados na Coordenação de Estágio e Extensão"));
+                        $this->Session->setFlash(__("Supervisor ainda não cadastrado. Somente podem criar conta os supervisores com CRESS previamente registrados na Coordenação de Estágio e Extensão"), "flash_notification");
                         $this->redirect('/Userestagios/login/');
                     }
                     break;
 
                 default:
-                    $this->Session->setFlash(__('Error: Usuário não faz parte de nenhuma categoria'));
+                    $this->Session->setFlash(__('Error: Usuário não faz parte de nenhuma categoria'), "flash_notification");
                     $this->redirect('/Userestagios/cadastro/');
                     break;
             }
@@ -483,11 +483,11 @@ class UserestagiosController extends AppController {
         $supervisor = $this->Supervisor->find('first', array('conditions' => array('Supervisor.cress' => $id)));
 
         if ($aluno or $alunonovo or $professor or $supervisor) {
-            $this->Session->setFlash(__('Usuário cadastrado como estudanate, professor ou supervisor não pode ser excluído'));
+            $this->Session->setFlash(__('Usuário cadastrado como estudanate, professor ou supervisor não pode ser excluído'), "flash_notification");
             $this->redirect('/Userestagios/listausuarios');
         } else {
             $this->Userestagio->delete($usuario_id['Userestagio']['id']);
-            $this->Session->setFlash(__('Registro excluído'));
+            $this->Session->setFlash(__('Registro excluído'), "flash_notification");
             $this->redirect('/Userestagios/listausuarios/');
         }
     }
@@ -544,7 +544,7 @@ class UserestagiosController extends AppController {
             // pr($this->data);
             $this->Userestagio->save($this->data);
             // print_r($this->data);
-            $this->Session->setFlash(__("Atualizado"));
+            $this->Session->setFlash(__("Atualizado"), "flash_notification");
 
             $this->redirect('/Userestagios/view/' . $this->data['Userestagio']['numero']);
         }
@@ -563,7 +563,7 @@ class UserestagiosController extends AppController {
             } else {
                 // pr($this->data);
                 if ($this->data['Userestagio']['role'] == 2) {
-                    // $this->Session->setFlash(__('Bem-vindo ' . $usuario['Role']['categoria'] . ': ' . $this->Session->read('user')));
+                    // $this->Session->setFlash(__('Bem-vindo ' . $usuario['Role']['categoria'] . ': ' . $this->Session->read('user')), "flash_notification");
                     $this->loadModel('Aluno');
                     $aluno_id = $this->Aluno->findByRegistro($this->data['Userestagio']['numero']);
                     if ($aluno_id) {
@@ -580,7 +580,7 @@ class UserestagiosController extends AppController {
                         } else {
                             $this->Session->write('menu_aluno', 'semcadastro');
                             $this->Session->write('menu_id_aluno', 0);
-                            // $this->Session->setFlash('Estudante novo sem cadastro');
+                            // $this->Session->setFlash(__('Estudante novo sem cadastro'), "flash_notification");
                             // Tem que impedir que estudante nao cadastro possa continuar
                             $this->redirect('/Estudantes/add/');
                         }

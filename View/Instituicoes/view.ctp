@@ -85,7 +85,7 @@
                 <p>
                     <?php
                     if (!empty($instituicao['Instituicao']['expira'])) {
-                        echo $instituicao['Instituicao']['expira'];
+                        echo date('d-m-Y', strtotime($instituicao['Instituicao']['expira']));
                     } else {
                         echo "Sem dados";
                     }
@@ -322,7 +322,7 @@
             ?>
             <br>
             <?php
-            echo $this->Form->submit('Confirma', ['class' => 'btn btn-primary']);
+            echo $this->Form->submit('Confirma', ['class' => 'btn btn-success']);
             echo $this->Form->end();
             ?>
 

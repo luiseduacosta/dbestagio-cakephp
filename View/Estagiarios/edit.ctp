@@ -10,6 +10,17 @@
     });
 </script>
 
+<?= $this->Html->script("jquery.mask.min"); ?>
+
+<script>
+    $(document).ready(function () {
+
+        $("#EstagiarioNota").mask("00.00");
+        $("#EstagiarioCh").mask("000");
+
+    });
+</script>
+
 <h5><?php echo $aluno; ?></h5>
 
 <?= $this->Form->create('Estagiario'); ?>
@@ -61,7 +72,7 @@
 
 <div class="form-group">
     <?= $this->Form->label('Estagiario.tc_solicitacao', 'Data de solicitação do TC (inserida automáticamente quando o estudante solicita o TC)', ['class' => 'form-label-control']); ?>
-    <?php echo $this->Form->input('Estagiario.tc_solicitacao', array('type' => 'date', 'label' => false, 'dateFormat' => 'DMY', 'empty' => TRUE, 'class' => 'form-horizontal')); ?>
+    <?php echo $this->Form->input('Estagiario.tc_solicitacao', array('type' => 'date', 'label' => false, 'dateFormat' => 'DMY', 'monthNames' => $meses, 'empty' => TRUE, 'class' => 'form-horizontal')); ?>
 </div>
 
 <?php echo $this->Form->input('Estagiario.instituicao_id', array('label' => 'Instituição', 'options' => $instituicoes, 'default' => 0, 'empty' => [0 => 'Selecione'], 'class' => 'form-control')); ?>
@@ -73,5 +84,5 @@
 <?php echo $this->Form->input('Estagiario.observacoes', array('label' => 'Observações', 'class' => 'form-control')); ?>
 </fieldset>
 <br>
-<?php echo $this->Form->submit('Confirma', ['class' => 'btn btn-primary']); ?>
+<?php echo $this->Form->submit('Confirma', ['class' => 'btn btn-success']); ?>
 <?php echo $this->Form->end(); ?>

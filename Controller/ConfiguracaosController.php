@@ -13,9 +13,9 @@ class ConfiguracaosController extends AppController {
         // Admin
         if ($this->Session->read('id_categoria') === '1') {
             $this->Auth->allow();
-            $this->Session->setFlash("Administrador");
+            $this->Session->setFlash(__("Administrador"), "flash_notification");
         } else {
-            $this->Session->setFlash("Administração: Não autorizado");
+            $this->Session->setFlash(__("Administração: Não autorizado"), "flash_notification");
         }
         // die(pr($this->Session->read('user')));
     }
@@ -37,7 +37,7 @@ class ConfiguracaosController extends AppController {
         } else {
             if ($this->Configuracao->save($this->data)) {
                 // print_r($this->data);
-                $this->Session->setFlash(__("Atualizado"));
+                $this->Session->setFlash(__("Atualizado"), "flash_notification");
                 $this->redirect('/Configuracaos/view/' . $id);
             }
         }

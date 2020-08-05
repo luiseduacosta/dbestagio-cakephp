@@ -53,7 +53,7 @@ echo $this->element('submenu_supervisores');
     <?php echo $this->Form->create('Supervisor'); ?>
     <?php echo $this->Form->input('nome', ['label' => 'Digite o nome do supervisor', 'class' => 'form-control']); ?>
     <br>
-    <?php echo $this->Form->submit('Confirma', ['class' => 'btn btn-primary']); ?>
+    <?php echo $this->Form->submit('Confirma', ['class' => 'btn btn-success']); ?>
     <?php echo $this->Form->end(); ?>
 
 <?php endif; ?>

@@ -79,5 +79,5 @@
 <br>
 <?= $this->Form->input('registro', ['type' => 'hidden', 'value' => $registro, 'class' => 'form-control']); ?>
 <?= $this->Form->input('supervisor_id', ['type' => 'hidden', 'value' => $supervisor_id, 'class' => 'form-control']); ?>
-<?= $this->Form->input('Confirma', ['type' => 'submit', 'label' => false, 'class' => 'btn btn-primary position-static']); ?>
+<?= $this->Form->input('Confirma', ['type' => 'submit', 'label' => false, 'class' => 'btn btn-success position-static']); ?>
 <?= $this->Form->end(); ?>

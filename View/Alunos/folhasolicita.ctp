@@ -6,6 +6,6 @@ echo $this->Form->input('DRE', ['label' => "DRE", 'class' => 'form-control']);
 ?>
 <br>
 <?php
-echo $this->Form->input('Confirma', ['label' => false, 'type' => 'submit' ,'class' => 'btn btn-primary position-static']);
+echo $this->Form->input('Confirma', ['label' => false, 'type' => 'submit' ,'class' => 'btn btn-success position-static']);
 echo $this->Form->end();
 ?>

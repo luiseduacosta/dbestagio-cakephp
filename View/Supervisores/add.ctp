@@ -1,18 +1,14 @@
-<?php
-echo $this->element('submenu_supervisores');
-?>
+<?= $this->element('submenu_supervisores'); ?>
 
-<?php
-echo $this->Html->script('jquery.SimpleMask');
-?>
+<?= $this->Html->script("jquery.mask.min"); ?>
 
 <script>
     $(document).ready(function () {
 
-        $("#SupervisorCpf").simpleMask({'mask': ['#########-##']});
-        $("#SupervisorTelefone").simpleMask({'mask': ['####.####']});
-        $("#SupervisorCelular").simpleMask({'mask': ['#####.####']});
-        $("#SupervisorCep").simpleMask({'mask': ['#####.####']});
+        $("#SupervisorCpf").mask('999999999-99');
+        $("#SupervisorTelefone").mask('9999.9999');
+        $("#SupervisorCelular").mask('99999.9999');
+        $("#SupervisorCep").mask('99999-999');
 
     });
 </script>
@@ -147,6 +143,9 @@ echo $this->Html->script('jquery.SimpleMask');
     </div>
 </div>
 <br>
-<?= $this->Form->submit('Confirma', ['class' => 'btn btn-primary']); ?>
-
-<?= $this->Form->end(); ?>
+<div class='row justify-content-center'>
+    <div class='col-auto'>
+        <?= $this->Form->submit('Confirma', ['class' => 'btn btn-success']); ?>
+        <?= $this->Form->end(); ?>
+    </div>
+</div>

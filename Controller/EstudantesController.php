@@ -18,23 +18,23 @@ class EstudantesController extends AppController {
         // Admin
         if ($this->Session->read('id_categoria') === '1') {
             $this->Auth->allow();
-            // $this->Session->setFlash('Administrador');
+            // $this->Session->setFlash(__('Administrador'), "flash_notification");
             // Estudantes podem somente fazer inscricao
         } elseif ($this->Session->read('id_categoria') === '2') {
             $this->Auth->allow('add', 'edit', 'index', 'view');
-            // $this->Session->setFlash('Estudante');
+            // $this->Session->setFlash(__('Estudante'), "flash_notification");
             // die();
             // Professores podem atualizar murais
         } elseif ($this->Session->read('id_categoria') === '3') {
             $this->Auth->allow('edit', 'index', 'view');
-            // $this->Session->setFlash('Professor');
+            // $this->Session->setFlash(__('Professor'), "flash_notification");
             // No futuro os supervisores poderao lançar murals
         } elseif ($this->Session->read('id_categoria') === '4') {
             $this->Auth->allow('add', 'edit', 'index', 'view');
-            // $this->Session->setFlash('Supervisor');
+            // $this->Session->setFlash(__('Supervisor'), "flash_notification");
             // Todos
         } else {
-            $this->Session->setFlash("Não autorizado");
+            $this->Session->setFlash(__("Não autorizado"), "flash_notification");
             $this->redirect('/Userestagios/login/');
         }
         // die(pr($this->Session->read('user')));
@@ -61,10 +61,13 @@ class EstudantesController extends AppController {
         // pr($id);
         // die('registro');
 
+        /* Meses em português */
+        $this->set('meses', $this->meses());
+
         $registrologin = $this->Session->read('numero');
         if ($registro != $registrologin) {
             if ($this->Session->read('id_categoria') === '2') {
-                $this->setFlash(__('Realize login com seu número de DRE'));
+                $this->setFlash(__('Realize login com seu número de DRE'), "flash_notification");
                 $this->redirect('/Userestagios/login');
             }
         }
@@ -100,10 +103,10 @@ class EstudantesController extends AppController {
                 // Mostra resultado da insercao
                 $this->Session->write('menu_aluno', 'alunonovo');
                 $this->Session->write('menu_id_aluno', $this->Estudante->id);
-                $this->Session->setFlash(__('Dados inseridos'));
+                $this->Session->setFlash(__('Dados inseridos'), "flash_notification");
                 $this->redirect("/Estudantes/view/" . $this->Estudante->id);
             }
-            $this->Session->setFlash(__("Cadastro realizado: " . $registro));
+            $this->Session->setFlash(__("Cadastro realizado: " . $registro), "flash_notification");
             $this->redirect('/Estudante/view/' . $this->Estudante->id);
         }
         if ($registro) {
@@ -127,6 +130,9 @@ class EstudantesController extends AppController {
         // pr($mural_estagio_id);
         // pr('registro: ' . $registro);
 
+        /* Meses em português */
+        $this->set('meses', $this->meses());
+
         /*
          * Se o Id não veio como parámetro calculo o Id a partir do registro
          */
@@ -138,7 +144,7 @@ class EstudantesController extends AppController {
             if ($identificador) {
                 $id = $identificador['Estudante']['id'];
             } else {
-                $this->Session->setFlash(__("Erro no identificador"));
+                $this->Session->setFlash(__("Erro no identificador"), "flash_notification");
                 $this->redirect("/Muralestagios/index");
             }
         }
@@ -156,7 +162,7 @@ class EstudantesController extends AppController {
             // pr($estudante_id['Estudante']['id']);
             // die();
             if ($estudante_id['Estudante']['id'] != $id) {
-                $this->Session->setFlash(__("Acesso não autorizado"));
+                $this->Session->setFlash(__("Acesso não autorizado"), "flash_notification");
                 $this->redirect("/Muralestagios/index");
                 die("Não autorizado");
             }
@@ -180,11 +186,11 @@ class EstudantesController extends AppController {
                 'conditions' => ['Estudante.registro' => $this->data['Estudante']['registro']]
             ]);
             if ($duplicada) {
-                $this->Session->setFlash(__("O número de aluno já está cadastrado"));
+                $this->Session->setFlash(__("O número de aluno já está cadastrado"), "flash_notification");
             }
 
             if ($this->Estudante->save($this->data)) {
-                $this->Session->setFlash(_("Atualizado"));
+                $this->Session->setFlash(__("Atualizado"), "flash_notification");
 
                 /*
                  * Capturo o mural_estagio_id para saber que foi chamada desde Inscriacoes add)
@@ -205,11 +211,11 @@ class EstudantesController extends AppController {
                  */
                 if ($mural_estagio_id) {
                     // Faz inscricao para selecao de estagio
-                    $this->Session->setFlash(__("Inscricao para selecao de estagio"));
+                    $this->Session->setFlash(__("Inscricao para selecao de estagio"), "flash_notification");
                     $this->redirect('/Inscricoes/inscricao/registro:' . $this->data['Estudante']['registro'] . '/mural_estagio_id:' . $mural_estagio_id);
                 } elseif (!empty($registro_termo)) {
                     // Solicita termo de compromisso
-                    $this->Session->setFlash(__("Solicitacao de termo de compromisso"));
+                    $this->Session->setFlash(__("Solicitacao de termo de compromisso"), "flash_notification");
                     // $this->redirect('/Inscricoes/termocompromisso/' . $registro_termo);
                 } else {
                     // Simplesmente atualiza e mostra o resultado
@@ -232,7 +238,7 @@ class EstudantesController extends AppController {
             if (isset($registro)) {
                 if ($registro != $this->Session->read('numero')) {
                     // die('Diferente');
-                    $this->Session->setFlash(__("Acesso não autorizado por erro de registro"));
+                    $this->Session->setFlash(__("Acesso não autorizado por erro de registro"), "flash_notification");
                     $this->redirect("/Muralestagios/index");
                     die("Não autorizado");
                 }
@@ -246,7 +252,7 @@ class EstudantesController extends AppController {
             // die();
             if (isset($id)) {
                 if ($id != $verifica['Estudante']['id']) {
-                    $this->Session->setFlash(__("Acesso não autorizado por erro de id"));
+                    $this->Session->setFlash(__("Acesso não autorizado por erro de id"), "flash_notification");
                     $this->redirect("/Muralestagios/index");
                     die("Não autorizado id");
                 }
@@ -340,7 +346,7 @@ class EstudantesController extends AppController {
 
         $this->Estudante->delete($id);
 
-        $this->Session->setFlash("Registro excluído (junto com as inscrições)");
+        $this->Session->setFlash(__("Registro excluído (junto com as inscrições)"), "flash_notification");
         $this->redirect("/Inscricoes/index/");
     }
 
@@ -371,7 +377,7 @@ class EstudantesController extends AppController {
                 $this->set('alunos', $this->paginate('Estudante', $condicao));
                 $this->set('nome', $this->data['Estudante']['nome']);
             } else {
-                $this->Session->setFlash(__('Não foram encontrados estudantes com esse nome'));
+                $this->Session->setFlash(__('Não foram encontrados estudantes com esse nome'), "flash_notification");
                 $this->redirect('/Estudantes/busca/');
             }
         }
@@ -386,7 +392,7 @@ class EstudantesController extends AppController {
             // pr($alunos);
             // die('alunos');
             if (empty($alunos)) {
-                $this->Session->setFlash(__("Não foram encontrados registros do estudante"));
+                $this->Session->setFlash(__("Não foram encontrados registros do estudante"), "flash_notification");
                 $this->redirect('/Estudantes/busca');
             } else {
                 $this->set('estudantes', $alunos);
@@ -404,7 +410,7 @@ class EstudantesController extends AppController {
             // pr($alunos);
             // die("Sem registro");
             if (empty($alunos)) {
-                $this->Session->setFlash(__("Não foram encontrados estudantes com esse email"));
+                $this->Session->setFlash(__("Não foram encontrados estudantes com esse email"), "flash_notification");
                 $this->redirect('/Estudantes/busca');
             } else {
                 $this->set('estudantes', $alunos);
@@ -424,7 +430,7 @@ class EstudantesController extends AppController {
             // pr($alunos);
             // die("Sem registro");
             if (empty($alunos)) {
-                $this->Session->setFlash(__("Não foram encontrados estudantes com o CPF"));
+                $this->Session->setFlash(__("Não foram encontrados estudantes com o CPF"), "flash_notification");
                 $this->redirect('/Estudantes/busca');
             } else {
                 $this->set('estudantes', $alunos);
@@ -819,6 +825,218 @@ class EstudantesController extends AppController {
         $this->set('periodos', $periodos);
         $this->set('periodoselecionado', $periodo);
         // die();
+    }
+
+    public function folhasolicita() {
+
+        $categoria = $this->Session->read('id_categoria');
+        if ($categoria == 1) {
+
+            // pr($this->data);
+            if (empty($this->data)) {
+                $this->data = $this->Estudante->read();
+            } else {
+                // pr($this->data());
+                $this->Session->write('numero', $this->data['Estudante']['DRE']);
+                $this->redirect('folhadeatividades');
+            }
+        }
+    }
+
+    public function folhadeatividades() {
+
+        $dre = $this->Session->read('numero');
+        if (empty($dre)) {
+            $this->redirect('folhasolicita');
+        } else {
+            // pr($dre);
+            // die('dre');
+            $estagiario = $this->Estudante->Estagiario->find('first', array(
+                'conditions' => array('Estagiario.registro' => $dre),
+                'order' => array('Estagiario.nivel DESC')
+            ));
+            // pr($estagiario);
+            // die('estagiario');
+            $this->Session->delete('numero');
+
+            if (!empty($estagiario)):
+                $this->set('registro', $registro = $estagiario['Estudante']['registro']);
+                $this->set('estudante', $estudante = $estagiario['Estudante']['nome']);
+                $this->set('nivel', $nivel = $estagiario['Estagiario']['nivel']);
+                $this->set('periodo', $periodo = $estagiario['Estagiario']['periodo']);
+                $this->set('supervisor', $supervisor = $estagiario['Supervisor']['nome']);
+                $this->set('cress', $cress = $estagiario['Supervisor']['cress']);
+                $this->set('celular', $celular = '(' . $estagiario['Supervisor']['codigo_cel'] . ')' . $estagiario['Supervisor']['celular']);
+                $this->set('instituicao', $instituicao = $estagiario['Instituicao']['instituicao']);
+                $this->set('professor', $professor = $estagiario['Professor']['nome']);
+
+                $this->response->header(array("Content-type: application/pdf"));
+                $this->response->type("pdf");
+                $this->layout = "pdf";
+                $this->render();
+            else:
+                $this->Session->setFlash(__("Não há estágios cadastrados para este estudante"), "flash_notification");
+                $this->redirect('folhadeatividades');
+            endif;
+        }
+    }
+
+    public function avaliacaosolicita() {
+
+        // Verificar periodo da folha de avaliação
+        // pr($this->data);
+        if ($this->data) {
+            $aluno = $this->Estudante->Estagiario->find('first', array(
+                'conditions' => array('Estagiario.registro' => $this->data['Estudante']['registro']),
+                'order' => array('Estagiario.nivel DESC')
+            ));
+            // pr($aluno['Supervisor']);
+            // die("avaliacao");
+            if ($aluno) {
+                if (!empty($aluno['Supervisor']['id'])) {
+                    $this->Session->setFlash(__("Verificar e completar dados do supervisor da instituicao."), "flash_notification");
+                    // $this->redirect('/Estudantes/avaliacaoverifica/' . $aluno['Supervisor']['id'] . '/' . $this->data['Estudante']['registro']);
+                    $this->redirect('/Estudantes/avaliacaoedita/supervisor_id:' . $aluno['Supervisor']['id'] . '/registro:' . $this->data['Estudante']['registro']);
+                } else {
+                    $this->Session->setFlash(__("Não foi indicado o supervisor da instituicao. Retorna para solicitar termo de compromisso"), "flash_notification");
+                    $this->redirect('/Inscricoes/termocompromisso/' . $aluno['Aluno']['registro']);
+                }
+            } else {
+                $this->Session->setFlash(__("Não há estágios cadastrados para este estudante"), "flash_notification");
+            }
+        }
+    }
+
+    public function avaliacaoverifica() {
+
+        $registro = $this->request->params['pass'][1];
+        $estagiario = $this->Estudante->Estagiario->find('first', array(
+            'conditions' => array('Estagiario.registro' => $registro),
+            'order' => array('Estagiario.nivel DESC')
+        ));
+
+        if ($estagiario) {
+            $this->set('professor', $estagiario['Professor']['nome']);
+            $this->set('instituicao', $estagiario['Instituicao']['instituicao']);
+            $this->set('supervisor', $estagiario['Supervisor']['nome']);
+            $this->set('nivel', $estagiario['Estagiario']['nivel']);
+            $this->set('periodo', $estagiario['Estagiario']['periodo']);
+        }
+
+        // $this->redirect('/Estudantes/avaliacaoedita/' . $estagiario['Supervisor']['id'] . '/' . $this->$estagiario['Estudante']['registro']);
+    }
+
+    public function avaliacaoedita() {
+
+        // pr($this->params);
+        $supervisor_id = isset($this->params['named']['supervisor_id']) ? $this->params['named']['supervisor_id'] : null;
+        $registro = isset($this->params['named']['registro']) ? $this->params['named']['registro'] : null;
+
+        // pr($registro);
+        $estagiario = $this->Estudante->Estagiario->find('first', array(
+            'conditions' => array('Estagiario.registro' => $registro),
+            'order' => array('Estagiario.nivel DESC')
+        ));
+        // pr($estagiario);
+        // die();
+        if ($estagiario) {
+            $this->set('aluno', $estagiario['Estudante']['nome']);
+            $this->set('registro', $estagiario['Estudante']['registro']);
+            $this->set('professor', $estagiario['Professor']['nome']);
+            $this->set('instituicao', $estagiario['Instituicao']['instituicao']);
+            $this->set('supervisor', $estagiario['Supervisor']['nome']);
+            $this->set('supervisor_id', $estagiario['Supervisor']['id']);
+            $this->set('nivel', $estagiario['Estagiario']['nivel']);
+            $this->set('periodo', $estagiario['Estagiario']['periodo']);
+            // die("empty");
+        }
+        // die("avaliacaoedita");
+
+        $this->loadModel('Supervisor');
+        $this->Supervisor->id = $supervisor_id;
+
+        if (empty($this->data)) {
+            // die("empty");
+            $this->data = $this->Supervisor->read();
+        } else {
+            // print_r($this->data);
+            // die("avaliacaoedita");
+
+            if (!$this->data['Supervisor']['cress']) {
+                $this->Session->setFlash(__("O número de CRESS é obrigatório"), "flash_notification");
+                $this->redirect('/Estudantes/avaliacaosolicita/supervisor_id:' . $supervisor_id . '/registro:' . $registro);
+                die("O número de Cress é obrigatório");
+            }
+
+            if (!$this->data['Supervisor']['nome']) {
+                $this->Session->setFlash(__("O nome do supervisor é obrigatório"), "flash_notification");
+                $this->redirect('/Estudantes/avaliacaoedita/supervisor_id:' . $supervisor_id . '/registro:' . $registro);
+                die("O nome do supervisor é obrigatório");
+            }
+
+            if ((!$this->data['Supervisor']['celular']) && (!$this->data['Supervisor']['telefone'])) {
+                $this->Session->setFlash(__("O número de telefone ou celular é obrigatório"), "flash_notification");
+                $this->redirect('/Estudantes/avaliacaoedita/supervisor_id:' . $supervisor_id . '/registro:' . $registro);
+                die("O número de telefone ou celular é obrigatório");
+            }
+
+            if (!$this->data['Supervisor']['email']) {
+                $this->Session->setFlash(__("O endereço de email é obrigatório"), "flash_notification");
+                $this->redirect('/Estudantes/avaliacaoedita/supervisor_id:' . $supervisor_id . '/registro:' . $registro);
+                die("O email é obrigatório");
+            }
+
+            if ($this->Supervisor->save($this->data)) {
+                // die();
+                // pr($this->data);
+                $this->Session->setFlash(__("Atualizado"), "flash_notification");
+                $this->redirect('/Estudantes/avaliacaoimprime/registro:' . $registro);
+            }
+        }
+    }
+
+    public function avaliacaoimprime() {
+
+        $registro = $this->request->params['named']['registro'];
+
+        $aluno = $this->Estudante->Estagiario->find('first', array(
+            'conditions' => array('Estagiario.registro' => $registro),
+            'order' => array('Estagiario.nivel DESC')
+        ));
+
+        // pr($aluno);
+        // die();
+
+        $estudante = $aluno['Estudante']['nome'];
+        $registro = $aluno['Estudante']['registro'];
+        $nivel = $aluno['Estagiario']['nivel'];
+        $periodo = $aluno['Estagiario']['periodo'];
+        $supervisor = $aluno['Supervisor']['nome'];
+        $cress = $aluno['Supervisor']['cress'];
+        $telefone = $aluno['Supervisor']['telefone'];
+        $celular = $aluno['Supervisor']['celular'];
+        $email = $aluno['Supervisor']['email'];
+        $instituicao = $aluno['Instituicao']['instituicao'];
+        $endereco_inst = $aluno['Instituicao']['endereco'];
+        $professor = $aluno['Professor']['nome'];
+
+        $this->set('estudante', $estudante);
+        $this->set('registro', $registro);
+        $this->set('nivel', $nivel);
+        $this->set('periodo', $periodo);
+        $this->set('supervisor', $supervisor);
+        $this->set('cress', $cress);
+        $this->set('telefone', $telefone);
+        $this->set('celular', $celular);
+        $this->set('email', $email);
+        $this->set('instituicao', $instituicao);
+        $this->set('endereco_inst', $endereco_inst);
+        $this->set('professor', $professor);
+
+        $this->response->header(array("Content-type: application/pdf"));
+        $this->response->type("pdf");
+        $this->layout = "pdf";
+        $this->render();
     }
 
     public function padroniza() {

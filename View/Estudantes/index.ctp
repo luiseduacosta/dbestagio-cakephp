@@ -38,12 +38,11 @@
                     <tbody>
                         <?php foreach ($estudantes as $c_estudante): ?>
                             <?php
-                            if ($c_estudante['Estudante']['id']) {
-                                ;
+                            if ($c_estudante['Estudante']['id']) {                                ;
                                 ?>
                                 <tr>
                                     <td style='text-align:center'>
-                                        <?php echo $this->Html->link($c_estudante['Estudante']['registro'], '/Estudantes/view/' . $c_estudante['Estudante']['registro']); ?>
+                                        <?php echo $this->Html->link($c_estudante['Estudante']['registro'], '/Estudantes/view/registro:' . $c_estudante['Estudante']['registro']); ?>
                                     <td style='text-align:left'><?php echo $c_estudante['Estudante']['nome']; ?></td>
                                     <?php if ($this->Session->read('id_categoria') === '1'): ?>
                                         <td style='text-align:left'><?php echo $c_estudante['Estudante']['email']; ?></td>

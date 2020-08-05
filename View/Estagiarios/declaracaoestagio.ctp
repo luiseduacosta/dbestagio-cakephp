@@ -61,9 +61,11 @@ if (empty($supervisora))
 if (empty($carga_horaria) or $carga_horaria === 0)
     $carga_horaria = "_____";
 
-$dia = strftime('%e', strtotime(date('d')));
-$mes = strftime('%B', strtotime(date('M')));
-$ano = strftime('%Y', strtotime(date('Y')));
+setlocale (LC_ALL, 'pt_BR');
+$dia = strftime('%e', mktime());
+$mes = strftime('%B', mktime());
+$ano = strftime('%Y', mktime());
+$fecha = strftime ("%A %e %B %Y", mktime ());
 
 $html = <<<EOD
 
@@ -79,12 +81,11 @@ Declaramos que o/a estudante <b>$estudante</b> inscrito(a) no CPF sob o nº $cpf
 <p>
 
 <p style="text-align:justify">
-As atividades desenvolvidas correspondem ao nível $nivel do currículum vigente na Escola de Serviço Social da UFRJ.
+As atividades desenvolvidas correspondem ao nível $nivel do currículum da Escola de Serviço Social da UFRJ.
 </p>
 <br />
 <br />
 <p style="text-align:right">Rio de Janeiro, $dia de $mes de $ano.</p>
-</p>
 
 <br style='line-height: 10.0'; />
 

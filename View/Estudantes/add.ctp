@@ -1,5 +1,7 @@
 <?php ?>
 
+<?= $this->Html->script("jquery.mask.min"); ?>
+
 <script>
     $(document).ready(function () {
 
@@ -131,13 +133,13 @@
         </div>
         <div class="form-group row">
             <div class='col-sm-1'></div>
-            <?php echo $this->Form->input('codigo_tel', ['label' => 'DDD' , 'default' => 21, 'class' => 'form-control']); ?>
+            <?php echo $this->Form->input('codigo_tel', ['label' => 'DDD', 'default' => 21, 'class' => 'form-control']); ?>
         </div>
         <div class='col-sm-2'>
             <?php echo $this->Form->input('telefone', ['class' => 'form-control']); ?>
         </div>
         <div class='col-sm-1'>
-            <?php echo $this->Form->input('codigo_cel', ['label' => 'DDD' , 'default' => 21, 'class' => 'form-control']); ?>
+            <?php echo $this->Form->input('codigo_cel', ['label' => 'DDD', 'default' => 21, 'class' => 'form-control']); ?>
         </div>
         <div class='col-sm-2'>
             <?php echo $this->Form->input('celular', ['class' => 'form-control']); ?>
@@ -167,12 +169,9 @@
     ?>
 </fieldset>
 <br/>
-<div class="row">
-    <div class="col">
-        <?php echo $this->Form->input('Confirima', ['type' => 'submit', 'label' => false, 'class' => 'btn btn-primary position-static']); ?>
+<div class="row justify-content-center">
+    <div class="col-auto">
+        <?php echo $this->Form->input('Confirima', ['type' => 'submit', 'label' => false, 'class' => 'btn btn-success position-static']); ?>
+        <?php echo $this->Form->end(); ?>
     </div>
 </div>
-
-<span style="text-align: center">
-    <?php echo $this->Form->end(); ?>
-</span>

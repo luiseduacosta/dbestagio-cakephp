@@ -19,7 +19,7 @@
     <?php echo $this->Form->create('Instituicao'); ?>
     <?php echo $this->Form->input('instituicao', array('label' => 'Digite o nome da instituição', 'class' => 'form-control')); ?>
     <br>
-    <?php echo $this->Form->submit('Confirma', ['class' => 'btn btn-primary']); ?>
+    <?php echo $this->Form->submit('Confirma', ['class' => 'btn btn-success']); ?>
     <?php echo $this->Form->end(); ?>
 
 <?php endif; ?>

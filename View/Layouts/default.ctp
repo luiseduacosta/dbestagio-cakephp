@@ -36,9 +36,9 @@
 
         // echo $this->Html->css('cake.generic');
         // echo $this->Html->css('bootstrap');
-        // echo $this->Html->script(['jquery-3.5.1.slim.min', 'popper.min.js', 'bootstrap.min.js']);
+        echo $this->Html->script(['jquery-3.5.1.slim.min', 'popper.min.js', 'bootstrap.min.js']);
         // echo $this->Html->css('meus_estilos');
-        // echo $this->Js->writeBuffer();
+        echo $this->Js->writeBuffer();
         // echo $scripts_for_layout;
         ?>
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">

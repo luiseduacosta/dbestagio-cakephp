@@ -18,7 +18,7 @@
     <div class="form-group">
         <?php echo $this->Form->input('registro', ['label' => 'Digite o DRE do aluno', 'maxsize' => 9, 'class' => 'form-control']); ?>
     </div>
-    <?= $this->Form->input('Confirma', ['type' => 'submit', 'label' => false, 'class' => 'btn btn-primary']); ?>
+    <?= $this->Form->input('Confirma', ['type' => 'submit', 'label' => false, 'class' => 'btn btn-success']); ?>
     <?= $this->Form->end(); ?>
 
 <?php endif; ?>

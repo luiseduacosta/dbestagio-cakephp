@@ -23,7 +23,7 @@
         ]);
 
         echo $this->Form->input('registro', ['label' => ['text' => 'Registro (DRE)'], 'size' => '9', 'maxlength' => '9', 'default' => $this->Session->read('numero'), 'class' => 'form-control']);
-        echo $this->Form->input('Confirma', ['type' => 'submit', 'label' => false, 'class' => 'btn btn-primary position-static']);
+        echo $this->Form->input('Confirma', ['type' => 'submit', 'label' => false, 'class' => 'btn btn-success position-static']);
         echo $this->Form->end();
         ?>
     </div>
