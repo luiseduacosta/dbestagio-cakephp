@@ -62,46 +62,41 @@
 <?= $this->element('submenu_estagiarios'); ?>
 
 <div id="estagiario_seleciona" style="align-content: center;">
-    <table  style="width:95%; border:0px;">
+    <table class='table table-striped table-hover table-responsive'>
         <tr>
             <td>
                 <?php echo $this->Form->create('Estagiario', array('url' => 'index', 'inputDefaults' => array('label' => false, 'div' => false))); ?>
-                <?php echo $this->Form->input('periodo', array('type' => 'select', 'options' => $periodos_todos, 'selected' => $periodo, 'empty' => array('0' => 'Período'))); ?>
+                <?php echo $this->Form->input('periodo', array('type' => 'select', 'options' => $periodos_todos, 'selected' => $periodo, 'empty' => array('0' => 'Período'), 'style' => 'width: 7em', 'class' => 'form-control')); ?>
                 <?php // echo $this->Form->end();?>
             </td>
             <td>
                 <?php echo $this->Form->create('Estagiario', array('url' => 'index', 'inputDefaults' => array('label' => false, 'div' => false))); ?>
-                <?php echo $this->Form->input('nivel', array('type' => 'select', 'options' => array('1' => 'OTP 1', '2' => 'OTP 2', '3' => 'OTP 3', '4' => 'OTP 4', '9' => 'Não obrigatório'), 'selected' => $nivel, 'default' => 0, 'empty' => array('0' => 'OTP'))); ?>
+                <?php echo $this->Form->input('nivel', array('type' => 'select', 'options' => array('1' => 'OTP 1', '2' => 'OTP 2', '3' => 'OTP 3', '4' => 'OTP 4', '9' => 'Não obrigatório'), 'selected' => $nivel, 'default' => 0, 'empty' => array('0' => 'OTP'), 'style' => 'width: 7em', 'class' => 'form-control')); ?>
                 <?php // echo $this->Form->end();?>
             </td>
             <td>
                 <?php echo $this->Form->create('Estagiario', array('url' => 'index', 'inputDefaults' => array('label' => false, 'div' => false))); ?>
-                <?php echo $this->Form->input('turno', array('type' => 'select', 'options' => array('D' => 'Diurno', 'N' => 'Noturno'), 'selected' => $turno, 'empty' => array('0' => 'Turno'))); ?>
+                <?php echo $this->Form->input('turno', array('type' => 'select', 'options' => array('D' => 'Diurno', 'N' => 'Noturno'), 'selected' => $turno, 'empty' => array('0' => 'Turno'), 'style' => 'width: 7em',  'class' => 'form-control')); ?>
                 <?php // echo $this->Form->end();?>
             </td>
             <td>
                 <?php echo $this->Form->create('Estagiario', array('url' => 'index', 'inputDefaults' => array('label' => false, 'div' => false))); ?>
-                <?php echo $this->Form->input('areaestagio_id', array('type' => 'select', 'options' => $areaestagios, 'selected' => $areaestagio_id, 'empty' => array('0' => 'Seleciona área'))); ?>
-                <?php // echo $this->Form->end();?>
-            </td>
-        </tr>
-    </table>
-
-    <table style="width:95%; border:0px">
-        <tr>
-            <td>
-                <?php echo $this->Form->create('Estagiario', array('url' => 'index', 'inputDefaults' => array('label' => false, 'div' => false))); ?>
-                <?php echo $this->Form->input('docente_id', array('type' => 'select', 'options' => $professores, 'selected' => $docente_id, 'default' => 0, 'empty' => array('0' => 'Seleciona professor'))); ?>
+                <?php echo $this->Form->input('areaestagio_id', array('type' => 'select', 'options' => $areaestagios, 'selected' => $areaestagio_id, 'empty' => array('0' => 'Área'), 'style' => 'width: 7em' ,'class' => 'form-control')); ?>
                 <?php // echo $this->Form->end();?>
             </td>
             <td>
                 <?php echo $this->Form->create('Estagiario', array('url' => 'index', 'inputDefaults' => array('label' => false, 'div' => false))); ?>
-                <?php echo $this->Form->input('supervisor_id', array('type' => 'select', 'options' => $supervisores, 'selected' => $supervisor_id, 'default' => 0, 'empty' => array('0' => 'Seleciona supervisor'))); ?>
+                <?php echo $this->Form->input('docente_id', array('type' => 'select', 'options' => $professores, 'selected' => $docente_id, 'default' => 0, 'empty' => array('0' => 'Professor/a'), 'style' => 'width: 10em', 'class' => 'form-control')); ?>
                 <?php // echo $this->Form->end();?>
             </td>
             <td>
                 <?php echo $this->Form->create('Estagiario', array('url' => 'index', 'inputDefaults' => array('label' => false, 'div' => false))); ?>
-                <?php echo $this->Form->input('instituicao_id', array('type' => 'select', 'options' => $instituicoes, 'selected' => $instituicao_id, 'default' => 0, 'empty' => array('0' => 'Seleciona instituição'), 'style' => 'width: 25em')); ?>
+                <?php echo $this->Form->input('supervisor_id', array('type' => 'select', 'options' => $supervisores, 'selected' => $supervisor_id, 'default' => 0, 'empty' => array('0' => 'Supervisor/a'), 'style' => 'width: 10em', 'class' => 'form-control')); ?>
+                <?php // echo $this->Form->end();?>
+            </td>
+            <td>
+                <?php echo $this->Form->create('Estagiario', array('url' => 'index', 'inputDefaults' => array('label' => false, 'div' => false))); ?>
+                <?php echo $this->Form->input('instituicao_id', array('type' => 'select', 'options' => $instituicoes, 'selected' => $instituicao_id, 'default' => 0, 'empty' => array('0' => 'Instituição'), 'style' => 'width: 10em', 'class' => 'form-control')); ?>
                 <?php // echo $this->Form->end();?>
             </td>
         </tr>

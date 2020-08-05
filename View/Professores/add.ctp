@@ -1,5 +1,7 @@
 <?php ?>
 
+<?= $this->Html->script("jquery.mask.min"); ?>
+
 <script>
     $(document).ready(function () {
 
@@ -9,6 +11,7 @@
 
     });
 </script>
+
 <?php
 setlocale(LC_ALL, 'pt_BR');
 ?>
@@ -30,7 +33,7 @@ echo $this->Form->create('Professor', [
 
 <?php
 // echo $this->Form->input('cpf', ['class' => 'form-control']);
-// echo $this->Form->input('datanascimento', array('dateFormat'=>'DMY', 'empty'=>TRUE, ['class' => 'form-control']));
+// echo $this->Form->input('datanascimento', array('dateFormat'=>'DMY', 'empty'=>TRUE, 'monthNames' => $meses, 'class' => 'form-control'));
 // echo $this->Form->input('localnascimento', ['class' => 'form-control']);
 // echo $this->Form->input('sexo', array('options'=>array('1'=>'Masculino', '2'=>'Feminino'), ['class' => 'form-control']));
 ?>
@@ -63,7 +66,7 @@ echo $this->Form->create('Professor', [
 
 <?php setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese'); ?>
 <?php date_default_timezone_set('America/Sao_Paulo'); ?>
-<?php echo $this->Form->input('dataingresso', ['type' => 'date', 'dateFormat' => 'DMY', 'minYear' => date('Y') - 80, 'maxYear' => date('Y'), 'empty' => TRUE, 'class' => 'form-horizontal date']); ?>
+<?php echo $this->Form->input('dataingresso', ['type' => 'date', 'dateFormat' => 'DMY', 'minYear' => date('Y') - 80, 'maxYear' => date('Y'), 'monthNames' => $meses, 'empty' => TRUE, 'class' => 'form-horizontal date']); ?>
 
 <?php
 // echo $this->Form->input('formaingresso', ['class' => 'form-control']);
@@ -75,15 +78,15 @@ echo $this->Form->create('Professor', [
 <?php echo $this->Form->input('departamento', ['options' => ['Fundamentos' => 'Fundamentos', 'Metodos' => 'Métodos e técnicas', 'Politicas' => 'Política Social'], 'class' => 'form-control']); ?>
 
 <?php
-// echo $this->Form->input('dataegresso', array('dateFormat'=>'DMY', 'empty'=>TRUE, ['class' => 'form-control']));
+// echo $this->Form->input('dataegresso', array('dateFormat'=>'DMY', 'empty'=>TRUE, 'monthNames' => $meses, 'class' => 'form-control'));
 // echo $this->Form->input('motivoegresso', ['class' => 'form-control']);
 ?>
 
 <?php echo $this->Form->input('observacoes', ['class' => 'form-control']); ?>
 <br>
-
-<?php echo $this->Form->submit('Confirma', ['class' => 'btn btn-primary']); ?>
-
-<?php echo $this->Form->end(); ?>
-
-
+<div class="row justify-content-center">
+    <div class="col-auto">
+        <?php echo $this->Form->submit('Confirma', ['class' => 'btn btn-success']); ?>
+        <?php echo $this->Form->end(); ?>
+    </div>
+</div>

@@ -44,10 +44,11 @@ $pdf->AddPage();
 if (empty($supervisor_nome))
     $supervisor_nome = "______________________________________";
 
+setlocale (LC_ALL, 'pt_BR');
+$dia = strftime('%e', mktime());
+$mes = strftime('%B', mktime());
+$ano = strftime('%Y', mktime());
 
-$dia = strftime('%e', strtotime(date('d')));
-$mes = strftime('%B', strtotime(date('M')));
-$ano = strftime('%Y', strtotime(date('Y')));
 $termoinicio = strftime('%e de %B de %Y', strtotime($termoinicio));
 $termofinal = strftime('%e de %B de %Y', strtotime($termofinal));
 

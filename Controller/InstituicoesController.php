@@ -3,6 +3,7 @@
 class InstituicoesController extends AppController {
 
     public $name = "Instituicoes";
+    public $helpers = ['Text'];
     public $components = array('Auth');
     public $paginate = [
         'limit' => 25,
@@ -14,20 +15,20 @@ class InstituicoesController extends AppController {
         // Admin
         if ($this->Session->read('id_categoria') === '1') {
             $this->Auth->allow();
-            // $this->Session->setFlash("Administrador");
+            // $this->Session->setFlash(__("Administrador"), "flash_notification");
             // Estudantes
         } elseif ($this->Session->read('id_categoria') === '2') {
             $this->Auth->allow('index', 'lista', 'view', 'busca', 'seleciona_supervisor');
-            // $this->Session->setFlash("Estudante");
+            // $this->Session->setFlash(__("Estudante"), "flash_notification");
         } elseif ($this->Session->read('id_categoria') === '3') {
             $this->Auth->allow('add', 'edit', 'addassociacao', 'deleteassociacao', 'index', 'view', 'busca', 'seleciona_supervisor');
-            // $this->Session->setFlash("Professor");
+            // $this->Session->setFlash(__("Professor"), "flash_notification");
             // Professores, Supervisores
         } elseif ($this->Session->read('id_cateogria') === '4') {
             $this->Auth->allow('add', 'edit', 'addassociacao', 'deleteassociacao', 'index', 'view', 'busca', 'seleciona_supervisor');
-            // $this->Session->setFlash("Professor/Supervisor");
+            // $this->Session->setFlash(__("Professor/Supervisor"), "flash_notification");
         } else {
-            $this->Session->setFlash("Não autorizado");
+            $this->Session->setFlash(__("Não autorizado"), "flash_notification");
             $this->redirect('/Userestagios/login/');
         }
     }
@@ -157,10 +158,15 @@ class InstituicoesController extends AppController {
         // pr($area_instituicao);
         // die();
         $this->set('id_area_instituicao', $area_instituicao);
+        
+        /* Passo os meses em português */
+        $this->set('meses', $this->meses());
+        // pr($meses);
+        // die("meses");
 
         if ($this->data) {
             if ($this->Instituicao->save($this->data)) {
-                $this->Session->setFlash(__('Dados da instituição inseridos!'));
+                $this->Session->setFlash(__('Dados da instituição inseridos!'), "flash_notification");
                 $this->redirect('/Instituicoes/view/' . $this->Instituicao->Id);
             }
         }
@@ -230,7 +236,11 @@ class InstituicoesController extends AppController {
     public function edit($id = null) {
 
         $this->Instituicao->id = $id;
-
+        
+        $this->set('meses', $this->meses());
+        // pr($meses);
+        // die("meses");
+        
         $area_instituicao = $this->Instituicao->Areainstituicao->find('list', array(
             'order' => 'Areainstituicao.area'
         ));
@@ -242,7 +252,7 @@ class InstituicoesController extends AppController {
         } else {
             if ($this->Instituicao->save($this->data)) {
                 // print_r($id);
-                $this->Session->setFlash("Atualizado");
+                $this->Session->setFlash(__("Atualizado"), "flash_notification");
                 $this->redirect('/Instituicoes/view/' . $id);
             }
         }
@@ -260,17 +270,17 @@ class InstituicoesController extends AppController {
         if ($murais) {
             // die(pr($murais[0]['id']));
 
-            $this->Session->setFlash(__('Há murais vinculados com esta instituição'));
+            $this->Session->setFlash(__('Há murais vinculados com esta instituição'), "flash_notification");
             $this->redirect('/Muralestagios/view/' . $murais[0]['id']);
         } elseif ($supervisores) {
-            $this->Session->setFlash(__('Há supervisores vinculados com esta instituição'));
+            $this->Session->setFlash(__('Há supervisores vinculados com esta instituição'), "flash_notification");
             $this->redirect('/Instituicoes/view/' . $id);
         } elseif ($alunos) {
-            $this->Session->setFlash(__('Há alunos estagiários vinculados com esta instituição'));
+            $this->Session->setFlash(__('Há alunos estagiários vinculados com esta instituição'), "flash_notification");
             $this->redirect('/Instituicoes/view/' . $id);
         } else {
             $this->Instituicao->delete($id);
-            $this->Session->setFlash(__('Registro excluído'));
+            $this->Session->setFlash(__('Registro excluído'), "flash_notification");
             $this->redirect('/Instituicoes/index/');
         }
     }
@@ -282,7 +292,7 @@ class InstituicoesController extends AppController {
 
         $this->Instituicao->InstituicaoSupervisor->delete($id);
 
-        $this->Session->setFlash(__("Supervisor excluido da instituição"));
+        $this->Session->setFlash(__("Supervisor excluido da instituição"), "flash_notification");
         $this->redirect('/Instituicoes/view/' . $id_superinstituicao['InstituicaoSupervisor']['instituicao_id']);
     }
 
@@ -291,7 +301,7 @@ class InstituicoesController extends AppController {
             // pr($this->request->data);
             // die();
             if ($this->Instituicao->InstituicaoSupervisor->save($this->data)) {
-                $this->Session->setFlash(__('Dados inseridos'));
+                $this->Session->setFlash(__('Dados inseridos'), "flash_notification");
                 $this->redirect('/Instituicoes/view/' . $this->data['InstituicaoSupervisor']['instituicao_id']);
             }
         }
@@ -309,7 +319,7 @@ class InstituicoesController extends AppController {
 
                 // Nenhum resultado
                 if (empty($instituicoes)) {
-                    $this->Session->setFlash(__("Não foram encontrados registros"));
+                    $this->Session->setFlash(__("Não foram encontrados registros"), "flash_notification");
                 } else {
                     $this->set('instituicoes', $instituicoes);
                     $this->set('busca', $this->data['Instituicao']['instituicao']);

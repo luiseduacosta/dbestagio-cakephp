@@ -17,5 +17,5 @@ $this->Form->create("Userestagio", ['inputDefaults' => [
 <?php echo $this->Form->input('alunonovo_id', array('type' => 'hidden')); ?>
 <?php echo $this->Form->input('docente_id', array('type' => 'hidden')); ?>
 <?php echo $this->Form->input('supervisor_id', array('type' => 'hidden')); ?>
-<?php echo $this->Form->input('Atualizar', ['label' => false, 'type' => 'submit', 'class' => 'btn btn-primary position-static']); ?>
+<?php echo $this->Form->input('Atualizar', ['label' => false, 'type' => 'submit', 'class' => 'btn btn-success position-static']); ?>
 <?php echo $this->Form->end(''); ?>

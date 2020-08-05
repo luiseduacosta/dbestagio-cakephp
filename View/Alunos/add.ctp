@@ -1,6 +1,5 @@
-<?php
-echo $this->Html->script("jquery.maskedinput-1.3.1", array('inline' => false));
-?>
+<?= $this->Html->script("jquery.mask.min"); ?>
+
 <script>
 
     $(document).ready(function () {
@@ -189,13 +188,12 @@ echo $this->Form->create('Aluno');
         </div>
     </div>
     <br/>
-    <div class="form-row">
-        <div class="col">
-            <?php echo $this->Form->input('Confirima', ['type' => 'submit', 'label' => false, 'class' => 'btn btn-primary position-static']); ?>
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <?php echo $this->Form->input('Confirima', ['type' => 'submit', 'label' => false, 'class' => 'btn btn-success position-static']); ?>
+            <?php echo $this->Form->end(); ?>
         </div>
     </div>
 </fieldset>
 
-<?php
-echo $this->Form->end();
-?>
+

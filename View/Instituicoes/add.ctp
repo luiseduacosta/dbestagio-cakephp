@@ -2,6 +2,8 @@
 echo $this->Html->script("jquery.maskedinput-1.3.1", array('inline' => false));
 ?>
 
+<?= $this->Html->script("jquery.mask.min"); ?>
+
 <script>
 
     $(document).ready(function () {
@@ -112,7 +114,7 @@ echo $this->Form->create("Instituicao");
 <div class="form-group row">
     <label for='InstituicaoCnpj' class='col-lg-3 col-form-label'>CNPJ</label>
     <div class='col-lg-9'>
-        <?php echo $this->Form->input('cnpj', ['label' => false, 'class' => 'form-control']); ?>
+        <?php echo $this->Form->input('cnpj', ['label' => false, 'placeholder' => '99.999.999/9999-99', 'class' => 'form-control']); ?>
     </div>
 </div>
 <div class="form-group row">
@@ -136,7 +138,7 @@ echo $this->Form->create("Instituicao");
 <div class="form-group row">
     <label for='InstituicaoExpira' class='col-lg-3 col-form-label'>Expira</label>
     <div class='col-lg-9'>
-        <?php echo $this->Form->input('expira', ['label' => false, 'dateFormat' => 'DMY', 'class' => 'form-control']); ?>
+        <?php echo $this->Form->input('expira', ['label' => false, 'dateFormat' => 'DMY', 'monthNames' => $meses, 'empty' => true, 'class' => 'form-horizontal']); ?>
     </div>
 </div>
 <div class="form-group row">
@@ -160,7 +162,7 @@ echo $this->Form->create("Instituicao");
 <div class="form-group row">
     <label for='InstituicaoCep' class='col-lg-3 col-form-label'>CEP</label>
     <div class='col-lg-9'>
-        <?php echo $this->Form->input('cep', ['label' => false, 'class' => 'form-control']); ?>
+        <?php echo $this->Form->input('cep', ['label' => false, 'placeholder' => '99999-999', 'class' => 'form-control']); ?>
     </div>
 </div>
 <div class="form-group row">
@@ -212,5 +214,5 @@ echo $this->Form->create("Instituicao");
     </div>
 </div>
 <br>
-<?php echo $this->Form->submit('Confirmar', ['label' => false, 'class' => 'btn btn-primary']); ?>
+<?php echo $this->Form->submit('Confirmar', ['label' => false, 'class' => 'btn btn-success']); ?>
 <?php echo $this->Form->end(); ?>

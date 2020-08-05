@@ -10,7 +10,7 @@
                 <?= $this->Form->input('numero', ['label' => 'DRE, SIAPE ou CRESS respectivamente', 'class' => 'form-control']); ?>
             </div>
             <div class="form-group">
-                <?= $this->Form->submit('Confirma', ['label' => false, 'class' => 'btn btn-primary']); ?>
+                <?= $this->Form->submit('Confirma', ['label' => false, 'class' => 'btn btn-success']); ?>
             </div>
             <div class="form-group">
                 <?= $this->Form->end(); ?>

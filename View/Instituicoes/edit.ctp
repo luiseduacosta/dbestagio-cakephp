@@ -1,28 +1,30 @@
 <?php ?>
 
-<?= $this->Html->script('jquery.SimpleMask') ?>
+<?php // $meses = ['01' => 'Janeiro', '02' => 'Fevereiro', '03' => 'Março', '04' => 'Abril', '05' => 'Maio', '06' => 'Junho', '07' => 'Julho', '08' => 'Agosto', '09' => 'Setembro', '10' => 'Outubro', '11' => 'Novembro', '12' => 'Dezembro']; ?>
+<?php // pr($meses); ?>
 
+<?= $this->Html->script("jquery.mask.min"); ?>
 <script>
 
     $(document).ready(function () {
 
-        $("#InstituicaoCep").simpleMask({'mask': ["#####-###"]});
-        $("#InstituicaoCnpj").simpleMask({'mask': ["##.###.###/####-##"]});
+        $("#InstituicaoCep").mask("99999-999");
+        $("#InstituicaoCnpj").mask("99.999.999/9999-99");
 
     });
 
 </script>
 
-<?= $this->Html->css('jquery.autocomplete'); ?>
-<?= $this->Html->script("jquery.autocomplete", array('inline' => false)); ?>
+<?= $this->Html->script("jquery.autocomplete.min"); ?>
+<?= $this->Html->css("jquery.autocomplete"); ?>
 
 <script>
 
-    var urlbairro = "<?= $this->Html->url(["controller" => "Instituicoes", "action" => "listabairro"]); ?>";
-    var urlinstituicao = "<?= $this->Html->url(["controller" => "Instituicoes", "action" => "listainstituicao"]); ?>";
-    var urlnatureza = "<?= $this->Html->url(["controller" => "Instituicoes", "action" => "listanatureza"]); ?>";
-    
     $(document).ready(function () {
+
+        var urlbairro = "<?= $this->Html->url(["controller" => "Instituicoes", "action" => "listabairro"]); ?>";
+        var urlinstituicao = "<?= $this->Html->url(["controller" => "Instituicoes", "action" => "listainstituicao"]); ?>";
+        var urlnatureza = "<?= $this->Html->url(["controller" => "Instituicoes", "action" => "listanatureza"]); ?>";
 
         $("#InstituicaoBairro").autocomplete("<?= $this->Html->url(["controller" => "Instituicoes", "action" => "listabairro"]); ?>", {maxItemsToShow: 2});
         $("#InstituicaoInstituicao").autocomplete("<?= $this->Html->url(["controller" => "Instituicoes", "action" => "listainstituicao"]); ?>", {maxItemsToShow: 0});
@@ -68,9 +70,9 @@ echo $this->Form->create("Instituicao");
     </div>
 </div>
 <div class="form-group row">
-    <label for='InstituicaoExpira' class='col-lg-3 col-form-label'>Expira</label>
+    <?= $this->Form->label('expira', 'Expira', ['class' => 'col-lg-3 col-form-label']); ?>
     <div class='col-lg-9'>
-        <?php echo $this->Form->input('expira', ['label' => false, 'dateFormat' => 'DMY', 'class' => 'form-control']); ?>
+        <?php echo $this->Form->input('expira', ['label' => false, 'dateFormat' => 'DMY', 'monthNames' => $meses, 'class' => 'form-horizontal']); ?>
     </div>
 </div>
 <div class="form-group row">
@@ -146,5 +148,9 @@ echo $this->Form->create("Instituicao");
     </div>
 </div>
 <br>
-<?php echo $this->Form->submit('Confirmar', ['label' => false, 'class' => 'btn btn-primary']); ?>
-<?php echo $this->Form->end(); ?>
+<div class="row justify-content-center">
+    <div class="col-auto">
+        <?php echo $this->Form->submit('Confirmar', ['label' => false, 'class' => 'btn btn-success']); ?>
+        <?php echo $this->Form->end(); ?>
+    </div>
+</div>

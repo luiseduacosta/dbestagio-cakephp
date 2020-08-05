@@ -17,20 +17,20 @@ class AreaestagiosController extends AppController {
         // Admin
         if ($this->Session->read('id_categoria') === '1') {
             $this->Auth->allow();
-            // $this->Session->setFlash("Administrador");
+            // $this->Session->setFlash(__("Administrador"), "flash_notification");
             // Estudantes
         } elseif ($this->Session->read('id_categoria') === '2') {
             $this->Auth->allow('index', 'view');
-            // $this->Session->setFlash("Estudante");
+            // $this->Session->setFlash(__("Estudante"), "flash_notification");
         } elseif ($this->Session->read('id_categoria') === '3') {
             $this->Auth->allow('index', 'view');
-            // $this->Session->setFlash("Professor");
+            // $this->Session->setFlash(__("Professor"), "flash_notification");
             // Professores, Supervisores
         } elseif ($this->Session->read('id_cateogria') === '4') {
             $this->Auth->allow('index', 'view');
-            // $this->Session->setFlash("Professor/Supervisor");
+            // $this->Session->setFlash(__("Professor/Supervisor"), "flash_notification");
         } else {
-            $this->Session->setFlash("Não autorizado");
+            $this->Session->setFlash(__("Não autorizado"), "flash_notification");
             // $this->redirect('/Userestagios/login/');
         }
         // die(pr($this->Session->read('user')));
@@ -116,7 +116,7 @@ class AreaestagiosController extends AppController {
         } else {
             if ($this->Areaestagio->save($this->data)) {
                 // print_r($this->data);
-                $this->Session->setFlash("Atualizado");
+                $this->Session->setFlash(__("Atualizado"), "flash_notification");
                 $this->redirect('/Areaestagios/view/' . $id);
             }
         }
@@ -126,7 +126,7 @@ class AreaestagiosController extends AppController {
 
         if ($this->data) {
             if ($this->Areaestagio->save($this->data)) {
-                $this->Session->setFlash('Dados inseridos');
+                $this->Session->setFlash(__("Dados inseridos"), "flash_notification");
                 $this->redirect('/Areaestagios/view/' . $this->Areaestagio->getLastInsertId());
             }
         }
@@ -144,17 +144,16 @@ class AreaestagiosController extends AppController {
         // pr($estagiarios);
 
         if ($estagiarios) {
-            $this->Session->setFlash("Error: Há estagiários vinculados com esta área");
+            $this->Session->setFlash(__("Error: Há estagiários vinculados com esta área"), "flash_notification");
             // die("Estagiarios vinculados com essa área");
             $this->redirect('/Areaestagios/view/' . $id);
         } else {
             $this->Areaestagio->delete($id);
-            $this->Session->setFlash("Área excluída");
+            $this->Session->setFlash(__("Área excluída"), "flash_notification");
             // die("Área excluída");
             $this->redirect('/Areaestagios/index/');
         }
     }
-
 }
 
 ?>

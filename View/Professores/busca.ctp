@@ -45,7 +45,7 @@ echo $this->element('submenu_professores');
     <?php echo $this->Form->create('Professor'); ?>
     <?php echo $this->Form->input('nome', ['label' => 'Digite o nome do professor', 'class' => 'form-control']); ?>
     <br>
-    <?php echo $this->Form->submit('Confirma', ['class' => 'btn btn-primary']); ?>
+    <?php echo $this->Form->submit('Confirma', ['class' => 'btn btn-success']); ?>
     <?php echo $this->Form->end(); ?>
 
 <?php endif; ?>

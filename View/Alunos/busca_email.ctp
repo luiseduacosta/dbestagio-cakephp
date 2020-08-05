@@ -23,7 +23,7 @@
     ?>
     <?php echo $this->Form->input('email', array('label' => 'Digite o email', 'maxsize' => 70, 'size' => 70)); ?>
     <br>
-    <?php echo $this->Form->input('Confirma', ['label' => false, 'type' => 'submit', 'class' => 'btn btn-primary position-static']); ?>    
+    <?php echo $this->Form->input('Confirma', ['label' => false, 'type' => 'submit', 'class' => 'btn btn-success position-static']); ?>    
     <?php echo $this->Form->end(); ?>
 
 <?php endif; ?>

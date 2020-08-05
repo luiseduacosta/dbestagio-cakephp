@@ -72,7 +72,7 @@ echo $this->Form->input('supervisor_id', array('type' => 'select', 'label' => 'S
 
 echo "<br>";
 
-echo $this->Form->submit('Confirmar', ['class' => 'btn btn-primary']);
+echo $this->Form->submit('Confirmar', ['class' => 'btn btn-success']);
 
 echo $this->Form->end();
 ?>

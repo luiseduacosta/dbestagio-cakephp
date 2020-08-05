@@ -20,20 +20,20 @@ class SupervisoresController extends AppController {
         // Admin
         if ($this->Session->read('id_categoria') === '1') {
             $this->Auth->allow();
-            // $this->Session->setFlash("Administrador");
+            // $this->Session->setFlash(__("Administrador"), "flash_notification");
             // Estudantes
         } elseif ($this->Session->read('id_categoria') === '2') {
             $this->Auth->allow('index', 'busca');
-            // $this->Session->setFlash("Estudante");
+            // $this->Session->setFlash(__("Estudante"), "flash_notification");
         } elseif ($this->Session->read('id_categoria') === '3') {
             $this->Auth->allow('add', 'edit', 'addinstituicao', 'deleteassociacao', 'index', 'view', 'busca');
-            // $this->Session->setFlash("Professor");
+            // $this->Session->setFlash(__("Professor"), "flash_notification");
             // Professores, Supervisores
         } elseif ($this->Session->read('id_cateogria') === '4') {
             $this->Auth->allow('add', 'edit', 'addinstituicao', 'deleteassociacao', 'index', 'view', 'busca');
-            // $this->Session->setFlash("Supervisor");
+            // $this->Session->setFlash(__("Supervisor"), "flash_notification");
         } else {
-            $this->Session->setFlash("Não autorizado");
+            $this->Session->setFlash(__("Não autorizado"), "flash_notification");
             $this->redirect('/Userestagios/login/');
         }
         // die(pr($this->Session->read('user')));
@@ -267,7 +267,7 @@ class SupervisoresController extends AppController {
                 'conditions' => ['Supervisor.cress' => $this->Session->read('numero')]
             ]);
             if (!$superivosr) {
-                $this->Session->setFlash("Acesso não autorizado");
+                $this->Session->setFlash(__("Acesso não autorizado"), "flash_notification");
                 $this->redirect("/Supervisores/index");
                 die("Não autorizado");
             }
@@ -333,6 +333,9 @@ class SupervisoresController extends AppController {
         asort($instituicoes);
         $this->set('instituicoes', $instituicoes);
 
+        /* Meses em português */
+        $this->set('meses', $this->meses());
+
         if ($this->request->data) {
             /*
              * Verifica que não esteja repetido o Cress
@@ -341,13 +344,13 @@ class SupervisoresController extends AppController {
                 'conditions' => ['Supervisor.cress' => $this->request->data['Supervisor']['cress']]
             ]);
             if ($verifica) {
-                $this->Session->setFlash(__('Supervisor já cadastrado'));
+                $this->Session->setFlash(__('Supervisor já cadastrado'), "flash_notification");
                 $this->redirect('/Supervisores/view/' . $verifica['Supervisor']['id']);
             } else {
                 // pr($this->data);
                 // die();
                 if ($this->Supervisor->save($this->data)) {
-                    $this->Session->setFlash(__('Dados inseridos'));
+                    $this->Session->setFlash(__('Dados inseridos'), "flash_notification");
                     $this->redirect('/Supervisores/view/' . $this->Supervisor->id);
                 }
             }
@@ -373,7 +376,7 @@ class SupervisoresController extends AppController {
 
             /* Nenhum resultado */
             if (empty($supervisores)) {
-                $this->Session->setFlash(__("Não foram encontrados registros"));
+                $this->Session->setFlash(__("Não foram encontrados registros"), "flash_notification");
             } else {
                 // pr($supervisores);
                 // die('supervisores');
@@ -389,7 +392,12 @@ class SupervisoresController extends AppController {
     }
 
     public function edit($id = NULL) {
+
         $this->Supervisor->id = $id;
+
+        /* Meses em português */
+        $this->set('meses', $this->meses());
+
         if (empty($this->data)) {
             $this->data = $this->Supervisor->read();
         } else {
@@ -397,7 +405,7 @@ class SupervisoresController extends AppController {
                 // print($id);
                 // die();
                 // print_r($this->data);
-                $this->Session->setFlash(__("Atualizado"));
+                $this->Session->setFlash(__("Atualizado"), "flash_notification");
                 $this->redirect('/Supervisores/view/' . $id);
             }
         }
@@ -410,16 +418,16 @@ class SupervisoresController extends AppController {
         // pr($supervisores);
         // die();
         if ($supervisores['Estagiario']) {
-            $this->Session->setFlash(__('Há estagiários vinculados a este supervisor'));
+            $this->Session->setFlash(__('Há estagiários vinculados a este supervisor'), "flash_notification");
             $this->redirect('/Supervisores/view/' . $id);
             exit;
         } elseif ($supervisores['Instituicao']) {
-            $this->Session->setFlash(__('Há instituições vinculadas a este supervisor'));
+            $this->Session->setFlash(__('Há instituições vinculadas a este supervisor'), "flash_notification");
             $this->redirect('/Supervisores/view/' . $id);
             exit;
         } else {
             $this->Supervisor->delete($id);
-            $this->Session->setFlash(__("Supervisor excluido"));
+            $this->Session->setFlash(__("Supervisor excluido"), "flash_notification");
             $this->redirect('/Supervisores/index/');
         }
     }
@@ -429,7 +437,7 @@ class SupervisoresController extends AppController {
             // pr($this->data);
             // die();
             if ($this->Supervisor->InstituicaoSupervisor->save($this->request->data)) {
-                $this->Session->setFlash(__('Dados inseridos'));
+                $this->Session->setFlash(__('Dados inseridos'), "flash_notification");
                 $this->redirect('/Supervisores/view/' . $this->request->data['InstituicaoSupervisor']['supervisor_id']);
             }
         }
@@ -440,7 +448,7 @@ class SupervisoresController extends AppController {
         // pr($id_superinstituicao);
         // die();
         $this->Supervisor->InstituicaoSupervisor->delete($id);
-        $this->Session->setFlash(__("Instituição excluída do supervisor"));
+        $this->Session->setFlash(__("Instituição excluída do supervisor"), "flash_notification");
         $this->redirect('/Supervisores/view/' . $id_superinstituicao['InstituicaoSupervisor']['supervisor_id']);
     }
 

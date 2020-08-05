@@ -16,29 +16,24 @@
 </script>
 
 <?= $this->element('submenu_muralestagios'); ?>
-        
-<nav class="nav nav-pills">
-    <?php if (($this->Session->read('categoria') === 'administrador') || ($this->Session->read('categoria') === 'supervisor')): ?>
 
-    <?php endif; ?>
-</nav>
 
-<div align="center">
-    <?php if ($this->Session->read('categoria') === 'administrador'): ?>
-        <?php echo $this->Form->create('Muralestagio', array('url' => 'index')); ?>
-        <?php echo $this->Form->input('periodo', array('type' => 'select', 'label' => array('text' => 'Mural de estágios da ESS/UFRJ', 'style' => 'display: inline'), 'options' => $todos_periodos, 'default' => $periodo)); ?>
-        <?php echo $this->Form->end(); ?>
-    <?php endif; ?>
-    <nav class="nav justify-content-center nav-pills">
-        <?php echo $this->Html->link('Termo de compromisso', '/Userestagios/login', ['class' => 'nav-item nav-link']); ?>
-        <?php echo $this->Html->link('Avaliação discente', '/Userestagios/login', ['class' => 'nav-item nav-link']); ?>
-    </nav>
+<?php if (($this->Session->read('categoria') === 'administrador') || ($this->Session->read('categoria') === 'supervisor')): ?>
+    <nav class="nav nav-pills">
 
+        <?php if ($this->Session->read('categoria') === 'administrador'): ?>
+            <?php echo $this->Form->create('Muralestagio', array('url' => 'index')); ?>
+            <?php echo $this->Form->input('periodo', array('type' => 'select', 'label' => array('text' => 'Mural de estágios da ESS/UFRJ', 'style' => 'display: inline'), 'options' => $todos_periodos, 'default' => $periodo)); ?>
+            <?php echo $this->Form->end(); ?>
+        <?php endif; ?>
+    </div>
+    </nav>    
+    <p>Há <?php echo $total_vagas; ?> vagas de estágio e <?php echo $total_alunos; ?> estudantes buscando estágio (<?php echo $alunos_novos; ?> pela primeira vez e <?php echo $alunos_estagiarios; ?> que mudam de estágio)</p>
+<?php endif; ?>
+<div align="center">    
     <h5>Mural de estágios da ESS/UFRJ. Período: <?php echo $periodo; ?></h5>
-
 </div>
-<p>Há <?php echo $total_vagas; ?> vagas de estágio e <?php echo $total_alunos; ?> estudantes buscando estágio (<?php echo $alunos_novos; ?> pela primeira vez e <?php echo $alunos_estagiarios; ?> que mudam de estágio)</p>
-
+    
 <hr />
 
 <?php $totalvagas = NULL; ?>
@@ -130,8 +125,8 @@
                     <tr>
                         <td></td>
                         <td style="text-align: center">Total: </td>
+                        <td style="text-align: center"><?php echo $total_estagiarios; ?></td>                        
                         <td style="text-align: center"><?php echo $total_vagas; ?></td>
-                        <td style="text-align: center"><?php echo $total_estagiarios; ?></td>
                     </tr>
                 </tfoot>
             </table>

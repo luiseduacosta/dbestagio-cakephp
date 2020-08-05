@@ -106,7 +106,7 @@
                 <?php // pr($c_instituicao);  ?>
                 <tr>
                     <td><?php echo $this->Html->link($c_instituicao['instituicao_id'], '/Instituicoes/view/' . $c_instituicao['instituicao_id']); ?></td>
-                    <td><?php echo $this->Html->link($c_instituicao['instituicao'], '/Instituicoes/view/' . $c_instituicao['instituicao_id']); ?></td>
+                    <td><?php echo $this->Html->link($this->text->truncate($c_instituicao['instituicao'], 50), '/Instituicoes/view/' . $c_instituicao['instituicao_id']); ?></td>
                     <td>
                         <?php
                         if ($c_instituicao['cnpj']):
@@ -116,14 +116,18 @@
                     </td>
                     <td><?php
                         if ($c_instituicao['email']):
-                            echo $c_instituicao['email'];
+                            echo $this->text->truncate($c_instituicao['email'], 10);
                         endif;
                         ?>
                     </td>
-                    <td><?php echo $this->Html->link($c_instituicao['url'], $c_instituicao['url']); ?></td>
+                    <td><?php
+                        if ($c_instituicao['url']):
+                            echo $this->Html->link('Link', $c_instituicao['url']);
+                        endif;
+                        ?></td>
                     <td><?php echo $c_instituicao['telefone']; ?></td>
                     <td><?php echo $c_instituicao['beneficio']; ?></td>
-                    <td><?php echo $c_instituicao['avaliacao']; ?></td>
+                    <td><?php // echo $c_instituicao['avaliacao']; ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

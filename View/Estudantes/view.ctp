@@ -1,6 +1,6 @@
 <?= $this->element('submenu_estudantes'); ?>
 
-<h5><?php echo $alunos['Estudante']['nome']; ?></h5>
+<h5><?php echo ucfirst($alunos['Estudante']['nome']); ?></h5>
 
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
     <nav class="nav nav-tabs">
@@ -52,22 +52,21 @@
         </table>
 
         <hr/>
-
-        <div class="nav nav-tabs" id="menu-interior">
-            <?php if ($this->Session->read('categoria') === 'administrador'): ?>
-                <?php echo $this->Html->link('Excluir', '/Estudantes/delete/' . $alunos['Estudante']['id'], ['class' => 'nav-item nav-link'], 'Tem certeza?'); ?>
-                <?php echo $this->Html->link('Editar', '/Estudantes/edit/' . $alunos['Estudante']['id'], ['class' => 'nav-item nav-link']); ?>
-            <?php endif; ?>
-            <hr/>
-            <?php if (($this->Session->read('categoria') === 'estudante') && ($this->Session->read('numero') === $alunos['Estudante']['registro'])): ?>
-                <p>
-                    <?php echo $this->Html->link('Editar', '/Estudantes/edit/' . $alunos['Estudante']['id'], ['class' => 'nav-item nav-link']); ?>
-                </p>
-            <?php endif; ?>
+        <div class = "row justify-content-start">
+            <div class="col-auto">
+                <div class="nav nav-tabs" id="menu-interior">
+                    <?php if ($this->Session->read('categoria') === 'administrador'): ?>
+                        <?php echo $this->Html->link('Excluir', '/Estudantes/delete/' . $alunos['Estudante']['id'], ['class' => 'nav-item nav-link'], 'Tem certeza?'); ?>
+                        <?php echo $this->Html->link('Editar', '/Estudantes/edit/' . $alunos['Estudante']['id'], ['class' => 'nav-item nav-link']); ?>
+                    <?php endif; ?>
+                    <hr/>
+                    <?php if (($this->Session->read('categoria') === 'estudante') && ($this->Session->read('numero') === $alunos['Estudante']['registro'])): ?>
+                        <?php echo $this->Html->link('Editar', '/Estudantes/edit/' . $alunos['Estudante']['id'], ['class' => 'nav-item nav-link']); ?>
+                    <?php endif; ?>
+                </div>
+            </div>
         </div>
     </div>
-
-    <hr/>
 
     <!--
     /*

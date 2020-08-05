@@ -23,9 +23,8 @@ echo $this->element('submenu_supervisores');
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
     <?php echo $this->Form->create('Supervisor'); ?>
     <div class='form-group row'>
-        <label for='SupervisorPeriodo' class='col-sm-1 col-form-label'>Período</label>
         <div class='col-sm-2'>
-            <?php echo $this->Form->input('periodo', array('label' => false, 'type' => 'select', 'label' => false, 'options' => $todosPeriodos, 'default' => $periodo, 'empty' => 'Selecione', 'class' => 'form-control')); ?>
+            <?php echo $this->Form->input('periodo', array('label' => false, 'type' => 'select', 'label' => false, 'options' => $todosPeriodos, 'default' => $periodo, 'empty' => 'Selecione período', 'class' => 'form-control')); ?>
         </div>
         <?php echo $this->Form->end(); ?>
     </div>

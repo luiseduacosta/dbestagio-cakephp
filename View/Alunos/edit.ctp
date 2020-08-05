@@ -1,5 +1,5 @@
-<?php // pr($this->data['Aluno']['nascimento']); ?>
-
+<?php // pr($this->data['Aluno']['nascimento']);   ?>
+<?= $this->Html->script("jquery.mask.min"); ?>
 <script>
     $(document).ready(function () {
 
@@ -117,5 +117,9 @@ echo $this->Form->create("Aluno", ['inputDefaults' => [
 <?= $this->Form->input('municipio', array('default' => 'Rio de Janeiro')); ?>
 <?= $this->Form->input('id', array('type' => 'hidden')); ?>
 <br>
-<?= $this->Form->input('Atualizar', ['type' => 'submit', 'label' => false, 'class' => 'btn btn-primary position-static']); ?>
-<?= $this->Form->end(); ?>
+<div class="row justify-content-center">
+    <div class="col-auto">
+        <?= $this->Form->input('Atualizar', ['type' => 'submit', 'label' => false, 'class' => 'btn btn-success position-static']); ?>
+        <?= $this->Form->end(); ?>
+    </div>
+</div>

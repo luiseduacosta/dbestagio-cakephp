@@ -1,6 +1,6 @@
-<?php
-echo $this->element('submenu_supervisores');
-?>
+<?= $this->element('submenu_supervisores'); ?>
+
+<?= $this->Html->script("jquery.mask.min"); ?>
 
 <script>
 
@@ -71,78 +71,81 @@ echo $this->element('submenu_supervisores');
 </div>
 
 <?php if ($this->Session->read('categoria') != 'estudante'): ?>
-<div class="form-group row">
-    <label for="SupervisorCep" class="col-sm-2 col-form-label">CEP</label>
-    <div class="col-sm-10">
-        <?= $this->Form->input('cep', ['label' => false, 'class' => 'form-control']); ?>
+    <div class="form-group row">
+        <label for="SupervisorCep" class="col-sm-2 col-form-label">CEP</label>
+        <div class="col-sm-10">
+            <?= $this->Form->input('cep', ['label' => false, 'class' => 'form-control']); ?>
+        </div>
     </div>
-</div>
 
-<div class="form-group row">
-    <label for="SupervisorEndereco" class="col-sm-2 col-form-label">Endereço</label>
-    <div class="col-sm-10">
-        <?= $this->Form->input('endereco', ['label' => false, 'class' => 'form-control']); ?>
+    <div class="form-group row">
+        <label for="SupervisorEndereco" class="col-sm-2 col-form-label">Endereço</label>
+        <div class="col-sm-10">
+            <?= $this->Form->input('endereco', ['label' => false, 'class' => 'form-control']); ?>
+        </div>
     </div>
-</div>
 
-<div class="form-group row">
-    <label for="SupervisorBairro" class="col-sm-2 col-form-label">Bairro</label>
-    <div class="col-sm-10">
-        <?= $this->Form->input('bairro', ['label' => false, 'class' => 'form-control']); ?>
+    <div class="form-group row">
+        <label for="SupervisorBairro" class="col-sm-2 col-form-label">Bairro</label>
+        <div class="col-sm-10">
+            <?= $this->Form->input('bairro', ['label' => false, 'class' => 'form-control']); ?>
+        </div>
     </div>
-</div>
 
-<div class="form-group row">
-    <label for="SupervisorMunicipio" class="col-sm-2 col-form-label">Município</label>
-    <div class="col-sm-10">
-        <?= $this->Form->input('municipio', ['label' => false, 'class' => 'form-control']); ?>
+    <div class="form-group row">
+        <label for="SupervisorMunicipio" class="col-sm-2 col-form-label">Município</label>
+        <div class="col-sm-10">
+            <?= $this->Form->input('municipio', ['label' => false, 'class' => 'form-control']); ?>
+        </div>
     </div>
-</div>
 
-<div class="form-group row">
-    <label for="SupervisorEscola" class="col-sm-2 col-form-label">Escola</label>
-    <div class="col-sm-10">
-        <?= $this->Form->input('escola', ['label' => false, 'class' => 'form-control']); ?>
+    <div class="form-group row">
+        <label for="SupervisorEscola" class="col-sm-2 col-form-label">Escola</label>
+        <div class="col-sm-10">
+            <?= $this->Form->input('escola', ['label' => false, 'class' => 'form-control']); ?>
+        </div>
     </div>
-</div>
 
-<div class="form-group row">
-    <label for="SupervisorAnoFormatura" class="col-sm-2 col-form-label">Ano da formatura</label>
-    <div class="col-sm-10">
-        <?= $this->Form->input('ano_formatura', ['label' => false, 'class' => 'form-control']); ?>
+    <div class="form-group row">
+        <label for="SupervisorAnoFormatura" class="col-sm-2 col-form-label">Ano da formatura</label>
+        <div class="col-sm-10">
+            <?= $this->Form->input('ano_formatura', ['label' => false, 'class' => 'form-control']); ?>
+        </div>
     </div>
-</div>
 
-<div class="form-group row">
-    <label for="SupervisorOutrosEstudos" class="col-sm-2 col-form-label">Outros estudos</label>
-    <div class="col-sm-10">
-        <?= $this->Form->input('outros_estudos', ['label' => false, 'class' => 'form-control']); ?>
+    <div class="form-group row">
+        <label for="SupervisorOutrosEstudos" class="col-sm-2 col-form-label">Outros estudos</label>
+        <div class="col-sm-10">
+            <?= $this->Form->input('outros_estudos', ['label' => false, 'class' => 'form-control']); ?>
+        </div>
     </div>
-</div>
 
-<div class="form-group row">
-    <label for="SupervisorAreaCurso" class="col-sm-2 col-form-label">Área do curso</label>
-    <div class="col-sm-10">
-        <?= $this->Form->input('area_curso', ['label' => false, 'class' => 'form-control']); ?>
+    <div class="form-group row">
+        <label for="SupervisorAreaCurso" class="col-sm-2 col-form-label">Área do curso</label>
+        <div class="col-sm-10">
+            <?= $this->Form->input('area_curso', ['label' => false, 'class' => 'form-control']); ?>
+        </div>
     </div>
-</div>
 
-<div class="form-group row">
-    <label for="SupervisorAnoCurso" class="col-sm-2 col-form-label">Ano do curso</label>
-    <div class="col-sm-10">
-        <?= $this->Form->input('ano_curso', ['label' => false, 'class' => 'form-control']); ?>
+    <div class="form-group row">
+        <label for="SupervisorAnoCurso" class="col-sm-2 col-form-label">Ano do curso</label>
+        <div class="col-sm-10">
+            <?= $this->Form->input('ano_curso', ['label' => false, 'class' => 'form-control']); ?>
+        </div>
     </div>
-</div>
 
-<div class="form-group row">
-    <label for="SupervisorObservacoes" class="col-sm-2 col-form-label">Observações</label>
-    <div class="col-sm-10">
-        <?= $this->Form->input('observacoes', ['label' => false, 'class' => 'col-lg-2 col-form-label', 'textarea' => ['rows' => 5, 'cols' => 60], 'class' => 'form-control']); ?>
+    <div class="form-group row">
+        <label for="SupervisorObservacoes" class="col-sm-2 col-form-label">Observações</label>
+        <div class="col-sm-10">
+            <?= $this->Form->input('observacoes', ['label' => false, 'class' => 'col-lg-2 col-form-label', 'textarea' => ['rows' => 5, 'cols' => 60], 'class' => 'form-control']); ?>
+        </div>
     </div>
-</div>
 <?php endif; ?>
 
 <br>
-<?= $this->Form->submit('Confirma', ['class' => 'btn btn-primary']); ?>
-
-<?= $this->Form->end(); ?>
+<div class='row justify-content-center'>
+    <div class='col-auto'>
+        <?= $this->Form->submit('Confirma', ['class' => 'btn btn-success']); ?>
+        <?= $this->Form->end(); ?>
+    </div>
+</div>

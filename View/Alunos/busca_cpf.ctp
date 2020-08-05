@@ -23,7 +23,7 @@
         ?>
         <?php echo $this->Form->input('cpf', array('label' => 'Digite o CPF', 'placeholder' => '000000000-00', 'maxsize' => 12, 'size' => 12, 'class' => 'form-control')); ?>
         <br>
-        <?php echo $this->Form->input('Confirma', ['label' => false, 'type' => 'submit', 'class' => 'btn btn-primary position-static']); ?>
+        <?php echo $this->Form->input('Confirma', ['label' => false, 'type' => 'submit', 'class' => 'btn btn-success position-static']); ?>
         <?php echo $this->Form->end(); ?>
     </div>
 <?php endif; ?>

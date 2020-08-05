@@ -18,19 +18,19 @@ class MuralestagiosController extends AppController {
         // Admin
         if ($this->Session->read('id_categoria') === '1') {
             $this->Auth->allow();
-            // $this->Session->setFlash('Administrador');
+            // $this->Session->setFlash(__('Administrador'), "flash_notification");
             // Estudantes podem somente fazer inscricao
         } elseif ($this->Session->read('id_categoria') === '2') {
             $this->Auth->allow('edit', 'index', 'view');
-            // $this->Session->setFlash('Estudante');
+            // $this->Session->setFlash(__('Estudante'), "flash_notification");
             // Professores podem atualizar murais
         } elseif ($this->Session->read('id_categoria') === '3') {
             $this->Auth->allow('edit', 'index', 'view');
-            // $this->Session->setFlash('Professor');
+            // $this->Session->setFlash(__('Professor'), "flash_notification");
             // No futuro os supervisores poderao lançar murals
         } elseif ($this->Session->read('id_categoria') === '4') {
             $this->Auth->allow('add', 'edit', 'index', 'view');
-            // $this->Session->setFlash('Supervisor');
+            // $this->Session->setFlash(__('Supervisor'), "flash_notification");
             // Todos
         } else {
             $this->Auth->allow('index', 'view');
@@ -63,7 +63,7 @@ class MuralestagiosController extends AppController {
             'order' => array('Muralestagio.periodo DESC')));
         // pr($todos_periodos);
         // die();
-
+        
         /* Capturo todas as ofertas do periodo */
         $mural = $this->Muralestagio->find('all', array(
             'conditions' => array('Muralestagio.periodo' => $periodo),
@@ -105,12 +105,13 @@ class MuralestagiosController extends AppController {
             $inscricoes = sizeof($c_mural['Inscricao']);
             $estagio = $c_mural['Muralestagio']['estagio_id'];
             // die();
-
+            // echo $i . " " . $total_estagiarios . '<br>';
             $total_vagas = $total_vagas + $c_mural['Muralestagio']['vagas'];
-            $total_estagiarios = $total_estagiarios + $muralporperiodo[$i]['estagiarios'];
+            $total_estagiarios = $total_estagiarios + count($estagiarios);
+            // echo "<br>";
             $i++;
         }
-
+// die();
         /* Inscricoes para a vaga de estágio */
         $this->loadModel('Inscricao');
         $inscricoes = $this->Inscricao->find('all', [
@@ -149,6 +150,11 @@ class MuralestagiosController extends AppController {
     public function add() {
 
         // pr($this->data);
+        
+        /* Passo os meses em português */
+        $this->set('meses', $this->meses());
+        // pr($meses);
+        // die("meses");
 
         if (!empty($this->data)) {
             // Instituicao
@@ -167,7 +173,7 @@ class MuralestagiosController extends AppController {
             // pr($this->data);
             // die();
             if ($this->Muralestagio->save($this->data)) {
-                $this->Session->setFlash('Muralestagio inserido');
+                $this->Session->setFlash(__('Muralestagio inserido'), "flash_notification");
                 $estagio_id = $this->Muralestagio->getLastInsertId();
                 $this->redirect('/Muralestagios/view/' . $estagio_id);
             }
@@ -228,6 +234,11 @@ class MuralestagiosController extends AppController {
     public function edit($id = NULL) {
 
         $this->Muralestagio->id = $id;
+        
+        /* Passo os meses em português */
+        $this->set('meses', $this->meses());
+        // pr($meses);
+        // die("meses");
 
         // Instituicoes para selecionar
         $instituicoes = $this->Muralestagio->Instituicao->find('list', array(
@@ -253,7 +264,7 @@ class MuralestagiosController extends AppController {
         $areas[0] = "Selecione";
         $this->set('areas', $areas);
 
-        pr($this->data);
+        // pr($this->data);
         // die();
         if (empty($this->data)) {
 
@@ -262,12 +273,12 @@ class MuralestagiosController extends AppController {
 
             /* Coloquei para ignorar as validações. Eh ruin mas senao nao funcionava */
             if ($this->Muralestagio->save($this->data, FALSE)) {
-                $this->Session->setFlash("Dados atualizados");
+                $this->Session->setFlash(__("Dados atualizados"), "flash_notification");
                 //  die();
                 $this->redirect('/Muralestagios/view/' . $id);
             } else {
                 // pr($this->validationErrors);
-                $this->Session->setFlash("Error: Dados não atualizados");
+                $this->Session->setFlash(__("Error: Dados não atualizados"), "flash_notification");
                 // $this->redirect('/Muralestagios/view/' . $id);
             }
         }
@@ -284,12 +295,12 @@ class MuralestagiosController extends AppController {
         // Se ha inscricoes entao primeiro tem que ser excluidas
         if ($inscricoes['Inscricao']) {
 
-            $this->Session->setFlash('Tem que excluir primeiro todos os alunos inscritos para este estágio');
+            $this->Session->setFlash(__('Tem que excluir primeiro todos os alunos inscritos para este estágio'), "flash_notification");
             $this->redirect('/Inscricoes/index/' . $id);
         } else {
 
             $this->Muralestagio->delete($id);
-            $this->Session->setFlash('Registro excluído');
+            $this->Session->setFlash(__('Registro excluído'), "flash_notification");
             $this->redirect('/Muralestagio/index/');
         }
     }

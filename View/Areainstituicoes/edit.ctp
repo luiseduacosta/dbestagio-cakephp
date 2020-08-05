@@ -4,6 +4,6 @@
 <div class="form-group">
     <?= $this->Form->Input('area', ['label' => 'Área da instituição', 'class' => 'form-control']); ?>
 </div>
-<?= $this->Form->Input('Confirma', ['type' => 'submit', 'label' => false, 'class' => 'btn  btn-primary position-static']); ?>
+<?= $this->Form->Input('Confirma', ['type' => 'submit', 'label' => false, 'class' => 'btn  btn-success position-static']); ?>
 <?= $this->Form->End(); ?>
 

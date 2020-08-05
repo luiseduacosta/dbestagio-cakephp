@@ -27,7 +27,7 @@
     ?>
     <?php echo $this->Form->input('registro', array('label' => 'Digite o DRE do aluno', 'maxsize' => 9)); ?>
     <br>
-    <?php echo $this->Form->input('Confirma', ['label' => false, 'type' => 'submit', 'class' => 'btn btn-primary position-static']); ?>
+    <?php echo $this->Form->input('Confirma', ['label' => false, 'type' => 'submit', 'class' => 'btn btn-success position-static']); ?>
    <?php echo $this->Form->end('Confirma'); ?>
 
 <?php endif; ?>

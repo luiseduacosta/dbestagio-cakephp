@@ -8,7 +8,7 @@
         <div class="form-group">
             <?= $this->Form->input('password', ['label' => 'Senha', 'class' => 'form-control']); ?>
         </div>
-        <?= $this->Form->input('Login', ['label' => false, 'type' => 'submit', 'class' => 'btn btn-primary position-static']); ?>
+        <?= $this->Form->input('Login', ['label' => false, 'type' => 'submit', 'class' => 'btn btn-success position-static']); ?>
         <?= $this->Form->end(); ?>
         <div class="nav nav-tabs justify-content-center">
             <?= $this->Html->link('Esqueceu a senha?', '/Userestagios/cadastro/', ['class' => ['nav-item', 'nav-link']]); ?>
