@@ -10,13 +10,13 @@
 <br>
 <ul class="nav nav-pills">
     <li class="nav-item">
-        <a class="nav-link active" data-toggle="pill" href="#dados-estudante">Dados pessoais</a>
+        <a class="nav-link active btn-light" data-toggle="pill" href="#dados-estudante">Dados pessoais</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" data-toggle="pill" href="#inscricoes-mural">Inscrições no mural</a>
+        <a class="nav-link btn-light" data-toggle="pill" href="#inscricoes-mural">Inscrições no mural</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" data-toggle="pill" href="#tabela-estagios">Estágios</a>
+        <a class="nav-link btn-light" data-toggle="pill" href="#tabela-estagios">Estágios</a>
     </li>
 </ul>
 
@@ -87,11 +87,11 @@
 
                         <?php if ($this->Session->read('categoria') === 'administrador'): ?>
                             <td><?php echo $this->Html->link('Inscrição', '/Inscricoes/view/' . $c_inscricao['inscricao_id']); ?></td>
-                            <td><?php echo $this->Html->link($c_inscricao['instituicao'], '/Inscricoes/index/mural_estagio_id:' . $c_inscricao['id']); ?></td>
+                            <td><?php echo $this->Html->link($c_inscricao['instituicao'], '/Inscricoes/index/muralestagio_id:' . $c_inscricao['id']); ?></td>
                             <td><?php echo $c_inscricao['periodo']; ?></td>
                         <?php else: ?>
                             <td><?php echo $this->Html->link('Inscrição', '/Inscricoes/view/' . $c_inscricao['inscricao_id']); ?></td>
-                            <td><?php echo $this->Html->link($c_inscricao['instituicao'], '/Inscricoes/index/mural_estagio_id:' . $c_inscricao['id']); ?></td>
+                            <td><?php echo $this->Html->link($c_inscricao['instituicao'], '/Inscricoes/index/muralestagio_id:' . $c_inscricao['id']); ?></td>
                             <td><?php echo $c_inscricao['periodo']; ?></td>
                         <?php endif; ?>
 

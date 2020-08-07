@@ -1,14 +1,14 @@
-<?php echo $this->Html->link('Estagiarios', '/Estagiarios/index/' . $estagio['Estagiario']['periodo']); ?>
+<?php echo $this->Html->link('Estagiários', '/Estagiarios/index/' . $estagio['Estagiario']['periodo']); ?>
 
 <ul class="nav nav-pills">
     <li class="nav-item">
-        <a class="nav-link active" data-toggle="pill" href="#dados_estagio">Estágio</a>
+        <a class="nav-link active btn-light" data-toggle="pill" href="#dados_estagio">Estágio</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" data-toggle="pill" href="#estagio_historico">Histórico</a>
+        <a class="nav-link btn-light" data-toggle="pill" href="#estagio_historico">Histórico</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" data-toggle="pill" href="#dados_pessoais">Dados pessoais</a>
+        <a class="nav-link btn-light" data-toggle="pill" href="#dados_pessoais">Dados pessoais</a>
     </li>
 </ul>
 

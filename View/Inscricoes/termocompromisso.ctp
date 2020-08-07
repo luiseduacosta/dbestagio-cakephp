@@ -24,7 +24,7 @@ $this->Js->get('#InscricaoInstituicaoId')->event('change',
 <h5>Solicitação de Termo de Compromisso para cursar estágio no período
     <?php echo $periodo; ?></h5>
 
-<div class="card">
+<div class="card text-black bg-light">
     <div class="card-header">
         <?= "Nome: " . $aluno . "<br>"; ?>
     </div>
@@ -59,7 +59,7 @@ echo $this->Form->input('docente_id', array('type' => 'hidden', 'label' => 'Prof
                 <?= $this->Form->input('Estagiario.ajustecurricular2020', array('div' => 'col-sm-12', 'type' => 'radio', 'legend' => FALSE, 'label' => ['class' => 'form-check-label col-sm-4'], 'options' => array('0' => 'Não', '1' => 'Sim'), 'default' => '0', 'class' => 'form-check-input')); ?>
             </div>
             <small class="form-text text-muted">
-                NÃO quer dizer 4 níveis de estágio de 120 horas cada. SIM quer dizer 4 níveis de estágio de 135 horas cada. A mudança começou a partir de 2020.
+                NÃO quer dizer 4 níveis de estágio de 120 horas cada. SIM quer dizer 3 níveis de estágio de 135 horas cada. A mudança começou com os estudantes ingressos a partir de 2019.
             </small>
         </div>
     </div>    

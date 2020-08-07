@@ -23,7 +23,7 @@
 
         <?php if ($this->Session->read('categoria') === 'administrador'): ?>
             <?php echo $this->Form->create('Muralestagio', array('url' => 'index')); ?>
-            <?php echo $this->Form->input('periodo', array('type' => 'select', 'label' => array('text' => 'Mural de estágios da ESS/UFRJ', 'style' => 'display: inline'), 'options' => $todos_periodos, 'default' => $periodo)); ?>
+            <?php echo $this->Form->input('periodo', array('type' => 'select', 'label' => array('text' => 'Mural de estágios da ESS/UFRJ ', 'style' => 'display: inline'), 'options' => $todos_periodos, 'default' => $periodo)); ?>
             <?php echo $this->Form->end(); ?>
         <?php endif; ?>
     </div>

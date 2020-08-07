@@ -17,7 +17,7 @@ class Muralestagio extends AppModel {
     public $hasMany = array(
         'Inscricao' => array(
             'className' => 'Inscricao',
-            'foreignKey' => 'mural_estagio_id'
+            'foreignKey' => 'muralestagio_id'
         )
     );
     public $belongsTo = array(

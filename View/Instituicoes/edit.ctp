@@ -82,9 +82,9 @@ echo $this->Form->create("Instituicao");
     </div>
 </div>
 <div class="form-group row">
-    <label for='InstituicaoAreaInstituicoesId' class='col-lg-3 col-form-label'>Área da Instituição</label>
+    <label for='InstituicaoAreaInstituicaoId' class='col-lg-3 col-form-label'>Área da Instituição</label>
     <div class='col-lg-9'>
-        <?php echo $this->Form->input('areainstituicoes_id', ['label' => false, 'options' => $area_instituicao, 'empty' => ['0' => 'Selecione'], 'class' => 'form-control']); ?>
+        <?php echo $this->Form->input('areainstituicao_id', ['label' => false, 'options' => $area_instituicao, 'empty' => ['0' => 'Selecione'], 'class' => 'form-control']); ?>
     </div>
 </div>
 <div class="form-group row">

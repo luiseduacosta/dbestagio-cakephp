@@ -38,7 +38,7 @@ class AreainstituicoesController extends AppController {
 
     public function index() {
 
-        $this->Areainstituicao->virtualFields['quantidadearea'] = 'count(Instituicao.areainstituicoes_id)';
+        $this->Areainstituicao->virtualFields['quantidadearea'] = 'count(Instituicao.areainstituicao_id)';
 
         $areas = $this->Areainstituicao->find('all', array(
             'joins' => array(
@@ -46,10 +46,10 @@ class AreainstituicoesController extends AppController {
                     'table' => 'estagio',
                     'alias' => 'Instituicao',
                     'type' => 'left',
-                    'conditions' => array('Instituicao.areainstituicoes_id = Areainstituicao.id')
+                    'conditions' => array('Instituicao.areainstituicao_id = Areainstituicao.id')
                 )
             ),
-            'fields' => array('Areainstituicao.id', 'Areainstituicao.area', 'count(Instituicao.areainstituicoes_id) as Areainstituicao__quantidadearea'),
+            'fields' => array('Areainstituicao.id', 'Areainstituicao.area', 'count(Instituicao.areainstituicao_id) as Areainstituicao__quantidadearea'),
             'group' => array('Areainstituicao.id'),
             'order' => array('Areainstituicao.area')));
 
