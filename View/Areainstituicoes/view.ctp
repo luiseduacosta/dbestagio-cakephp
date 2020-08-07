@@ -2,10 +2,10 @@
 
 <div class="row">
     <div class="col-1">
-        <?php echo $this->Html->link($area['Areainstituicao']['id'], '/Instituicoes/index/areainstituicoes_id:' . $area['Areainstituicao']['id']); ?>
+        <?php echo $this->Html->link($area['Areainstituicao']['id'], '/Instituicoes/index/areainstituicao_id:' . $area['Areainstituicao']['id']); ?>
     </div>
     <div class="col">
-        <?php echo $this->Html->link($area['Areainstituicao']['area'], '/Instituicoes/index/areainstituicoes_id:' . $area['Areainstituicao']['id']); ?>
+        <?php echo $this->Html->link($area['Areainstituicao']['area'], '/Instituicoes/index/areainstituicao_id:' . $area['Areainstituicao']['id']); ?>
     </div>
 </div>
 

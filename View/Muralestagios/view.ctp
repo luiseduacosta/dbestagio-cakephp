@@ -195,7 +195,7 @@
                     <?php if ($this->Session->read('categoria') === 'administrador'): ?>
                         <tr>
                             <td colspan = 2 style="text-align: center">
-                                <a href="<?= $this->Html->url(['controller' => 'Inscricoes', 'action' => 'add/registro:' . $this->Session->read('numero') . '/mural_estagio_id:' . $mural['Muralestagio']['id']]); ?>" class="btn btn-success btn-lg active" role="button" aria-pressed="true">Inscrição</a>
+                                <a href="<?= $this->Html->url(['controller' => 'Inscricoes', 'action' => 'add/registro:' . $this->Session->read('numero') . '/muralestagio_id:' . $mural['Muralestagio']['id']]); ?>" class="btn btn-success btn-lg active" role="button" aria-pressed="true">Inscrição</a>
                             </td>
                         </tr>
 
@@ -207,7 +207,7 @@
                         <?php if (date('Y-m-d') < $mural['Muralestagio']['dataInscricao']): ?>
                             <tr>
                                 <td colspan = 2 style="text-align: center">
-                                    <a href="<?= $this->Html->url(['controller' => 'Inscricoes', 'action' => 'add/registro:' . $this->Session->read('numero') . '/mural_estagio_id:' . $mural['Muralestagio']['id']]); ?>" class="btn btn-success btn-lg active" role="button" aria-pressed="true">Inscrição</a>
+                                    <a href="<?= $this->Html->url(['controller' => 'Inscricoes', 'action' => 'add/registro:' . $this->Session->read('numero') . '/muralestagio_id:' . $mural['Muralestagio']['id']]); ?>" class="btn btn-success btn-lg active" role="button" aria-pressed="true">Inscrição</a>
                                 </td>                  
                             </tr>
                         <?php else: ?>

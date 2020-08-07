@@ -13,7 +13,7 @@
 <?= $this->element('submenu_estudantes'); ?>
 <br>
 
-<div class='card text-white bg-secondary'>
+<div class='card text-black bg-light'>
     <div class='card-header'>
         Estudante: <?php echo $aluno; ?>        
     </div>

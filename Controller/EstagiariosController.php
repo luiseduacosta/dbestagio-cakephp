@@ -624,6 +624,7 @@ class EstagiariosController extends AppController {
         $this->render();
     }
 
+    /* Coloca o estudante_id na tabela estagiarios */
     public function estudantes() {
 
         $estagiarios = $this->Estagiario->find('all', [

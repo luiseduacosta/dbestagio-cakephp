@@ -37,7 +37,7 @@ class InstituicoesController extends AppController {
 
         $parametros = $this->params['named'];
         // print_r($parametros);
-        $areainstituicao_id = isset($parametros['areainstituicoes_id']) ? $parametros['areainstituicoes_id'] : null;
+        $areainstituicao_id = isset($parametros['areainstituicao_id']) ? $parametros['areainstituicao_id'] : null;
         $natureza = isset($parametros['natureza']) ? $parametros['natureza'] : null;
         $periodo = isset($parametros['periodo']) ? $parametros['periodo'] : null;
         $limite = isset($parametros['limite']) ? $parametros['limite'] : 10;
@@ -53,7 +53,7 @@ class InstituicoesController extends AppController {
         if ($periodo) {
 
             if ($areainstituicao_id) {
-                $conditions = ['Instituicao.areainstituicoes_id' => $areainstituicao_id, 'Estagiario.periodo' => $periodo];
+                $conditions = ['Instituicao.areainstituicao_id' => $areainstituicao_id, 'Estagiario.periodo' => $periodo];
             } elseif ($natureza) {
                 $conditions = ['Instituicao.natureza' => $natureza, 'Estagiario.periodo' => $periodo];
             } else {
@@ -62,7 +62,7 @@ class InstituicoesController extends AppController {
         } else {
 
             if ($areainstituicao_id) {
-                $conditions = ['Instituicao.areainstituicoes_id' => $areainstituicao_id];
+                $conditions = ['Instituicao.areainstituicao_id' => $areainstituicao_id];
             } elseif ($natureza) {
                 $conditions = ['Instituicao.natureza' => $natureza];
             } else {

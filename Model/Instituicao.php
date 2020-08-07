@@ -29,7 +29,7 @@ class Instituicao extends AppModel {
     public $belongsTo = array(
         'Areainstituicao' => array(
             'className' => 'Areainstituicao',
-            'foreignKey' => 'areainstituicoes_id'
+            'foreignKey' => 'areainstituicao_id'
         )
     );
     public $hasAndBelongsToMany = array(

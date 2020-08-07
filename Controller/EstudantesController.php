@@ -21,7 +21,7 @@ class EstudantesController extends AppController {
             // $this->Session->setFlash(__('Administrador'), "flash_notification");
             // Estudantes podem somente fazer inscricao
         } elseif ($this->Session->read('id_categoria') === '2') {
-            $this->Auth->allow('add', 'edit', 'index', 'view');
+            $this->Auth->allow('add', 'edit', 'index', 'view', 'avaliacaosolicita', 'avaliacaoverifica', 'avaliacaoedita', 'avaliacaoimprime');
             // $this->Session->setFlash(__('Estudante'), "flash_notification");
             // die();
             // Professores podem atualizar murais
@@ -73,26 +73,26 @@ class EstudantesController extends AppController {
         }
 
         /*
-         * Se o registro está como parámetro então verifico se tem o id do mural_estagio_id
+         * Se o registro está como parámetro então verifico se tem o id do muralestagio_id
          */
         if ($registro) {
-            $mural_estagio_id = $this->Session->read('mural_estagio_id');
+            $muralestagio_id = $this->Session->read('muralestagio_id');
         }
 
         if ($this->Estudante->save($this->request->data)) {
 
-            // Capturo o id do mural_estagio_id (se foi chamada desde Inscricoes add)
-            $mural_estagio_id = $this->Session->read('mural_estagio_id');
+            // Capturo o id do muralestagio_id (se foi chamada desde Inscricoes add)
+            $muralestagio_id = $this->Session->read('muralestagio_id');
 
             // Vejo se foi chamado desde cadastro
             $cadastro = $this->Session->read('cadastro');
 
             $registro = $this->data['Estudante']['registro'];
 
-            if ($mural_estagio_id) {
+            if ($muralestagio_id) {
                 // Volta para a pagina de Inscricoes
                 // die("inscricao_seleciona_estagio");
-                $this->redirect("/Inscricoes/inscricao/registro:" . $registro . "/mural_estagio_id:" . $mural_estagio_id);
+                $this->redirect("/Inscricoes/inscricao/registro:" . $registro . "/muralestagio_id:" . $muralestagio_id);
             } elseif ($cadastro) {
                 // die("cadastro");
                 $this->Session->delete('cadastro');
@@ -125,9 +125,9 @@ class EstudantesController extends AppController {
 
         // pr($id);
         $parametros = $this->params['named'];
-        $mural_estagio_id = isset($parametros['mural_estagio_id']) ? $parametros['mural_estagio_id'] : null;
+        $muralestagio_id = isset($parametros['muralestagio_id']) ? $parametros['muralestagio_id'] : null;
         $registro = isset($parametros['id']) ? $parametros['id'] : null;
-        // pr($mural_estagio_id);
+        // pr($muralestagio_id);
         // pr('registro: ' . $registro);
 
         /* Meses em português */
@@ -193,11 +193,11 @@ class EstudantesController extends AppController {
                 $this->Session->setFlash(__("Atualizado"), "flash_notification");
 
                 /*
-                 * Capturo o mural_estagio_id para saber que foi chamada desde Inscriacoes add)
+                 * Capturo o muralestagio_id para saber que foi chamada desde Inscriacoes add)
                  * Acho que não é mais necessário porque já veio como parámetro
                  */
-                // $mural_estagio_id = $this->Session->read('mural_estagio_id');
-                // $this->Session->delete('mural_estagio_id');
+                // $muralestagio_id = $this->Session->read('muralestagio_id');
+                // $this->Session->delete('muralestagio_id');
 
                 /*
                  *  Capturo se foi chamado desde a solicitacao do termo
@@ -207,12 +207,12 @@ class EstudantesController extends AppController {
 
                 /*
                  * Volta para Inscricoes e via para o método inscricao com o
-                 * registro e o mural_estagio_id como parámetros
+                 * registro e o muralestagio_id como parámetros
                  */
-                if ($mural_estagio_id) {
+                if ($muralestagio_id) {
                     // Faz inscricao para selecao de estagio
                     $this->Session->setFlash(__("Inscricao para selecao de estagio"), "flash_notification");
-                    $this->redirect('/Inscricoes/inscricao/registro:' . $this->data['Estudante']['registro'] . '/mural_estagio_id:' . $mural_estagio_id);
+                    $this->redirect('/Inscricoes/inscricao/registro:' . $this->data['Estudante']['registro'] . '/muralestagio_id:' . $muralestagio_id);
                 } elseif (!empty($registro_termo)) {
                     // Solicita termo de compromisso
                     $this->Session->setFlash(__("Solicitacao de termo de compromisso"), "flash_notification");
@@ -277,7 +277,7 @@ class EstudantesController extends AppController {
 
         /* 3 - Capturo as inscrições */
         $inscricoes = $this->Estudante->Inscricao->find('all', [''
-            . 'conditions' => ['Inscricao.estudante_id' => $id]]);
+            . 'conditions' => ['Inscricao.registro' => $registro]]);
 
         // pr($inscricoes);
         // die('inscricoes');
@@ -893,13 +893,16 @@ class EstudantesController extends AppController {
             // pr($aluno['Supervisor']);
             // die("avaliacao");
             if ($aluno) {
+                // pr($aluno);
+                // die('aluno');
                 if (!empty($aluno['Supervisor']['id'])) {
                     $this->Session->setFlash(__("Verificar e completar dados do supervisor da instituicao."), "flash_notification");
                     // $this->redirect('/Estudantes/avaliacaoverifica/' . $aluno['Supervisor']['id'] . '/' . $this->data['Estudante']['registro']);
                     $this->redirect('/Estudantes/avaliacaoedita/supervisor_id:' . $aluno['Supervisor']['id'] . '/registro:' . $this->data['Estudante']['registro']);
                 } else {
                     $this->Session->setFlash(__("Não foi indicado o supervisor da instituicao. Retorna para solicitar termo de compromisso"), "flash_notification");
-                    $this->redirect('/Inscricoes/termocompromisso/' . $aluno['Aluno']['registro']);
+                    die('Sem supervisor');
+                    $this->redirect('/Inscricoes/termocompromisso/' . $aluno['Estudante']['registro']);
                 }
             } else {
                 $this->Session->setFlash(__("Não há estágios cadastrados para este estudante"), "flash_notification");

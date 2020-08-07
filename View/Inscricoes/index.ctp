@@ -17,7 +17,7 @@
 
         <?php if (isset($instituicao)): ?>
             <h5>
-                <?= $this->Html->link("Mural: " . $instituicao, '/Muralestagios/view/' . $mural_estagio_id) . ": Vagas: " . $vagas ?>
+                <?= $this->Html->link("Mural: " . $instituicao, '/Muralestagios/view/' . $muralestagio_id) . ": Vagas: " . $vagas ?>
             </h5>
             <h5>
                 <?= $this->Html->link("Estagiários: " . $instituicao, '/Estagiarios/index/instituicao_id:' . $instituicao_id . '/periodo:' . $periodo) ?>

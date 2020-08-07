@@ -38,7 +38,7 @@ class InscricoesController extends AppController {
 
         $parametros = $this->params['named'];
         $periodo = isset($parametros['periodo']) ? $parametros['periodo'] : NULL;
-        $mural_estagio_id = isset($parametros['mural_estagio_id']) ? $parametros['mural_estagio_id'] : NULL;
+        $muralestagio_id = isset($parametros['muralestagio_id']) ? $parametros['muralestagio_id'] : NULL;
         $ordem = isset($_REQUEST['ordem']) ? $_REQUEST['ordem'] : "nome";
 
         // Capturo o periodo de estagio para o mural
@@ -54,7 +54,7 @@ class InscricoesController extends AppController {
         // die();
 
         if (!$id) {
-            $id = $mural_estagio_id;
+            $id = $muralestagio_id;
         }
         // echo "Id: " . $id;
         // die('id');
@@ -64,11 +64,11 @@ class InscricoesController extends AppController {
                 'conditions' => ['Muralestagio.id' => $id]
             ]);
             // pr($inscritos);
-            // die('mural_estagio_id');
+            // die('muralestagio_id');
             if ($inscritos) {
                 $vagas = $inscritos['Muralestagio']['vagas'];
                 $instituicao_id = $inscritos['Muralestagio']['estagio_id'];
-                $mural_estagio_id = $inscritos['Muralestagio']['id'];
+                $muralestagio_id = $inscritos['Muralestagio']['id'];
                 $instituicao = $inscritos['Muralestagio']['instituicao'];
                 // die();
             }
@@ -182,7 +182,7 @@ class InscricoesController extends AppController {
         // pr($criterio);
         // die('inscritos_ordem');
         $this->set('estudantetipos', $estudantetipos);
-        $this->set('mural_estagio_id', $id);
+        $this->set('muralestagio_id', $id);
         $this->set('periodo', $periodo);
         if (isset($vagas)) {
             $this->set('vagas', $vagas);
@@ -211,9 +211,9 @@ class InscricoesController extends AppController {
 
         $parametros = $this->params['named'];
         $registro = isset($parametros['registro']) ? $parametros['registro'] : null;
-        $mural_estagio_id = isset($parametros['mural_estagio_id']) ? $parametros['mural_estagio_id'] : null;
+        $muralestagio_id = isset($parametros['muralestagio_id']) ? $parametros['muralestagio_id'] : null;
 
-        $this->set('mural_estagio_id', $mural_estagio_id);
+        $this->set('muralestagio_id', $muralestagio_id);
 
         /* 1 - Verifico se foi preenchido o numero de registro */
         if (isset($registro)) {
@@ -240,7 +240,7 @@ class InscricoesController extends AppController {
      * Inscreve o aluno para seleção de estágio
      * Esta função é chamada desde a função add() e traz como parámetro o registro
      * O Id e o numero de registro
-     * @PARAMETROS $registro ou $aluno_id e $mural_estagio_id
+     * @PARAMETROS $registro ou $aluno_id e $muralestagio_id
      *
      * @RETURN true ou false
      *
@@ -249,9 +249,9 @@ class InscricoesController extends AppController {
     public function inscricao($id = NULL) {
 
         $parametros = $this->params['named'];
-        $mural_estagio_id = isset($parametros['mural_estagio_id']) ? $parametros['mural_estagio_id'] : NULL;
+        $muralestagio_id = isset($parametros['muralestagio_id']) ? $parametros['muralestagio_id'] : NULL;
         $registro = isset($parametros['registro']) ? $parametros['registro'] : NULL;
-        // pr($mural_estagio_id);
+        // pr($muralestagio_id);
         // pr($registro);
         // die('inscricao');
 
@@ -272,7 +272,7 @@ class InscricoesController extends AppController {
          */
         $selecaoestagio = $this->Inscricao->find('first', [
             'conditions' => ['Inscricao.registro' => $this->request->data['Inscricao']['registro'],
-                'Inscricao.mural_estagio_id' => $this->request->data['Inscricao']['mural_estagio_id']]
+                'Inscricao.muralestagio_id' => $this->request->data['Inscricao']['muralestagio_id']]
         ]);
         // pr($selecaoestagio);
         // die();
@@ -289,7 +289,7 @@ class InscricoesController extends AppController {
 
             /* Capturo o periodo para o registro de inscricao */
             $periodo_mural_estagio = $this->Inscricao->Muralestagio->find('first', [
-                'conditions' => ['Muralestagio.id' => $mural_estagio_id],
+                'conditions' => ['Muralestagio.id' => $muralestagio_id],
                 'fields' => ['Muralestagio.periodo']]);
 
             // pr($periodo_mural_estagio);
@@ -308,7 +308,7 @@ class InscricoesController extends AppController {
             /* Carrego o array de inscrição com os valores */
             $this->request->data['Inscricao']['estudante_id'] = $estudante_mural_estagio['Estudante']['id'];
             $this->request->data['Inscricao']['periodo'] = $periodo;
-            $this->request->data['Inscricao']['mural_estagio_id'] = $mural_estagio_id;
+            $this->request->data['Inscricao']['muralestagio_id'] = $muralestagio_id;
             $this->request->data['Inscricao']['data'] = date('Y-m-d');
             $this->request->data['Inscricao']['registro'] = $registro;
 
@@ -349,10 +349,10 @@ class InscricoesController extends AppController {
 
     public function delete($id = NULL) {
 
-        $muralestagio = $this->Inscricao->findById($id, array('fields' => 'mural_estagio_id'));
+        $muralestagio = $this->Inscricao->findById($id, array('fields' => 'muralestagio_id'));
         $this->Inscricao->delete($id);
         $this->Session->setFlash(__("Inscrição excluída"), "flash_notification");
-        $this->redirect('/Inscricoes/index/' . $muralestagio['Inscricao']['mural_estagio_id']);
+        $this->redirect('/Inscricoes/index/' . $muralestagio['Inscricao']['muralestagio_id']);
     }
 
     public function emailparainstituicao($id = NULL) {
@@ -515,10 +515,10 @@ class InscricoesController extends AppController {
             // Nivel eh I
             $nivel_ultimo = 1;
 
-            $this->set('aluno', $estagiario['Estudante']['nome']);
-            $this->set('instituicao_atual', 0);
-            $this->set('supervisor_atual', 0);
-            $this->set('professor_atual', 0);
+            $aluno_nome = $estagiario['Estudante']['nome'];
+            $instituicao_atual = null;
+            $supervisor_atual = null;
+            $professor_atual = null;
         }
 
         $this->set('aluno', $aluno_nome);

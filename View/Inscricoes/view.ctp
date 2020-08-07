@@ -2,7 +2,7 @@
 // pr($inscricao);
 ?>
 <nav class="nav nav-tabs">
-<?php echo $this->Html->link('Listar', '/Inscricoes/index/' . $inscricao['Inscricao']['mural_estagio_id'], ['class' => 'nav-item nav-link']); ?>
+<?php echo $this->Html->link('Listar', '/Inscricoes/index/' . $inscricao['Inscricao']['muralestagio_id'], ['class' => 'nav-item nav-link']); ?>
 </nav>
 
 <h5>Inscrição para seleção de estágio</h5>

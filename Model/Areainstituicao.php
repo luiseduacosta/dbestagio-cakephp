@@ -11,7 +11,7 @@ class Areainstituicao extends AppModel {
     public $hasMany = array(
         'Instituicao' => array(
             'className' => 'Instituicao',
-            'foreignKey' => 'areainstituicoes_id'
+            'foreignKey' => 'areainstituicao_id'
         )
     );
 

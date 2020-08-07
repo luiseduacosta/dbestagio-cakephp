@@ -7,16 +7,16 @@
 <div class='container'>
     <ul class="nav nav-pills">
         <li class="nav-item">
-            <a class="nav-link active" data-toggle="pill" href="#dados_supervisor">Supervisor</a>
+            <a class="nav-link active btn-light" data-toggle="pill" href="#dados_supervisor">Supervisor</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="pill" href="#dados_instituicao">Instituição</a>
+            <a class="nav-link btn-light" data-toggle="pill" href="#dados_instituicao">Instituição</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="pill" href="#dados_adicionarinstituicao">Adicionar instituição</a>
+            <a class="nav-link btn-light" data-toggle="pill" href="#dados_adicionarinstituicao">Adicionar instituição</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="pill" href="#dados_estagiarios">Estagiários</a>
+            <a class="nav-link btn-light" data-toggle="pill" href="#dados_estagiarios">Estagiários</a>
         </li>
     </ul>
 </div>

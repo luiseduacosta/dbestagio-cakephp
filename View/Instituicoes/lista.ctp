@@ -84,7 +84,7 @@
                     <?php echo $this->Html->link('Instituicao', 'lista/ordem:instituicao/mudadirecao:' . $direcao . '/ṕagina:' . $pagina . '/linhas:' . $linhas); ?>
                 </th>
                 <th>
-                    <?php echo $this->Html->link('Expira', 'lista/ordem:expira/mudadirecao:' . $direcao . '/ṕagina:' . $pagina . '/linhas:' . $linhas); ?>
+                    <?php echo $this->Html->link('Convênio', 'lista/ordem:expira/mudadirecao:' . $direcao . '/ṕagina:' . $pagina . '/linhas:' . $linhas); ?>
                 </th>
                 <th>
                     <?php echo $this->Html->link('Visita', 'lista/ordem:visita/mudadirecao:' . $direcao . '/ṕagina:' . $pagina . '/linhas:' . $linhas); ?>
