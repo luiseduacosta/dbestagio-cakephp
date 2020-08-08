@@ -76,12 +76,12 @@
             </td>
             <td>
                 <?php echo $this->Form->create('Estagiario', array('url' => 'index', 'inputDefaults' => array('label' => false, 'div' => false))); ?>
-                <?php echo $this->Form->input('turno', array('type' => 'select', 'options' => array('D' => 'Diurno', 'N' => 'Noturno'), 'selected' => $turno, 'empty' => array('0' => 'Turno'), 'style' => 'width: 7em',  'class' => 'form-control')); ?>
+                <?php echo $this->Form->input('turno', array('type' => 'select', 'options' => array('D' => 'Diurno', 'N' => 'Noturno'), 'selected' => $turno, 'empty' => array('0' => 'Turno'), 'style' => 'width: 7em', 'class' => 'form-control')); ?>
                 <?php // echo $this->Form->end();?>
             </td>
             <td>
                 <?php echo $this->Form->create('Estagiario', array('url' => 'index', 'inputDefaults' => array('label' => false, 'div' => false))); ?>
-                <?php echo $this->Form->input('areaestagio_id', array('type' => 'select', 'options' => $areaestagios, 'selected' => $areaestagio_id, 'empty' => array('0' => 'Área'), 'style' => 'width: 7em' ,'class' => 'form-control')); ?>
+                <?php echo $this->Form->input('areaestagio_id', array('type' => 'select', 'options' => $areaestagios, 'selected' => $areaestagio_id, 'empty' => array('0' => 'Área'), 'style' => 'width: 7em', 'class' => 'form-control')); ?>
                 <?php // echo $this->Form->end();?>
             </td>
             <td>

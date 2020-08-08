@@ -33,7 +33,7 @@
         <p>Instituição</p>
     </div>
     <div class="col">
-        <p><?= $inscricao['Muralestagio']['instituicao']; ?></p>
+        <p><?= $this->Html->link($inscricao['Muralestagio']['instituicao'], '/Inscricoes/index/' . $inscricao['Inscricao']['muralestagio_id']); ?></p>
     </div>
 </div>
 

@@ -54,6 +54,9 @@ $cress = $estagiorealizado['Supervisor']['cress'];
 $periodo = $estagiorealizado['Estagiario']['periodo'];
 $carga_horaria = $estagiorealizado['Estagiario']['ch'];
 $nivel = $estagiorealizado['Estagiario']['nivel'];
+if ($nivel > 4) {
+    $nivel = "extra-curricular";
+}
 // die();
 
 if (empty($supervisora))

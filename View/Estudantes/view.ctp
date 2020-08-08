@@ -173,6 +173,7 @@
                             </tr>
 
                         <?php elseif ($c_aluno_estagio['Estagiario']['nivel'] > '4'): ?>
+                   
                             <tr>
                                 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
                                     <td>
@@ -182,7 +183,9 @@
                                         <?php echo $this->Html->link('Editar', '/Estagiarios/view/' . $c_aluno_estagio['Estagiario']['id']); ?>
                                     </td>
                                 <?php endif; ?>
-
+                                    
+                                <td><?= $this->Html->link('Imprimir declaração', '/Estagiarios/declaracaoestagio/' . $c_aluno_estagio['Estagiario']['id'] . '/' . $c_aluno_estagio['Estagiario']['nivel']); ?></td>
+                                <td><?php echo $c_aluno_estagio['Estagiario']['ajustecurricular2020'] ?></td>
                                 <td><?php echo $c_aluno_estagio['Estagiario']['periodo'] ?></td>
                                 <td style='text-align:center'><?php echo "Não obrigatório"; ?></td>
                                 <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['turno']; ?></td>

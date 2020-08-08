@@ -21,7 +21,7 @@ class EstudantesController extends AppController {
             // $this->Session->setFlash(__('Administrador'), "flash_notification");
             // Estudantes podem somente fazer inscricao
         } elseif ($this->Session->read('id_categoria') === '2') {
-            $this->Auth->allow('add', 'edit', 'index', 'view', 'avaliacaosolicita', 'avaliacaoverifica', 'avaliacaoedita', 'avaliacaoimprime');
+            $this->Auth->allow('add', 'edit', 'index', 'view', 'avaliacaosolicita', 'avaliacaoverifica', 'avaliacaoedita', 'avaliacaoimprime', 'folhadeatividades');
             // $this->Session->setFlash(__('Estudante'), "flash_notification");
             // die();
             // Professores podem atualizar murais

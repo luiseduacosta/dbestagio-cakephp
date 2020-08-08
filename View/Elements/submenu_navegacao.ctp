@@ -17,7 +17,7 @@
                     <?php echo $this->Html->link("Termo de compromisso", "/Inscricoes/termosolicita", ['class' => 'dropdown-item']); ?>
                     <?php echo $this->Html->link("Avaliação discente", "/Estudantes/avaliacaosolicita", ['class' => 'dropdown-item']); ?>
                     <?php echo $this->Html->link("Folha de atividades", "/Estudantes/folhadeatividades", ['class' => 'dropdown-item']); ?>
-                    <?php echo $this->Html->link("Declaração de estágio", "/Estagiarios/index", ['class' => 'dropdown-item']); ?>                    
+                    <?php echo $this->Html->link("Declaração de estágio", "/Estudantes/busca_dre", ['class' => 'dropdown-item']); ?>                    
                 </div>
             </li>
 

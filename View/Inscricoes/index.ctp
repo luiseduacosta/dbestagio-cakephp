@@ -20,7 +20,7 @@
                 <?= $this->Html->link("Mural: " . $instituicao, '/Muralestagios/view/' . $muralestagio_id) . ": Vagas: " . $vagas ?>
             </h5>
             <h5>
-                <?= $this->Html->link("Estagiários: " . $instituicao, '/Estagiarios/index/instituicao_id:' . $instituicao_id . '/periodo:' . $periodo) ?>
+                <?= $this->Html->link("Ver estagiários", '/Estagiarios/index/instituicao_id:' . $instituicao_id . '/periodo:' . $periodo); ?>
             </h5>
         <?php endif; ?>
         <h5>São <?= $estudantetipos[0] = isset($estudantetipos[0]) ? $estudantetipos[0] : 0 ?> inscrições de estudantes novos e <?= $estudantetipos[1] ?> de estagiários</h5>

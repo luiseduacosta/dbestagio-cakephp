@@ -57,8 +57,8 @@ if (empty($professores))
 <div class='col-6'>
     <?= $this->Form->label('dataSelecao', 'Data da seleção', ['class' => 'control-label']); ?>
 </div>
-<div class='col-3'>
-    <?php echo $this->Form->input('dataSelecao', array('label' => false, 'dateFormat' => 'DMY', 'minYear' => '2000', 'empty' => TRUE, 'class' => 'form-horizontal')); ?>
+<div class='col-6'>
+    <?php echo $this->Form->input('dataSelecao', array('label' => false, 'dateFormat' => 'DMY', 'monthNames' => $meses, 'minYear' => '2000', 'empty' => TRUE, 'class' => 'form-horizontal')); ?>
 </div>
 <div class='col-3'>
     <?php echo $this->Form->input('horarioSelecao', ['class' => 'form-control']); ?>
@@ -70,7 +70,7 @@ if (empty($professores))
     <?php echo $this->Form->input('formaSelecao', array('label' => 'Forma de seleção', 'type' => 'select', 'options' => array('0' => 'Entrevista', '1' => 'CR', '2' => 'Prova', '3' => 'Outras'), 'class' => 'form-control')); ?>
 </div>
 <div class='col-6'>
-    <?= $this->Form->label('dataInscricao', 'Data da inscrição', ['class' => 'control-label']); ?>
+    <?= $this->Form->label('dataInscricao', 'Encerramento das inscrições', ['class' => 'control-label']); ?>
 </div>
 <div class='col-6'>
     <?php echo $this->Form->input('dataInscricao', array('label' => false, 'dateFormat' => 'DMY', 'minYear' => '2000', 'monthNames' => $meses, 'empty' => TRUE, 'class' => 'form-horizontal')); ?>
