@@ -133,7 +133,7 @@ class InscricoesController extends AppController {
                 $inscritos_ordem[$i]['estudante_id'] = $c_inscritos['estudante_id'];
                 $inscritos_ordem[$i]['periodo'] = $c_inscritos['periodo'];
                 $periodo = $c_inscritos['periodo'];
-                if (isset($estudante['Estudante']['nascimento']) and !is_null($estudante['Estudante']['nascimento'])) {
+                if (isset($estudante['Estudante']['nascimento']) and!is_null($estudante['Estudante']['nascimento'])) {
                     $inscritos_ordem[$i]['nascimento'] = $estudante['Estudante']['nascimento'];
                 } else {
                     $inscritos_ordem[$i]['nascimento'] = 's/d';
@@ -213,26 +213,68 @@ class InscricoesController extends AppController {
         $registro = isset($parametros['registro']) ? $parametros['registro'] : null;
         $muralestagio_id = isset($parametros['muralestagio_id']) ? $parametros['muralestagio_id'] : null;
 
-        $this->set('muralestagio_id', $muralestagio_id);
+        /* Capturo o periodo para o registro de inscricao */
+        $this->Inscricao->Muralestagio->recursive = -1;
+        $periodo_mural_estagio = $this->Inscricao->Muralestagio->find('first', [
+            'conditions' => ['Muralestagio.id' => $muralestagio_id],
+            'fields' => ['Muralestagio.periodo']]);
+        // pr($periodo_mural_estagio);
+        // die('periodo_mural_estagio');
 
-        /* 1 - Verifico se foi preenchido o numero de registro */
-        if (isset($registro)) {
-            // pr($this->request->data);
-            // die();
+        /* Envio a informação para o formulário */
+        $this->set('muralestagio_id', $muralestagio_id);
+        $this->set('registro', $registro);
+        $this->set('periodo_atual', $periodo_mural_estagio['Muralestagio']['periodo']);
+
+        /* Recebo a informação do formulário */
+        if ($this->request->data) {
+            pr($this->request->data);
+            // die('this->request->data');
             /* Verificacoes */
-            if (strlen($registro) < 9) {
+            // echo $this->Session->read('id_categoria');
+            /* Verifico se o registro está dentro do padrão */
+            if (strlen($this->request->data['Inscricao']['registro']) < 9) {
                 $this->Session->setFlash(__("Falta o número de registro ou número de registro incorreto."), "flash_notification");
                 if ($this->Session->read('id_categoria') == 2):
                     $this->redirect('/Estudantes/view/' . $this->Session->read('numero'));
-                else:
-                    $this->redirect('/Muralestagios/index/');
+                elseif ($this->Session->read('id_categoria') == 1):
+                    // die('número incorreto');
+                    $this->redirect('/Inscricoes/add/' . $muralestagio_id);
                 endif;
-                die("Registro incorreto");
-                exit;
+                // die("Registro incorreto");
+                // exit;
             }
-        } else {
-            $this->Session->setFlash(__("Sem número de registro de estudante"), "flash_notification");
-            $this->redirect('/Muralestagios/index/');
+
+            /*
+             * Verifica se já fez inscrição para esta seleção de estágio
+             */
+            $selecaoestagio = $this->Inscricao->find('first', [
+                'conditions' => ['Inscricao.registro' => $this->request->data['Inscricao']['registro'],
+                    'Inscricao.muralestagio_id' => $this->request->data['Inscricao']['muralestagio_id']]
+            ]);
+            // pr($selecaoestagio);
+            // die();
+
+            if ($selecaoestagio) {
+                $this->Session->setFlash(__('Inscrição para seleção de estágio já realizada'), "flash_notification");
+                $this->redirect('/Inscricoes/view/' . $selecaoestagio['Inscricao']['id']);
+            }
+            
+            /* Capturo o estudante_id para o registro da inscricao */
+            $estudante_mural_estagio = $this->Inscricao->Estudante->find('first', [
+                'conditions' => ['Estudante.registro' => $this->request->data['Inscricao']['registro']],
+                'fields' => ['Estudante.id', 'Estudante.nome']]);
+            // pr($estudante_mural_estagio['Estudante']['id']);
+            // die('estudante_mural_estagio');
+            $this->request->data['Inscricao']['estudante_id'] = $estudante_mural_estagio['Estudante']['id'];
+
+            // pr($this->request->data);
+            // die();
+
+            if ($this->Inscricao->save($this->request->data)) {
+                $this->Session->setFlash(__('Inscrição realizada'), "flash_notification");
+                $this->redirect('/Inscricoes/view/' . $this->Inscricao->id);
+            }
         }
     }
 

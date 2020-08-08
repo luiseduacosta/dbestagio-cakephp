@@ -2,7 +2,7 @@
 
 <div class="card">
     <div class='card-header'>
-        <h5>Digite o seu número de DRE para solicitar o formulário de avaliação discente</h5>
+        <h5>DRE para solicitar o formulário de avaliação discente</h5>
     </div>
     <div class="card-body">
         <p>No processo de solicitação do formulário de avaliação discente será pedido para verificar e, se for necessário, completar a informação sobre o supervisor de campo. Os dados demandados são: Nome, Cress, telefone ou celular e e-mail. Todos os campos são obrigatórios.</p>
@@ -21,8 +21,11 @@
                 'after' => '</div>',
                 'class' => 'form-control']
         ]);
-
-        echo $this->Form->input('registro', ['label' => ['text' => 'Registro (DRE)'], 'size' => '9', 'maxlength' => '9', 'default' => $this->Session->read('numero'), 'class' => 'form-control']);
+        if ($this->Session->read('id_categoria') == '1'):
+            echo $this->Form->input('registro', ['label' => ['text' => 'Registro (DRE)'], 'size' => '9', 'maxlength' => '9', 'default' => $this->Session->read('numero'), 'required', 'class' => 'form-control']);
+        elseif ($this->Session->read('id_categoria') == '2'):
+            echo $this->Form->input('registro', ['label' => ['text' => 'Registro (DRE)'], 'size' => '9', 'maxlength' => '9', 'default' => $this->Session->read('numero'), 'readonly' => 'readonly', 'class' => 'form-control']);
+        endif;
         echo $this->Form->input('Confirma', ['type' => 'submit', 'label' => false, 'class' => 'btn btn-success position-static']);
         echo $this->Form->end();
         ?>

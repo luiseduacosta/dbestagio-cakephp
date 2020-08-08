@@ -1,6 +1,7 @@
 Dicas
 =====
-$log = $this->Votacao->getDataSource()->getLog(false, false);
+debug($this->Model->validationErrors);
+$log = $this->Model->getDataSource()->getLog(false, false);
 debug($log);
 
 /* A variável ordem é a coluna que vai ser utilizada como critério de ordenação */

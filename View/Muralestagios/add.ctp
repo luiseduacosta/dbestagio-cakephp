@@ -51,7 +51,7 @@
 <div class='col-6'>
     <label for='MuralestagiosDadaSelecao' class='control-label'>Data da seleção</label>
 </div>
-<div class='col-3'>
+<div class='col-6'>
     <?php echo $this->Form->input('dataSelecao', array('label' => false, 'dateFormat' => 'DMY', 'minYear' => '2000', 'empty' => TRUE, 'class' => 'form-horizontal')); ?>
 </div>
 <div class='col-3'>
