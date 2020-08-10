@@ -11,7 +11,7 @@
 
     $(document).ready(function () {
 
-        var url = "<?= $this->Html->url(["controller" => "Instituicoes", "action" => "lista/linhas:"]); ?>";
+        var url = "<?= $this->Html->url(["controller" => "Instituicaoestagios", "action" => "lista/linhas:"]); ?>";
 
         $("#InstituicaoLinhas").change(function () {
             var linhas = $(this).val();
@@ -28,7 +28,7 @@
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
     <div class='row'>
         <div class='col-3'>
-            <?php echo $this->Form->create('Instituicao', array('controller' => 'Instituicao', 'url' => 'lista')); ?>
+            <?php echo $this->Form->create('Instituicaoestagio', array('controller' => 'Instituicaoestagio', 'url' => 'lista')); ?>
             <?php echo $this->Form->input('linhas', array('type' => 'select', 'label' => array('text' => 'Linhas por páginas ', 'style' => 'display: inline'), 'options' => array('15' => '15', '0' => 'Todos'), 'selected' => $linhas, 'empty' => array('15' => 'Selecione'), 'class' => 'form-control')); ?>
         </div>
     </div>
@@ -111,8 +111,8 @@
             <?php foreach ($instituicoes as $c_instituicao): ?>
                 <?php // pr($c_instituicao);  ?>
                 <tr>
-                    <td><?php echo $this->Html->link($c_instituicao['instituicao_id'], '/Instituicoes/view/' . $c_instituicao['instituicao_id']); ?></td>
-                    <td><?php echo $this->Html->link($c_instituicao['instituicao'], '/Instituicoes/view/' . $c_instituicao['instituicao_id']); ?></td>
+                    <td><?php echo $this->Html->link($c_instituicao['instituicao_id'], '/Instituicaoestagios/view/' . $c_instituicao['instituicao_id']); ?></td>
+                    <td><?php echo $this->Html->link($c_instituicao['instituicao'], '/Instituicaoestagios/view/' . $c_instituicao['instituicao_id']); ?></td>
                     <td>
                         <?php
                         if ($c_instituicao['expira']):

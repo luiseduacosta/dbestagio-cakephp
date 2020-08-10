@@ -29,7 +29,7 @@
                 <p>Instituição</p>
             </div>
             <div class='col'>
-                <p><?= $this->Html->link($instituicao['Instituicao']['instituicao'], '/Estagiarios/index/instituicao_id:' . $instituicao['Instituicao']['id']); ?></p>
+                <p><?= $this->Html->link($instituicao['Instituicaoestagio']['instituicao'], '/Estagiarios/index/instituicao_id:' . $instituicao['Instituicaoestagio']['id']); ?></p>
             </div>
         </div>
 
@@ -38,7 +38,7 @@
                 <p>CNPJ</p>
             </div>
             <div class='col'>
-                <p><?php echo $instituicao['Instituicao']['cnpj']; ?></p>
+                <p><?php echo $instituicao['Instituicaoestagio']['cnpj']; ?></p>
             </div>
         </div>
 
@@ -47,7 +47,7 @@
                 <p>Email</p>
             </div>
             <div class='col'>
-                <p><?php echo $instituicao['Instituicao']['email']; ?></p>
+                <p><?php echo $instituicao['Instituicaoestagio']['email']; ?></p>
             </div>
         </div>
 
@@ -56,7 +56,7 @@
                 <p>Página web</p>
             </div>
             <div class='col'>
-                <p><?= $this->Html->link($instituicao['Instituicao']['url'], $instituicao['Instituicao']['url']); ?></p>
+                <p><?= $this->Html->link($instituicao['Instituicaoestagio']['url'], $instituicao['Instituicaoestagio']['url']); ?></p>
             </div>
         </div>
 
@@ -67,8 +67,8 @@
             <div class='col'>
                 <p>
                     <?php
-                    if (!empty($instituicao['Instituicao']['convenio'])) {
-                        echo $this->Html->link($instituicao['Instituicao']['convenio'], "http://www.pr1.ufrj.br/estagios/info.php?codEmpresa=" . $instituicao['Instituicao']['convenio']);
+                    if (!empty($instituicao['Instituicaoestagio']['convenio'])) {
+                        echo $this->Html->link($instituicao['Instituicaoestagio']['convenio'], "http://www.pr1.ufrj.br/estagios/info.php?codEmpresa=" . $instituicao['Instituicaoestagio']['convenio']);
                     } else {
                         echo "Sem dados";
                     }
@@ -84,8 +84,8 @@
             <div class='col'>
                 <p>
                     <?php
-                    if (!empty($instituicao['Instituicao']['expira'])) {
-                        echo date('d-m-Y', strtotime($instituicao['Instituicao']['expira']));
+                    if (!empty($instituicao['Instituicaoestagio']['expira'])) {
+                        echo date('d-m-Y', strtotime($instituicao['Instituicaoestagio']['expira']));
                     } else {
                         echo "Sem dados";
                     }
@@ -99,7 +99,7 @@
                 <p>Seguro</p>
             </div>
             <div class='col'>
-                <p><?php echo $instituicao['Instituicao']['seguro']; ?></p>
+                <p><?php echo $instituicao['Instituicaoestagio']['seguro']; ?></p>
             </div>
         </div>
 
@@ -116,7 +116,7 @@
                     if ($visitas > 0):
                         $ultimavisita = end($instituicao['Visita']);
                         if ($ultimavisita['data']):
-                            echo $this->Html->link(date('d-m-Y', strtotime($ultimavisita['data'])), '/visitas/view/' . $ultimavisita['id']);
+                            echo $this->Html->link(date('d-m-Y', strtotime($ultimavisita['data'])), '/Visitas/view/' . $ultimavisita['id']);
                         else:
                             echo "Sem visita";
                         endif;
@@ -142,7 +142,7 @@
                 <p>Natureza</p>
             </div>
             <div class='col'>
-                <p><?php echo $instituicao['Instituicao']['natureza']; ?></p>
+                <p><?php echo $instituicao['Instituicaoestagio']['natureza']; ?></p>
             </div>
         </div>
 
@@ -151,7 +151,7 @@
                 <p>Endereço</p>
             </div>
             <div class='col'>
-                <p><?php echo $instituicao['Instituicao']['endereco']; ?></p>
+                <p><?php echo $instituicao['Instituicaoestagio']['endereco']; ?></p>
             </div>
         </div>
 
@@ -160,7 +160,7 @@
                 <p>CEP</p>
             </div>
             <div class='col'>
-                <p><?php echo $instituicao['Instituicao']['cep']; ?></p>
+                <p><?php echo $instituicao['Instituicaoestagio']['cep']; ?></p>
             </div>
         </div>
 
@@ -169,7 +169,7 @@
                 <p>Bairro</p>
             </div>
             <div class='col'>
-                <p><?php echo $instituicao['Instituicao']['bairro']; ?></p>
+                <p><?php echo $instituicao['Instituicaoestagio']['bairro']; ?></p>
             </div>
         </div>
 
@@ -178,7 +178,7 @@
                 <p>Município</p>
             </div>
             <div class='col'>
-                <p><?php echo $instituicao['Instituicao']['municipio']; ?></p>
+                <p><?php echo $instituicao['Instituicaoestagio']['municipio']; ?></p>
             </div>
         </div>
 
@@ -187,7 +187,7 @@
                 <p>Telefone</p>
             </div>
             <div class='col'>
-                <p><?php echo $instituicao['Instituicao']['telefone']; ?></p>
+                <p><?php echo $instituicao['Instituicaoestagio']['telefone']; ?></p>
             </div>
         </div>
 
@@ -196,7 +196,7 @@
                 <p>Fax</p>
             </div>
             <div class='col'>
-                <p><?php echo $instituicao['Instituicao']['fax']; ?></p>
+                <p><?php echo $instituicao['Instituicaoestagio']['fax']; ?></p>
             </div>
         </div>
 
@@ -205,7 +205,7 @@
                 <p>Benefícios</p>
             </div>
             <div class='col'>
-                <p><?php echo $instituicao['Instituicao']['beneficio']; ?></p>
+                <p><?php echo $instituicao['Instituicaoestagio']['beneficio']; ?></p>
             </div>
         </div>
 
@@ -214,7 +214,7 @@
                 <p>Final de semana</p>
             </div>
             <div class='col'>
-                <p><?php echo $instituicao['Instituicao']['fim_de_semana']; ?></p>
+                <p><?php echo $instituicao['Instituicaoestagio']['fim_de_semana']; ?></p>
             </div>
         </div>
 
@@ -223,15 +223,15 @@
                 <p>Observações</p>
             </div>
             <div class='col'>
-                <p><?php echo $instituicao['Instituicao']['observacoes']; ?></p>
+                <p><?php echo $instituicao['Instituicaoestagio']['observacoes']; ?></p>
             </div>
         </div>
 
 
         <?php if ($this->Session->read('categoria') === 'administrador'): ?>
             <nav class="nav nav-tabs">
-                <?php echo $this->Html->link('Excluir', '/Instituicoes/delete/' . $instituicao['Instituicao']['id'], ['class' => 'nav-list nav-link'], 'Tem certeza?'); ?>
-                <?php echo $this->Html->link('Editar', '/Instituicoes/edit/' . $instituicao['Instituicao']['id'], ['class' => 'nav-list nav-link']); ?>
+                <?php echo $this->Html->link('Excluir', '/Instituicaoestagios/delete/' . $instituicao['Instituicaoestagio']['id'], ['class' => 'nav-list nav-link'], 'Tem certeza?'); ?>
+                <?php echo $this->Html->link('Editar', '/Instituicaoestagios/edit/' . $instituicao['Instituicaoestagio']['id'], ['class' => 'nav-list nav-link']); ?>
             </nav>
         <?php endif; ?>
 
@@ -248,7 +248,7 @@
                 $cada_supervisor[$i]['nome'] = $c_supervisor['nome'];
                 $cada_supervisor[$i]['id'] = $c_supervisor['id'];
                 $cada_supervisor[$i]['cress'] = $c_supervisor['cress'];
-                $cada_supervisor[$i]['id_superinst'] = $c_supervisor['InstituicaoSupervisor']['id'];
+                $cada_supervisor[$i]['id_superinst'] = $c_supervisor['InstituicaoestagioSupervisor']['id'];
                 $i++;
             }
             sort($cada_supervisor);
@@ -294,7 +294,7 @@
                             <?php if ($this->Session->read('categoria') === 'administrador'): ?>
                                 <td>
                                     <?php
-                                    echo $this->Html->link('Excluir', '/Instituicoes/deleteassociacao/' . $c_supervisor['id_superinst'], null, 'Tem certeza?');
+                                    echo $this->Html->link('Excluir', '/Instituicaoestagios/deleteassociacao/' . $c_supervisor['id_superinst'], null, 'Tem certeza?');
                                     ?>
                                 </td>
                             <?php endif; ?>
@@ -316,9 +316,9 @@
             <h5>Inserir supervisor</h5>
 
             <?php
-            echo $this->Form->create('Instituicao', array('controller' => 'Instituicoes', 'url' => 'addassociacao'));
-            echo $this->Form->input('InstituicaoSupervisor.instituicao_id', array('type' => 'hidden', 'value' => $instituicao['Instituicao']['id']));
-            echo $this->Form->input('InstituicaoSupervisor.supervisor_id', array('label' => 'Supervisor', 'options' => $supervisores, 'default' => 0, 'empty' => 'Seleciona', 'class' => 'form-control'));
+            echo $this->Form->create('Instituicaoestagio', array('controller' => 'Instituicaoestagios', 'url' => 'addassociacao'));
+            echo $this->Form->input('InstituicaoestagioSupervisor.instituicao_id', array('type' => 'hidden', 'value' => $instituicao['Instituicaoestagio']['id']));
+            echo $this->Form->input('InstituicaoestagioSupervisor.supervisor_id', array('label' => 'Supervisor', 'options' => $supervisores, 'default' => 0, 'empty' => 'Seleciona', 'class' => 'form-control'));
             ?>
             <br>
             <?php

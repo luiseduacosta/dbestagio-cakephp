@@ -74,7 +74,7 @@ class VisitasController extends AppController {
         // die();
         // die();
         // Lista de selecao das insttuicoes
-        $instituicoes = $this->Visita->Instituicao->find('list', array('order' => 'instituicao'));
+        $instituicoes = $this->Visita->Instituicaoestagio->find('list', array('order' => 'instituicao'));
 
         if ($this->data) {
             if ($this->Visita->save($this->data)) {

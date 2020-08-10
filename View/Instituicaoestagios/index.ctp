@@ -5,7 +5,7 @@
 <script>
     $(document).ready(function () {
 
-        var url = '<?= $this->Html->url(["controller" => "Instituicoes", "action" => "periodo/periodo:"]) ?>';
+        var url = '<?= $this->Html->url(["controller" => "Instituicaoestagio", "action" => "periodo/periodo:"]) ?>';
 
         $("#InstituicaoPeriodo").change(function () {
             var periodo = $(this).val();
@@ -20,7 +20,7 @@
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
     <div class='row'>
         <div class='col-3'>
-            <?php echo $this->Form->create('Instituicao'); ?>
+            <?php echo $this->Form->create('Instituicaoestagio'); ?>
             <?php echo $this->Form->input('periodo', array('type' => 'select', 'label' => array('text' => 'Período ', 'style' => 'display: inline'), 'options' => $todosPeriodos, 'default' => $periodo, 'empty' => ['0' => 'Selecione'], 'class' => 'form-control')); ?>
             <?php echo $this->Form->end(); ?>
         </div>
@@ -44,28 +44,28 @@
         <thead class="thead-light">
             <tr>
                 <th>
-                    <?php echo $this->Paginator->sort('Instituicao.id', 'Id'); ?>
+                    <?php echo $this->Paginator->sort('Instituicaoestagio.id', 'Id'); ?>
                 </th>
                 <th>
-                    <?php echo $this->Paginator->sort('Instituicao.instituicao', 'Instituição'); ?>
+                    <?php echo $this->Paginator->sort('Instituicaoestagio.instituicao', 'Instituição'); ?>
                 </th>
                 <th>
-                    <?php echo $this->Paginator->sort('Instituicao.expira', 'Expira'); ?>
+                    <?php echo $this->Paginator->sort('Instituicaoestagio.expira', 'Expira'); ?>
                 </th>
                 <th>
-                    <?php echo $this->Paginator->sort('Instituicao.periodo', 'Último estágio'); ?>
+                    <?php echo $this->Paginator->sort('Instituicaoestagio.periodo', 'Último estágio'); ?>
                 </th>
                 <th>
-                    <?php echo $this->Paginator->sort('Instituicao.Estagiarios', 'Estagiarios'); ?>
+                    <?php echo $this->Paginator->sort('Instituicaoestagio.Estagiarios', 'Estagiarios'); ?>
                 </th>
                 <th>
-                    <?php echo $this->Paginator->sort('Instituicao.Supervisores', 'Supervisores'); ?>
+                    <?php echo $this->Paginator->sort('Instituicaoestagio.Supervisores', 'Supervisores'); ?>
                 </th>
                 <th>
                     <?php echo $this->Paginator->sort('Areainstituicao.area', 'Área'); ?>
                 </th>
                 <th>
-                    <?php echo $this->Paginator->sort('Instituicao.natureza', 'Natureza'); ?>
+                    <?php echo $this->Paginator->sort('Instituicaoestagio.natureza', 'Natureza'); ?>
                 </th>
 
             </tr>
@@ -75,11 +75,11 @@
                 <?php // pr($c_instituicao)  ?>
 
                 <tr>
-                    <td><?php echo $this->Html->link($c_instituicao['Instituicao']['id'], '/Instituicoes/view/' . $c_instituicao['Instituicao']['id']); ?></td>
-                    <td><?php echo $this->Html->link($c_instituicao['Instituicao']['instituicao'], '/Instituicoes/view/' . $c_instituicao['Instituicao']['id']); ?></td>
+                    <td><?php echo $this->Html->link($c_instituicao['Instituicaoestagio']['id'], '/Instituicaoestagios/view/' . $c_instituicao['Instituicaoestagio']['id']); ?></td>
+                    <td><?php echo $this->Html->link($c_instituicao['Instituicaoestagio']['instituicao'], '/Instituicaoestagios/view/' . $c_instituicao['Instituicaoestagio']['id']); ?></td>
                     <td><?php
-                        if ($c_instituicao['Instituicao']['expira']):
-                            echo date('d-m-Y', strtotime($c_instituicao['Instituicao']['expira']));
+                        if ($c_instituicao['Instituicaoestagio']['expira']):
+                            echo date('d-m-Y', strtotime($c_instituicao['Instituicaoestagio']['expira']));
                         endif;
                         ?></td>
                     <td>

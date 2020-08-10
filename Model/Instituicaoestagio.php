@@ -1,29 +1,29 @@
 <?php
 
-class Instituicao extends AppModel {
+class Instituicaoestagio extends AppModel {
     /* @var Estagiario */
     /* @var Mural */
     /* @var Area */
     /* @var Supervisor */
 
-    public $name = "Instituicao";
-    public $useTable = "estagio";
+    public $name = "Instituicaoestagio";
+    public $useTable = "instituicaoestagios";
     public $primaryKey = "id";
     public $displayField = "instituicao";
     public $actsAs = array('Containable');
     public $hasMany = array(
         'Estagiario' => array(
             'className' => 'Estagiario',
-            'foreignKey' => 'instituicao_id',
+            'foreignKey' => 'instituicaoestagio_id',
             'joinTable' => 'estagiarios'
         ),
         'Mural' => array(
             'className' => 'Muralestagio',
-            'foreignKey' => 'estagio_id'
+            'foreignKey' => 'instituicaoestagio_id'
         ),
         'Visita' => array(
             'className' => 'Visita',
-            'foreignKey' => 'estagio_id'
+            'foreignKey' => 'instituicaoestagio_id'
         )
     );
     public $belongsTo = array(
@@ -35,8 +35,8 @@ class Instituicao extends AppModel {
     public $hasAndBelongsToMany = array(
         'Supervisor' => array(
             'className' => 'Supervisor',
-            'joinTable' => 'instituicao_supervisor',
-            'foreignKey' => 'instituicao_id',
+            'joinTable' => 'instituicaoestagio_supervisor',
+            'foreignKey' => 'instituicaoestagio_id',
             'associationForeignKey' => 'supervisor_id',
             'unique' => true,
             'fields' => '',

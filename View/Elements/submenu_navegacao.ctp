@@ -17,7 +17,7 @@
                     <?php echo $this->Html->link("Termo de compromisso", "/Inscricoes/termosolicita", ['class' => 'dropdown-item']); ?>
                     <?php echo $this->Html->link("Avaliação discente", "/Estudantes/avaliacaosolicita", ['class' => 'dropdown-item']); ?>
                     <?php echo $this->Html->link("Folha de atividades", "/Estudantes/folhadeatividades", ['class' => 'dropdown-item']); ?>
-                    <?php echo $this->Html->link("Declaração de estágio", "/Estudantes/busca_dre", ['class' => 'dropdown-item']); ?>                    
+                    <?php echo $this->Html->link("Declaração de estágio", "/Estudantes/busca_dre", ['class' => 'dropdown-item']); ?>
                 </div>
             </li>
 
@@ -26,7 +26,7 @@
                     <?php echo $this->Html->link("Estagiários", "/Estagiarios/index", ['class' => 'nav-link']); ?>
                 </li>
                 <li class="nav-item">
-                    <?php echo $this->Html->link("Instituições", "/Instituicoes/lista", ['escape' => FALSE, 'class' => 'nav-link']); ?>
+                    <?php echo $this->Html->link("Instituições", "/Instituicaoestagios/lista", ['escape' => FALSE, 'class' => 'nav-link']); ?>
                 </li>
                 <li class="nav-item">
                     <?php echo $this->Html->link("Supervisores", "/Supervisores/index/ordem:nome", ['class' => 'nav-link']); ?>
@@ -57,38 +57,53 @@
             </li>
         </ul>
         <ul class = "navbar-nav ml-auto">
-            <?php if ($this->Session->read('id_categoria') == '2'): ?>
-                <li class="nav-item">
-                    <?php echo $this->Html->link("Meus dados", "/Estudantes/view/registro:" . $this->Session->read('numero'), ['class' => 'nav-link']); ?>
-                </li>
+            <?php
+            switch ($this->Session->read('id_categoria')) {
+                case 1: // Administrador
+                    ?>
+                    <li class = "nav-item">
+                        <?php echo $this->Html->link('Sair', '/Userestagios/logout/', ['class' => 'nav-link']); ?>
+                    </li>
+                    <?php
+                    break;
+                case 2: // Estudante
+                    ?>
+                    <li class="nav-item">
+                        <?php echo $this->Html->link("Meus dados", "/Estudantes/view/registro:" . $this->Session->read('numero'), ['class' => 'nav-link']); ?>
+                    </li>
+                    <li class = "nav-item">
+                        <?php echo $this->Html->link('Sair', '/Userestagios/logout/', ['class' => 'nav-link']); ?>
+                    </li>
+                    <?php
+                    break;
+                case 3: // Professor
+                    ?>
+                    <li class="nav-item">
+                        <?php echo $this->Html->link("Meus dados", "/Professores/view/siape:" . $this->Session->read('numero'), ['class' => 'nav-link']); ?>
+                    </li>
+                    <li class = "nav-item">
+                        <?php echo $this->Html->link('Sair', '/Userestagios/logout/', ['class' => 'nav-link']); ?>
+                    </li>
+                    <?php
+                    break;
+                case 4: // Supervisor
+                    ?>
+                    <li class="nav-item">
+                        <?php echo $this->Html->link("Meus dados", "/Supervisores/view/cress:" . $this->Session->read('numero'), ['class' => 'nav-link']); ?>
+                    </li>
+                    <li class = "nav-item">
+                        <?php echo $this->Html->link('Sair', '/Userestagios/logout/', ['class' => 'nav-link']); ?>
+                    </li>
+                    <?php
+                    break;
+                default:
+                    ?>
+                    <li class="nav-item">
+                        <?php echo $this->Html->link("Login", ['controller' => 'Userestagios', 'action' => 'login'], ['class' => 'nav-link']); ?>
+                    </li>
                 <?php
-                switch ($this->Session->read('menu_aluno')) {
-                    case 'estagiario':
-                        // echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Estudantes/view/" . $this->Session->read('numero')) . "</span>" . " ";
-                        break;
-                    case 'alunonovo':
-                        // echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Estudantes/view/" . $this->Session->read('numero')) . "</span>" . " ";
-                        break;
-                    case 'semcadastro':
-                        // echo "<span style='color: white; font-weight: bold'>" . $this->Session->read('user') . "</span>" . " ";
-                        break;
-                }
-                if ($this->Session->read('menu_supervisor_id')) {
-                    // echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Supervisores/view/" . $this->Session->read('menu_supervisor_id')) . "</span>" . " ";
-                }
-                ?>
-
-                <li class = "nav-item">
-                    <?php echo $this->Html->link('Sair', '/Userestagios/logout/', ['class' => 'nav-link']); ?>
-                </li>
-            <?php else: ?>
-                <li class="nav-item">
-                    <?php echo $this->Html->link("Login", ['controller' => 'Userestagios', 'action' => 'login'], ['class' => 'nav-link']); ?>
-                    <!--
-                    <a class="nav-link" href="<?= $this->Html->url(['controller' => 'Userestagios', 'action' => 'login']); ?>">Login <span class="sr-only">(current)</span></a>
-                    -->
-                </li>
-            <?php endif; ?>
+            }
+            ?>
         </ul>
     </div>
 </nav>
