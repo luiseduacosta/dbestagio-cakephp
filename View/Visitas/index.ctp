@@ -22,7 +22,7 @@
                 <thead class="thead-light">
                     <tr>
                         <th><?php echo $this->Paginator->sort('Visita.id', 'Id'); ?></th>
-                        <th><?php echo $this->Paginator->sort('Instituicao.instituicao', 'Instituição'); ?></th>
+                        <th><?php echo $this->Paginator->sort('Instituicaoestagio.instituicao', 'Instituição'); ?></th>
                         <th><?php echo $this->Paginator->sort('Visita.data', 'Visita'); ?></th>
                         <th><?php echo $this->Paginator->sort('Visita.responsavel', 'Responsável'); ?></th>
                         <?php if ($this->Session->read('categoria') === 'administrador'): ?>
@@ -41,7 +41,7 @@
                             </td>
                             <td>
                                 <?php
-                                echo $this->Html->link($c_visita['Instituicao']['instituicao'], '/Instituicoes/view/' . $c_visita['Instituicao']['id']);
+                                echo $this->Html->link($c_visita['Instituicaoestagio']['instituicao'], '/Instituicaoestagios/view/' . $c_visita['Instituicaoestagio']['id']);
                                 ?>
                             </td>
                             <td>

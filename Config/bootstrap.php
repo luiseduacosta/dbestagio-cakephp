@@ -179,8 +179,8 @@ CakeLog::config('error', array(
 Inflector::rules('plural', array('irregular' => array('areainstituicao' => 'areainstituicoes')));
 Inflector::rules('singular', array('irregular' => array('areainstituicoes' => 'areainstituicao')));
 
-Inflector::rules('plural', array('irregular' => array('inscricao' => 'inscricoes')));
-Inflector::rules('singular', array('irregular' => array('inscricoes' => 'inscricao')));
+Inflector::rules('plural', array('irregular' => array('muralinscricao' => 'muralinscricoes')));
+Inflector::rules('singular', array('irregular' => array('muralinscricoes' => 'muralinscricao')));
 
 Inflector::rules('plural', array('irregular' => array('instituicao' => 'instituicoes')));
 Inflector::rules('singular', array('irregular' => array('instituicoes' => 'instituicao')));

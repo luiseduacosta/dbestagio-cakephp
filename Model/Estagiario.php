@@ -21,10 +21,10 @@ class Estagiario extends AppModel {
             'foreignKey' => 'aluno_id',
             'joinTable' => 'alunos'
         ),
-        'Instituicao' => array(
-            'className' => 'Instituicao',
-            'foreignKey' => 'instituicao_id',
-            'joinTable' => 'estagio'
+        'Instituicaoestagio' => array(
+            'className' => 'Instituicaoestagio',
+            'foreignKey' => 'instituicaoestagio_id',
+            'joinTable' => 'instituicaoestagios'
         ),
         'Professor' => array(
             'className' => 'Professor',
@@ -44,7 +44,7 @@ class Estagiario extends AppModel {
         )
     );
     public $validate = array(
-        'instituicao_id' => array(
+        'instituicaoestagio_id' => array(
             'rule' => array('comparison', 'not equal', 0),
             'required' => true,
             'allowEmpty' => false,
@@ -101,7 +101,7 @@ class Estagiario extends AppModel {
     }
 
     public function supervisor_aluno() {
-        return ($this->query('select Aluno.id, Aluno.nome, Estagiario.registro, Aluno.celular, Aluno.email, Estagiario.id, Estagiario.periodo, Supervisor.id, Supervisor.nome, Supervisor.cress, Supervisor.telefone, Supervisor.celular, Supervisor.email, Instituicao.id, Instituicao.instituicao from estagiarios AS Estagiario left join alunos AS Aluno on Estagiario.aluno_id = Aluno.id left join supervisores AS Supervisor on Estagiario.supervisor_id = Supervisor.id left join estagio as Instituicao on Estagiario.instituicao_id = Instituicao.id'));
+        return ($this->query('select Aluno.id, Aluno.nome, Estagiario.registro, Aluno.celular, Aluno.email, Estagiario.id, Estagiario.periodo, Supervisor.id, Supervisor.nome, Supervisor.cress, Supervisor.telefone, Supervisor.celular, Supervisor.email, Instituicaoestagio.id, Instituicaoestagio.instituicao from estagiarios AS Estagiario left join alunos AS Aluno on Estagiario.aluno_id = Aluno.id left join supervisores AS Supervisor on Estagiario.supervisor_id = Supervisor.id left join estagio as Instituicaoestagio on Estagiario.instituicaoestagio_id = Instituicaoestagio.id'));
     }
 
 }

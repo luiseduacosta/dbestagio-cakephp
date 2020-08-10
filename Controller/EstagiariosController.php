@@ -97,7 +97,7 @@ class EstagiariosController extends AppController {
         }
 
         // pr('Período2 ' . $periodo);
-        // die();
+        // die('Periodo2');
         // Guardo o valor do areaestagio_id ate que seja selecionada outra
         if ($areaestagio_id == NULL) {
             $areaestagio_id = $this->Session->read("estagiario_areaestagio_id");
@@ -141,28 +141,30 @@ class EstagiariosController extends AppController {
         }
         // echo $docente_id;
         // pr($professores);
-        // die();
+        // die('professores');
 
         $this->set('docente_id', $docente_id);
         $this->set('professores', $professores);
 
         // Instituicoes
-        $instituicoes = $this->Estagiario->Instituicao->find('list', array(
-            'fields' => array('Instituicao.instituicao'),
-            'order' => array('Instituicao.instituicao'))
+        $instituicoes = $this->Estagiario->Instituicaoestagio->find('list', array(
+            'fields' => array('Instituicaoestagio.instituicao'),
+            'order' => array('Instituicaoestagio.instituicao'))
         );
-
+        // pr($instituicoes);
+        // die('instituicoes');
+        
         // Guardo o valor do instituicao_id ate que seja selecionado outro
         if ($instituicao_id == NULL) {
             $instituicao_id = $this->Session->read("estagiario_instituicao_id");
             if ($instituicao_id) {
-                $condicoes['Estagiario.instituicao_id'] = $instituicao_id;
+                $condicoes['Estagiario.instituicaoestagio_id'] = $instituicao_id;
             }
         } elseif ($instituicao_id == 0) {
             $instituicao_id = $this->Session->delete("estagiario_instituicao_id");
         } else {
             $this->Session->write("estagiario_instituicao_id", $instituicao_id);
-            $condicoes['Estagiario.instituicao_id'] = $instituicao_id;
+            $condicoes['Estagiario.instituicaoestagio_id'] = $instituicao_id;
         }
 
         $this->set('instituicao_id', $instituicao_id);
@@ -174,6 +176,9 @@ class EstagiariosController extends AppController {
             'order' => array('Supervisor.nome')
                 )
         );
+        // pr($supervisores);
+        // die('supervisores');
+        
         // Guardo o valor do supervisor_id ate que seja selecionado outro
         if ($supervisor_id == NULL) {
             $supervisor_id = $this->Session->read("estagiario_supervisor_id");
@@ -229,7 +234,7 @@ class EstagiariosController extends AppController {
             // pr($condicoes);
             // die();
         }
-// die($condicoes);
+        // die($condicoes);
         if (isset($condicoes)) {
             $this->set('estagiarios', $this->Paginate($condicoes));
         } else {
@@ -278,7 +283,7 @@ class EstagiariosController extends AppController {
 
             $estagiario = $this->Estagiario->find('first', array(
                 'conditions' => array('Estagiario.id' => $id),
-                'fields' => array('Estagiario.id', 'Estagiario.aluno_id', 'Estagiario.estudante_id', 'Estagiario.registro, Estagiario.periodo', 'Estagiario.nivel', 'Estagiario.docente_id', 'Estagiario.instituicao_id', 'Estagiario.supervisor_id', 'Estagiario.areaestagio_id', 'Estagiario.nota', 'Estagiario.ch', 'Aluno.nome', 'Instituicao.instituicao', 'Supervisor.nome', 'Professor.nome', 'Areaestagio.area')
+                'fields' => array('Estagiario.id', 'Estagiario.aluno_id', 'Estagiario.estudante_id', 'Estagiario.registro, Estagiario.periodo', 'Estagiario.nivel', 'Estagiario.docente_id', 'Estagiario.instituicao_id', 'Estagiario.supervisor_id', 'Estagiario.areaestagio_id', 'Estagiario.nota', 'Estagiario.ch', 'Aluno.nome', 'Instituicaoestagio.instituicao', 'Supervisor.nome', 'Professor.nome', 'Areaestagio.area')
             ));
             // pr($estagiario);
             // die('estagiario');
@@ -318,9 +323,9 @@ class EstagiariosController extends AppController {
             $this->set('periodos', $semestres);
 
             /* Instituicoes para o select. Nao colocar a opcao 0 */
-            $this->loadModel('Instituicao');
-            $instituicoes = $this->Instituicao->find('list', array(
-                'order' => 'Instituicao.instituicao'));
+            $this->loadModel('Instituicaoestagio');
+            $instituicoes = $this->Instituicaoestagio->find('list', array(
+                'order' => 'Instituicaoestagio.instituicao'));
             // pr($instituicoes);
             // die('instituicoes');
             $this->set('instituicoes', $instituicoes);
@@ -526,8 +531,8 @@ class EstagiariosController extends AppController {
         $this->set('alunos', $alunos);
 
         /* Select das instituicoes. Nao colocar a opcao zero */
-        $this->loadModel('Instituicao');
-        $instituicoes = $this->Instituicao->find('list', array('order' => 'Instituicao.instituicao'));
+        $this->loadModel('Instituicaoestagio');
+        $instituicoes = $this->Instituicaoestagio->find('list', array('order' => 'Instituicaoestagio.instituicao'));
         $this->set('instituicoes', $instituicoes);
 
         /* Select dos supervisores */

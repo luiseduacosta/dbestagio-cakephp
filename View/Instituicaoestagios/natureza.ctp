@@ -15,11 +15,11 @@
                 <tbody>
                     <?php for ($i = 0; $i < sizeof($natureza); $i++): ?>
                         <tr>
-                            <td><?= $this->Html->link($natureza[$i]['Instituicao']['natureza'], '/Instituicoes/lista/natureza:' . $natureza[$i]['Instituicao']['natureza'] . '/linhas:0') ?></td>
-                            <?php if ($natureza[$i]['Instituicao']['natureza']): ?>
+                            <td><?= $this->Html->link($natureza[$i]['Instituicaoestagio']['natureza'], '/Instituicaoestagios/lista/natureza:' . $natureza[$i]['Instituicaoestagio']['natureza'] . '/linhas:0') ?></td>
+                            <?php if ($natureza[$i]['Instituicaoestagio']['natureza']): ?>
                                 <td style='text-align: center'><?= $natureza[$i]['0']['qnatureza'] ?></td>
                             <?php else: ?>
-                                <td style='text-align: center'><?= $this->Html->link($natureza[$i]['0']['qnatureza'], '/Instituicoes/lista/natureza:null' . '/linhas:0') ?></td>
+                                <td style='text-align: center'><?= $this->Html->link($natureza[$i]['0']['qnatureza'], '/Instituicaoestagios/lista/natureza:null' . '/linhas:0') ?></td>
                             <?php endif; ?>
                         </tr>
                     <?php endfor; ?>

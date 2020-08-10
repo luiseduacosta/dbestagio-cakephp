@@ -32,7 +32,7 @@
             window.location = url + "/docente_id:" + docente_id;
         })
 
-        $("#EstagiarioInstituicaoId").change(function () {
+        $("#EstagiarioInstituicaoestagioId").change(function () {
             var instituicao_id = $(this).val();
             /* alert(instituicao_id); */
             window.location = url + "/instituicao_id:" + instituicao_id;
@@ -96,7 +96,7 @@
             </td>
             <td>
                 <?php echo $this->Form->create('Estagiario', array('url' => 'index', 'inputDefaults' => array('label' => false, 'div' => false))); ?>
-                <?php echo $this->Form->input('instituicao_id', array('type' => 'select', 'options' => $instituicoes, 'selected' => $instituicao_id, 'default' => 0, 'empty' => array('0' => 'Instituição'), 'style' => 'width: 10em', 'class' => 'form-control')); ?>
+                <?php echo $this->Form->input('instituicaoestagio_id', array('type' => 'select', 'options' => $instituicoes, 'selected' => $instituicao_id, 'default' => 0, 'empty' => array('0' => 'Instituição'), 'style' => 'width: 10em', 'class' => 'form-control')); ?>
                 <?php // echo $this->Form->end();?>
             </td>
         </tr>
@@ -131,7 +131,7 @@
                 <th><?php echo $this->Paginator->sort('Estagiario.nivel', 'Nível'); ?></th>
                 <th><?php echo $this->Paginator->sort('Estagiario.turno', 'Turno'); ?></th>
                 <th><?php echo $this->Paginator->sort('Estagiario.tc', 'TC'); ?></th>
-                <th><?php echo $this->Paginator->sort('Instituicao.instituicao', 'Instituição'); ?></th>
+                <th><?php echo $this->Paginator->sort('Instituicaoestagio.instituicao', 'Instituição'); ?></th>
                 <th><?php echo $this->Paginator->sort('Supervisor.nome', 'Supervisor'); ?></th>
                 <th><?php echo $this->Paginator->sort('Professor.nome', 'Professor'); ?></th>
                 <th><?php echo $this->Paginator->sort('Areaestagio.area', 'Área'); ?></th>
@@ -158,12 +158,12 @@
                     <td style='text-align:center'><?php echo $aluno['Estagiario']['turno']; ?></td>
                     <td style='text-align:center'><?php echo $aluno['Estagiario']['tc']; ?></td>
                     <?php if ($this->Session->read('categoria') != 'estudante'): ?>
-                        <td style='text-align:left'><?php echo $this->Html->link($aluno['Instituicao']['instituicao'], "/Instituicoes/view/" . $aluno['Estagiario']['instituicao_id']); ?></td>
+                        <td style='text-align:left'><?php echo $this->Html->link($aluno['Instituicaoestagio']['instituicao'], "/Instituicaoestagios/view/" . $aluno['Estagiario']['instituicaoestagio_id']); ?></td>
                         <td style='text-align:left'><?php echo $this->Html->link($aluno['Supervisor']['nome'], "/Supervisores/view/" . $aluno['Estagiario']['supervisor_id']); ?></td>
                         <td style='text-align:left'><?php echo $this->Html->link($aluno['Professor']['nome'], "/Professores/view/" . $aluno['Estagiario']['docente_id']); ?></td>
                         <td style='text-align:left'><?php echo $this->Html->link($aluno['Areaestagio']['area'], "/Areaestagios/view/" . $aluno['Areaestagio']['id']); ?></td>
                     <?php else: ?>
-                        <td style='text-align:left'><?php echo $aluno['Instituicao']['instituicao']; ?></td>
+                        <td style='text-align:left'><?php echo $aluno['Instituicaoestagio']['instituicao']; ?></td>
                         <td style='text-align:left'><?php echo $aluno['Supervisor']['nome']; ?></td>
                         <td style='text-align:left'><?php echo $aluno['Professor']['nome']; ?></td>
                         <td style='text-align:left'><?php echo $aluno['Areaestagio']['area']; ?></td>

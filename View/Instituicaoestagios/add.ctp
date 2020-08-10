@@ -19,15 +19,15 @@ echo $this->Html->script("jquery.autocomplete", array('inline' => false));
 
 <script>
 
-    var urlbairro = "<?= $this->Html->url(["controller" => "Instituicoes", "action" => "listabairro"]); ?>";
-    var urlinstituicao = "<?= $this->Html->url(["controller" => "Instituicoes", "action" => "listainstituicao"]); ?>";
-    var urlnatureza = "<?= $this->Html->url(["controller" => "Instituicoes", "action" => "listanatureza"]); ?>";
+    var urlbairro = "<?= $this->Html->url(["controller" => "Instituicaoestagio", "action" => "listabairro"]); ?>";
+    var urlinstituicao = "<?= $this->Html->url(["controller" => "Instituicaoestagio", "action" => "listainstituicao"]); ?>";
+    var urlnatureza = "<?= $this->Html->url(["controller" => "Instituicaoestagio", "action" => "listanatureza"]); ?>";
 
     $(document).ready(function () {
 
-        $("#InstituicaoInstituicao").autocomplete(urlinstituicao, {maxItemsToShow: 0});
-        $("#InstituicaoNatureza").autocomplete(urlnatureza, {maxItemsToShow: 0});
-        $("#InstituicaoBairro").autocomplete(urlbairro, {maxItemsToShow: 0});
+        $("#InstituicaoestagioInstituicao").autocomplete(urlinstituicao, {maxItemsToShow: 0});
+        $("#InstituicaoestagioNatureza").autocomplete(urlnatureza, {maxItemsToShow: 0});
+        $("#InstituicaoestagioBairro").autocomplete(urlbairro, {maxItemsToShow: 0});
 
     });
 
@@ -57,9 +57,9 @@ echo $this->Html->script("jquery.autocomplete", array('inline' => false));
                 if (validacep.test(cep)) {
 
                     //Preenche os campos com "..." enquanto consulta webservice.
-                    $("#InstituicaoEndereco").val("...");
-                    $("#InstituicaoBairro").val("...");
-                    $("#InstituicaoMunicipio").val("...");
+                    $("#InstituicaoestagioEndereco").val("...");
+                    $("#InstituicaoestagioBairro").val("...");
+                    $("#InstituicaoestagioMunicipio").val("...");
                     $("#uf").val("...");
                     $("#ibge").val("...");
                     //Consulta o webservice viacep.com.br/
@@ -68,9 +68,9 @@ echo $this->Html->script("jquery.autocomplete", array('inline' => false));
 
                         if (!("erro" in dados)) {
                             //Atualiza os campos com os valores da consulta.
-                            $("#InstituicaoEndereco").val(dados.logradouro);
-                            $("#InstituicaoBairro").val(dados.bairro);
-                            $("#InstituicaoMunicipio").val(dados.localidade);
+                            $("#InstituicaoestagioEndereco").val(dados.logradouro);
+                            $("#InstituicaoestagioBairro").val(dados.bairro);
+                            $("#InstituicaoestagioMunicipio").val(dados.localidade);
                             $("#uf").val(dados.uf);
                             $("#ibge").val(dados.ibge);
                         } //end if.
@@ -103,7 +103,7 @@ echo $this->Html->script("jquery.autocomplete", array('inline' => false));
 <h5>Cadastro de instituições</h5>
 
 <?php
-echo $this->Form->create("Instituicao");
+echo $this->Form->create("Instituicaoestagio");
 ?>
 <div class="form-group row">
     <label for='InstituicaoInstituicao' class='col-lg-3 col-form-label'>Instituição</label>
