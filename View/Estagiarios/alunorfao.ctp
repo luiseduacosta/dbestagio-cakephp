@@ -31,7 +31,7 @@
                         </td>
 
                         <td>
-                            <?php echo $this->Html->link($c_orfaos['Aluno']['nome'], '/Estudantes/view/' . $c_orfaos['Aluno']['registro']); ?>
+                            <?php echo $this->Html->link($c_orfaos['Aluno']['nome'], '/Estudantes/view/registro:' . $c_orfaos['Aluno']['registro']); ?>
                         </td>
 
                         <td>

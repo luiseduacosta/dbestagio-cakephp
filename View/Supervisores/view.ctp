@@ -1,6 +1,6 @@
-<?php // pr($supervisor[(array_key_first($supervisor))]);                         ?>
-<?php // pr($estagiarios)          ?>
-<?php // die();                                                      ?>
+<?php // pr($supervisor);      ?>
+<?php // pr($estagiarios);      ?>
+<?php // die();      ?>
 
 <?= $this->element('submenu_supervisores') ?>
 
@@ -219,25 +219,25 @@
 
         <?php
         foreach ($supervisor as $c_supervisor) {
-
-            if ($c_supervisor['Instituicao']) {
+            // pr($c_supervisor);
+            // die();
+            if ($c_supervisor['Instituicaoestagio']) {
 
                 $i = 0;
-                foreach ($c_supervisor['Instituicao'] as $cada_instituicao) {
+                foreach ($c_supervisor['Instituicaoestagio'] as $cada_instituicao) {
 
                     $c_instituicao[$i]['instituicao'] = $cada_instituicao['instituicao'];
                     $c_instituicao[$i]['id'] = $cada_instituicao['id'];
-                    $c_instituicao[$i]['id_superinst'] = $cada_instituicao['InstituicaoSupervisor']['id'];
+                    $c_instituicao[$i]['id_superinst'] = $cada_instituicao['InstituicaoestagioSupervisor']['id'];
                     $i++;
                 }
             }
         }
-        sort($c_instituicao);
-
-// pr($c_instituicao);
         ?>
 
         <?php if (isset($c_instituicao)): ?>
+            <?php sort($c_instituicao); ?>
+            <?php // pr($c_instituicao); ?>
             <div class='table-responsive'>
                 <table class="table table-striped table-hover table-responsive">
                     <caption style='caption-side: top;'>Instituições</caption>
@@ -257,7 +257,7 @@
                         <?php foreach ($c_instituicao as $instituicao): ?>
                             <tr>
                                 <td>
-                                    <?php echo $this->Html->link($instituicao['instituicao'], '/Instituicoes/view/' . $instituicao['id']); ?>
+                                    <?php echo $this->Html->link($instituicao['instituicao'], '/Instituicaoestagios/view/' . $instituicao['id']); ?>
                                 </td>
                                 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
                                     <td>
@@ -272,6 +272,8 @@
                     </tfoot>
                 </table>
             </div>
+        <?php else: ?>
+            <p>Sem instituição cadastrada</p>
         <?php endif; ?>
 
     </div>
@@ -284,8 +286,8 @@
                     <h5 class="text-center">Inserir instituição</h5>
 
                     <?= $this->Form->create('Supervisor', array('controller' => 'Supervisores', 'url' => 'addinstituicao')); ?>
-                    <?= $this->Form->input('InstituicaoSupervisor.instituicao_id', array('label' => 'Instituição: ', 'options' => $instituicoes, 'default' => 0, 'empty' => ['0' => 'Selecione'], 'class' => 'form-control')); ?>
-                    <?= $this->Form->input('InstituicaoSupervisor.supervisor_id', array('type' => 'hidden', 'value' => $c_supervisor['Supervisor']['id'])); ?>
+                    <?= $this->Form->input('InstituicaoestagioSupervisor.instituicaoestagio_id', array('label' => 'Instituição: ', 'options' => $instituicoes, 'default' => 0, 'empty' => ['0' => 'Selecione'], 'class' => 'form-control')); ?>
+                    <?= $this->Form->input('InstituicaoestagioSupervisor.supervisor_id', array('type' => 'hidden', 'value' => $c_supervisor['Supervisor']['id'])); ?>
                     <br>
                     <?= $this->Form->submit('Confirma', ['class' => 'btn btn-success']); ?>
                     <?= $this->Form->end(); ?>
@@ -322,21 +324,26 @@
                                     <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>
-                            <?php foreach ($estagiarios as $c_estagiario): ?>
-                                <?php // pr($c_estagiario); ?>
-                                <tr>
-                                    <td>
-                                        <?= $this->Html->link($c_estagiario['nome'], '/Estudantes/view/registro:' . $c_estagiario['registro']) ?>
-                                    </td>
-                                    <td style="text-align: center">
-                                        <?= $c_estagiario['nivel'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $c_estagiario['periodo'] ?>
-                                    </td>
-                                </tr>
+                            <?php if (!empty($estagiarios)): ?>
 
-                            <?php endforeach; ?>
+                                <?php foreach ($estagiarios as $c_estagiario): ?>
+                                    <?php // pr($c_estagiario); ?>
+                                    <tr>
+                                        <td>
+                                            <?= $this->Html->link($c_estagiario['nome'], '/Estudantes/view/registro:' . $c_estagiario['registro']) ?>
+                                        </td>
+                                        <td style="text-align: center">
+                                            <?= $c_estagiario['nivel'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $c_estagiario['periodo'] ?>
+                                        </td>
+                                    </tr>
+
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                            <p>Sem estagiários</p>
+                        <?php endif; ?>
                         </tbody>
                         <tfoot>
                         </tfoot>

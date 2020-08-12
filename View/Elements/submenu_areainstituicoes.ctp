@@ -9,7 +9,7 @@
                 <div class='collapse navbar-collapse' id='navbarAreainstituicoes'>
 
                     <?php
-                    echo $this->Html->link('Instituições', '/Instituicoes/index/', ['class' => 'nav-link']);
+                    echo $this->Html->link('Instituições', '/Instituicaoestagios/index/', ['class' => 'nav-link']);
                     echo $this->Html->link('Listar áreas', '/Areainstituicoes/index/', ['class' => 'nav-link']);
                     echo $this->Html->link('Inserir', '/Areainstituicoes/add/', ['class' => 'nav-link']);
                     ?>

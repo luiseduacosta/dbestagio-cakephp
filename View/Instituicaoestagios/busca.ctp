@@ -7,7 +7,7 @@
     <?php foreach ($instituicoes as $c_instituicao): ?>
         <div class = 'row'>
             <div clas s= 'col'>
-                <p><?php echo $this->Html->link($c_instituicao['Instituicaoestagio']['instituicao'], '/Instituicaoestagio/view/' . $c_instituicao['Instituicaoestagio']['id']); ?></p>
+                <p><?php echo $this->Html->link($c_instituicao['Instituicaoestagio']['instituicao'], '/Instituicaoestagios/view/' . $c_instituicao['Instituicaoestagio']['id']); ?></p>
             </div>
         </div>
     <?php endforeach; ?>

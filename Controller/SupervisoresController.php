@@ -64,7 +64,7 @@ class SupervisoresController extends AppController {
         $supervisores = $this->Supervisor->find('all', [
             'contain' => [
                 'Estagiario' => ['fields' => ['Estagiario.registro', 'Estagiario.periodo']],
-                'Instituicao' => ['fields' => ['Instituicao.instituicao']]
+                'Instituicaoestagio' => ['fields' => ['Instituicaoestagio.instituicao']]
             ],
             'order' => ['Supervisor.nome' => 'asc']
         ]);
@@ -136,6 +136,7 @@ class SupervisoresController extends AppController {
      */
 
     public function index1() {
+
         $parametros = $this->params['named'];
         $periodo = isset($parametros['periodo']) ? $parametros['periodo'] : NULL;
         $ordem = isset($parametros['ordem']) ? $parametros['ordem'] : NULL;
@@ -158,7 +159,7 @@ class SupervisoresController extends AppController {
 
         if ($periodo) {
             $supervisores = $this->Supervisor->Estagiario->find('all', [
-                'fields' => ['Supervisor.id', 'Supervisor.nome', 'Supervisor.cress', 'Estagiario.id', 'Estagiario.registro', 'Estagiario.periodo', 'Instituicao.id', 'Instituicao.instituicao'],
+                'fields' => ['Supervisor.id', 'Supervisor.nome', 'Supervisor.cress', 'Estagiario.id', 'Estagiario.registro', 'Estagiario.periodo', 'Instituicaoestagio.id', 'Instituicaoestagio.instituicao'],
                 'conditions' => ['Estagiario.periodo' => $periodo],
                 'order' => ['Supervisor.nome']
             ]);
@@ -231,8 +232,8 @@ class SupervisoresController extends AppController {
             $estagiariostotal = isset($estagiariostotaldosupervisor[0][0]['q_estagiarios']) ? $estagiariostotaldosupervisor[0][0]['q_estagiarios'] : null;
             $supervisor[$i]['q_totaldeestagiarios'] = $estagiariostotal;
 
-            $supervisor[$i]['instituicao_id'] = $c_supervisor['Instituicao']['id'];
-            $supervisor[$i]['instituicao'] = $c_supervisor['Instituicao']['instituicao'];
+            $supervisor[$i]['instituicao_id'] = $c_supervisor['Instituicaoestagio']['id'];
+            $supervisor[$i]['instituicao'] = $c_supervisor['Instituicaoestagio']['instituicao'];
             $i++;
         }
         // die();
@@ -312,13 +313,15 @@ class SupervisoresController extends AppController {
             }
             // pr($estudante_estagiario);
             // die('estudante_estagiario');
-            array_multisort(array_column($estudante_estagiario, 'nome'), $estudante_estagiario);
-            $this->set('estagiarios', $estudante_estagiario);
+            if (!empty($estudante_estagiario)) {
+                array_multisort(array_column($estudante_estagiario, 'nome'), $estudante_estagiario);
+                $this->set('estagiarios', $estudante_estagiario);
+            }
         }
 
         /* Para o select de inserir uma nova instituicao */
-        $this->loadModel('Instituicao');
-        $instituicoes = $this->Instituicao->find('list', ['order' => 'Instituicao.instituicao']);
+        $this->loadModel('Instituicaoestagio');
+        $instituicoes = $this->Instituicaoestagio->find('list', ['order' => 'Instituicaoestagio.instituicao']);
         $this->set('instituicoes', $instituicoes);
         // pr(count($supervisor));
         // die();
@@ -327,8 +330,9 @@ class SupervisoresController extends AppController {
 
     public function add() {
 
-        $this->loadModel('Instituicao');
-        $instituicoes = $this->Instituicao->find('list', ['order' => 'Instituicao.instituicao']);
+        $this->loadModel('Instituicaoestagio');
+        $instituicoes = $this->Instituicaoestagio->find('list', [
+            'order' => 'Instituicaoestagio.instituicao']);
         $instituicoes[0] = '- Seleciona -';
         asort($instituicoes);
         $this->set('instituicoes', $instituicoes);
@@ -347,9 +351,9 @@ class SupervisoresController extends AppController {
                 $this->Session->setFlash(__('Supervisor já cadastrado'), "flash_notification");
                 $this->redirect('/Supervisores/view/' . $verifica['Supervisor']['id']);
             } else {
-                // pr($this->data);
+                // pr($this->request->data);
                 // die();
-                if ($this->Supervisor->save($this->data)) {
+                if ($this->Supervisor->save($this->request->data)) {
                     $this->Session->setFlash(__('Dados inseridos'), "flash_notification");
                     $this->redirect('/Supervisores/view/' . $this->Supervisor->id);
                 }
@@ -399,9 +403,9 @@ class SupervisoresController extends AppController {
         $this->set('meses', $this->meses());
 
         if (empty($this->data)) {
-            $this->data = $this->Supervisor->read();
+            $this->request->data = $this->Supervisor->read();
         } else {
-            if ($this->Supervisor->save($this->data)) {
+            if ($this->Supervisor->save($this->request->data)) {
                 // print($id);
                 // die();
                 // print_r($this->data);
@@ -421,7 +425,7 @@ class SupervisoresController extends AppController {
             $this->Session->setFlash(__('Há estagiários vinculados a este supervisor'), "flash_notification");
             $this->redirect('/Supervisores/view/' . $id);
             exit;
-        } elseif ($supervisores['Instituicao']) {
+        } elseif ($supervisores['Instituicaoestagio']) {
             $this->Session->setFlash(__('Há instituições vinculadas a este supervisor'), "flash_notification");
             $this->redirect('/Supervisores/view/' . $id);
             exit;
@@ -433,23 +437,25 @@ class SupervisoresController extends AppController {
     }
 
     public function addinstituicao() {
+
         if ($this->request->data) {
             // pr($this->data);
             // die();
-            if ($this->Supervisor->InstituicaoSupervisor->save($this->request->data)) {
+            if ($this->Supervisor->InstituicaoestagioSupervisor->save($this->request->data)) {
                 $this->Session->setFlash(__('Dados inseridos'), "flash_notification");
-                $this->redirect('/Supervisores/view/' . $this->request->data['InstituicaoSupervisor']['supervisor_id']);
+                $this->redirect('/Supervisores/view/' . $this->request->data['InstituicaoestagioSupervisor']['supervisor_id']);
             }
         }
     }
 
     public function deleteassociacao($id = NULL) {
-        $id_superinstituicao = $this->Supervisor->InstituicaoSupervisor->find('first', array('conditions' => 'InstituicaoSupervisor.id= ' . $id));
+
+        $id_superinstituicao = $this->Supervisor->InstituicaoestagioSupervisor->find('first', array('conditions' => 'InstituicaoestagioSupervisor.id= ' . $id));
         // pr($id_superinstituicao);
         // die();
-        $this->Supervisor->InstituicaoSupervisor->delete($id);
+        $this->Supervisor->InstituicaoestagioSupervisor->delete($id);
         $this->Session->setFlash(__("Instituição excluída do supervisor"), "flash_notification");
-        $this->redirect('/Supervisores/view/' . $id_superinstituicao['InstituicaoSupervisor']['supervisor_id']);
+        $this->redirect('/Supervisores/view/' . $id_superinstituicao['InstituicaoestagioSupervisor']['supervisor_id']);
     }
 
     public function repetidos() {
@@ -521,8 +527,8 @@ class SupervisoresController extends AppController {
         $supervisores = $this->Supervisor->find('all');
         $i = 0;
         foreach ($supervisores as $instituicao) {
-            if (count($instituicao['Instituicao']) > 0) {
-                // pr($instituicao['Instituicao'][array_key_last($instituicao['Instituicao'])]['instituicao']);
+            if (count($instituicao['Instituicaoestagio']) > 0) {
+                // pr($instituicao['Instituicaoestagio'][array_key_last($instituicao['Instituicao'])]['instituicao']);
             } else {
                 // echo "Sem instituição";
                 $seminstituicao[$id]['supervisor_id'] = $instituicao['Supervisor']['id'];

@@ -1,6 +1,4 @@
-<?php
-echo $this->Html->script("jquery.maskedinput-1.3.1", array('inline' => false));
-?>
+<?= $this->element('submenu_instituicoes'); ?>
 
 <?= $this->Html->script("jquery.mask.min"); ?>
 
@@ -12,18 +10,16 @@ echo $this->Html->script("jquery.maskedinput-1.3.1", array('inline' => false));
     });
 </script>
 
-<?php
-echo $this->Html->css('jquery.autocomplete');
-echo $this->Html->script("jquery.autocomplete", array('inline' => false));
-?>
+<?= $this->Html->script("jquery.autocomplete.min"); ?>
+<?= $this->Html->css("jquery.autocomplete"); ?>
 
 <script>
 
-    var urlbairro = "<?= $this->Html->url(["controller" => "Instituicaoestagio", "action" => "listabairro"]); ?>";
-    var urlinstituicao = "<?= $this->Html->url(["controller" => "Instituicaoestagio", "action" => "listainstituicao"]); ?>";
-    var urlnatureza = "<?= $this->Html->url(["controller" => "Instituicaoestagio", "action" => "listanatureza"]); ?>";
-
     $(document).ready(function () {
+        
+        var urlbairro = "<?= $this->Html->url(["controller" => "Instituicaoestagios", "action" => "listabairro"]); ?>";
+        var urlinstituicao = "<?= $this->Html->url(["controller" => "Instituicaoestagios", "action" => "listainstituicao"]); ?>";
+        var urlnatureza = "<?= $this->Html->url(["controller" => "Instituicaoestagios", "action" => "listanatureza"]); ?>";
 
         $("#InstituicaoestagioInstituicao").autocomplete(urlinstituicao, {maxItemsToShow: 0});
         $("#InstituicaoestagioNatureza").autocomplete(urlnatureza, {maxItemsToShow: 0});

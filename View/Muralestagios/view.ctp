@@ -192,14 +192,14 @@
                     <!--
                     Para o administrador as inscrições sempre estão abertas
                     //-->
-                    <?php if ($this->Session->read('categoria') === 'administrador'): ?>
+                    <?php if ($this->Session->read('id_categoria') === '1'): ?>
                         <tr>
                             <td colspan = 2 style="text-align: center">
-                                <a href="<?= $this->Html->url(['controller' => 'Inscricoes', 'action' => 'add/registro:' . $this->Session->read('numero') . '/muralestagio_id:' . $mural['Muralestagio']['id']]); ?>" class="btn btn-success btn-lg active" role="button" aria-pressed="true">Inscrição</a>
+                                <a href="<?= $this->Html->url(['controller' => 'Muralinscricoes', 'action' => 'add/registro:' . $this->Session->read('numero') . '/muralestagio_id:' . $mural['Muralestagio']['id']]); ?>" class="btn btn-success btn-lg active" role="button" aria-pressed="true">Inscrição</a>
                             </td>
                         </tr>
 
-                    <?php elseif ($this->Session->read('categoria') === 'estudante'): ?>
+                    <?php elseif ($this->Session->read('id_categoria') === '2'): ?>
 
                         <!--
                         Para os estudantes as inscrições dependem da data de encerramento
@@ -207,7 +207,7 @@
                         <?php if (date('Y-m-d') < $mural['Muralestagio']['dataInscricao']): ?>
                             <tr>
                                 <td colspan = 2 style="text-align: center">
-                                    <a href="<?= $this->Html->url(['controller' => 'Inscricoes', 'action' => 'add/registro:' . $this->Session->read('numero') . '/muralestagio_id:' . $mural['Muralestagio']['id']]); ?>" class="btn btn-success btn-lg active" role="button" aria-pressed="true">Inscrição</a>
+                                    <a href="<?= $this->Html->url(['controller' => 'Muralinscricoes', 'action' => 'add/registro:' . $this->Session->read('numero') . '/muralestagio_id:' . $mural['Muralestagio']['id']]); ?>" class="btn btn-success btn-lg active" role="button" aria-pressed="true">Inscrição</a>
                                 </td>                  
                             </tr>
                         <?php else: ?>
@@ -221,7 +221,7 @@
                     <?php else: ?>
                         <tr>
                             <td colspan = 2 style="text-align: center">
-                                <a href="#" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Inscrições encerradas!</a>
+                                <a href="#" class="btn btn-light btn-lg active" role="button" aria-pressed="true">Somente para usuários cadastrados</a>
                             </td>
                         </tr>
 

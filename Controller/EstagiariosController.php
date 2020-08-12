@@ -283,7 +283,7 @@ class EstagiariosController extends AppController {
 
             $estagiario = $this->Estagiario->find('first', array(
                 'conditions' => array('Estagiario.id' => $id),
-                'fields' => array('Estagiario.id', 'Estagiario.aluno_id', 'Estagiario.estudante_id', 'Estagiario.registro, Estagiario.periodo', 'Estagiario.nivel', 'Estagiario.docente_id', 'Estagiario.instituicao_id', 'Estagiario.supervisor_id', 'Estagiario.areaestagio_id', 'Estagiario.nota', 'Estagiario.ch', 'Aluno.nome', 'Instituicaoestagio.instituicao', 'Supervisor.nome', 'Professor.nome', 'Areaestagio.area')
+                'fields' => array('Estagiario.id', 'Estagiario.aluno_id', 'Estagiario.estudante_id', 'Estagiario.registro, Estagiario.periodo', 'Estagiario.nivel', 'Estagiario.docente_id', 'Estagiario.instituicaoestagio_id', 'Estagiario.supervisor_id', 'Estagiario.areaestagio_id', 'Estagiario.nota', 'Estagiario.ch', 'Aluno.nome', 'Instituicaoestagio.instituicao', 'Supervisor.nome', 'Professor.nome', 'Areaestagio.area')
             ));
             // pr($estagiario);
             // die('estagiario');

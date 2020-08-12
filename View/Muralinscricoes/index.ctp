@@ -60,7 +60,7 @@ if (isset($inscritos)):
                             ?>
                             <tr>
                                 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
-                                    <td><?php echo $this->Html->link($c_inscrito['inscricao_id'], '/Inscricoes/view/' . $c_inscrito['inscricao_id']); ?></td>
+                                    <td><?php echo $this->Html->link($c_inscrito['inscricao_id'], '/Muralinscricoes/view/' . $c_inscrito['inscricao_id']); ?></td>
                                     <td><?php echo $c_inscrito['registro']; ?></td>
                                     <td><?php echo $c_inscrito['tipo']; ?></td>
                                     <td>

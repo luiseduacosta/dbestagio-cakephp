@@ -18,28 +18,31 @@
 <?= $this->element('submenu_muralestagios'); ?>
 
 
-<?php if (($this->Session->read('categoria') === 'administrador') || ($this->Session->read('categoria') === 'supervisor')): ?>
+<?php if (($this->Session->read('id_categoria') === '1') || ($this->Session->read('id_categoria') === '4')): ?>
     <nav class="nav nav-pills">
 
-        <?php if ($this->Session->read('categoria') === 'administrador'): ?>
+        <?php if ($this->Session->read('id_categoria') === '1'): ?>
             <?php echo $this->Form->create('Muralestagio', array('url' => 'index')); ?>
             <?php echo $this->Form->input('periodo', array('type' => 'select', 'label' => array('text' => 'Mural de estágios da ESS/UFRJ ', 'style' => 'display: inline'), 'options' => $todos_periodos, 'default' => $periodo)); ?>
             <?php echo $this->Form->end(); ?>
         <?php endif; ?>
     </div>
-    </nav>    
+    </nav>
     <p>Há <?php echo $total_vagas; ?> vagas de estágio e <?php echo $total_alunos; ?> estudantes buscando estágio (<?php echo $alunos_novos; ?> pela primeira vez e <?php echo $alunos_estagiarios; ?> que mudam de estágio)</p>
 <?php endif; ?>
-<div align="center">    
-    <h5>Mural de estágios da ESS/UFRJ. Período: <?php echo $periodo; ?></h5>
+
+<div class='row justify-content-center'>
+    <div class='col-auto'>
+        <h5>Mural de estágios da ESS/UFRJ. Período: <?php echo $periodo; ?></h5>
+    </div>
 </div>
-    
+
 <hr />
 
 <?php $totalvagas = NULL; ?>
 <?php $totalinscricoes = NULL; ?>
 
-<div class='row justify-content-center'> 
+<div class='row justify-content-center'>
     <div class='col-auto'>
         <div class="table-responsive">
             <table class="table table-striped table-hover">
@@ -56,7 +59,7 @@
                         <th style="width: 25%">Benefícios</th>
                         <th scope="col">Encerramento</th>
                         <th scope="col">Seleção</th>
-                        <?php if ($this->Session->read('categoria') === 'administrador'): ?>                        
+                        <?php if ($this->Session->read('categoria') === 'administrador'): ?>
                             <th scope="col">Email enviado</th>
                         <?php endif; ?>
                     </tr>
@@ -65,7 +68,7 @@
                     <?php foreach ($mural as $data): ?>
                         <?php // pr($data); ?>
                         <tr>
-                            <?php if ($this->Session->read('categoria') === 'administrador'): ?>                            
+                            <?php if ($this->Session->read('categoria') === 'administrador'): ?>
                                 <th scope="col"><?php echo $this->Html->link($data['id'], '/Muralestagios/view/' . $data['id']); ?></th>
                             <?php endif; ?>
                             <td><?php echo $this->Html->link($data['instituicao'], '/Muralestagios/view/' . $data['id']); ?></td>
@@ -78,7 +81,7 @@
                                 </td>
                                 <td style="text-align: center">
                                     <?php if ($data['inscritos'] != 0): ?>
-                                        <?php echo $this->Html->link($data['inscritos'], '/Inscricoes/index/' . $data['id']); ?>
+                                        <?php echo $this->Html->link($data['inscritos'], '/Muralinscricoes/index/' . $data['id']); ?>
                                     <?php endif; ?>
                                 </td>
                             <?php else: ?>
@@ -107,7 +110,7 @@
                                 }
                                 ?>
                             </td>
-                            <?php if ($this->Session->read('categoria') === 'administrador'): ?>                            
+                            <?php if ($this->Session->read('categoria') === 'administrador'): ?>
                                 <td>
                                     <?php
                                     if (empty($data['emailenviado'])) {
@@ -125,7 +128,7 @@
                     <tr>
                         <td></td>
                         <td style="text-align: center">Total: </td>
-                        <td style="text-align: center"><?php echo $total_estagiarios; ?></td>                        
+                        <td style="text-align: center"><?php echo $total_estagiarios; ?></td>
                         <td style="text-align: center"><?php echo $total_vagas; ?></td>
                     </tr>
                 </tfoot>
