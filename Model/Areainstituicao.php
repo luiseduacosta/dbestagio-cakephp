@@ -9,8 +9,8 @@ class Areainstituicao extends AppModel {
     public $primaryKey = 'id';
     public $displayField = 'area';
     public $hasMany = array(
-        'Instituicao' => array(
-            'className' => 'Instituicao',
+        'Instituicaoestagio' => array(
+            'className' => 'Instituicaoestagio',
             'foreignKey' => 'areainstituicao_id'
         )
     );

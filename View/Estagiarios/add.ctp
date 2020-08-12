@@ -156,7 +156,7 @@ echo $this->Form->create('Estagiario');
         <?= $this->Form->input('Estagiario.tc_solicitacao', array('type' => 'date', 'label' => false, 'dateFormat' => 'DMY', 'monthNames' => $meses, 'empty' => TRUE, 'class' => 'form-horizontal')); ?>
     </div>
 
-    <?php echo $this->Form->input('Estagiario.instituicao_id', array('label' => 'Instituição', 'options' => $instituicoes, 'default' => 0, 'empty' => [0 => 'Selecione'], 'class' => 'form-control')); ?>
+    <?php echo $this->Form->input('Estagiario.instituicaoestagio_id', array('label' => 'Instituição', 'options' => $instituicoes, 'default' => 0, 'empty' => [0 => 'Selecione'], 'class' => 'form-control')); ?>
     <?php echo $this->Form->input('Estagiario.supervisor_id', array('label' => 'Superviso(a)r', 'options' => $supervisores, 'default' => 0, 'empty' =>[0 => 'Selecione'], 'class' => 'form-control')); ?>
     <?php echo $this->Form->input('Estagiario.docente_id', array('label' => 'Professo(a)r', 'options' => $professores, 'default' => 0, 'empty' => [0 => 'Selecione'], 'class' => 'form-control')); ?>
     <?php echo $this->Form->input('Estagiario.id_area', array('label' => 'Área temática', 'options' => $areas, 'default' => 0, 'empty' => [0 => 'Seleciona'], 'class' => 'form-control')); ?>

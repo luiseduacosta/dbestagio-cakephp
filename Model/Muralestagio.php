@@ -15,15 +15,15 @@ class Muralestagio extends AppModel {
     public $actsAs = array('Containable');    
 
     public $hasMany = array(
-        'Inscricao' => array(
-            'className' => 'Inscricao',
+        'Muralinscricao' => array(
+            'className' => 'Muralinscricao',
             'foreignKey' => 'muralestagio_id'
         )
     );
     public $belongsTo = array(
-        'Instituicao' => array(
-            'className' => 'Instituicao',
-            'foreignKey' => 'estagio_id'
+        'Instituicaoestagio' => array(
+            'className' => 'Instituicaoestagio',
+            'foreignKey' => 'instituicaoestagio_id'
         ),
         'Areaestagio' => array(
             'className' => 'Areaestagio',
@@ -35,20 +35,12 @@ class Muralestagio extends AppModel {
         ),
     );
     public $validate = array(
-        'estagio_id' => array(
+        'instituicaoestagio_id' => array(
             'rule' => 'notBlank',
             'required' => TRUE,
             'allowEmpty' => FALSE,
             'message' => 'Escolha uma instituição'
         ),
-        /*
-          'instituicao' => array(
-          'rule' => 'notBlank',
-          'required' => TRUE,
-          'allowEmpty' => FALSE,
-          'message' => 'Instituição não pode ficar em branco'
-          ),
-         */
         'convenio' => array(
             'rule' => array('inList', array('0', '1')),
             'required' => TRUE,

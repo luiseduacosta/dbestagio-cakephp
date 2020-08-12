@@ -135,6 +135,20 @@
     </div>
 
     <div class="form-group row">
+        <?= $this->Form->label('curso_turma', 'Turma do curso de supervisores', ['class' => 'col-sm-2 col-form-label']); ?>
+        <div class="col-sm-10">
+            <?= $this->Form->input('curso_turma', ['label' => false, 'class' => 'form-control']); ?>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <?= $this->Form->label('num_inscricao', 'Número de inscrição', ['class' => 'col-sm-2 col-form-label']); ?>
+        <div class="col-sm-10">
+            <?= $this->Form->input('num_inscricao', ['label' => false, 'class' => 'form-control']); ?>
+        </div>
+    </div>
+
+    <div class="form-group row">
         <label for="SupervisorObservacoes" class="col-sm-2 col-form-label">Observações</label>
         <div class="col-sm-10">
             <?= $this->Form->input('observacoes', ['label' => false, 'class' => 'col-lg-2 col-form-label', 'textarea' => ['rows' => 5, 'cols' => 60], 'class' => 'form-control']); ?>

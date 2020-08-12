@@ -86,12 +86,12 @@
                     <tr>
 
                         <?php if ($this->Session->read('categoria') === 'administrador'): ?>
-                            <td><?php echo $this->Html->link('Inscrição', '/Inscricoes/view/' . $c_inscricao['inscricao_id']); ?></td>
-                            <td><?php echo $this->Html->link($c_inscricao['instituicao'], '/Inscricoes/index/muralestagio_id:' . $c_inscricao['id']); ?></td>
+                            <td><?php echo $this->Html->link('Inscrição', '/Muralinscricoes/view/' . $c_inscricao['inscricao_id']); ?></td>
+                            <td><?php echo $this->Html->link($c_inscricao['instituicao'], '/Muralinscricoes/index/muralestagio_id:' . $c_inscricao['muralestagio_id']); ?></td>
                             <td><?php echo $c_inscricao['periodo']; ?></td>
                         <?php else: ?>
-                            <td><?php echo $this->Html->link('Inscrição', '/Inscricoes/view/' . $c_inscricao['inscricao_id']); ?></td>
-                            <td><?php echo $this->Html->link($c_inscricao['instituicao'], '/Inscricoes/index/muralestagio_id:' . $c_inscricao['id']); ?></td>
+                            <td><?php echo $this->Html->link('Inscrição', '/Muralinscricoes/view/' . $c_inscricao['inscricao_id']); ?></td>
+                            <td><?php echo $this->Html->link($c_inscricao['instituicao'], '/Muralinscricoes/index/muralestagio_id:' . $c_inscricao['muralestagio_id']); ?></td>
                             <td><?php echo $c_inscricao['periodo']; ?></td>
                         <?php endif; ?>
 
@@ -163,7 +163,7 @@
                                 <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['nivel']; ?></td>
                                 <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['turno']; ?></td>
                                 <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['tc']; ?></td>
-                                <td><?php echo $this->Html->link($c_aluno_estagio['Instituicao']['instituicao'], '/Instituicoes/view/' . $c_aluno_estagio['Instituicao']['id']); ?></td>
+                                <td><?php echo $this->Html->link($c_aluno_estagio['Instituicaoestagio']['instituicao'], '/Instituicaoestagios/view/' . $c_aluno_estagio['Instituicaoestagio']['id']); ?></td>
                                 <td><?php echo $this->Html->link($c_aluno_estagio['Supervisor']['nome'], '/Supervisores/view/' . $c_aluno_estagio['Supervisor']['id']); ?></td>
                                 <td><?php echo $this->Html->link($c_aluno_estagio['Professor']['nome'], '/Professores/view/' . $c_aluno_estagio['Professor']['id']); ?></td>
                                 <td><?php echo $this->Html->link($c_aluno_estagio['Areaestagio']['area'], '/Areaestagios/view/' . $c_aluno_estagio['Areaestagio']['id']); ?></td>
@@ -190,7 +190,7 @@
                                 <td style='text-align:center'><?php echo "Não obrigatório"; ?></td>
                                 <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['turno']; ?></td>
                                 <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['tc']; ?></td>
-                                <td><?php echo $this->Html->link($c_aluno_estagio['Instituicao']['instituicao'], '/Instituicoes/view/' . $c_aluno_estagio['Instituicao']['id']); ?></td>
+                                <td><?php echo $this->Html->link($c_aluno_estagio['Instituicaoestagio']['instituicao'], '/Instituicaoestagios/view/' . $c_aluno_estagio['Instituicaoestagio']['id']); ?></td>
                                 <td><?php echo $this->Html->link($c_aluno_estagio['Supervisor']['nome'], '/Supervisors/view/' . $c_aluno_estagio['Supervisor']['id']); ?></td>
                                 <td><?php echo $this->Html->link($c_aluno_estagio['Professor']['nome'], '/Professors/view/' . $c_aluno_estagio['Professor']['id']); ?></td>
                                 <td><?php echo $this->Html->link($c_aluno_estagio['Areaestagio']['area'], '/Areaestagios/view/' . $c_aluno_estagio['Areaestagio']['id']); ?></td>

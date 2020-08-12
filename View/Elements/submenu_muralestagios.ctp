@@ -9,8 +9,8 @@
                 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
                     <?= $this->Html->link('Listar mural', '/Muralestagios/index/', ['class' => 'nav-item nav-link ative']); ?>
                     <?= $this->Html->link('Inserir mural', '/Muralestagios/add/', ['class' => 'nav-item nav-link']); ?>
-                    <?= $this->Html->link('Listar estudantes', '/Inscricoes/index/', ['class' => 'nav-item nav-link']); ?>
-                    <?= $this->Html->link('Estudantes sem inscrição', '/Inscricoes/orfao/', ['class' => 'nav-item nav-link']); ?>
+                    <?= $this->Html->link('Listar estudantes', '/Muralinscricoes/index/', ['class' => 'nav-item nav-link']); ?>
+                    <?= $this->Html->link('Estudantes sem inscrição', '/Muralinscricoes/orfao/', ['class' => 'nav-item nav-link']); ?>
                 <?php endif; ?>                
             </div>
         </div>

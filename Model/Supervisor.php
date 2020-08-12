@@ -17,14 +17,14 @@ class Supervisor extends AppModel {
             'foreignKey' => 'supervisor_id')
     );
     public $hasAndBelongsToMany = array(
-        'Instituicao' => array(
-            'className' => 'Instituicao',
-            'joinTable' => 'instituicao_supervisor',
+        'Instituicaoestagio' => array(
+            'className' => 'Instituicaoestagio',
+            'joinTable' => 'instituicaoestagio_supervisor',
             'foreignKey' => 'supervisor_id',
-            'associationForeignKey' => 'instituicao_id',
+            'associationForeignKey' => 'instituicaoestagio_id',
             'unique' => TRUE,
             'fields' => '',
-            'order' => '',
+            'order' => 'Instituicaoestagio.instituicao',
         )
     );
 

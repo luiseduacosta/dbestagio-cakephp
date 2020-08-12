@@ -2,13 +2,13 @@
 
 <ul class="nav nav-pills">
     <li class="nav-item">
+        <a class="nav-link btn-light" data-toggle="pill" href="#dados_pessoais">Dados pessoais</a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link active btn-light" data-toggle="pill" href="#dados_estagio">Estágio</a>
     </li>
     <li class="nav-item">
         <a class="nav-link btn-light" data-toggle="pill" href="#estagio_historico">Histórico</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link btn-light" data-toggle="pill" href="#dados_pessoais">Dados pessoais</a>
     </li>
 </ul>
 
@@ -86,7 +86,7 @@
 
                 <tr>
                     <td>Instituição</td>
-                    <td><?php echo $estagio['Instituicao']['instituicao']; ?></td>
+                    <td><?php echo $estagio['Instituicaoestagio']['instituicao']; ?></td>
                 </tr>
 
                 <tr>
@@ -132,6 +132,7 @@
                             <th>Excluir</th>
                             <th>Editar</th>
                         <?php endif; ?>
+                        <th>Declaração de estágio</th>
                         <th>Ajuste 2020</th>
                         <th>Período</th>
                         <th>Nível</th>
@@ -161,14 +162,15 @@
                                         <?php echo $this->Html->link('Editar', '/Estagiarios/view/' . $c_aluno_estagio['Estagiario']['id']); ?>
                                     </td>
                                 <?php endif; ?>
+                                <td><?php echo $this->Html->link('Imprimir declaração', '/Estagiarios/declaracaoestagio/' . $c_aluno_estagio['Estagiario']['id'] . '/' . $c_aluno_estagio['Estagiario']['nivel']); ?></td>
                                 <td><?php echo $c_aluno_estagio['Estagiario']['ajustecurricular2020'] ?></td>
                                 <td><?php echo $c_aluno_estagio['Estagiario']['periodo'] ?></td>
                                 <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['nivel']; ?></td>
                                 <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['turno']; ?></td>
                                 <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['tc']; ?></td>
-                                <td><?php echo $this->Html->link($c_aluno_estagio['Instituicao']['instituicao'], '/Instituicoes/view/' . $c_aluno_estagio['Instituicao']['id']); ?></td>
-                                <td><?php echo $this->Html->link($c_aluno_estagio['Supervisor']['nome'], '/Supervisors/view/' . $c_aluno_estagio['Supervisor']['id']); ?></td>
-                                <td><?php echo $this->Html->link($c_aluno_estagio['Professor']['nome'], '/Professors/view/' . $c_aluno_estagio['Professor']['id']); ?></td>
+                                <td><?php echo $this->Html->link($c_aluno_estagio['Instituicaoestagio']['instituicao'], '/Instituicaoestagios/view/' . $c_aluno_estagio['Instituicaoestagio']['id']); ?></td>
+                                <td><?php echo $this->Html->link($c_aluno_estagio['Supervisor']['nome'], '/Supervisores/wiew/' . $c_aluno_estagio['Supervisor']['id']); ?></td>
+                                <td><?php echo $this->Html->link($c_aluno_estagio['Professor']['nome'], '/Professores/view/' . $c_aluno_estagio['Professor']['id']); ?></td>
                                 <td><?php echo $this->Html->link($c_aluno_estagio['Areaestagio']['area'], '/Areaestagios/view/' . $c_aluno_estagio['Areaestagio']['id']); ?></td>
                                 <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['nota']; ?></td>
                                 <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['ch']; ?></td>
@@ -185,14 +187,15 @@
                                         <?php echo $this->Html->link('Editar', '/Estagiarios/view/' . $c_aluno_estagio['Estagiario']['id']); ?>
                                     </td>
                                 <?php endif; ?>
+                                <td><?php echo $this->Html->link('Imprimir declaração', '/Estagiarios/declaracaoestagio/' . $c_aluno_estagio['Estagiario']['id'] . '/' . $c_aluno_estagio['Estagiario']['nivel']); ?></td>
                                 <td><?php echo $c_aluno_estagio['Estagiario']['ajustecurricular2020'] ?></td>
                                 <td><?php echo $c_aluno_estagio['Estagiario']['periodo'] ?></td>
                                 <td style='text-align:center'><?php echo "Não obrigatório"; ?></td>
                                 <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['turno']; ?></td>
                                 <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['tc']; ?></td>
-                                <td><?php echo $this->Html->link($c_aluno_estagio['Instituicao']['instituicao'], '/Instituicoes/view/' . $c_aluno_estagio['Instituicao']['id']); ?></td>
-                                <td><?php echo $this->Html->link($c_aluno_estagio['Supervisor']['nome'], '/Supervisors/view/' . $c_aluno_estagio['Supervisor']['id']); ?></td>
-                                <td><?php echo $this->Html->link($c_aluno_estagio['Professor']['nome'], '/Professors/view/' . $c_aluno_estagio['Professor']['id']); ?></td>
+                                <td><?php echo $this->Html->link($c_aluno_estagio['Instituicaoestagio']['instituicao'], '/Instituicaoestagios/view/' . $c_aluno_estagio['Instituicaoestagio']['id']); ?></td>
+                                <td><?php echo $this->Html->link($c_aluno_estagio['Supervisor']['nome'], '/Supervisores/view/' . $c_aluno_estagio['Supervisor']['id']); ?></td>
+                                <td><?php echo $this->Html->link($c_aluno_estagio['Professor']['nome'], '/Professores/view/' . $c_aluno_estagio['Professor']['id']); ?></td>
                                 <td><?php echo $this->Html->link($c_aluno_estagio['Areaestagio']['area'], '/Areaestagios/view/' . $c_aluno_estagio['Areaestagio']['id']); ?></td>
                                 <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['nota']; ?></td>
                                 <td style='text-align:center'><?php echo $c_aluno_estagio['Estagiario']['ch']; ?></td>

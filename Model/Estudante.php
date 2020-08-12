@@ -12,9 +12,8 @@ class Estudante extends AppModel {
             'className' => 'Estagiario',
             'foreignKey' => 'estudante_id'
         ),
-        'Inscricao' =>
-        array(
-            'className' => 'Inscricao',
+        'Muralinscricao' => array(
+            'className' => 'Muralinscricao',
             'foreignKey' => 'estudante_id'
         )
     );
@@ -22,7 +21,7 @@ class Estudante extends AppModel {
     public function alunonovorfao() {
 
         // return($this->query("select Estudante.id, Estudante.registro, Estudante.nome, Estudante.celular, Estudante.email, Inscricao.id, Inscricao.aluno_id from alunosNovos AS Estudante left join muralinscricao AS Inscricao on Estudante.registro = Inscricao.aluno_id where Inscricao.aluno_id IS NULL group by Estudante.registro order by Estudante.nome"));
-        return($this->query("select Estudante.id, Estudante.registro, Estudante.nome, Estudante.celular, Estudante.email, Inscricao.id, Inscricao.registro from estudantes AS Estudante left join muralinscricoes AS Inscricao on Estudante.registro = Inscricao.registro where Inscricao.estudante_id IS NULL order by Estudante.nome"));
+        return($this->query("select Estudante.id, Estudante.registro, Estudante.nome, Estudante.celular, Estudante.email, Muralinscricao.id, Muralinscricao.registro from estudantes AS Estudante left join muralinscricoes AS Muralinscricao on Estudante.registro = Muralinscricao.registro where Muralinscricao.estudante_id IS NULL order by Estudante.nome"));
     }
 
     public function beforeValidate($options = array()) {

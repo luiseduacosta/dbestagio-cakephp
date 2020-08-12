@@ -4,7 +4,7 @@
 
 <h5>Digite o número de DRE</h5>
 
-<?php echo $this->Form->create('Inscricao'); ?>
+<?php echo $this->Form->create('Muralinscricao'); ?>
 <?php $numero = $this->Session->read('numero'); ?>
 <?php if ($this->Session->read('id_categoria') == 2): ?>
     <?php echo $this->Form->input('registro', array('type' => 'text', 'label' => 'Registro (DRE)', 'size' => 9, 'maxlenght' => 9, 'value' => $this->Session->read('numero'), 'readonly' => 'readonly' , 'class' => 'form-control')); ?>

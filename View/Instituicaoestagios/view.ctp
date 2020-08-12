@@ -317,7 +317,7 @@
 
             <?php
             echo $this->Form->create('Instituicaoestagio', array('controller' => 'Instituicaoestagios', 'url' => 'addassociacao'));
-            echo $this->Form->input('InstituicaoestagioSupervisor.instituicao_id', array('type' => 'hidden', 'value' => $instituicao['Instituicaoestagio']['id']));
+            echo $this->Form->input('InstituicaoestagioSupervisor.instituicaoestagio_id', array('type' => 'hidden', 'value' => $instituicao['Instituicaoestagio']['id']));
             echo $this->Form->input('InstituicaoestagioSupervisor.supervisor_id', array('label' => 'Supervisor', 'options' => $supervisores, 'default' => 0, 'empty' => 'Seleciona', 'class' => 'form-control'));
             ?>
             <br>

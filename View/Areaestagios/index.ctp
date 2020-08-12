@@ -42,7 +42,7 @@
                             <td></td>
                             <td></td>
                             <td>
-                                <?php echo $this->Html->link($professores['professor'], '/Professors/view/' . $professores['professor_id']); ?>
+                                <?php echo $this->Html->link($professores['professor'], '/Professores/view/' . $professores['professor_id']); ?>
                             </td>
                         <?php endforeach; ?>
                     <?php endif; ?>

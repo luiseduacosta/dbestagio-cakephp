@@ -95,7 +95,7 @@
                     </td>
                     <td><?php echo count($c_instituicao['Supervisor']); ?></td>
                     <td><?php echo $c_instituicao['Areainstituicao']['area']; ?></td>
-                    <td><?php echo $c_instituicao['Instituicao']['natureza']; ?></td>
+                    <td><?php echo $c_instituicao['Instituicaoestagio']['natureza']; ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

@@ -12,19 +12,19 @@
     });
 </script>
 
-<h5>Solicitação de vagas para estágio</h5>
+<h5>Cadastro de vagas para seleção de estágio</h5>
 
 <?php echo $this->Form->create('Muralestagio', ['class' => 'form-horizontal']); ?>
 <div class='col-2'>
     <?php echo $this->Form->input('periodo', array('label' => 'Período', 'value' => $periodo, 'class' => 'form-control')); ?>
 </div>
 <div class='col-12'>
-    <?php echo $this->Form->input('estagio_id', array('label' => ['text' => 'Instituição (se a instituição não está cadastrada, tem que cadastrar neste link: ' . $this->Html->link("Instituições", "/Instituicoes/add") . ')', 'class' => 'control-label'], 'type' => 'select', 'options' => $instituicoes, 'class' => 'form-control')); ?>
+    <?php echo $this->Form->input('instituicaoestagio_id', array('label' => ['text' => 'Instituição (se a instituição não está cadastrada, tem que cadastrar neste link: ' . $this->Html->link("Instituições", "/Instituicaoestagios/add") . ')', 'class' => 'control-label'], 'type' => 'select', 'options' => $instituicoes, 'class' => 'form-control')); ?>
 </div>
 <div class='col-4'>
     <?php echo $this->Form->input('convenio', array('label' => 'Convênio com a UFRJ', 'type' => 'select', 'options' => array('0' => 'Não', '1' => 'Sim'), 'class' => 'form-control')); ?>
 </div>
-<div class='col-3'>
+<div class='col-4'>
     <?php echo $this->Form->input('vagas', array('label' => 'Vagas (digitar somente números inteiros)', 'default' => 0, 'class' => 'form-control')); ?>
 </div>
 <div class="col-12">
@@ -46,13 +46,13 @@
     <?php echo $this->Form->input('horario', array('label' => 'Horário da OTP', 'type' => 'select', 'options' => array('D' => 'Diurno', 'N' => 'Noturno', 'A' => 'Ambos'), 'class' => 'form-control')); ?>
 </div>
 <div class='col-12'>
-    <?php echo $this->Form->input('docente_id', array('label' => 'Professor', 'type' => 'select', 'options' => $professores, 'class' => 'form-control')); ?>
+    <?php echo $this->Form->input('docente_id', array('label' => 'Professor/a', 'type' => 'select', 'options' => $professores, 'class' => 'form-control')); ?>
 </div>
 <div class='col-6'>
     <label for='MuralestagiosDadaSelecao' class='control-label'>Data da seleção</label>
 </div>
 <div class='col-6'>
-    <?php echo $this->Form->input('dataSelecao', array('label' => false, 'dateFormat' => 'DMY', 'minYear' => '2000', 'empty' => TRUE, 'class' => 'form-horizontal')); ?>
+    <?php echo $this->Form->input('dataSelecao', array('label' => false, 'dateFormat' => 'DMY', 'minYear' => '2000', 'monthNames' => $meses ,'empty' => TRUE, 'class' => 'form-horizontal')); ?>
 </div>
 <div class='col-3'>
     <?php echo $this->Form->input('horarioSelecao', ['class' => 'form-control']); ?>
@@ -67,13 +67,13 @@
     <label for='MuralestagiosDadaInscricao' class='control-label'>Data final da inscrição</label>
 </div>
 <div class='col-6'>
-    <?php echo $this->Form->input('dataInscricao', array('label' => false, 'dateFormat' => 'DMY', 'minYear' => '2000', 'empty' => TRUE, 'class' => 'form-horizontal')); ?>
+    <?php echo $this->Form->input('dataInscricao', array('label' => false, 'dateFormat' => 'DMY', 'minYear' => '2000', 'monthNames' => $meses, 'empty' => TRUE, 'class' => 'form-horizontal')); ?>
 </div>
 <div class='col-3'>
     <?php echo $this->Form->input('contato', ['class' => 'form-control']); ?>
 </div>
 <div class='col-6'>
-    <?php echo $this->Form->input('email', array('label' => 'Email para envio da lista de inscrições', 'class' => 'form-control')); ?>
+    <?php echo $this->Form->input('email', array('label' => 'Email para envio da lista de inscrições', 'placeholder' => 'estagio@ess.ufrj.br' ,'class' => 'form-control')); ?>
 </div>
 <div class="col-6">
     <?php echo $this->Form->input('datafax', array('type' => 'hidden', 'label' => 'Data de envio do email (preenchimento automático)', 'dateFormat' => 'DMY', 'empty' => TRUE, 'class' => 'form-horizontal')); ?>

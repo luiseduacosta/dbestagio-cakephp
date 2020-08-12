@@ -3,9 +3,9 @@
 ?>
 
 <?php
-$this->Js->get('#InscricaoInstituicaoId')->event('change',
+$this->Js->get('#MuralinscricaoInstituicaoId')->event('change',
         $this->Js->request(array(
-            'controller' => 'Instituicoes',
+            'controller' => 'Instituicaoestagio',
             'action' => 'seleciona_supervisor'
                 ), array(
             'update' => '#InscricaoSupervisorId',
@@ -20,7 +20,7 @@ $this->Js->get('#InscricaoInstituicaoId')->event('change',
 );
 ?>
 
-<?php echo $this->Html->link('Solicita termo', '/Inscricoes/termosolicita'); ?>
+<?php echo $this->Html->link('Solicita termo', '/Muralinscricoes/termosolicita'); ?>
 <h5>Solicitação de Termo de Compromisso para cursar estágio no período
     <?php echo $periodo; ?></h5>
 
@@ -37,7 +37,7 @@ $this->Js->get('#InscricaoInstituicaoId')->event('change',
 </div>
 
 <?php
-echo $this->Form->create('Inscricao', array('url' => 'termocadastra/registro:' . $registro));
+echo $this->Form->create('Muralinscricao', array('url' => 'termocadastra/registro:' . $registro));
 
 echo $this->Form->input('registro', array('type' => 'hidden', 'label' => 'Registro', 'value' => $registro));
 
@@ -66,7 +66,7 @@ echo $this->Form->input('docente_id', array('type' => 'hidden', 'label' => 'Prof
 </fieldset>
 
 <?php
-echo $this->Form->input('instituicao_id', array('type' => 'select', 'label' => 'Instituição (É obrigatório selecionar a instituição)', 'options' => $instituicoes, 'selected' => $instituicao_atual, 'empty' => ['0' => 'Selecione instituição'], 'class' => 'form-control'));
+echo $this->Form->input('instituicaoestagio_id', array('type' => 'select', 'label' => 'Instituição (É obrigatório selecionar a instituição)', 'options' => $instituicoes, 'selected' => $instituicao_atual, 'empty' => ['0' => 'Selecione instituição'], 'class' => 'form-control'));
 
 echo $this->Form->input('supervisor_id', array('type' => 'select', 'label' => 'Supervisor (Se não souber quem é o supervisor deixe sem selecionar")', 'options' => $supervisores, 'selected' => $supervisor_atual, 'empty' => ['0' => 'Selecione supervisor'], 'class' => 'form-control'));
 
