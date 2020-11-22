@@ -1,13 +1,25 @@
-<?php // pr($this->data['Visita']['data']);  ?>
-<h1><?php echo $this->data['Instituicao']['instituicao']; ?></h1>
+<?php // pr($this->data['Visita']['data']);    ?>
+<h5><?php echo $this->data['Instituicao']['instituicao']; ?></h5>
 
+<?= $this->Form->create('Visita'); ?>
+
+<div class="form-group row">
+    <label for="VisitaData" class="col-form-label col-sm-2">Data da visita</label>
+    <div class="col-sm-6">
+        <p style="line-height: 0,5%"></p>
+        <?= $this->Form->input('data', array('label' => false, 'dateFormat' => 'DMY', 'monthNames' => $meses, 'class' => 'form-horizontal')); ?>
+    </div>
+</div>
 <?php
-echo $this->Form->create('Visita');
-echo $this->Form->input('id', array('type' => 'hidden'));
-echo $this->Form->input('data', array('dateFormat'=>'DMY', 'empty'=>FALSE));
-echo $this->Form->input('motivo');
-echo $this->Form->input('responsavel');
-echo $this->Form->input('descricao');
-echo $this->Form->input('avaliacao');
-echo $this->Form->end('Confirma');
+echo $this->Form->input('motivo', ['class' => 'form-control']);
+echo $this->Form->input('responsavel', ['class' => 'form-control']);
+echo $this->Form->input('descricao', ['label' => 'Descripção', 'class' => 'form-control']);
+echo $this->Form->input('avaliacao', ['class' => 'form-control']);
 ?>
+<br>
+<div class="row justify-content-center">
+    <div class="col-auto">
+        <?php echo $this->Form->submit('Confirma', ['class' => 'btn btn-success']); ?>
+        <?php echo $this->Form->end(); ?>
+    </div>
+</div>

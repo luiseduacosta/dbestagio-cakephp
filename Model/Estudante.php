@@ -6,28 +6,22 @@ class Estudante extends AppModel {
     public $useTable = 'estudantes';
     public $primaryKey = 'id';
     public $displayField = 'nome';
- /*
+    public $actsAs = array('Containable');    
     public $hasMany = array(
-       'Inscricao' =>
-        array(
-            'className' => 'Inscricao',
-            'foreignKey' => false
+        'Estagiario' => array(
+            'className' => 'Estagiario',
+            'foreignKey' => 'estudante_id'
         ),
-       'Inscricao1' =>
-        array(
-            'className' => 'Inscricao',
-            'foreignKey' => 'aluno_id'
-        ),        
-        'Estagiario' =>
-        array('className' => 'Estagiario',
-            'foreignKey' => 'registro'
+        'Muralinscricao' => array(
+            'className' => 'Muralinscricao',
+            'foreignKey' => 'estudante_id'
         )
     );
-*/
+
     public function alunonovorfao() {
 
-        // return($this->query("select Estudante.id, Estudante.registro, Estudante.nome, Estudante.celular, Estudante.email, Inscricao.id, Inscricao.id_aluno from alunosNovos AS Estudante left join muralinscricao AS Inscricao on Estudante.registro = Inscricao.id_aluno where Inscricao.id_aluno IS NULL group by Estudante.registro order by Estudante.nome"));
-        return($this->query("select Estudante.id, Estudante.registro, Estudante.nome, Estudante.celular, Estudante.email, Inscricao.id, Inscricao.aluno_id from estudantes AS Estudante left join muralinscricoes AS Inscricao on Estudante.registro = Inscricao.aluno_id where Inscricao.aluno_id IS NULL order by Estudante.nome"));
+        // return($this->query("select Estudante.id, Estudante.registro, Estudante.nome, Estudante.celular, Estudante.email, Inscricao.id, Inscricao.aluno_id from alunosNovos AS Estudante left join muralinscricao AS Inscricao on Estudante.registro = Inscricao.aluno_id where Inscricao.aluno_id IS NULL group by Estudante.registro order by Estudante.nome"));
+        return($this->query("select Estudante.id, Estudante.registro, Estudante.nome, Estudante.celular, Estudante.email, Muralinscricao.id, Muralinscricao.registro from estudantes AS Estudante left join muralinscricoes AS Muralinscricao on Estudante.registro = Muralinscricao.registro where Muralinscricao.estudante_id IS NULL order by Estudante.nome"));
     }
 
     public function beforeValidate($options = array()) {
@@ -146,23 +140,26 @@ class Estudante extends AppModel {
     );
 
     public function registro_verifica($check) {
-        $value = array_values($check);
-        $value = $value[0];
+        $values = array_values($check);
+        $value = $values[0];
 
         if (strlen($value) < 9) {
             return false;
         }
 
         if ($value) {
-            // echo "Modelo - Consulta tabela alunosNovos ";
+            // echo "Modelo - Consulta tabela Estudantes ";
             $registro = $this->find('first', array('conditions' => 'Estudante.registro = ' . $value));
         }
 
-        if ($value) {
-            // echo "Modelo - Consulta tabela alunos ";
-            $registro = $this->query('select registro from alunos as Aluno where registro = ' . $value);
-        }
-
+        /*
+         * Não precisa fazer esta consulta
+         * 
+          if ($value) {
+          // echo "Modelo - Consulta tabela alunos ";
+          $registro = $this->query('select registro from alunos as Aluno where registro = ' . $value);
+          }
+         */
         // echo "Registro: " . $registro[0];
         // die();
 
@@ -205,7 +202,7 @@ class Estudante extends AppModel {
 
         $emails = null;
         if (!empty($cadastro_email)) {
-            $emails = $this->query('select email from alunos as Aluno where email = ' . "'" . $cadastro_email . "'");
+            $emails = $this->query('select email from estudantes as Estudante where email = ' . "'" . $cadastro_email . "'");
         }
 
         if ($emails) {
@@ -223,7 +220,7 @@ class Estudante extends AppModel {
 
         $cpf = null;
         if (!empty($value)) {
-            $cpf = $this->query('select cpf from alunos as Aluno where cpf = ' . "'" . $value . "'" . ' limit 1');
+            $cpf = $this->query('select cpf from estudantes as Estudante where cpf = ' . "'" . $value . "'" . ' limit 1');
         }
 
         if ($cpf) {

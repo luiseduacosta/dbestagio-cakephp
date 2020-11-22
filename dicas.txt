@@ -1,6 +1,7 @@
 Dicas
 =====
-$log = $this->Votacao->getDataSource()->getLog(false, false);
+debug($this->Model->validationErrors);
+$log = $this->Model->getDataSource()->getLog(false, false);
 debug($log);
 
 /* A variável ordem é a coluna que vai ser utilizada como critério de ordenação */
@@ -13,6 +14,12 @@ url = url.replace(/\/[^\/]*$/, '/175')
 /* Outra forma */
 /* split the String by split("/") then change the last part and rejoin by join("/"): */
 var url = window.location.pathname.split("/").slice(0,-1).join("/")+"/periodo:"+periodo;
+
+/* No javascript de seleção de opções é possível colocar código PHP para indicar o destino do location */
+var link = "<?= $this->Html->url(["controller" => "Supervisores", "action" => "index/periodo:"]); ?>";
+
+/* No mysql é necessário excluir do mysql.ini esta expressão para que as consultas GRUP BY funcionen */
+ONLY_FULL_GROUP_BY
 
 Paginação própria
 =================
@@ -34,3 +41,21 @@ $array paginado (p. ex. $p_array)
 $pagina com o valor de cada página do array_slice
 $q_paginas com o valor do total das páginas calculado pela divisão sizeof($array) entre a quantidade de registros por página.
 A quantidade de registros por página também poderia ser enviada e recebida ($q_registros). Na view poderia haver um formulário para que o usuário selecione a quantidade registros que quer visualizar em cada página.
+
+echo $this->Form->input('field', array(
+    'before' => '--before--',
+    'after' => '--after--',
+    'between' => '--between---',
+    'separator' => '--separator--',
+    'options' => array('1', '2'),
+    'type' => 'radio'
+));
+
+echo $this->Form->input('datetest', array(
+    'label' => false, 
+    'type' => 'datetime',
+    'dateFormat' => 'YMD', 
+    'minYear' => date('Y') - 70, 
+    'maxYear' => date('Y') + 10, 
+    'selected' => '2012-02-23')
+);

@@ -4,7 +4,6 @@ class ProfessoresController extends AppController {
 
     public $name = "Professores";
     public $components = array('Auth');
-
     public $paginate = array(
         'limit' => 10,
         'order' => array('Professor.nome' => 'asc'));
@@ -15,20 +14,20 @@ class ProfessoresController extends AppController {
         // Admin
         if ($this->Session->read('id_categoria') === '1') {
             $this->Auth->allow();
-            // $this->Session->setFlash("Administrador");
+            // $this->Session->setFlash(__("Administrador"), "flash_notification");
             // Estudantes
         } elseif ($this->Session->read('id_categoria') === '2') {
             $this->Auth->allow('index', 'view', 'pauta');
-            // $this->Session->setFlash("Estudante");
+            // $this->Session->setFlash(__("Estudante"), "flash_notification");
         } elseif ($this->Session->read('id_categoria') === '3') {
             $this->Auth->allow('add' . 'edit' . 'index', 'view', 'pauta');
-            // $this->Session->setFlash("Professor");
+            // $this->Session->setFlash(__("Professor"), "flash_notification");
             // Professores, Supervisores
         } elseif ($this->Session->read('id_cateogria') === '4') {
             $this->Auth->allow('index', 'view', 'pauta');
-            // $this->Session->setFlash("Professor/Supervisor");
+            // $this->Session->setFlash(__("Professor/Supervisor"), "flash_notification");
         } else {
-            $this->Session->setFlash("Não autorizado");
+            $this->Session->setFlash(__("Não autorizado"), "flash_notification");
             $this->redirect('/Muralestagios/index/');
         }
         // die(pr($this->Session->read('user')));
@@ -36,11 +35,12 @@ class ProfessoresController extends AppController {
 
     public function index() {
 
-        $professores = $this->Professor->find('all');
-        // pr($professores);
-        // die();
-        $this->set('professores', $professores);
-        // $this->set('professores', $this->Paginate('Professor'));
+        $this->Professor->recursive = -1;
+        $this->Paginator->settings = ['Professor' => [
+                'order' => ['Professor.nome']
+            ]
+        ];
+        $this->set('professores', $this->paginate('Professor'));
         // die();
     }
 
@@ -50,9 +50,19 @@ class ProfessoresController extends AppController {
         // Somente o próprio pode ver
         if ($this->Session->read('numero')) {
             // die(pr($this->Session->read('numero')));
-            $verifica = $this->Professor->findBySiape($this->Session->read('numero'));
-            if ($id != $verifica['Professor']['id']) {
-                $this->Session->setFlash("Acesso não autorizado");
+            $verifica = $this->Professor->find('first', [
+                'conditions' => ['Professor.siape' => $this->Session->read('numero')]
+            ]);
+            // pr($verifica);
+            // die('verifica');
+            if ($verifica) {
+                if ($id != $verifica['Professor']['id']) {
+                    $this->Session->setFlash(__("Acesso não autorizado"), "flash_notification");
+                    $this->redirect("/Professores/index");
+                    die("Não autorizado");
+                }
+            } else {
+                $this->Session->setFlash(__("Acesso não autorizado"), "flash_notification");
                 $this->redirect("/Professores/index");
                 die("Não autorizado");
             }
@@ -64,12 +74,6 @@ class ProfessoresController extends AppController {
 
         // pr($professor);
 
-        $proximo = $this->Professor->find('neighbors', array(
-            'field' => 'nome', 'value' => $professor['Professor']['nome']));
-
-        $this->set('registro_next', $proximo['next']['Professor']['id']);
-        $this->set('registro_prev', $proximo['prev']['Professor']['id']);
-
         $this->set('professor', $professor);
     }
 
@@ -77,12 +81,15 @@ class ProfessoresController extends AppController {
 
         $this->Professor->id = $id;
 
+        /* Meses em português */
+        $this->set('meses', $this->meses());
+
         // Somente o próprio pode ver
         if ($this->Session->read('numero')) {
             // die(pr($this->Session->read('numero')));
             $verifica = $this->Professor->findBySiape($this->Session->read('numero'));
             if ($id != $verifica['Professor']['id']) {
-                $this->Session->setFlash("Acesso não autorizado");
+                $this->Session->setFlash(__("Acesso não autorizado"), "flash_notification");
                 $this->redirect("/Professores/view/" . $id);
                 die("Não autorizado");
             }
@@ -93,7 +100,7 @@ class ProfessoresController extends AppController {
         } else {
             if ($this->Professor->save($this->data)) {
                 // print_r($this->data);
-                $this->Session->setFlash("Atualizado");
+                $this->Session->setFlash(__("Atualizado"), "flash_notification");
                 $this->redirect('/Professores/view/' . $id);
             }
         }
@@ -101,9 +108,12 @@ class ProfessoresController extends AppController {
 
     public function add() {
 
+        /* Meses em português */
+        $this->set('meses', $this->meses());
+
         if ($this->data) {
             if ($this->Professor->save($this->data)) {
-                $this->Session->setFlash('Dados inseridos');
+                $this->Session->setFlash(__('Dados inseridos'), "flash_notification");
                 $this->Professor->getLastInsertId();
                 $this->redirect('/Professores/view/' . $this->Professor->getLastInsertId());
             }
@@ -121,9 +131,8 @@ class ProfessoresController extends AppController {
             'order' => array('Estagiario.periodo')
         ));
         // pr($todosPeriodo);
-
         // pr($periodo);
-        
+
         if (!$periodo)
             $periodo = end($todosPeriodo);
 
@@ -189,8 +198,43 @@ class ProfessoresController extends AppController {
         if ($pauta):
             $this->set('professores', $pauta);
         else:
-            $this->Session->setFlash("Sem pauta");
+            $this->Session->setFlash(__("Sem pauta"), "flash_notification");
         endif;
+    }
+
+    public function busca($id = NULL) {
+
+        if (isset($id))
+            $this->request->data['Professor']['nome'] = $id;
+
+        // $id = isset($this->request->data['Supervisor']['nome']) ? $this->request->data['Supervisor']['nome'] : null;
+        // pr($id);
+        if (!empty($this->request->data['Professor']['nome'])) {
+            $condicao = ['Professor.nome like' => '%' . $this->request->data['Professor']['nome'] . '%'];
+            $professores = $this->Professor->find('all', [
+                'recursive' => -1, // Para excluir as associações
+                'conditions' => $condicao,
+                'order' => 'Professor.nome']);
+
+            // pr($professores);
+            // die('professores');
+
+            /* Nenhum resultado */
+            if (empty($professores)) {
+                $this->Session->setFlash(__("Não foram encontrados registros"), "flash_notification");
+            } else {
+                // pr($professores);
+                // die('professores');
+                $this->Paginator->settings = ['Professor' => [
+                        'recursive' => -1, // Para excluir as associações
+                        'conditions' => ['Professor.nome like' => '%' . $this->request->data['Professor']['nome'] . '%'],
+                        'order' => 'Professor.nome'
+                    ]
+                ];
+                $this->set('professores', $this->Paginator->paginate('Professor'));
+                $this->set('busca', $this->request->data['Professor']['nome']);
+            }
+        }
     }
 
 }

@@ -1,7 +1,7 @@
-<?php
-
-echo $this->Form->Create('Areaestagio');
-echo $this->Form->Input('area');
-echo $this->Form->End('Confirma');
-
-?>
+<?= $this->Form->Create('Areaestagio'); ?>
+<div class="form-group">
+    <label for = "AreaestagioArea">Área</label>
+    <?= $this->Form->Input('area', ['label' => false, 'class' => 'form-control']); ?>
+</div>
+<?= $this->Form->Input('Confirma', ['type' => 'submit', 'label' => false, 'class' => 'btn btn-success position-static']); ?>
+<?= $this->Form->End(); ?>

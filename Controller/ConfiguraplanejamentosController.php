@@ -11,20 +11,20 @@ class ConfiguraplanejamentosController extends AppController {
         // Admin
         if ($this->Session->read('id_categoria') === '1') {
             $this->Auth->allow();
-            // $this->Session->setFlash("Administrador");
+            // $this->Session->setFlash(__("Administrador"), "flash_notification");
             // Estudantes
         } elseif ($this->Session->read('id_categoria') === '2') {
             $this->Auth->allow('index', 'view');
-            // $this->Session->setFlash("Estudante");
+            // $this->Session->setFlash(__("Estudante"), "flash_notification");
         } elseif ($this->Session->read('id_categoria') === '3') {
             $this->Auth->allow('index', 'view');
-            // $this->Session->setFlash("Professor");
+            // $this->Session->setFlash(__("Professor"), "flash_notification");
             // Professores, Supervisores
         } elseif ($this->Session->read('id_cateogria') === '4') {
             $this->Auth->allow('index', 'view');
-            // $this->Session->setFlash("Supervisor");
+            // $this->Session->setFlash(__("Supervisor"), "flash_notification");
         } else {
-            $this->Session->setFlash("Não autorizado");
+            $this->Session->setFlash(__("Não autorizado"), "flash_notification");
             $this->redirect('/Users/login/');
         }
         // die(pr($this->Session->read('user')));
@@ -47,7 +47,7 @@ class ConfiguraplanejamentosController extends AppController {
         } else {
             if ($this->Configuraplanejamento->save($this->data)) {
                 // print_r($this->data);
-                $this->Session->setFlash(__("Atualizado"));
+                $this->Session->setFlash(__("Atualizado"), "flash_notification");
                 $this->redirect('/configuraplanejamentos/view/' . $id);
             }
         }
@@ -67,7 +67,7 @@ class ConfiguraplanejamentosController extends AppController {
 
         if ($this->data) {
             if ($this->Configuraplanejamento->save($this->data)) {
-                $this->Session->setFlash(__('Dados inseridos'));
+                $this->Session->setFlash(__('Dados inseridos'), "flash_notification");
                 $this->redirect('/configuraplanejamentos/index');
             }
         }
@@ -77,11 +77,11 @@ class ConfiguraplanejamentosController extends AppController {
 
         $verifica = $this->Configuraplanejamento->Planejamento->find('first', array('conditions' => array('Planejamento.configuraplanejamento_id' => $id)));
         if ($verifica):
-            $this->Session->setFlash(__('Registro não pode ser excluído porque está associado a uma planilha'));
+            $this->Session->setFlash(__('Registro não pode ser excluído porque está associado a uma planilha'), "flash_notification");
             $this->redirect('/planejamentos/listar/semestre:' . $id);
         else:
             $this->Configuraplanejamento->delete($id);
-            $this->Session->setFlash(__("Registro excluído"));
+            $this->Session->setFlash(__("Registro excluído"), "flash_notification");
             $this->redirect('/configuraplanejamentos/index/');
         endif;
     }

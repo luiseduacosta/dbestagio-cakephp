@@ -17,20 +17,20 @@ class AreainstituicoesController extends AppController {
         // Admin
         if ($this->Session->read('id_categoria') === '1') {
             $this->Auth->allow();
-            // $this->Session->setFlash("Administrador");
+            // $this->Session->setFlash(__("Administrador"), "flash_notification");
             // Estudantes
         } elseif ($this->Session->read('id_categoria') === '2') {
             $this->Auth->allow('index', 'view');
-            // $this->Session->setFlash("Estudante");
+            // $this->Session->setFlash(__("Estudante"), "flash_notification");
         } elseif ($this->Session->read('id_categoria') === '3') {
             $this->Auth->allow('index', 'view');
-            // $this->Session->setFlash("Professor");
+            // $this->Session->setFlash(__("Professor"), "flash_notification");
             // Professores, Supervisores
         } elseif ($this->Session->read('id_cateogria') === '4') {
             $this->Auth->allow('index', 'view');
-            // $this->Session->setFlash("Professor/Supervisor");
+            // $this->Session->setFlash(__("Professor/Supervisor"), "flash_notification");
         } else {
-            $this->Session->setFlash("Não autorizado");
+            $this->Session->setFlash(__("Não autorizado"), "flash_notification");
             // $this->redirect('/Userestagios/login/');
         }
         // die(pr($this->Session->read('user')));
@@ -38,18 +38,18 @@ class AreainstituicoesController extends AppController {
 
     public function index() {
 
-        $this->Areainstituicao->virtualFields['quantidadearea'] = 'count(Instituicao.areainstituicoes_id)';
+        $this->Areainstituicao->virtualFields['quantidadearea'] = 'count(Instituicaoestagio.areainstituicao_id)';
 
         $areas = $this->Areainstituicao->find('all', array(
             'joins' => array(
                 array(
-                    'table' => 'estagio',
-                    'alias' => 'Instituicao',
+                    'table' => 'instituicaoestagios',
+                    'alias' => 'Instituicaoestagio',
                     'type' => 'left',
-                    'conditions' => array('Instituicao.areainstituicoes_id = Areainstituicao.id')
+                    'conditions' => array('Instituicaoestagio.areainstituicao_id = Areainstituicao.id')
                 )
             ),
-            'fields' => array('Areainstituicao.id', 'Areainstituicao.area', 'count(Instituicao.areainstituicoes_id) as Areainstituicao__quantidadearea'),
+            'fields' => array('Areainstituicao.id', 'Areainstituicao.area', 'count(Instituicaoestagio.areainstituicao_id) as Areainstituicao__quantidadearea'),
             'group' => array('Areainstituicao.id'),
             'order' => array('Areainstituicao.area')));
 
@@ -78,7 +78,7 @@ class AreainstituicoesController extends AppController {
             if ($this->Areainstituicao->save($this->data)) {
                 // print_r($this->data);
                 // die();
-                $this->Session->setFlash("Atualizado");
+                $this->Session->setFlash(__("Atualizado"), "flash_notification");
                 $this->redirect('/Areainstituicoes/view/' . $id);
             }
         }
@@ -88,7 +88,7 @@ class AreainstituicoesController extends AppController {
 
         if ($this->data) {
             if ($this->Areainstituicao->save($this->data)) {
-                $this->Session->setFlash('Dados inseridos');
+                $this->Session->setFlash(__('Dados inseridos'), "flash_notification");
                 $this->redirect('/Areainstituicoes/view/' . $this->Areainstituicao->getLastInsertId());
             }
         }
@@ -107,13 +107,13 @@ class AreainstituicoesController extends AppController {
           // pr($estagiarios);
 
           if ($estagiarios) {
-          $this->Session->setFlash("Error: Há estagiários vinculados com esta área");
+          $this->Session->setFlash(__("Error: Há estagiários vinculados com esta área", "flash_notification");
           // die("Estagiarios vinculados com essa área");
           $this->redirect('/AreaInstituicao/view/' . $id);
           } else {
          */
         $this->AreaInstituicao->delete($id);
-        $this->Session->setFlash("Área excluída");
+        $this->Session->setFlash(__("Área excluída"), "flash_notification");
         // die("Área excluída");
         $this->redirect('/Areainstituicaos/index/');
     }

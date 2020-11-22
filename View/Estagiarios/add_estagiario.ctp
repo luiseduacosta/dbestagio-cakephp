@@ -1,24 +1,9 @@
 <?php
 
-echo $this->Html->script("jquery", array('inline'=>false));
-echo $this->Html->script("jquery.maskedinput", array('inline'=>false));
-
-echo $this->Html->scriptBlock('
-
-$(document).ready(function(){
-
-    $("#EstagiarioRegistro").mask("999999999");
-
-});
-
-', array('inline'=>false));
-
 ?>
 
-<?php
-
-echo $this->Form->create('Estagiario');
-echo $this->Form->input('registro');
-echo $this->Form->end('Confirma');
-
-?>
+<?php echo $this->Form->create('Estagiario'); ?>
+<?php echo $this->Form->input('registro', ['class' => 'form-control']); ?>
+<br>
+<?php echo $this->Form->submit('Confirma', ['class' => 'btn btn-success']); ?>
+<?php echo $this->Form->end(); ?>

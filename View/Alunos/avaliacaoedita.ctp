@@ -1,68 +1,83 @@
-<?php
+<?php ?>
 
-echo $this->Html->script("jquery", array('inline'=>false));
-echo $this->Html->script("jquery.maskedinput", array('inline'=>false));
+<script>
+    $(document).ready(function () {
 
-echo $this->Html->scriptBlock('
+        $("#SupervisorCpf").mask("999999999-99");
+        $("#SupervisorTelefone").mask("9999.9999");
+        $("#SupervisorCelular").mask("9999.9999");
+        $("#SupervisorCep").mask("99999-999");
 
-$(document).ready(function(){
+    });
+</script>
+<?= $this->element('submenu_alunos'); ?>
+<br>
+<h5>Preencha todos os campos do formulário</h5>
 
-    $("#SupervisorCpf").mask("999999999-99");
-    $("#SupervisorTelefone").mask("9999.9999");
-    $("#SupervisorCelular").mask("9999.9999");
-    $("#SupervisorCep").mask("99999-999");
+<div class='card text-white bg-primary'>
+    <div class='card-header'>
+        Estudante: <?php echo $aluno; ?>        
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-3 order-lg-1 order-1">
+                Registro: <?php echo $registro; ?>
+            </div>
+            <div class="col-lg-3 order-lg-2 order-2">
 
-});
+            </div>
+            <div class="col-lg-3 order-lg-3 order-3">
+                Período: <?php echo $periodo; ?>
+            </div>
+            <div class="col-lg-3 order-lg-4 order-4">
+                Nível: <?php echo $nivel; ?>
+            </div>
+            <div class="col-lg-12 order-lg-5 order-5">
+                Professor: <?php echo $professor; ?>
+            </div>
+            <div class="col-lg-12 order-lg-6 order-6">
+                Instituição: <?php echo $instituicao; ?>
+            </div>
+            <div class="col-lg-12 order-lg-7 order-7">
+                Supervisor: <?php echo $supervisor; ?>
+            </div>
+        </div>
+    </div>
+</div>
 
-', array('inline'=>false));
-
-?>
-
-<h1>Preencha todos os campos do formulário</h1>
-
-<p>
-<table>
-    <tr>
-        <td>Estudante:</td><td><?php echo $aluno; ?></td>
-    </tr>
-        <tr>
-        <td>Registro:</td><td><?php echo $registro; ?></td>
-    </tr>
-        <tr>
-        <td>Período:</td><td><?php echo $periodo; ?></td>
-    </tr>
-        <tr>
-        <td>Nível:</td><td><?php echo $nivel; ?></td>
-    </tr>
-        <tr>
-        <td>Professor:</td><td><?php echo $professor; ?></td>
-    </tr>
-        <tr>
-        <td>Instituição:</td><td><?php echo $instituicao; ?></td>
-    </tr>
-        <tr>
-        <td>Supervisor:</td><td><?php echo $supervisor; ?></td>
-    </tr>
-</table>
-</p>
-
-<?php
-echo $this->Form->create('Supervisor');
-echo $this->Form->input('regiao', array('default'=>7));
-echo $this->Form->input('cress');
-echo $this->Form->input('nome');
-?>
-
-<?php
-echo $this->Form->input('codigo_tel', array('default'=>21));
-echo $this->Form->input('telefone');
-echo $this->Form->input('codigo_cel', array('default'=>21));
-echo $this->Form->input('celular');
-echo $this->Form->input('email');
-?>
-
-<?php
-echo $this->Form->input('registro', array('type' => 'hidden', 'value' => $registro));
-echo $this->Form->input('supervisor_id', array('type' => 'hidden', 'value' => $supervisor_id));
-echo $this->Form->end('Confirma');
-?>
+<?= $this->Form->create('Supervisor'); ?>
+<div class="form-row">
+    <div class="col-1">
+        <?= $this->Form->input('regiao', ['default' => 7, 'class' => 'form-control']); ?>
+    </div>
+    <div class="col-2">    
+        <?= $this->Form->input('cress', ['class' => 'form-control']); ?>
+    </div>
+    <div class="col">    
+        <?= $this->Form->input('nome', ['class' => 'form-control']); ?>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col">
+        <?= $this->Form->input('codigo_tel', ['default' => 21, 'class' => 'form-control']); ?>
+    </div>
+    <div class="col">    
+        <?= $this->Form->input('telefone', ['class' => 'form-control']); ?>
+    </div>
+    <div class="col">    
+        <?= $this->Form->input('codigo_cel', ['default' => 21, 'class' => 'form-control']); ?>
+    </div>
+    <div class="col">    
+        <?= $this->Form->input('celular', ['class' => 'form-control']); ?>
+    </div>
+</div>
+<div class='form-row'>
+    <div class="col">    
+        <?= $this->Form->input('email', ['class' => 'form-control']); ?>
+    </div>
+</div>
+<br>
+<?= $this->Form->input('registro', ['type' => 'hidden', 'value' => $registro, 'class' => 'form-control']); ?>
+<?= $this->Form->input('supervisor_id', ['type' => 'hidden', 'value' => $supervisor_id, 'class' => 'form-control']); ?>
+<?= $this->Form->input('Confirma', ['type' => 'submit', 'label' => false, 'class' => 'btn btn-success position-static']); ?>
+<?= $this->Form->end(); ?>
