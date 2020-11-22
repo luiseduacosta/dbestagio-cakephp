@@ -4,96 +4,92 @@
 // die();
 ?>
 
-<?php
-?>
+<script>
 
-<?php
-echo $this->Html->script("jquery", array('inline' => false));
-echo $this->Html->scriptBlock('
+    $(document).ready(function () {
 
-$(document).ready(function() {
-
-$("#SupervisorPeriodo").change(function() {
-	var periodo = $(this).val();
-        var url = window.location.pathname.split("/").slice(0,-1).join("/")+"/periodo:"+periodo;
-        /* alert(url); */
-        window.location=url;
+        $("#SupervisorPeriodo").change(function () {
+            var periodo = $(this).val();
+            var link = "<?= $this->Html->url(["controller" => "Supervisores", "action" => "index1/periodo:"]); ?>";
+            var link = link + periodo;
+            /* alert(link); */
+            $(location).attr('href', link);
+            /* window.location=url; */
+        })
     })
-})
 
-', array("inline" => false)
-);
+</script>
+
+<?php
+echo $this->element('submenu_supervisores');
 ?>
-
-<?php if ($this->Session->read('categoria') === 'administrador'): ?>
-    <?php
-    echo $this->Html->link('Inserir', '/Supervisores/add/');
-    echo " | ";
-    echo $this->Html->link('Buscar', '/Supervisores/busca/');
-    echo " || ";
-    echo $this->Html->link('Repetidos', '/Supervisores/repetidos/');
-    echo " | ";
-    echo $this->Html->link('Sem alunos', '/Supervisores/semalunos/');
-    ?>
-    <br />
-<?php else: ?>
-    <?php
-    echo $this->Html->link('Buscar', '/Supervisores/busca/');
-    ?>
-    <br />
-<?php endif; ?>
 
 <?php if ($this->Session->read('categoria') === 'administrador'): ?>
     <?php echo $this->Form->create('Supervisor'); ?>
-    <?php echo $this->Form->input('periodo', array('type' => 'select', 'label' => array('text' => 'Período ', 'style' => 'display: inline'), 'options' => $todosPeriodos, 'default' => $periodo, 'empty' => 'Selecione período')); ?>
-    <?php echo $this->Form->end(); ?>
+    <div class='form-group row'>
+        <div class='col-sm-2'>
+            <?php echo $this->Form->input('periodo', array('label' => false, 'type' => 'select', 'label' => false, 'options' => $todosPeriodos, 'default' => $periodo, 'empty' => 'Selecione período', 'class' => 'form-control')); ?>
+        </div>
+        <?php echo $this->Form->end(); ?>
+    </div>
 <?php endif; ?>
 
-<table>
+<div class='row justify-content-center'>
+    <div class="col-auto">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-responsive">
 
-    <thead>
-        <tr>
-            <?php if ($this->Session->read('categoria') === 'administrador'): ?>
-                <th width='10%'><?= $this->Html->link('CRESS', '/Supervisores/index/ordem:cress/periodo:' . $periodo) ?></th>
-            <?php endif; ?>
-            <th width='50%'><?= $this->Html->link('Nome', '/Supervisores/index/ordem:nome/periodo:' . $periodo) ?></th>
-            <th><?= $this->Html->link('Estagiários', '/Supervisores/index/ordem:q_estagiarios/periodo:' . $periodo) ?></th>
-            <th><?= $this->Html->link('Período', '/Supervisores/index/ordem:periodo/periodo:' . $periodo) ?></th>
-        </tr>
-    </thead>
+                <thead class="thead-light">
+                    <tr>
+                        <?php if ($this->Session->read('categoria') === 'administrador'): ?>
+                            <th width='10%'><?= $this->Html->link('CRESS', '/Supervisores/index1/ordem:cress/periodo:' . $periodo) ?></th>
+                        <?php endif; ?>
+                        <th width='50%'><?= $this->Html->link('Nome', '/Supervisores/index1/ordem:nome/periodo:' . $periodo) ?></th>
+                        <th><?= $this->Html->link('Estagiários no período', '/Supervisores/index1/ordem:q_estagiarios/periodo:' . $periodo) ?></th>
+                        <th><?= $this->Html->link('Total de Estagiários', '/Supervisores/index1/ordem:q_totaldeestagiarios/periodo:' . $periodo) ?></th>
+                        <th><?= $this->Html->link('Total de períodos ', '/Supervisores/index1/ordem:q_periodos/periodo:' . $periodo) ?></th>
+                    </tr>
+                </thead>
 
-    <tbody>
-        <?php foreach ($supervisores as $c_supervisor): ?>
-            <?php // pr($c_supervisor['Estagiario'][0]['periodo']); ?>
-            <?php if ($c_supervisor['Estagiario']): ?>
+                <tbody>
+                    <?php foreach ($supervisores as $c_supervisor): ?>
+                        <?php // pr($c_supervisor['Estagiario'][0]['periodo']); ?>
 
-                <?php // echo $c_supervisor['Estagiario'][count($c_supervisor['Estagiario'])-1]['periodo'] ?>
-                <tr>
+                        <tr>
 
-                    <?php if ($this->Session->read('categoria') === 'administrador'): ?>
-                        <td>
-                            <?php echo $c_supervisor['Supervisor']['cress']; ?>
-                        </td>
-                    <?php endif; ?>
-
-                    <td>
-                        <?php
-                        if ($c_supervisor['Supervisor']['nome']):
-                            echo $this->Html->link($c_supervisor['Supervisor']['nome'], '/Supervisores/view/' . $c_supervisor['Supervisor']['id']);
-                        else:
-                            echo "Sem dados";
-                        endif;
-                        ?>
-                    </td>
-                </tr>
-                <?php // pr($c_supervisor) ?>
-                <?php // die('c_supervisor') ?>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    </tbody>
-
-</table>
-
+                            <?php if ($this->Session->read('categoria') === 'administrador'): ?>
+                                <td>
+                                    <?php echo $c_supervisor['cress']; ?>
+                                </td>
+                                <td>
+                                    <?php
+                                    if ($c_supervisor['nome']):
+                                        echo $this->Html->link($c_supervisor['nome'], '/Supervisores/view/' . $c_supervisor['id']);
+                                    else:
+                                        echo "Sem dados";
+                                    endif;
+                                    ?>
+                                </td>
+                            <?php endif; ?>
+                            <td><?php echo $c_supervisor['cress']; ?></td>
+                            <td><?php echo $c_supervisor['nome']; ?></td>
+                            <td><?= $this->Html->link($c_supervisor['q_estagiarios'], '/Estagiarios/index/supervisor_id:' . $c_supervisor['id'] . '/periodo:' . $periodo) ?></td>
+                            <td>
+                                <?php echo $c_supervisor['q_totaldeestagiarios']; ?>
+                            </td>
+                            <td>
+                                <?php echo $c_supervisor['q_periodos']; ?>
+                            </td>
+                        </tr>
+                        <?php // pr($c_supervisor) ?>
+                        <?php // die('c_supervisor') ?>
+                    <?php endforeach; ?>
+                </tbody>
+                <tfoot></tfoot>
+            </table>
+        </div>
+    </div>
+</div>
 <?php
 /*
   echo $this->Paginator->counter(array(
@@ -101,6 +97,6 @@ $("#SupervisorPeriodo").change(function() {
   exibindo %current% registros do %count% total,
   começando no registro %start%, finalizando no %end%'
   ));
- * 
+ *
  */
 ?>

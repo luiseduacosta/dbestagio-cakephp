@@ -2,7 +2,7 @@
 //============================================================+
 // File name   : example_046.php
 // Begin       : 2009-02-28
-// Last Update : 2010-08-08
+// Last Update : 2013-05-14
 //
 // Description : Example 046 for TCPDF class
 //               Text Hyphenation
@@ -11,10 +11,7 @@
 //
 // (c) Copyright:
 //               Nicola Asuni
-//               Tecnick.com s.r.l.
-//               Via Della Pace, 11
-//               09044 Quartucciu (CA)
-//               ITALY
+//               Tecnick.com LTD
 //               www.tecnick.com
 //               info@tecnick.com
 //============================================================+
@@ -24,14 +21,11 @@
  * @package com.tecnick.tcpdf
  * @abstract TCPDF - Example: text Hyphenation
  * @author Nicola Asuni
- * @copyright 2004-2009 Nicola Asuni - Tecnick.com S.r.l (www.tecnick.com) Via Della Pace, 11 - 09044 - Quartucciu (CA) - ITALY - www.tecnick.com - info@tecnick.com
- * @link http://tcpdf.org
- * @license http://www.gnu.org/copyleft/lesser.html LGPL
  * @since 2009-02-28
  */
 
-require_once('../config/lang/eng.php');
-require_once('../tcpdf.php');
+// Include the main TCPDF library (search for installation path).
+require_once('tcpdf_include.php');
 
 // create new PDF document
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -53,19 +47,22 @@ $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 // set default monospaced font
 $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
-//set margins
+// set margins
 $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
 $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
-//set auto page breaks
+// set auto page breaks
 $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
-//set image scale factor
+// set image scale factor
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
-//set some language-dependent strings
-$pdf->setLanguageArray($l);
+// set some language-dependent strings (optional)
+if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+	require_once(dirname(__FILE__).'/lang/eng.php');
+	$pdf->setLanguageArray($l);
+}
 
 // ---------------------------------------------------------
 
@@ -80,17 +77,17 @@ $pdf->Write(0, 'Example of Text Hyphenation', '', 0, 'L', true, 0, false, false,
 $pdf->Ln(10);
 
 /*
- Unicode Data for SHY:
-Name : SOFT HYPHEN, commonly abbreviated as SHY
-HTML Entity (decimal): &#173;
-HTML Entity (hex): &#xad;
-HTML Entity (named): &shy;
-How to type in Microsoft Windows: [Alt +00AD] or [Alt 0173]
-UTF-8 (hex): 0xC2 0xAD (c2ad)
+Unicode Data for SHY:
+	Name : SOFT HYPHEN, commonly abbreviated as SHY
+	HTML Entity (decimal): &#173;
+	HTML Entity (hex): &#xad;
+	HTML Entity (named): &shy;
+	How to type in Microsoft Windows: [Alt +00AD] or [Alt 0173]
+	UTF-8 (hex): 0xC2 0xAD (c2ad)
 */
 
 /*
- // You can autmatically add SOFT HYPHENS to your text using
+// You can automatically add SOFT HYPHENS to your text using
 // the hyphenateText() method, but this requires either an
 // hyphenation pattern array of a hyphenation pattern TEX file.
 // You can download hyphenation TEX patterns from:
@@ -100,9 +97,9 @@ UTF-8 (hex): 0xC2 0xAD (c2ad)
 
 $html = 'On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains.';
 
-$hyphen_patterns = $pdf->getHyphenPatternsFromTEX('../hyphens/hyph-en-gb.tex');
+$hyphen_patterns = $pdf->getHyphenPatternsFromTEX('hyphens/hyph-en-gb.tex');
 
-$html = $pdf->hyphenateText($html, $hyphen_patterns, $dictionary=array(), $leftmin=1, $rightmin=2, $charmin=1, $charmax=8);
+$html = $pdf->hyphenateText($html, $hyphen_patterns, array(), 1, 2, 1, 8);
 */
 
 

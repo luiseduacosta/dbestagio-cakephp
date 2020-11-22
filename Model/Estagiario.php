@@ -10,22 +10,21 @@ class Estagiario extends AppModel {
     public $name = "Estagiario";
     public $useTable = "estagiarios";
     public $order = array("Estagiario.periodo" => "ASC");
+    public $actsAs = array('Containable');    
     public $belongsTo = array(
         'Estudante' => array(
             'className' => 'Estudante',
-            'foreignKey' => false,
-            'conditions' => 'Estagiario.registro = Estudante.registro',
-            'joinTable' => 'estudantes'
+            'foreignKey' => 'estudante_id'
         ),
         'Aluno' => array(
             'className' => 'Aluno',
             'foreignKey' => 'aluno_id',
             'joinTable' => 'alunos'
         ),
-        'Instituicao' => array(
-            'className' => 'Instituicao',
-            'foreignKey' => 'instituicao_id',
-            'joinTable' => 'estagio'
+        'Instituicaoestagio' => array(
+            'className' => 'Instituicaoestagio',
+            'foreignKey' => 'instituicaoestagio_id',
+            'joinTable' => 'instituicaoestagios'
         ),
         'Professor' => array(
             'className' => 'Professor',
@@ -45,7 +44,7 @@ class Estagiario extends AppModel {
         )
     );
     public $validate = array(
-        'instituicao_id' => array(
+        'instituicaoestagio_id' => array(
             'rule' => array('comparison', 'not equal', 0),
             'required' => true,
             'allowEmpty' => false,
@@ -98,11 +97,11 @@ class Estagiario extends AppModel {
     public function alunorfao() {
 
         // return($this->query('select Aluno.id, Aluno.registro, Aluno.nome, Aluno.celular, Aluno.email, Estagiario.id, Estagiario.registro, Estagiario.nivel, Estagiario.periodo from alunos AS Aluno left join estagiarios AS Estagiario on Aluno.id = Estagiario.aluno_id where Estagiario.id IS NULL group by Aluno.nome order by Estagiario.registro + Estagiario.nivel'));
-        return($this->query('select Aluno.id, Aluno.registro, Aluno.nome, Aluno.celular, Aluno.email, Estagiario.id, Estagiario.registro, Estagiario.nivel, Estagiario.periodo from alunos AS Aluno left join estagiarios AS Estagiario on Aluno.id = Estagiario.aluno_id where Estagiario.id IS NULL order by Estagiario.registro + Estagiario.nivel'));
+        return($this->query('select Aluno.id, Aluno.registro, Aluno.nome, Aluno.celular, Aluno.email, Estagiario.id, Estagiario.registro, Estagiario.nivel, Estagiario.periodo from alunos AS Aluno left join estagiarios AS Estagiario on Aluno.id = Estagiario.aluno_id where Estagiario.id IS NULL order by Aluno.nome'));
     }
 
     public function supervisor_aluno() {
-        return ($this->query('select Aluno.id, Aluno.nome, Estagiario.registro, Aluno.celular, Aluno.email, Estagiario.id, Estagiario.periodo, Supervisor.id, Supervisor.nome, Supervisor.cress, Supervisor.telefone, Supervisor.celular, Supervisor.email, Instituicao.id, Instituicao.instituicao from estagiarios AS Estagiario left join alunos AS Aluno on Estagiario.aluno_id = Aluno.id left join supervisores AS Supervisor on Estagiario.supervisor_id = Supervisor.id left join estagio as Instituicao on Estagiario.instituicao_id = Instituicao.id'));
+        return ($this->query('select Aluno.id, Aluno.nome, Estagiario.registro, Aluno.celular, Aluno.email, Estagiario.id, Estagiario.periodo, Supervisor.id, Supervisor.nome, Supervisor.cress, Supervisor.telefone, Supervisor.celular, Supervisor.email, Instituicaoestagio.id, Instituicaoestagio.instituicao from estagiarios AS Estagiario left join alunos AS Aluno on Estagiario.aluno_id = Aluno.id left join supervisores AS Supervisor on Estagiario.supervisor_id = Supervisor.id left join estagio as Instituicaoestagio on Estagiario.instituicaoestagio_id = Instituicaoestagio.id'));
     }
 
 }

@@ -22,10 +22,11 @@
  * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html lang="pt-br">
     <head>
         <?php echo $this->Html->charset(); ?>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>
             <?php __('ESS/UFRJ'); ?>
             <?php echo $title_for_layout; ?>
@@ -33,84 +34,40 @@
         <?php
         echo $this->Html->meta('icon');
 
-        echo $this->Html->css('cake.generic');
-        echo $this->Html->css('abas');
-        echo $this->Html->script('jquery'); // Include jQuery library
+        // echo $this->Html->css('cake.generic');
+        echo $this->Html->css('bootstrap.min');
+        echo $this->Html->script(['jquery-3.5.1.min', 'popper.min', 'bootstrap.min', 'bootstrap.bundle.min']);
+        // echo $this->Html->css('meus_estilos');
+
         echo $this->Js->writeBuffer();
-        echo $scripts_for_layout;
+        // echo $scripts_for_layout;
         ?>
+<!--        
+/*        
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+*/
+//-->
+        <style>
+            a {color: #000; font-weight: 600;}
+            a:hover {color: #000;font-weight: 500;}
+        </style>
     </head>
-    <body>
+    <body style="min-height: 75rem; padding-top: 4.5rem;">
+
         <div id="container">
+
             <div id="header">
-                <h1><?php echo $this->Html->link(__('Coordenação de Estágio & Extensão - ESS - UFRJ', true), 'http://mural.ess.ufrj.br') ;?>
-                </h1>
+                <div align="center">
+                    <?= $this->Html->link('Coordenação de Estágio & Extensão - ESS - UFRJ', '/http://mural.ess.ufrj.br'); ?>
+                </div>
+                <?= $this->element('submenu_navegacao'); ?>
             </div>
+        </div>
 
-            <div id='menu'>
-                <?php echo $this->Html->link("ESS", "http://www.ess.ufrj.br"); ?>
-                <?php echo " | "; ?>
-                <?php echo $this->Html->link("Login", array('controller' => 'Userestagios', 'action'=> 'login', 'full_base'=>true)); ?>
-                <?php echo " | "; ?>
-                <?php echo $this->Html->link("Mural", array('controller' => 'Muralestagios', 'action' => 'index')); ?>
-                <?php echo " | "; ?>
-
-                <?php if ($this->Session->read('categoria')): ?>
-                    <?php echo $this->Html->link("Estagiários", "/Estagiarios/index"); ?>
-                    <?php echo " | "; ?>
-                    <?php echo $this->Html->link("Termo de compromisso", "/Inscricoes/termosolicita"); ?>
-                    <?php echo " | "; ?>
-                    <?php echo $this->Html->link("Avaliação discente", "/Alunos/avaliacaosolicita"); ?>
-                    <?php echo " | "; ?>
-                    <?php echo $this->Html->link("Folha de atividades", "/Alunos/folhadeatividades"); ?>
-                    <?php echo " | "; ?>
-
-                    <?php echo $this->Html->link("Instituições", "/Instituicoes/lista", array('escape' => FALSE)); ?>
-                    <?php echo " | "; ?>
-                    <?php echo $this->Html->link("Supervisores", "/Supervisores/index/ordem:nome/periodo:"); ?>
-                    <?php echo " | "; ?>
-                    <?php echo $this->Html->link("Professores", "/Professores/index"); ?>
-                    <?php echo " | "; ?>
-
-                <?php endif; ?>
-
-                <?php // echo $this->Html->link('Manual', 'http://www.ess.ufrj.br'); ?>
-                <?php // echo " | "; ?>
-		<?php echo $this->Html->link('Grupo Google', 'https://groups.google.com/forum/#!forum/estagio_ess'); ?>
-		<?php echo " | "; ?>
-                <?php echo $this->Html->link('Fale conosco', 'mailto: estagio@ess.ufrj.br'); ?>
-
-                <?php if ($this->Session->read('categoria') === 'administrador'): ?>
-                    <?php echo " | "; ?>
-                    <?php echo $this->Html->link("Administração", "/configuracaos/view/1"); ?>
-                <?php endif; ?>
-
-                <br/>
-
-                <?php if ($this->Session->read('user')): ?>
-                    <?php echo "<span style='color: white; font-weight: bold; text-transform: capitalize'>" . $this->Session->read('categoria') . "</span>" . ": "; ?>
-
-                    <?php
-                    switch ($this->Session->read('menu_aluno')) {
-                        case 'estagiario':
-                            echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Estudantes/view/" . $this->Session->read('numero')) . "</span>" . " ";
-                            break;
-                        case 'alunonovo':
-                            echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Estudantes/view/" . $this->Session->read('numero')) . "</span>" . " ";
-                            break;
-                        case 'semcadastro':
-                            echo "<span style='color: white; font-weight: bold'>" . $this->Session->read('user') . "</span>" . " ";
-                            break;
-                    }
-                    if ($this->Session->read('menu_supervisor_id'))
-                        echo "<span style='color: white; font-weight: bold'>" . $this->Html->link($this->Session->read('user'), "/Supervisores/view/" . $this->Session->read('menu_supervisor_id')) . "</span>" . " ";
-                    ?>
-
-                    <?php echo $this->Html->link('Sair', '/Userestagios/logout/'); ?>
-                <?php endif; ?>
-
-            </div>
-
+        <div class="container">
             <div id="content">
 
                 <?php echo $this->Session->flash(); ?>
@@ -118,16 +75,17 @@
                 <?php echo $content_for_layout; ?>
 
             </div>
-
-            <div id="footer">
-                <?php
-                echo $this->Html->link(
-                        $this->Html->image('cake.power.gif', array('alt' => __("CakePHP: the rapid development php framework", true), 'border' => "0")), 'http://www.cakephp.org/', array('target' => '_blank', 'escape' => false)
-                );
-                ?>
-            </div>
-
         </div>
-<?php echo $this->element('sql_dump'); ?>
-    </body>
+        <div id="footer">
+            <?php
+            echo $this->Html->link(
+                    $this->Html->image('cake.power.gif', array('alt' => __("CakePHP: the rapid development php framework", true), 'border' => "0")), 'http://www.cakephp.org/', array('target' => '_blank', 'escape' => false)
+            );
+            ?>
+        </div>
+
+    </div>
+    <?php echo $this->element('sql_dump'); ?>
+
+</body>
 </html>

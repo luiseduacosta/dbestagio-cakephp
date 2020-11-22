@@ -99,7 +99,7 @@ $("#EstagiarioIdSupervisor").change(function() {
 <tr>
 	<td colspan = '3'>
 	<?php echo $this->Form->create('Estagiario', array('action'=>'index')); ?>
-	<?php echo $this->Form->input('instituicao_id', array('label'=>'Instituições', 'type'=>'select', 'options'=> $instituicoes, 'selected'=>$instituicao_id, 'default'=>0)); ?>
+	<?php echo $this->Form->input('instituicaoestagio_id', array('label'=>'Instituições', 'type'=>'select', 'options'=> $instituicoes, 'selected'=>$instituicao_id, 'default'=>0)); ?>
 	<?php echo $this->Form->end(); ?>
 	</td>
 </tr>
@@ -152,7 +152,7 @@ $("#EstagiarioIdSupervisor").change(function() {
 <td style='text-align:center'><?php echo $aluno['Estagiario']['turno']; ?></td>
 <td style='text-align:center'><?php echo $aluno['Estagiario']['tc']; ?></td>
 <?php if ($this->Session->read('categoria') != 'estudante'): ?>
-    <td style='text-align:left'><?php echo $this->Html->link($aluno['Instituicao']['instituicao'],"/Instituicoes/view/". $aluno['Estagiario']['instituicao_id']); ?></td>
+    <td style='text-align:left'><?php echo $this->Html->link($aluno['Instituicao']['instituicao'],"/Instituicoes/view/". $aluno['Estagiario']['instituicaoestagio_id']); ?></td>
     <td style='text-align:left'><?php echo $this->Html->link($aluno['Supervisor']['nome'],"/Supervisors/view/". $aluno['Estagiario']['supervisor_id']); ?></td>
     <td style='text-align:left'><?php echo $this->Html->link($aluno['Professor']['nome'],"/Professors/view/". $aluno['Estagiario']['docente_id']); ?></td>
     <td style='text-align:left'><?php echo $this->Html->link($aluno['Area']['area'], "/Areas/view/" . $aluno['Area']['id']); ?></td>

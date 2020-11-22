@@ -1,8 +1,9 @@
-<?php
+<?= $this->element('submenu_areainstituicoes'); ?>
 
-echo $this->Form->Create('Areainstituicao');
-echo $this->Form->Input('id');
-echo $this->Form->Input('area');
-echo $this->Form->End('Confirma');
+<?= $this->Form->Create('Areainstituicao'); ?>
+<div class="form-group">
+    <?= $this->Form->Input('area', ['label' => 'Área da instituição', 'class' => 'form-control']); ?>
+</div>
+<?= $this->Form->Input('Confirma', ['type' => 'submit', 'label' => false, 'class' => 'btn  btn-success position-static']); ?>
+<?= $this->Form->End(); ?>
 
-?>

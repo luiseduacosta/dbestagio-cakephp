@@ -17,20 +17,20 @@ class AreaestagiosController extends AppController {
         // Admin
         if ($this->Session->read('id_categoria') === '1') {
             $this->Auth->allow();
-            // $this->Session->setFlash("Administrador");
+            // $this->Session->setFlash(__("Administrador"), "flash_notification");
             // Estudantes
         } elseif ($this->Session->read('id_categoria') === '2') {
             $this->Auth->allow('index', 'view');
-            // $this->Session->setFlash("Estudante");
+            // $this->Session->setFlash(__("Estudante"), "flash_notification");
         } elseif ($this->Session->read('id_categoria') === '3') {
             $this->Auth->allow('index', 'view');
-            // $this->Session->setFlash("Professor");
+            // $this->Session->setFlash(__("Professor"), "flash_notification");
             // Professores, Supervisores
         } elseif ($this->Session->read('id_cateogria') === '4') {
             $this->Auth->allow('index', 'view');
-            // $this->Session->setFlash("Professor/Supervisor");
+            // $this->Session->setFlash(__("Professor/Supervisor"), "flash_notification");
         } else {
-            $this->Session->setFlash("Não autorizado");
+            $this->Session->setFlash(__("Não autorizado"), "flash_notification");
             // $this->redirect('/Userestagios/login/');
         }
         // die(pr($this->Session->read('user')));
@@ -38,17 +38,54 @@ class AreaestagiosController extends AppController {
 
     public function index() {
 
-        $this->Areaestagio->virtualFields['virtualMinPeriodo'] = 'min(Estagiario.periodo)';
-        $this->Areaestagio->virtualFields['virtualMaxPeriodo'] = 'max(Estagiario.periodo)';
+        $areas = $this->Areaestagio->find('all');
+        // pr($areas);
+        // die('areas');
 
-        $this->paginate = array(
-            'fields' => array('Areaestagio.id', 'Areaestagio.area', 'Professor.id', 'Professor.nome', 'Professor.departamento', 'min(Estagiario.periodo) as Areaestagio__virtualMinPeriodo', 'max(Estagiario.periodo) as Areaestagio__virtualMaxPeriodo'),
-            'limit' => 70,
-            'order' => 'Areaestagio.area',
-            'group' => array('Estagiario.docente_id', 'Estagiario.areaestagio_id'));
+        $this->loadModel('Professor');
+        $i = 0;
+        foreach ($areas as $c_area):
+            // pr($c_area['Areaestagio']);
+            $areaestagios[$i]['areaestagio_id'] = $c_area['Areaestagio']['id'];
+            $areaestagios[$i]['areaestagio'] = $c_area['Areaestagio']['area'];
+            $areaestagios[$i]['q_estagiarios'] = count($c_area['Estagiario']);
+            // pr(count($c_area['Estagiario']));
+            // pr($areaestagios);
+            // die();
+            $j = 0;
+            $professor_id = null;
+            array_multisort(array_column($c_area['Estagiario'], 'docente_id'), $c_area['Estagiario']);
+            // pr($c_area['Estagiario']);
+            // die();
+            foreach ($c_area['Estagiario'] as $estagiario):
+                // pr($c_area['Estagiario']);
+                $this->Professor->recursive = -1;
+                $professor = $this->Professor->find('first', [
+                    'fields' => ['Professor.id', 'Professor.nome'],
+                    'conditions' => ['Professor.id' => [$estagiario['docente_id']]
+                    ]
+                ]);
+                // pr($professor);
+                // die('professor');
+                // echo $professor_id . " -> " . $professor['Professor']['nome'] . "<br />";
+                if (isset($professor['Professor']['id']) && $professor_id === $professor['Professor']['id']) {
+                    // echo "Repetido " . "<br>";
+                } elseif (isset($professor['Professor']['id'])) {
+                    $professor_id = $professor['Professor']['id'];
+                    // echo $professor_id . " " . $professor['Professor']['id'] . "<br />";
+                    $areaestagios[$i]['docente'][$j]['professor_id'] = $professor['Professor']['id'];
+                    $areaestagios[$i]['docente'][$j]['professor'] = $professor['Professor']['nome'];
+                    // die();
+                    $j++;
+                }
+            endforeach;
+            $i++;
+        endforeach;
+        // pr($estagiarios);
+        // pr($areaestagios);
+        // die('areas');
 
-        $this->set('areas', $this->Paginate($this->Areaestagio->Estagiario));
-        // $this->set('areas', $areas);
+        $this->set('areas', $areaestagios);
     }
 
     public function lista() {
@@ -79,7 +116,7 @@ class AreaestagiosController extends AppController {
         } else {
             if ($this->Areaestagio->save($this->data)) {
                 // print_r($this->data);
-                $this->Session->setFlash("Atualizado");
+                $this->Session->setFlash(__("Atualizado"), "flash_notification");
                 $this->redirect('/Areaestagios/view/' . $id);
             }
         }
@@ -89,7 +126,7 @@ class AreaestagiosController extends AppController {
 
         if ($this->data) {
             if ($this->Areaestagio->save($this->data)) {
-                $this->Session->setFlash('Dados inseridos');
+                $this->Session->setFlash(__("Dados inseridos"), "flash_notification");
                 $this->redirect('/Areaestagios/view/' . $this->Areaestagio->getLastInsertId());
             }
         }
@@ -107,17 +144,16 @@ class AreaestagiosController extends AppController {
         // pr($estagiarios);
 
         if ($estagiarios) {
-            $this->Session->setFlash("Error: Há estagiários vinculados com esta área");
+            $this->Session->setFlash(__("Error: Há estagiários vinculados com esta área"), "flash_notification");
             // die("Estagiarios vinculados com essa área");
             $this->redirect('/Areaestagios/view/' . $id);
         } else {
             $this->Areaestagio->delete($id);
-            $this->Session->setFlash("Área excluída");
+            $this->Session->setFlash(__("Área excluída"), "flash_notification");
             // die("Área excluída");
             $this->redirect('/Areaestagios/index/');
         }
     }
-
 }
 
 ?>

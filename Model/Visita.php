@@ -10,9 +10,9 @@ class Visita extends AppModel {
     public $primaryKey = 'id';
     public $displayField = 'data';
     public $belongsTo = array(
-        'Instituicao' => array(
-            'className' => 'Instituicao',
-            'foreignKey' => 'estagio_id'
+        'Instituicaoestagio' => array(
+            'className' => 'Instituicaoestagio',
+            'foreignKey' => 'instituicaoestagio_id'
         )
     );
     public $validate = array(

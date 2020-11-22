@@ -29,13 +29,12 @@ header('location: mural/');
 
 <div align="center">
 
-    <h1>Bem-vindos à nova página da Coordenação de Estágio & Extensão</h1>
+    <h1>Bem-vindos à página da Coordenação de Estágio & Extensão</h1>
     <h2></h2>
 
 </div>
 
 <?php
-
 
 if (Configure::read() == 0):
 	$this->cakeError('error404');
