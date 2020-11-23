@@ -106,7 +106,7 @@
                                     echo "Sem data";
                                 } else {
                                     echo date('d-m-Y', strtotime($data['dataselecao']));
-                                    echo $data['horarioselecao'] ? " Horário: " . $data['horarioselecao'] : NULL;
+                                    echo $data['horarioselecao'] ? " " . $data['horarioselecao'] . " hs."  : NULL;
                                 }
                                 ?>
                             </td>
