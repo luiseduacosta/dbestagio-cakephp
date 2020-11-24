@@ -60,8 +60,8 @@ class Supervisor extends AppModel {
         'cpf' => array(
             'cpf1' => array(
                 'rule' => '/^\d{9}-\d{2}$/i',
-                'required' => TRUE,
-                'allowEmpty' => TRUE,
+                'required' => FALSE,
+                'allowEmpty' => FALSE,
                 'on' => 'create',
                 'message' => 'Digite o número de CPF no formato 999999999-99'
             ),

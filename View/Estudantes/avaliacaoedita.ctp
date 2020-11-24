@@ -52,10 +52,10 @@
         <?= $this->Form->input('regiao', ['default' => 7, 'class' => 'form-control']); ?>
     </div>
     <div class="col-2">    
-        <?= $this->Form->input('cress', ['class' => 'form-control']); ?>
+        <?= $this->Form->input('cress', ['required', 'class' => 'form-control']); ?>
     </div>
     <div class="col">    
-        <?= $this->Form->input('nome', ['class' => 'form-control']); ?>
+        <?= $this->Form->input('nome', ['required', 'class' => 'form-control']); ?>
     </div>
 </div>
 <div class="form-row">
@@ -80,5 +80,6 @@
 <br>
 <?= $this->Form->input('registro', ['type' => 'hidden', 'value' => $registro, 'class' => 'form-control']); ?>
 <?= $this->Form->input('supervisor_id', ['type' => 'hidden', 'value' => $supervisor_id, 'class' => 'form-control']); ?>
+<?= $this->Form->input('instituicao_id', ['type' => 'hidden', 'value' => $instituicao_id, 'class' => 'form-control']); ?>
 <?= $this->Form->input('Confirma', ['type' => 'submit', 'label' => false, 'class' => 'btn btn-success position-static']); ?>
 <?= $this->Form->end(); ?>

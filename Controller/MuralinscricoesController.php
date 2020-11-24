@@ -543,7 +543,8 @@ class MuralinscricoesController extends AppController {
 
         $parametros = $this->params['named'];
         $registro = isset($parametros['registro']) ? $parametros['registro'] : NULL;
-
+        // echo $registro;
+        // die('registro');
         // Captura o periodo de estagio para o termo de compromisso
         // pr($id);
         // die("termocompromisso ");
@@ -612,7 +613,6 @@ class MuralinscricoesController extends AppController {
         $this->set('supervisor_atual', $supervisor_atual);
         $this->set('professor_atual', $professor_atual);
 
-
         // Pego as instituicoes
         $this->loadModel('Instituicaoestagio');
         $instituicoes = $this->Instituicaoestagio->find('list', [
@@ -621,6 +621,7 @@ class MuralinscricoesController extends AppController {
                 ]
         );
         // pr($instituicoes);
+        // die('instituições');
         // Pego os supervisores da instituicao atual
         // echo $instituicao_atual;
         // die('instituicao_atual');
@@ -678,7 +679,7 @@ class MuralinscricoesController extends AppController {
             $this->request->data['Muralinscricao']['supervisor_id'] = null;
         }
 
-        /* 1o. inserir dados na tabela Aluno. É uma tabela antiga que vai ser eliminada */
+        /* 1o. inserir dados na tabela Alunonovo. É uma tabela antiga que vai ser eliminada */
         $this->loadModel('Estudante');
         $alunonovo = $this->Estudante->find('first', [
             'conditions' => ['Estudante.registro' => $registro]
@@ -695,11 +696,15 @@ class MuralinscricoesController extends AppController {
         $verifica = $this->Aluno->find('first', [
             'conditions' => ['Aluno.registro' => $registro]
         ]);
+        // pr($verifica);
+        // die('verifica');
+
         /* Carrego aqui a varíavel $aluno_id. Se um aluno foi inserido a varíavel vai ter outro valor */
         // pr(!empty($verifica));
         $aluno_id = !empty($verifica) ? $verifica['Aluno']['id'] : null;
-        // pr($verifica);
-        // die('verifica');
+        // pr($aluno_id);
+        // die('aluno_id');
+
         if (empty($verifica)) {
             $cadastroaluno = ['Aluno' => [
                     'nome' => $alunonovo['Estudante']['nome'],
@@ -735,7 +740,7 @@ class MuralinscricoesController extends AppController {
                 'nivel' => $this->request->data['Muralinscricao']['nivel'],
                 'tc' => '1',
                 'tc_solicitacao' => date('Y-m-d'),
-                'instituicao_id' => $this->request->data['Muralinscricao']['instituicaoestagio_id'],
+                'instituicaoestagio_id' => $this->request->data['Muralinscricao']['instituicaoestagio_id'],
                 'supervisor_id' => $this->request->data['Muralinscricao']['supervisor_id'],
                 'docente_id' => null,
                 'periodo' => $this->request->data['Muralinscricao']['periodo'],
@@ -743,18 +748,25 @@ class MuralinscricoesController extends AppController {
         ));
         // pr($dados);
         // die('dados');
+
         $this->loadModel('Estagiario');
         if ($this->Estagiario->save($dados)) {
             // $log = $this->Estagiario->getDataSource()->getLog(false, false);
             // debug($log);
+            // debug($this->Estagiario->validationErrors);
             // die('Save aluno');
             $this->Session->setFlash(__('Estagiario cadastrado'), "flash_notification");
             $this->redirect('/Muralinscricoes/termoimprime/' . $this->Estagiario->id);
-            // die('Sucesso Insert dados!');
+            die('Sucesso dados inseridos!');
+        } else {
+            $log = $this->Estagiario->getDataSource()->getLog(false, false);
+            // debug($log);
+            // debug($this->Estagiario->validationErrors);
+            die('Error! estagiário não foi inserido!');
         }
         // $log = $this->Estagiario->getDataSource()->getLog(false, false);
         // debug($log);
-        die('Save aluno2');
+        // die('Save aluno2');
     }
 
     /* id eh o numero de estagiario */

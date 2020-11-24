@@ -110,6 +110,8 @@
 // TCPDF configuration
 require_once(dirname(__FILE__).'/tcpdf_autoconfig.php');
 // TCPDF static font methods and data
+// echo dirname(__FILE__);
+// die();
 require_once(dirname(__FILE__).'/include/tcpdf_font_data.php');
 // TCPDF static font methods and data
 require_once(dirname(__FILE__).'/include/tcpdf_fonts.php');
