@@ -79,8 +79,8 @@ class Estagiario extends AppModel {
             'message' => 'Data da solicitação do Termo'
         ),
         'nota' => array(
-            'rule' => array('range', 0, 10),
-            'requiered' => true,
+            'rule' => array('decimal', 2),
+            'requiered' => false,
             'allowEmpty' => true,
             'on' => 'create',
             'message' => 'Valor entre 0 e 10 com as casas decimais separadas com um ponto'

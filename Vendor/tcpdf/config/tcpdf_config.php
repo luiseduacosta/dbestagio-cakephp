@@ -109,12 +109,12 @@ define ('PDF_AUTHOR', 'TCPDF');
 /**
  * Header title.
  */
-define ('PDF_HEADER_TITLE', 'Coordenação de Estágio');
+define ('PDF_HEADER_TITLE', 'TCPDF Example');
 
 /**
  * Header description string.
  */
-define ('PDF_HEADER_STRING', "Termo de compromisso de Estágio da ESS/UFRJ");
+define ('PDF_HEADER_STRING', "by Nicola Asuni - Tecnick.com\nwww.tcpdf.org");
 
 /**
  * Document unit of measure [pt=point, mm=millimeter, cm=centimeter, in=inch].
@@ -134,12 +134,12 @@ define ('PDF_MARGIN_FOOTER', 10);
 /**
  * Top margin.
  */
-define ('PDF_MARGIN_TOP', 5);
+define ('PDF_MARGIN_TOP', 27);
 
 /**
  * Bottom margin.
  */
-define ('PDF_MARGIN_BOTTOM', 15);
+define ('PDF_MARGIN_BOTTOM', 25);
 
 /**
  * Left margin.

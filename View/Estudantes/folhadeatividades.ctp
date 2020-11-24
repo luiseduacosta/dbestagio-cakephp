@@ -18,8 +18,9 @@ $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PD
 $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
 $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
-//set margins
-$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+// set margins
+// $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetMargins(PDF_MARGIN_LEFT, 20, PDF_MARGIN_RIGHT);
 $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
@@ -27,7 +28,8 @@ $pdf->setPrintHeader(false);
 $pdf->setPrintFooter(false);
 
 //set auto page breaks
-$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+// $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+$pdf->SetAutoPageBreak(TRUE, 10);
 
 //set image scale factor
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
@@ -55,7 +57,7 @@ $pdf->AddPage();
 $texto = <<<EOD
 
 <h2 style="text-align:center; font-size: 96%; line-height:95%">
-<img src="img/logoess_horizontal.svg" alt="minerva ufrj" width="200px" height="50px"><br />
+<img src="img/logoess_horizontal.svg" alt="Minerva UFRJ" width="200px" height="50px"><br />
 Folha de ativiades do(a) estagiário(a)<br> 
 Mês: __________ Ano: __________
 </h2>
@@ -71,8 +73,6 @@ Celular: $celular<br>
 Campo de estágio: $instituicao<br>
 Supervisor(a) acadêmico(a): $professor<br>
 </div>
-
-<br>
     
 <table border="1" cellspacing = "0" cellpadding = "1">
                 <tr style="width:110%">

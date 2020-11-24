@@ -1,8 +1,9 @@
 Dicas
 =====
-debug($this->Model->validationErrors);
 $log = $this->Model->getDataSource()->getLog(false, false);
 debug($log);
+
+debug($this->Model->validationErrors);
 
 /* A variável ordem é a coluna que vai ser utilizada como critério de ordenação */
 array_multisort (array_column($array, $ordem), SORT_ASC, $array);

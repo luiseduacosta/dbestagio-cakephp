@@ -22,9 +22,9 @@
                 'class' => 'form-control']
         ]);
         if ($this->Session->read('id_categoria') == '1'):
-            echo $this->Form->input('registro', ['label' => ['text' => 'Registro (DRE)'], 'size' => '9', 'maxlength' => '9', 'default' => $this->Session->read('numero'), 'required', 'class' => 'form-control']);
+            echo $this->Form->input('registro', ['label' => ['text' => 'Registro (DRE)'], 'placeholder' => 'DRE', 'size' => '9', 'maxlength' => '9', 'required', 'class' => 'form-control']);
         elseif ($this->Session->read('id_categoria') == '2'):
-            echo $this->Form->input('registro', ['label' => ['text' => 'Registro (DRE)'], 'size' => '9', 'maxlength' => '9', 'default' => $this->Session->read('numero'), 'readonly' => 'readonly', 'class' => 'form-control']);
+            echo $this->Form->input('registro', ['label' => ['text' => 'Registro (DRE)'], 'placeholder' => 'DRE', 'size' => '9', 'maxlength' => '9', 'default' => $this->Session->read('numero'), 'readonly' => 'readonly', 'class' => 'form-control']);
         endif;
         echo $this->Form->input('Confirma', ['type' => 'submit', 'label' => false, 'class' => 'btn btn-success position-static']);
         echo $this->Form->end();

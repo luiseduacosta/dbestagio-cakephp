@@ -14,7 +14,7 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Documentação</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <?php echo $this->Html->link("Termo de compromisso", "/Inscricoes/termosolicita", ['class' => 'dropdown-item']); ?>
+                    <?php echo $this->Html->link("Termo de compromisso", "/Muralinscricoes/termosolicita", ['class' => 'dropdown-item']); ?>
                     <?php echo $this->Html->link("Avaliação discente", "/Estudantes/avaliacaosolicita", ['class' => 'dropdown-item']); ?>
                     <?php echo $this->Html->link("Folha de atividades", "/Estudantes/folhadeatividades", ['class' => 'dropdown-item']); ?>
                     <?php echo $this->Html->link("Declaração de estágio", "/Estudantes/busca_dre", ['class' => 'dropdown-item']); ?>
