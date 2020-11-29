@@ -7,7 +7,7 @@ $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8',
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Escola de Serviço Social');
-$pdf->SetTitle('Coordenação de Estágio e Extensão');
+$pdf->SetTitle('Coordenação de Estágio');
 $pdf->SetSubject('Avaliação discente');
 $pdf->SetKeywords('Estagio curricular, Serviço Social');
 
@@ -38,9 +38,9 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 // set font
 $pdf->SetFont('helvetica', '', 8);
 
-setlocale (LC_ALL, 'pt_BR');
+setlocale (LC_TIME, 'pt_BR');
 $dia = strftime('%e', mktime());
-$mes = strftime('%B', mktime());
+$mes = utf8_encode(strftime('%B', mktime()));
 $ano = strftime('%Y', mktime());
 
 $data = $dia . " de " . $mes . " de " . $ano . ".";
@@ -58,7 +58,7 @@ $texto = <<<EOD
 Coordenação de Estágio<br />
 Avaliação final do supervisor de campo do desempenho discente
 </h2>
-    
+
 <div style="text-align:justify">
 <p style="line-height:100%">
 Nome do Aluno(a): $estudante<br>
