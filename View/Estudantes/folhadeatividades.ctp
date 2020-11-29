@@ -39,9 +39,9 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 // set font
 $pdf->SetFont('helvetica', '', 12);
 
-setlocale (LC_ALL, 'pt_BR');
+setlocale (LC_TIME, 'pt_BR');
 $dia = strftime('%e', mktime());
-$mes = strftime('%B', mktime());
+$mes = utf8_encode(strftime('%B', mktime()));
 $ano = strftime('%Y', mktime());
 
 $data = $dia . " de " . $mes . " de " . $ano . ".";
