@@ -3,7 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/luis/html/dbestagio-cakephp/View/Muralestagios/add.ctp</file>
+            <file>file:/home/luis/html/dbestagio-cakephp/View/Muralestagios/index.ctp</file>
+            <file>file:/home/luis/html/dbestagio-cakephp/View/Instituicaoestagios/seleciona_supervisor.ctp</file>
+            <file>file:/home/luis/html/dbestagio-cakephp/View/Muralinscricoes/termocompromisso.ctp</file>
+            <file>file:/home/luis/html/dbestagio-cakephp/Controller/InstituicaoestagiosController.php</file>
+            <file>file:/home/luis/html/dbestagio-cakephp/Controller/MuralinscricoesController.php</file>
         </group>
     </open-files>
 </project-private>
