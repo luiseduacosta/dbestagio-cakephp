@@ -107,7 +107,7 @@ Art. 19. É assegurado ao estagiário (a) , sempre que o estágio tenha duraçã
 </p>
 
 <h2>Das Orientações Gerais</h2>   
-Art. 20. O presente Termo de Compromisso terá validade de $termoinicio a $termofinal, correspondente ao nível _____ de Estágio. Sua interrupção antes do período previsto acarretará prejuízo para o aluno na sua avaliação acadêmica.<br>
+Art. 20. O presente Termo de Compromisso terá validade de $termoinicio a $termofinal, correspondente ao nível $nivel de Estágio. Sua interrupção antes do período previsto acarretará prejuízo para o aluno na sua avaliação acadêmica.<br>
 Art. 21. Os casos omissos serão encaminhados à Coordenação de Estágio para serem dirimidos.
 </p>
 

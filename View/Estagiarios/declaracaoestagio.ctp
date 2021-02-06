@@ -84,7 +84,7 @@ Declaramos que o/a estudante <b>$estudante</b> inscrito(a) no CPF sob o nº $cpf
 <p>
 
 <p style="text-align:justify">
-As atividades desenvolvidas correspondem ao nível $nivel do currículum da Escola de Serviço Social da UFRJ.
+As atividades desenvolvidas correspondem ao nível $nivel do currículo da Escola de Serviço Social da UFRJ.
 </p>
 <br />
 <br />

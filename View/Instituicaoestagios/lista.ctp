@@ -74,7 +74,7 @@
 
 <div class="table-responsive">
     <table class="table table-striped table-hover table-responsive">
-        <caption>Lista das instituições</caption>
+        <caption style="caption-side: top;">Lista das instituições</caption>
         <thead class="thead-light">
             <tr>
                 <th>

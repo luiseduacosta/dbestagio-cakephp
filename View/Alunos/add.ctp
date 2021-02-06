@@ -195,5 +195,3 @@ echo $this->Form->create('Aluno');
         </div>
     </div>
 </fieldset>
-
-

@@ -15,33 +15,6 @@ Período atual do mural
 
 <tr>
 <td>
-Turma atual do curso de supervisores
-</td>
-<td>
-<?php echo $configuracao['Configuracao']['curso_turma_atual']; ?>
-</td>
-</tr>
-
-<tr>
-<td>
-Data de abertura das inscrições para o curso de supervisores
-</td>
-<td>
-<?php echo date('d-m-Y', strtotime($configuracao['Configuracao']['curso_abertura_inscricoes'])); ?>
-</td>
-</tr>
-
-<tr>
-<td>
-Data de encerramento das inscrições para o curso de supervisores
-</td>
-<td>
-<?php echo date('d-m-Y', strtotime($configuracao['Configuracao']['curso_encerramento_inscricoes'])); ?>
-</td>
-</tr>
-
-<tr>
-<td>
 Período do termo de compromisso
 </td>
 <td>
@@ -64,6 +37,33 @@ Data de finalização do termo de compromisso
 </td>
 <td>
 <?php echo date('d-m-Y', strtotime($configuracao['Configuracao']['termo_compromisso_final'])); ?>
+</td>
+</tr>
+
+<tr>
+<td>
+Turma atual do curso de supervisores
+</td>
+<td>
+<?php echo $configuracao['Configuracao']['curso_turma_atual']; ?>
+</td>
+</tr>
+
+<tr>
+<td>
+Data de abertura das inscrições para o curso de supervisores
+</td>
+<td>
+<?php echo date('d-m-Y', strtotime($configuracao['Configuracao']['curso_abertura_inscricoes'])); ?>
+</td>
+</tr>
+
+<tr>
+<td>
+Data de encerramento das inscrições para o curso de supervisores
+</td>
+<td>
+<?php echo date('d-m-Y', strtotime($configuracao['Configuracao']['curso_encerramento_inscricoes'])); ?>
 </td>
 </tr>
 

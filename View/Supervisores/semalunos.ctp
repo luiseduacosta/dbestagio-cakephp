@@ -9,7 +9,7 @@
     <div class='col-auto'>
         <div class='table-responsive'>
             <table class="table table-striped table-hover table-responsive">
-                <caption>Supervisores sem estagiários</caption>
+                <caption style="caption-side: top;">Supervisores sem estagiários</caption>
                 <thead class="thead-light">
                     <tr>
                         <th>Id</th>

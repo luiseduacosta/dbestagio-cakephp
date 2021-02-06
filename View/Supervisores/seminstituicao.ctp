@@ -7,7 +7,7 @@
         <div class='col-auto'>
             <div class="table-responsive">
                 <table class="table table-striped table-hover table-responsive">
-                    <caption>Supervisores sem instituição cadastrada</caption>
+                    <caption style="caption-side: top;">Supervisores sem instituição cadastrada</caption>
                     <thead class="thead-light">
                         <tr>
                             <th>CRESS</th>

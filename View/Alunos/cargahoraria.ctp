@@ -7,7 +7,7 @@
 
 
         <table class='table table-responsive table-hover'>
-            <caption>Carga horária total por cada estudante</caption>
+            <caption style="caption-side: top;">Carga horária total por cada estudante</caption>
             <thead class='thead-light'>
                 <tr>
                     <th>Id</th>

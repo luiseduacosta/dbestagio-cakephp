@@ -10,8 +10,8 @@
             var periodo = $(this).val();
             /* alert(periodo); */
             window.location = url + periodo;
-        })
-    })
+        });
+    });
 
 </script>
 
@@ -36,16 +36,15 @@
     </div>
 </div>
 
-<hr />
-
 <?php $totalvagas = NULL; ?>
 <?php $totalinscricoes = NULL; ?>
+<?php $alunostotal = $alunos_novos + $alunos_estagiarios; ?>
 
 <div class='row justify-content-center'>
     <div class='col-auto'>
         <div class="table-responsive">
             <table class="table table-striped table-hover">
-                <caption>Vagas de estágio</caption>
+                <caption style="caption-side: top;">Vagas de estágio</caption>
                 <thead class="thead-light">
                     <tr>
                         <?php if ($this->Session->read('categoria') === 'administrador'): ?>
@@ -81,11 +80,15 @@
                                 <td style="text-align: center">
                                     <?php if ($data['inscritos'] != 0): ?>
                                         <?php echo $this->Html->link($data['inscritos'], '/Muralinscricoes/index/' . $data['id']); ?>
+
+                                        <?php $totalinscricoes = $totalinscricoes + $data['inscritos']; ?>
                                     <?php endif; ?>
                                 </td>
                             <?php else: ?>
                                 <td style="text-align: center"><?php echo $data['estagiarios']; ?></td>
                                 <td style="text-align: center"><?php echo $data['inscritos']; ?></td>
+                                <?php $totalinscricoes = $totalinscricoes + $data['inscritos']; ?>
+
                             <?php endif; ?>
 
                             <td><?php echo $data['beneficios']; ?></td>
@@ -106,7 +109,7 @@
                                     echo "Sem data";
                                 } else {
                                     echo date('d-m-Y', strtotime($data['dataselecao']));
-                                    echo $data['horarioselecao'] ? " " . $data['horarioselecao'] . " hs."  : NULL;
+                                    echo $data['horarioselecao'] ? " " . $data['horarioselecao'] . " hs." : NULL;
                                 }
                                 ?>
                             </td>
@@ -126,10 +129,22 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td></td>
-                        <td style="text-align: center">Total: </td>
-                        <td style="text-align: center"><?php echo $total_estagiarios; ?></td>
-                        <td style="text-align: center"><?php echo $total_vagas; ?></td>
+                        <?php if ($this->Session->read('categoria') === 'administrador'): ?>
+                            <td>&nbsp;</td>
+                        <?php endif; ?>
+                            <td>Total: </td>
+                            <td style="text-align: center"><?php echo $total_vagas; ?></td>
+                            <td style="text-align: center"><?php echo $total_estagiarios; ?></td>
+                            <td style="text-align: center"><?php echo $alunostotal . "*"; ?></td>
+                    <tr>
+                        <?php if ($this->Session->read('categoria') === 'administrador'): ?>
+                            <td>&nbsp;</td>
+                        <?php endif; ?>
+                        <td colspan="5">
+                            <small>
+                                <?php echo "*São " . $alunostotal . " estudantes e " . $totalinscricoes . " inscrições. Média de inscrições por estudante: " . round($totalinscricoes / $alunostotal) . "."; ?>
+                            </small>
+                        </td>
                     </tr>
                 </tfoot>
             </table>
