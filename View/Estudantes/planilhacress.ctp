@@ -34,7 +34,7 @@
 
         <div class='table-responsive'>
             <table class='table table-hover table-responsive'>
-                <caption>Escola de Serviço Social da UFRJ. Planilha de estagiários para o CRESS 7ª Região</caption>
+                <caption style="caption-side: top;">Escola de Serviço Social da UFRJ. Planilha de estagiários para o CRESS 7ª Região</caption>
                 <thead class="thead-light">
                     <tr>
                         <th><?= $this->Html->link('Estudante', '/Estudantes/planilhacress/periodo:' . $periodoatual . '/ordem:estudante'); ?></th>

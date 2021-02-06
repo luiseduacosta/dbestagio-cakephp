@@ -30,7 +30,7 @@ header('location: mural/');
 <div align="center">
 
     <h1>Bem-vindos à página da Coordenação de Estágio & Extensão</h1>
-    <h2></h2>
+    <h2>&nbsp;</h2>
 
 </div>
 

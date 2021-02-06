@@ -6,7 +6,7 @@
     <div class='container table-responsive'>
         <p>Estudantes sem estágio</p>
         <table class='table table-striped table-hover table-responsive'>
-            <caption>Estudantes sem estágio</caption>
+            <caption style="caption-side: top;">Estudantes sem estágio</caption>
             <thead class="thead-light">
                 <tr>
                     <th>Id</th>

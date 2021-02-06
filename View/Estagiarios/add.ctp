@@ -46,7 +46,7 @@
 <?php if (isset($estagiarios)): ?>
     <table class="table table-striped table-hover table-responsive">
         <thead class="thead-light">
-        <caption>Estágios cursados</caption>
+        <caption style="caption-side: top;">Estágios cursados</caption>
         <tr>
             <th>Excluir</th>
             <th>Editar</th>

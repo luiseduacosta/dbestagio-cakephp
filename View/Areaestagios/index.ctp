@@ -11,7 +11,7 @@
 <h5>Áreas de orientação dos professores da OTP</h5>
 <div class='cointainer table-responsive'>
     <table class="table table-striped table-hover table-responsive">
-        <caption>Áreas de orientação dos professores da OTP</caption>
+        <caption style="caption-side: top;">Áreas de orientação dos professores da OTP</caption>
         <thead class="thead-light">
             <tr>
                 <th>Id</th>

@@ -125,7 +125,7 @@
     <div class="tab-pane container fade" id="estagio_historico">
         <?php if ($estagios): ?>
             <table class="table table-striped table-hover table-responsive">
-                <caption>Estágios cursados</caption>
+                <caption style="caption-side: top;">Estágios cursados</caption>
                 <thead class="thead-light">
                     <tr>
                         <?php if ($this->Session->read('categoria') === 'administrador'): ?>

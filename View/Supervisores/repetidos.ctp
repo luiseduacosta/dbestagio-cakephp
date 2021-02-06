@@ -8,7 +8,7 @@
         <div class='col-auto'>
             <div class='table-responsive'>
                 <table class='table table-striped table-hover table-responsive'>
-                    <caption>CRESS repetidos</caption>
+                    <caption style="caption-side: top;">CRESS repetidos</caption>
                     <thead class="thead-light">
                         <tr>
                             <th>Cress</th>

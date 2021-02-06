@@ -34,7 +34,7 @@
         <div class='col-auto'>
             <div class="container table-responsive">
                 <table class="table table-striped table-hover table-responsive">
-                    <caption>Pauta: <?php echo $this->Html->link($periodo, '/Estagiarios/index/periodo:' . $periodo); ?></caption>
+                    <caption style="caption-side: top;">Pauta: <?php echo $this->Html->link($periodo, '/Estagiarios/index/periodo:' . $periodo); ?></caption>
                     <thead class="thead-light">
                         <tr>
                             <th><?php echo 'Professor'; ?></th>

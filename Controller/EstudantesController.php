@@ -531,8 +531,9 @@ class EstudantesController extends AppController {
             'fields' => array('Estagiario.periodo'),
             'order' => array('Estagiario.periodo')));
 
-        // pr($totalperiodo);
-        // die();
+        // pr($periodototal);
+        // die('periodototal');
+        
         $periodosunicos = array_unique($periodototal);
         foreach ($periodosunicos as $c_periodo):
             $periodos[$c_periodo] = $c_periodo;
@@ -566,7 +567,7 @@ class EstudantesController extends AppController {
          * 'Professor.nome'),
          */
 
-        $this->loadModel('Instituicao');
+        $this->loadModel('Instituicaoestagio');
         $this->loadModel('Supervisor');
         $this->loadModel('Professor');
         $i = 0;
@@ -649,7 +650,7 @@ class EstudantesController extends AppController {
             'fields' => array('Estagiario.periodo'),
             'order' => array('Estagiario.periodo')));
 
-        // pr($totalperiodo);
+        // pr($periodototal);
         // die();
         $periodosunicos = array_unique($periodototal);
         foreach ($periodosunicos as $c_periodo):
@@ -660,16 +661,16 @@ class EstudantesController extends AppController {
             $periodo = end($periodos);
         }
         // pr($periodos);
-
+        // die('periódos');
         $seguro = $this->Estagiario->find('all', array(
             'fields' => array('Estagiario.id', 'Estagiario.registro', 'Estagiario.periodo', 'Estagiario.nivel', 'Estagiario.instituicaoestagio_id'),
             'conditions' => array('Estagiario.periodo' => $periodo),
             'order' => array('Estagiario.nivel')
         ));
-        // pr($estagiario);
+        // pr($seguro);
         // $log = $this->Estagiario->getDataSource()->getLog(false, false);
         // debug($log);
-        // die('estagiario');
+        // die('seguro');
 
         /* 'Estagiario.periodo'
          * 'Estudante.id',
@@ -685,7 +686,7 @@ class EstudantesController extends AppController {
 
         // pr($seguro);
         // die();
-        $this->loadModel('Instituicao');
+        $this->loadModel('Instituicaoestagio');
         $i = 0;
         foreach ($seguro as $c_seguro) {
             // pr($c_seguro);
@@ -792,7 +793,8 @@ class EstudantesController extends AppController {
                 'conditions' => ['Estudante.registro' => $c_seguro['Estagiario']['registro']]
             ]);
             // pr($estudante);
-            // die();
+            // die("estudante");
+            
             $t_seguro[$i]['id'] = $estudante['Estudante']['id'];
             $t_seguro[$i]['nome'] = $estudante['Estudante']['nome'];
             $t_seguro[$i]['cpf'] = $estudante['Estudante']['cpf'];
@@ -810,12 +812,14 @@ class EstudantesController extends AppController {
             $t_seguro[$i]['periodo'] = $c_seguro['Estagiario']['periodo'];
             $t_seguro[$i]['inicio'] = $inicio;
             $t_seguro[$i]['final'] = $final;
+            
             $instituicao = $this->Instituicaoestagio->find('first', [
                 'fields' => ['Instituicaoestagio.id', 'Instituicaoestagio.instituicao'],
                 'conditions' => ['Instituicaoestagio.id' => $c_seguro['Estagiario']['instituicaoestagio_id']]
             ]);
             // pr($instituicao);
-            // die();
+            // die("instituicao");
+            
             $t_seguro[$i]['instituicao'] = $instituicao['Instituicaoestagio']['instituicao'];
 
             $i++;

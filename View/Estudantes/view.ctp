@@ -80,7 +80,7 @@
 
         <?php if (isset($inscricoes) && !empty($inscricoes)): ?>
             <table class="table table-striped table-hover table-responsive">
-                <caption>Inscrições realizadas</caption>
+                <caption style="caption-side: top;">Inscrições realizadas</caption>
                 <?php foreach ($inscricoes as $c_inscricao): ?>
                     <?php // pr($c_inscricao) ?>
                     <tr>
