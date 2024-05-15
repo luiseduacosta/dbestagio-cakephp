@@ -25,7 +25,7 @@
 
             <div class='container table-responsive'>
                 <table class='table table-striped table-hover table-responsive'>
-                    <caption style="caption-side: top;">Tabela de estudantes</caption>
+                    <caption>Tabela de estudantes</caption>
                     <thead class="thead-light">
                         <tr>
                             <th><?= $this->Paginator->sort('Estudante.id', 'DRE') ?></th>

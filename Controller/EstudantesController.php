@@ -284,7 +284,7 @@ class EstudantesController extends AppController {
             $inscricoesnomural[$i]['inscricao_id'] = $c_inscricao['id'];
             $inscricoesnomural[$i]['muralestagio_id'] = $c_inscricao['muralestagio_id'];
             $inscricoesnomural[$i]['periodo'] = $c_inscricao['periodo'];
-
+            
             $this->loadModel('Muralestagio');
             $this->Muralestagio->recursive = -1;
             $instituicao = $this->Muralestagio->find('first', [
@@ -531,9 +531,8 @@ class EstudantesController extends AppController {
             'fields' => array('Estagiario.periodo'),
             'order' => array('Estagiario.periodo')));
 
-        // pr($periodototal);
-        // die('periodototal');
-        
+        // pr($totalperiodo);
+        // die();
         $periodosunicos = array_unique($periodototal);
         foreach ($periodosunicos as $c_periodo):
             $periodos[$c_periodo] = $c_periodo;
@@ -567,7 +566,7 @@ class EstudantesController extends AppController {
          * 'Professor.nome'),
          */
 
-        $this->loadModel('Instituicaoestagio');
+        $this->loadModel('Instituicao');
         $this->loadModel('Supervisor');
         $this->loadModel('Professor');
         $i = 0;
@@ -650,7 +649,7 @@ class EstudantesController extends AppController {
             'fields' => array('Estagiario.periodo'),
             'order' => array('Estagiario.periodo')));
 
-        // pr($periodototal);
+        // pr($totalperiodo);
         // die();
         $periodosunicos = array_unique($periodototal);
         foreach ($periodosunicos as $c_periodo):
@@ -661,16 +660,16 @@ class EstudantesController extends AppController {
             $periodo = end($periodos);
         }
         // pr($periodos);
-        // die('periódos');
+
         $seguro = $this->Estagiario->find('all', array(
             'fields' => array('Estagiario.id', 'Estagiario.registro', 'Estagiario.periodo', 'Estagiario.nivel', 'Estagiario.instituicaoestagio_id'),
             'conditions' => array('Estagiario.periodo' => $periodo),
             'order' => array('Estagiario.nivel')
         ));
-        // pr($seguro);
+        // pr($estagiario);
         // $log = $this->Estagiario->getDataSource()->getLog(false, false);
         // debug($log);
-        // die('seguro');
+        // die('estagiario');
 
         /* 'Estagiario.periodo'
          * 'Estudante.id',
@@ -686,7 +685,7 @@ class EstudantesController extends AppController {
 
         // pr($seguro);
         // die();
-        $this->loadModel('Instituicaoestagio');
+        $this->loadModel('Instituicao');
         $i = 0;
         foreach ($seguro as $c_seguro) {
             // pr($c_seguro);
@@ -793,8 +792,7 @@ class EstudantesController extends AppController {
                 'conditions' => ['Estudante.registro' => $c_seguro['Estagiario']['registro']]
             ]);
             // pr($estudante);
-            // die("estudante");
-            
+            // die();
             $t_seguro[$i]['id'] = $estudante['Estudante']['id'];
             $t_seguro[$i]['nome'] = $estudante['Estudante']['nome'];
             $t_seguro[$i]['cpf'] = $estudante['Estudante']['cpf'];
@@ -812,14 +810,12 @@ class EstudantesController extends AppController {
             $t_seguro[$i]['periodo'] = $c_seguro['Estagiario']['periodo'];
             $t_seguro[$i]['inicio'] = $inicio;
             $t_seguro[$i]['final'] = $final;
-            
             $instituicao = $this->Instituicaoestagio->find('first', [
                 'fields' => ['Instituicaoestagio.id', 'Instituicaoestagio.instituicao'],
                 'conditions' => ['Instituicaoestagio.id' => $c_seguro['Estagiario']['instituicaoestagio_id']]
             ]);
             // pr($instituicao);
-            // die("instituicao");
-            
+            // die();
             $t_seguro[$i]['instituicao'] = $instituicao['Instituicaoestagio']['instituicao'];
 
             $i++;
@@ -898,19 +894,19 @@ class EstudantesController extends AppController {
                 'conditions' => array('Estagiario.registro' => $this->data['Estudante']['registro']),
                 'order' => array('Estagiario.nivel DESC')
             ));
-            // pr($aluno);
-            // die("aluno");
+            // pr($aluno['Supervisor']);
+            // die("avaliacao");
             if ($aluno) {
                 // pr($aluno);
                 // die('aluno');
-                if (empty($aluno['Supervisor']['id'])) {
+                if (!empty($aluno['Supervisor']['id'])) {
                     $this->Session->setFlash(__("Verificar e completar dados do supervisor da instituicao."), "flash_notification");
                     // $this->redirect('/Estudantes/avaliacaoverifica/' . $aluno['Supervisor']['id'] . '/' . $this->data['Estudante']['registro']);
                     $this->redirect('/Estudantes/avaliacaoedita/supervisor_id:' . $aluno['Supervisor']['id'] . '/registro:' . $this->data['Estudante']['registro']);
                 } else {
-                    // $this->Session->setFlash(__("Não foi indicado o supervisor da instituicao. Retorna para solicitar termo de compromisso"), "flash_notification");
-                    // die('Com supervisor');
-                    $this->redirect('/Estudantes/avaliacaoimprime/registro:' . $aluno['Estudante']['registro']);
+                    $this->Session->setFlash(__("Não foi indicado o supervisor da instituicao. Retorna para solicitar termo de compromisso"), "flash_notification");
+                    die('Sem supervisor');
+                    $this->redirect('/Muralinscricoes/termocompromisso/' . $aluno['Estudante']['registro']);
                 }
             } else {
                 $this->Session->setFlash(__("Não há estágios cadastrados para este estudante"), "flash_notification");
@@ -949,13 +945,12 @@ class EstudantesController extends AppController {
             'order' => array('Estagiario.nivel DESC')
         ));
         // pr($estagiario);
-        // die('estagiario');
+        // die();
         if ($estagiario) {
             $this->set('aluno', $estagiario['Estudante']['nome']);
             $this->set('registro', $estagiario['Estudante']['registro']);
             $this->set('professor', $estagiario['Professor']['nome']);
             $this->set('instituicao', $estagiario['Instituicaoestagio']['instituicao']);
-            $this->set('instituicao_id', $estagiario['Instituicaoestagio']['id']);
             $this->set('supervisor', $estagiario['Supervisor']['nome']);
             $this->set('supervisor_id', $estagiario['Supervisor']['id']);
             $this->set('nivel', $estagiario['Estagiario']['nivel']);
@@ -971,12 +966,12 @@ class EstudantesController extends AppController {
             // die("empty");
             $this->data = $this->Supervisor->read();
         } else {
-            // pr($this->data);
-            // die("this->data");
+            // print_r($this->data);
+            // die("avaliacaoedita");
 
             if (!$this->data['Supervisor']['cress']) {
                 $this->Session->setFlash(__("O número de CRESS é obrigatório"), "flash_notification");
-                $this->redirect('/Estudantes/avaliacaoedita/supervisor_id:' . $supervisor_id . '/registro:' . $registro);
+                $this->redirect('/Estudantes/avaliacaosolicita/supervisor_id:' . $supervisor_id . '/registro:' . $registro);
                 die("O número de Cress é obrigatório");
             }
 
@@ -998,104 +993,11 @@ class EstudantesController extends AppController {
                 die("O email é obrigatório");
             }
 
-            // pr($this->data);
-            // die('this->data');
-
-            /* Busco o id do supervisor a partir do CRESS */
-            if (empty($this->data['Supervisor']['supervisor_id']) and ($this->data['Supervisor']['cress'] > 0)) {
-                $this->loadModel('Supervisor');
-                $this->Supervisor->recursive = -1;
-                $supervisor = $this->Supervisor->find('first', [
-                    'conditions' => ['Supervisor.cress' => $this->data['Supervisor']['cress']]
-                ]);
-                // $log = $this->Supervisor->getDataSource()->getLog(false, false);
-                // debug($log);
-                // pr($supervisor);
-                // die('supervisor');
-            }
-
-            /* Se não há um supervisor cadastrado com esse CRESS então faço cadastro */
-            if (empty($supervisor)) {
+            if ($this->Supervisor->save($this->data)) {
+                // die();
                 // pr($this->data);
-                // die('empty supervisor');
-                // $this->Supervisor->save($this->data);
-                // debug($this->Supervisor->validationErrors);
-                // die('debug');
-                if ($this->Supervisor->save($this->data)) {
-                    $this->Session->setFlash(__("Inserido"), "flash_notification");
-                    $supervisor_id = $this->Supervisor->id;
-                    // pr($supervisor_id);
-                    // die('supervisor_id');
-
-                    /* Verifico se o supervisor está na tabela Instituciocaoestagio_supervisores */
-                    $instituicaoestagio = $this->Supervisor->InstituicaoestagioSupervisor->find('first', [
-                        'conditions' => ['InstituicaoestagioSupervisor.supervisor_id' => $supervisor_id, 'InstituicaoestagioSupervisor.instituicaoestagio_id' => $estagiario['Instituicaoestagio']['id']]
-                    ]);
-                    // $log = $this->Supervisor->getDataSource()->getLog(false, false);
-                    // debug($log);
-                    // pr($instituicaoestagio);
-                    // die('institucaoestagio');                  
-                    /* Se não está então vou a inserir */
-                    if (empty($instituicaoestagio)) {
-                        $associacao['InstituicaoestagioSupervisor']['instituicao_id'] = $estagiario['Instituicaoestagio']['id'];
-                        $associacao['InstituicaoestagioSupervisor']['supervisor_id'] = $supervisor_id;
-                        // pr($associacao);
-                        // die('associacao');
-                        if ($this->Supervisor->InstituicaoestagioSupervisor->save($associacao)) {
-                            $this->Session->setFlash(__('Dados inseridos'), "flash_notification");
-                            // $this->redirect('/Supervisores/view/' . $this->request->data['InstituicaoestagioSupervisor']['supervisor_id']);
-                        }
-                    }
-                    /* Agora pode imprimir a folha de avaliação discente */
-                    $this->redirect('/Estudantes/avaliacaoimprime/registro:' . $registro);
-                } else {
-                    die('Error!');
-                }
-                /* Supervisor cadastrado: atualizo dados do supervisor com o id do supervisor */
-            } else {
-                // pr($this->data['Supervisor']['supervisor_id']);
-                $this->request->data['Supervisor']['id'] = $supervisor['Supervisor']['id'];
-                // echo 'Supervisor id: ' . $supervisor['Supervisor']['id'] . "<br>";
-                // pr($this->data);
-                // die('this->data');
-                /* Atualizo a tabela Supervisor */
-                if ($this->Supervisor->save($this->data)) {
-                    $this->Session->setFlash(__("Atualizado"), "flash_notification");
-
-                    /* Atualizo a tabela Estagiário */
-                    $this->loadModel('Estagiario');
-                    $this->Estagiario->id = $estagiario['Estagiario']['id'];
-                    $this->Estagiario->saveField('supervisor_id', $supervisor['Supervisor']['id']);
-                    // debug($this->Estagiario->validationErrors);
-                    // $log = $this->Supervisor->getDataSource()->getLog(false, false);
-                    // debug($log);
-                    // die('Estagiario');
-
-                    /* Verifico se está na instutição. Caso contrário atualizo a tabela InstituicaoestagioSupervisor */
-                    $instituicaoestagio = $this->Supervisor->InstituicaoestagioSupervisor->find('first', [
-                        'conditions' => ['InstituicaoestagioSupervisor.supervisor_id' => $supervisor['Supervisor']['id'], 'InstituicaoestagioSupervisor.instituicaoestagio_id' => $estagiario['Instituicaoestagio']['id']]
-                    ]);
-                    // $log = $this->Supervisor->getDataSource()->getLog(false, false);
-                    // debug($log);
-                    // pr($instituicaoestagio);
-                    // die('institucaoestagio');
-                    if (empty($instituicaoestagio)) {
-                        $dados['InstituicaoestagioSupervisor']['instituicaoestagio_id'] = $estagiario['Instituicaoestagio']['id'];
-                        $dados['InstituicaoestagioSupervisor']['supervisor_id'] = $supervisor['Supervisor']['id'];
-                        // pr($dados);
-                        // die('dados');
-                        if ($this->Supervisor->InstituicaoestagioSupervisor->save($dados)) {
-                            $this->Session->setFlash(__('Dados inseridos'), "flash_notification");
-                            // $this->redirect('/Supervisores/view/' . $this->request->data['InstituicaoestagioSupervisor']['supervisor_id']);
-                        }
-                    }
-                    // die();
-                    $this->redirect('/Estudantes/avaliacaoimprime/registro:' . $registro);
-                    // echo "Supervisor cadastrado";
-                    // die('cadastrado');
-                } else {
-                    echo "Não foi possível atualizar";
-                }
+                $this->Session->setFlash(__("Atualizado"), "flash_notification");
+                $this->redirect('/Estudantes/avaliacaoimprime/registro:' . $registro);
             }
         }
     }
@@ -1110,7 +1012,7 @@ class EstudantesController extends AppController {
         ));
 
         // pr($aluno);
-        // die('aluno');
+        // die();
 
         $estudante = $aluno['Estudante']['nome'];
         $registro = $aluno['Estudante']['registro'];

@@ -2,27 +2,13 @@
 // pr($supervisores);
 ?>
 
-<script>
-
-    $(document).ready(function () {
-
-        var url = "<?= $this->Html->url(['controller' => 'Instituicaoestagios', 'action' => 'seleciona_supervisor']); ?>";
-        $("#MuralinscricaoInstituicaoestagioId").change(function () {
-            var instituicao_id = $(this).val();
-            // alert(instituicao_id);
-            // window.location = url + '/' + instituicao_id;
-        })
-    })
-
-</script>
-
 <?php
-$this->Js->get('#MuralinscricaoInstituicaoestagioId')->event('change',
+$this->Js->get('#MuralinscricaoInstituicaoId')->event('change',
         $this->Js->request(array(
-            'controller' => 'Instituicaoestagios',
+            'controller' => 'Instituicaoestagio',
             'action' => 'seleciona_supervisor'
                 ), array(
-            'update' => '#MuralinscricaoSupervisorId',
+            'update' => '#InscricaoSupervisorId',
             'async' => true,
             'method' => 'post',
             'dataExpression' => true,
@@ -51,10 +37,6 @@ $this->Js->get('#MuralinscricaoInstituicaoestagioId')->event('change',
 </div>
 
 <?php
-
-/* Outra alternativa */
-// echo $this->Form->create('Muralinscricao', array('url' => ['controller' => 'Instituicaoestagios', 'action' => 'seleciona_supervisor']));
-
 echo $this->Form->create('Muralinscricao', array('url' => 'termocadastra/registro:' . $registro));
 
 echo $this->Form->input('registro', array('type' => 'hidden', 'label' => 'Registro', 'value' => $registro));
@@ -86,7 +68,7 @@ echo $this->Form->input('docente_id', array('type' => 'hidden', 'label' => 'Prof
 <?php
 echo $this->Form->input('instituicaoestagio_id', array('type' => 'select', 'label' => 'Instituição (É obrigatório selecionar a instituição)', 'options' => $instituicoes, 'selected' => $instituicao_atual, 'empty' => ['0' => 'Selecione instituição'], 'class' => 'form-control'));
 
-echo $this->Form->input('supervisor_id', array('type' => 'select', 'label' => 'Supervisor (Se não souber quem é o supervisor, ou não estiver cadastrado, deixe sem selecionar")', 'options' => $supervisores, 'selected' => $supervisor_atual, 'empty' => ['0' => 'Selecione supervisor'], 'class' => 'form-control'));
+echo $this->Form->input('supervisor_id', array('type' => 'select', 'label' => 'Supervisor (Se não souber quem é o supervisor deixe sem selecionar")', 'options' => $supervisores, 'selected' => $supervisor_atual, 'empty' => ['0' => 'Selecione supervisor'], 'class' => 'form-control'));
 
 echo "<br>";
 

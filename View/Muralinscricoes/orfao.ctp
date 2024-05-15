@@ -5,7 +5,7 @@
         <h5>Estudantes sem inscrições no mural</h5>
 
         <table class="table table-striped table-hover table-responsive">
-            <caption style="caption-side: top;">Estudantes sem instrição no mural</caption>
+            <caption>Estudantes sem instrição no mural</caption>
             <thead class="thead-light">
                 <tr>
                     <th>Id</th>

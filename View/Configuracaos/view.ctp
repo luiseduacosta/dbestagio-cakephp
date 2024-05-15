@@ -15,33 +15,6 @@ Período atual do mural
 
 <tr>
 <td>
-Período do termo de compromisso
-</td>
-<td>
-<?php echo $configuracao['Configuracao']['termo_compromisso_periodo']; ?>
-</td>
-</tr>
-
-<tr>
-<td>
-Data de início do termo de compromisso
-</td>
-<td>
-<?php echo date('d-m-Y', strtotime($configuracao['Configuracao']['termo_compromisso_inicio'])); ?>
-</td>
-</tr>
-
-<tr>
-<td>
-Data de finalização do termo de compromisso
-</td>
-<td>
-<?php echo date('d-m-Y', strtotime($configuracao['Configuracao']['termo_compromisso_final'])); ?>
-</td>
-</tr>
-
-<tr>
-<td>
 Turma atual do curso de supervisores
 </td>
 <td>
@@ -64,6 +37,33 @@ Data de encerramento das inscrições para o curso de supervisores
 </td>
 <td>
 <?php echo date('d-m-Y', strtotime($configuracao['Configuracao']['curso_encerramento_inscricoes'])); ?>
+</td>
+</tr>
+
+<tr>
+<td>
+Período do termo de compromisso
+</td>
+<td>
+<?php echo $configuracao['Configuracao']['termo_compromisso_periodo']; ?>
+</td>
+</tr>
+
+<tr>
+<td>
+Data de início do termo de compromisso
+</td>
+<td>
+<?php echo date('d-m-Y', strtotime($configuracao['Configuracao']['termo_compromisso_inicio'])); ?>
+</td>
+</tr>
+
+<tr>
+<td>
+Data de finalização do termo de compromisso
+</td>
+<td>
+<?php echo date('d-m-Y', strtotime($configuracao['Configuracao']['termo_compromisso_final'])); ?>
 </td>
 </tr>
 

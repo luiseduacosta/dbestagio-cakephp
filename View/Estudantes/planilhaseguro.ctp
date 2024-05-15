@@ -30,7 +30,7 @@
 
         <div class='table-responsive'>
             <table  class="table table-hover table-responsive">
-                <caption style="caption-side:top;">Planilha para seguro de vida dos estudantes estagiários</caption>        
+                <caption>Planilha para seguro de vida dos estudantes estagiários</caption>        
                 <thead class="thead-light">
 
                     <tr>

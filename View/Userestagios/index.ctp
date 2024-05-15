@@ -16,7 +16,7 @@
     <div class="col-auto">    
         <table class="table table-striped table-hover table-responsive">
 
-            <caption style="caption-side: top;">Usuários</caption>
+            <caption>Usuários</caption>
             <thead class="thead-light">
                 <tr>
                     <th><?php echo $this->Paginator->sort('Userestagio.id', 'Id'); ?></th>

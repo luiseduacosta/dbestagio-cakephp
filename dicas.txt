@@ -1,5 +1,31 @@
 Dicas
 =====
+
+Configurações iniciais
+/* Para que o usuario *luis* da pasta /home/luis/html possa trabalhar na web */
+sudo adduser www-data $(whoami)
+sudo service apache2 reload
+
+/* Para os diretorios e subdiretorios do projeto as permissões têm que ser 755 e 644 */
+/* Os arquivos do diretorio /tmp e seus subdiretorios tem que termissão 644 */
+a) Para mudar as permissões de diretórios
+find /home/luis/html/dbestagio-cakephp -type d -exec chmod 755 "{}"  \;
+
+b) Para mudar as permissões de arquivos
+find /home/luis/html/dbestagio-cakephp -type f -exec chmod 644 "{}"  \;
+
+/* Para d diretorio /tmp e os subdiretorios tem que ter permissões 775 */
+/* Os arquivos do diretorio /tmp e seus subdiretorios tem que termissão 664 */
+a) Para mudar as permissões de diretórios
+find /home/luis/html/dbestagio-cakephp/tmp -type d -exec chmod 775 "{}"  \;
+
+b) Para mudar as permissões de arquivos
+find /home/luis/html/tmp -type f -exec chmod 664 "{}"  \;
+
+Habilitar o módulo rewrite no Apache
+
+
+Funcionamento
 $log = $this->Model->getDataSource()->getLog(false, false);
 debug($log);
 

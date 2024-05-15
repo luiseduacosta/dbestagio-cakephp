@@ -33,10 +33,10 @@
     <h5>Cadastro de usuário</h5>
 
     <?php echo $this->Form->input('categoria', ['label' => ['text' => 'Segmento', 'class' => 'col-lg-3 col-form-label'], 'options' => ['9' => '- Selecione -', '2' => 'Estudante', '3' => 'Professor', '4' => 'Supervisor'], 'default' => '9']); ?>
-    <?php echo $this->Form->input('numero', ['required', 'label' => ['text' => 'Número (DRE, SIAPE ou CRESS)', 'class' => 'col-lg-3 col-form-label']]); ?>
-    <?php echo $this->Form->input('email', ['required', 'label' => ['text' => 'E-mail', 'class' => 'col-lg-3 col-form-label']]); ?>
-    <?php echo $this->Form->input('password', ['required', 'label' => ['text' => 'Senha', 'class' => 'col-lg-3 col-form-label']]); ?>
-    <?php echo $this->Form->input('Confirmar senha', ['required', 'label' => ['text' => 'Confirmar senha', 'class' => 'col-lg-3 col-form-label'], 'type' => 'password']); ?>
+    <?php echo $this->Form->input('numero', ['label' => ['text' => 'Número (DRE, SIAPE ou CRESS)', 'class' => 'col-lg-3 col-form-label']]); ?>
+    <?php echo $this->Form->input('email', ['label' => ['text' => 'E-mail', 'class' => 'col-lg-3 col-form-label']]); ?>
+    <?php echo $this->Form->input('password', ['label' => ['text' => 'Senha', 'class' => 'col-lg-3 col-form-label']]); ?>
+    <?php echo $this->Form->input('Confirmar senha', ['label' => ['text' => 'Confirmar senha', 'class' => 'col-lg-3 col-form-label'], 'type' => 'password']); ?>
     <?php echo $this->Form->input('Confirmar', ['label' => false, 'type' => 'submit', 'class' => 'btn btn-success position-static']); ?>
     <?php echo $this->Form->end(); ?>
 

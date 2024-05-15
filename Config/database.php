@@ -84,7 +84,7 @@ class DATABASE_CONFIG {
 			'host' => 'localhost',
 			'login' => 'root',
 			'password' => 'root',
-			'database' => 'tcc',
+			'database' => 'ess_apps',
 			'prefix' => '',
 			'encoding' => 'utf8',
 	);

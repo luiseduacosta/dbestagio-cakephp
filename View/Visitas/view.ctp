@@ -2,7 +2,7 @@
 
 <?php echo $this->element('submenu_visitas'); ?>
 
-<h5>Visita institucional: <?php echo $visita['Instituicaoestagio']['instituicao']; ?></h5>
+<h5>Visita institucional: <?php echo $visita['Instituicao']['instituicao']; ?></h5>
 
 <table class="table table-striped table-hover table-responsive">
     <tbody>

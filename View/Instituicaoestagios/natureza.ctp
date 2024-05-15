@@ -5,7 +5,7 @@
     <div class='col-auto'>
         <div class="table-responsive">
             <table class="table table-striped table-hover table-responsive">
-                <caption style="caption-side: top;">Natureza das instituições</caption>
+                <caption>Natureza das instituições</caption>
                 <thead class="thead-light">
                     <tr>
                         <th>Natureza</th>
