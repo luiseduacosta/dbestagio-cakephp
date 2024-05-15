@@ -61,10 +61,10 @@ if (!defined('APP_DIR')) {
  * The following line differs from its sibling
  * /lib/Cake/Console/Templates/skel/webroot/index.php
  */
-define('CAKE_CORE_INCLUDE_PATH', ROOT);
-// define('CAKE_CORE_INCLUDE_PATH', DS . 'home' . DS . 'luis' . DS . 'html' . DS . 'Cake');
+// define('CAKE_CORE_INCLUDE_PATH', ROOT);
+define('CAKE_CORE_INCLUDE_PATH', DS . 'home' . DS . 'luis' . DS . 'html' . DS . 'Cake' . DS . 'lib');
 // print "CAKE_CORE_INCLUDE_PATH " . CAKE_CORE_INCLUDE_PATH . "<BR>";
-
+// die();
 /**
  * This auto-detects CakePHP as a composer installed library.
  * You may remove this if you are not planning to use composer (not recommended, though).

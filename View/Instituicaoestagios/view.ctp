@@ -261,7 +261,7 @@
             <h5>Supervisores</h5>
 
             <table class='table table-striped table-hover table-responsive'>
-                <caption style="caption-side: top;">Supervisores</caption>
+                <caption>Supervisores</caption>
                 <thead class='thead-light'>
                     <tr>
                         <th>

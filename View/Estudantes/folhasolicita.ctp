@@ -3,7 +3,7 @@
 <?php
 echo $this->Form->create('Estudante');
 if ($this->Session->read('id_categoria') == '1'):
-    echo $this->Form->input('DRE', ['placeholder' => 'DRE', 'label' => "DRE", 'required', 'class' => 'form-control']);
+    echo $this->Form->input('DRE', ['label' => "DRE", 'required', 'class' => 'form-control']);
 elseif ($this->Session->read('id_categoria') == '2'):
     echo $this->Form->input('DRE', ['label' => "DRE", 'readonly' => 'readonly', 'class' => 'form-control']);
     ?>

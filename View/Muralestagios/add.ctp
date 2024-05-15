@@ -12,8 +12,6 @@
     });
 </script>
 
-<?= $this->element('submenu_muralestagios'); ?>
-
 <h5>Cadastro de vagas para seleção de estágio</h5>
 
 <?php echo $this->Form->create('Muralestagio', ['class' => 'form-horizontal']); ?>

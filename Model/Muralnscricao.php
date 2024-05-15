@@ -7,7 +7,7 @@ class Muralinscricao extends AppModel {
     /* @var Estagiario */
 
     public $name = 'Muralinscricao';
-    public $useTable = 'mural_inscricao';
+    public $useTable = 'muralinscricoes';
     public $primaryKey = 'id';
     public $displayField = 'registro';
     public $actsAs = array('Containable');    

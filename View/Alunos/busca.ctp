@@ -17,7 +17,7 @@
 
     <div class='table-responsive'>
         <table class="table table-striped table-hover table-responsive">
-            <caption style="caption-side: top;">Resultado da busca</caption>
+            <caption>Resultado da busca</caption>
             <thead class="thead-light">
                 <tr>
                     <th>Nome</th>

@@ -19,8 +19,7 @@ $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
 $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
 //set margins
-// $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-$pdf->SetMargins(PDF_MARGIN_LEFT, 10, PDF_MARGIN_RIGHT);
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
 $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
@@ -28,8 +27,7 @@ $pdf->setPrintHeader(false);
 $pdf->setPrintFooter(false);
 
 //set auto page breaks
-// $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-$pdf->SetAutoPageBreak(TRUE, 10);
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
 //set image scale factor
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); 
@@ -40,9 +38,9 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 // set font
 $pdf->SetFont('helvetica', '', 8);
 
-setlocale (LC_TIME, 'pt_BR');
+setlocale (LC_ALL, 'pt_BR');
 $dia = strftime('%e', mktime());
-$mes = utf8_encode(strftime('%B', mktime()));
+$mes = strftime('%B', mktime());
 $ano = strftime('%Y', mktime());
 
 $data = $dia . " de " . $mes . " de " . $ano . ".";
@@ -58,12 +56,12 @@ $texto = <<<EOD
 <h2 style="text-align:center">
 <img src="img/logoess_horizontal.svg" alt="minerva ufrj" width="200px" height="50px"><br />
 Coordenação de Estágio<br />
-Avaliação final do(a) supervisor(a) de campo do desempenho discente
+Avaliação final do supervisor de campo do desempenho discente
 </h2>
-
+    
 <div style="text-align:justify">
 <p style="line-height:100%">
-Nome do(a) Estudante: $estudante<br>
+Nome do Aluno(a): $estudante<br>
 Supervisor(a) de Campo: $supervisor 
 CRESS: $cress <br />
 E-mail: $email 
@@ -72,15 +70,14 @@ Campo de Estágio: $instituicao<br />
 Endereço Institucional: $endereco_inst<br />
 Período de realização do estágio: $periodo<br />
 Nível de Estágio: $nivel<br />
-Supervisor(a) Acadêmico(a): $professor
-</p>
+Supervisor(a) Acadêmico(a): $professor</p>
 
 <p>
 <b>Leia atentamente cada item e marque um X na posição que melhor descreva os resultados alcançados com a inserção do(a) aluno(a) no campo de estágio.</b>
-</p>
+</p>        
 
 <table border="1">
-                <tr style="vertical-align:middle;">
+                <tr style="font-size:10px; float:left; height:25px; vertical-align:middle;">
                     <td style="width: 72%">
                         Inserção e desenvolvimento do(a) Aluno(a) no Espaço Sócio institucional/ocupacional
                     </td>
@@ -97,8 +94,8 @@ Supervisor(a) Acadêmico(a): $professor
                         Excelente
                     </td>
                 </tr>
-
-                <tr>
+        
+                <tr style="font-size:10px; height: 25px">
                     <td>
                         1 - ASSIDUIDADE: É freqüênte, ausentando-se apenas com conhecimento e acordado com o(a) supervisor(a) de campo e ou acadêmico(a), seja por motivo de saúde, seja por situações estabelecidas na Lei 11788/2008, entre outras.
                     </td>
@@ -112,7 +109,7 @@ Supervisor(a) Acadêmico(a): $professor
                     </td>
                 </tr>
 
-                <tr>
+                <tr style="font-size:10px;">
                     <td>
                         2 - PONTUALIDADE: cumpre horário estabelecido no Plano de Estágio.
                     </td>
@@ -126,7 +123,7 @@ Supervisor(a) Acadêmico(a): $professor
                     </td>
                 </tr>
 
-                <tr>
+                <tr style="font-size:10px;">
                     <td>
                         3 - COMPROMISSO: com as ações e estratégias previstas no Plano de Estágio
                     </td>
@@ -140,7 +137,7 @@ Supervisor(a) Acadêmico(a): $professor
                     </td>
                 </tr>
 
-                <tr>
+                <tr style="font-size:10px;">
                     <td>
                         4 - Na relação com o(a) usuário(a): compromisso ético-político no atendimento direto ao usuário(a).
                     </td>
@@ -154,7 +151,7 @@ Supervisor(a) Acadêmico(a): $professor
                     </td>
                 </tr>
 
-                <tr>
+                <tr style="font-size:10px;">
                     <td>
                         5 - Na relação com outro(a)s profissionais: Integração e articulação à equipe da área de estágio, cooperação e habilidade de trabalhar em equipe multiprofissional.
                     </td>
@@ -168,7 +165,7 @@ Supervisor(a) Acadêmico(a): $professor
                     </td>
                 </tr>
 
-                <tr>
+                <tr style="font-size:10px;">
                     <td>
                         6 - CRITICIDADE E INICATIVA: Capacidade crítica, interventiva, propositiva e investigativa no enfrentamento das diversas questões existentes no campo de estágio.
                     </td>
@@ -182,7 +179,7 @@ Supervisor(a) Acadêmico(a): $professor
                     </td>
                 </tr>
 
-                <tr>
+                <tr style="font-size:10px;">
                     <td>
                         7- Apreensão do referencial teórico-metodológico, ético-político e investigativo e aplicação nas atividades inerentes ao campo e previstas no Plano de Estágio.
                     </td>
@@ -196,7 +193,7 @@ Supervisor(a) Acadêmico(a): $professor
                     </td>
                 </tr>
 
-                <tr>
+                <tr style="font-size:10px;">
                     <td>
                         8 - Avaliação do desempenho do(a) estagiário(a) na elaboração de relatórios, pesquisas, projetos de pesquisa e intervenção, etc.
                     </td>
@@ -211,7 +208,6 @@ Supervisor(a) Acadêmico(a): $professor
                 </tr>
 
 </table>
-
 <p style="line-height: 1">
 9) As atividades previstas no Plano de Estágio em articulação com o nível de formação acadêmica foram efetuadas plenamente?
 <br style="line-height: 100%;">

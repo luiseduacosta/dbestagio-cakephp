@@ -339,14 +339,12 @@ class InstituicaoestagiosController extends AppController {
      */
 
     public function seleciona_supervisor($id = null) {
-        
-        // pr($id);
-        $instituicao_id = $this->data['Muralinscricao']['instituicaoestagio_id'];
-        // $instituicao_id = $id;
+
+        $instituicao_id = $this->request->data['Muralinscricao']['instituicaoestagio_id'];
         // pr($instituicao_id);
         // die('instituicao_id');
         if ($instituicao_id != 0) {
-            $supervisoresinstituicao = $this->Instituicaoestagio->query('SELECT Supervisor.id, Supervisor.nome FROM instituicaoestagios AS Instituicaoestagio '
+            $supervisoresinstituicao = $this->Instituicaoestagio->query('SELECT Supervisor.id, Supervisor.nome FROM instituicaoestagio AS Instituicao '
                     . 'LEFT JOIN instituicaoestagio_supervisor AS InstituicaoestagioSupervisor ON Instituicaoestagio.id = InstituicaoestagioSupervisor.instituicaoestagio_id '
                     . 'LEFT JOIN supervisores AS Supervisor ON InstituicaoestagioSupervisor.supervisor_id = Supervisor.id '
                     . 'WHERE Instituicaoestagio.id = ' . $instituicao_id);
@@ -365,8 +363,6 @@ class InstituicaoestagiosController extends AppController {
         }
         $supervisores[0] = '- Seleciona supervisor -';
         asort($supervisores);
-        // pr($supervisores);
-        // die('supervisores');
         $this->set('supervisores', $supervisores);
         $this->layout = 'ajax';
         // printf($supervisores);

@@ -55,7 +55,7 @@ $periodo = $estagiorealizado['Estagiario']['periodo'];
 $carga_horaria = $estagiorealizado['Estagiario']['ch'];
 $nivel = $estagiorealizado['Estagiario']['nivel'];
 if ($nivel > 4) {
-    $nivel = "estágio extra-curricular";
+    $nivel = "extra-curricular";
 }
 // die();
 
@@ -80,11 +80,11 @@ Declaração de Estágio Curricular
 <br />
 <br />
 <p style="text-align:justify; line-height: 2.5;">
-Declaramos que o/a estudante <b>$estudante</b> inscrito(a) no CPF sob o nº $cpf e no RG nº $identidade expedido por $orgao, matriculado(a) no Curso de Serviço Social da Universidade Federal do Rio de Janeiro com o número $registro, estagiou na instituição <b>$instituicao</b>, com a supervisão profissional do/a Assistente Social <b>$supervisora</b> registrada no CRESS $regiao região com o número $cress, no semestre de $periodo, com uma carga horária de $carga_horaria horas.
+Declaramos que o/a estudante <b>$estudante</b> inscrito(a) no CPF sob o nº $cpf e no RG nº $identidade expedido por $orgao, matriculado(a) no Curso de Serviço Socail da Universidade Federal do Rio de Janeiro com o número $registro, estagiou na instituição <b>$instituicao</b>, com a supervisão profissional do/a Assistente Social <b>$supervisora</b> registrada no CRESS $regiao região com o número $cress, no semestre de $periodo, com uma carga horária de $carga_horaria horas.
 <p>
 
 <p style="text-align:justify">
-As atividades desenvolvidas correspondem ao nível $nivel do currículo da Escola de Serviço Social da UFRJ.
+As atividades desenvolvidas correspondem ao nível $nivel do currículum da Escola de Serviço Social da UFRJ.
 </p>
 <br />
 <br />

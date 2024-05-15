@@ -52,7 +52,7 @@
 //-->
         <style>
             a {color: #000; font-weight: 600;}
-            a:hover {color: #000;font-weight: 600;}
+            a:hover {color: #000;font-weight: 500;}
         </style>
     </head>
     <body style="min-height: 75rem; padding-top: 4.5rem;">
