@@ -1,2 +1,7 @@
 tmp/
 Config/
+Config/database.php
+Config/database.producao.php
+
+# Metadados da IDE NetBeans (nao fazem parte do projeto)
+nbproject/
